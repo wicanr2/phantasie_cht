@@ -1,0 +1,13 @@
+# 使用者提供的原版遊戲、手冊與任何可還原原作的輸入均不進版控。
+*.zip
+*.rar
+workplace/
+
+# 本機 Go workspace 與編譯產物。
+go.work
+go.work.sum
+dist-all/
+
+# 容器內 Python 驗證所產生的暫存檔。
+__pycache__/
+*.pyc
