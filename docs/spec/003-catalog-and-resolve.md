@@ -18,7 +18,7 @@
 | 原版 `sub_5032` 的精度對字串與數字都是「最多輸出字元數」，不補零；旗標 `0` 只決定左補白字元；寬度不足補空白，`-` 補右側 | `008` §7 | 已證實（讀碼） |
 | MESS 行與選項的繪出形式：最後一行只繪 `L mod 40` 字元，選項每欄 11 或 3 字元；每個 MESS 檔第 111 個 chunk 是尾記錄，不是訊息 | `008` §2、`007` | 讀碼推論（動態未量到）；尾記錄為已證實 |
 | MESS 與 SCROLLS 解碼後的文字不含 `%`；SCROLLS 400 行全是 20 行 × 40 bytes，每行最長 39 字元 | `workplace/mess/` 全檔檢查 | 已證實 |
-| 字面文字總量：靜態列舉 `res` 575、`ov1` 164、`ov2` 147 個字串（含檔名、格式字串與二進位誤判）；ui 候選鍵 652（剔除後 648 筆，含 16 個名字模板）；prose 約 404 個單位、926 行（對應 964 筆行鍵） | `tools/enumerate_text.py`、`tools/ui_candidates.py`、`tools/prose_export.py` | 已證實（靜態計數） |
+| 字面文字總量：靜態列舉 `res` 575、`ov1` 164、`ov2` 147 個字串（含檔名、格式字串與二進位誤判）；ui 候選鍵 652（剔除後 648 筆，含 16 個名字模板）；prose 約 404 個單位、926 行（對應 981 筆行鍵，含 4 筆同文不同位置的衝突取較窄者） | `tools/enumerate_text.py`、`tools/ui_candidates.py`、`tools/prose_export.py` | 已證實（靜態計數） |
 | 遊戲含手冊對照的提示字串（OV2 入口函式內，隨機條件觸發）。專案規則要求維持原文、不翻譯、不作答 | `008` §8 | 已證實（存在與位置）；不分析其資料 |
 | 單字元事件的符號會被程式原地改寫進靜態字串（選項開關），標籤字串在靜態區間內但內容是變體 | `001` §2 | 已證實 |
 
@@ -54,7 +54,7 @@
 | 引數鍵 | `%s` 引數的字串內容，規範化 |
 | 摘要鍵 | `h:` 加 `hex(sha256(UTF-8 的規範化文字))[:12]`，用於 `prose` |
 
-同一個英文字串在 `ui` 內只有一筆（全域唯一譯文）。MESS 行的摘要鍵取「實際繪出的規範化文字」：最後一行是 chunk 的前 `L mod 40` 字元（`L mod 40 = 0` 時 40 字元），選項是 11 或 3 字元的欄位文字，**開頭空白保留、只去尾端**（選項欄位 154 個中 105 個以空白開頭）。同一規範化文字同時存在於 `ui` 與 `prose` 時，`ui` 優先（§5）。
+同一個英文字串在 `ui` 內只有一筆（全域唯一譯文）。MESS 行的摘要鍵取「實際繪出的規範化文字」：最後一行是 chunk 的前 `L mod 40` 字元（`L mod 40 = 0` 時 40 字元），選項是 11 或 3 字元的欄位文字，**開頭空白保留、只去尾端**（選項欄位 154 個中 105 個以空白開頭）。查哪個家族只由指標種類決定（§5.1、§5.2：`static` 查 `ui`，`buffer` 查 `prose`），沒有跨家族的優先順序；同一規範化文字同時存在於 `ui` 與 `prose` 時，lint 要求兩者譯文相同（不同為錯誤，相同為警告，§10）。
 
 ## 5. 解析
 
@@ -68,13 +68,13 @@ EventRecord 擷取時依指標值分類（`001` §3.3），分類表是組態（
 |---|---|---|
 | `static` | 常駐 DGROUP 靜態字串區 `[0000, 3244)`（`3244` 是 `FONT` 緩衝區起點；實測最大字串偏移 `321B`）；目前載入的 overlay 資料區：`ov1` `[B8F0, B8F0 + 0B6E)`、`ov2` `[B8F0, B8F0 + 0B10)`（長度取自 OVR 標頭 `data_len` 2926、2832，寫死在組態表，不在執行期讀檔） | `ui` |
 | `buffer` | 堆疊（指標 ≥ 事件 A 時的 `SP`）與行緩衝區 `DS:638E` 起 80 bytes（MESS 行、卷軸行、選項欄位、`sprintf` 目的） | `prose` |
-| `monster` | `7522 + 0039h × i`，`i < N`；`N` 由實作期以 `ov2.asm` 的迴圈上限與資料大小確定並寫入組態，證據記入 `docs/re`（規格階段只保證觀察到 `i = 0, 1, 2`） | `ui`（僅 `%s` 引數） |
-| `town` | `8071` 起 10 bytes（補空白的城鎮名） | `ui`（僅 `%s` 引數） |
+| `monster` | `7522 + 0039h × i`，`i = 0, 1, 2`（共 3 筆：之後緊接 `75CD`，是 `TWNS.INT` 的載入緩衝區起點，`(75CD - 7522) / 39h = 3`，`docs/re/009` §5） | `ui`（僅 `%s` 引數） |
+| `town` | `8071 + 0123h × i`，`i = 0` 至 `11`，各 10 bytes（補空白的城鎮名，共 12 個：`TWNS.INT` 載入到 `DS:75CD` 後偏移 `0AA4h` 起，間距 `0123h`，`docs/re/009` §5；動態只見過 `i = 0`） | `ui`（僅 `%s` 引數） |
 | `other` | 其餘：玩家與名冊記錄、位置描述緩衝區、未知 | 不查表 |
 
 玩家輸入的名字、名冊角色名（位於玩家與名冊記錄陣列）屬 `other`，永遠不翻譯，也不因內容巧合等於 `ui` 鍵或 `prose` 鍵而被翻譯（`AGENTS.md` §1）。`other` 種類的引數計入 `arg_unclassified`，記 `(呼叫端, 引數序, 指標高位元組)` 集合（不記內容，避免玩家名進收據）；收據出現新組合時要人工分類並更新組態表。
 
-格式字串指標 `FmtPtr` 同樣分類（`EventRecord.FmtKind`）：字面事件（沒有轉換）只在 `FmtKind` 為 `static` 時查 `ui`、為 `buffer` 時查 `prose`、為其他種類時不查（例：以名字緩衝區當格式字串直接畫出）。
+格式字串指標 `FmtPtr` 同樣分類（`EventRecord.FmtKind`）：字面事件（沒有轉換）只在 `FmtKind` 為 `static` 時查 `ui`、為 `buffer` 時查 `prose`、為其他種類時不查（例：以名字緩衝區當格式字串直接畫出）。含轉換的模板事件同樣：只有 `FmtKind` 為 `static` 才以模板鍵查 `ui`；其他種類只允許恆等模板（沒有英文字面），否則缺譯且不填 `Key`（名字含 `%` 時會被解析成模板，不得去查 `ui`）。
 
 ### 5.2 偽碼
 
@@ -82,51 +82,61 @@ EventRecord 擷取時依指標值分類（`001` §3.3），分類表是組態（
 Resolve(rec):
   1. 保護清單（§9）：規範化後的 rec.Text、rec.Format、rec.Composed.Fmt（若有）任一在清單內
        → OK=false, Why=protected
-  2. p := rec.Composed 非空 ? rec.Composed : Piece{Fmt: rec.Format, FmtKind: rec.FmtKind,
+  2. p := rec.Composed 非空 ? rec.Composed : Piece{Fmt: rec.Format, FmtKind: rec.FmtKind, Literal: rec.Text,
                                                    Args: rec.Args, ArgStrs: rec.ArgStrs}
-     （先決定用哪個格式字串，再解析；組句緩衝區的內容不當格式字串解析）
+     （先決定用哪個格式字串，再解析；組句緩衝區的內容不當格式字串解析。Piece.Literal：沒有轉換的 Piece 的字面文字，
+       頂層取 rec.Text（P 類修補後已是新字元），組句 Piece 取其組合字串）
   3. r := resolvePiece(p)
-  4. 回傳 Result{Zh: r.zh, Center: r.center, Key: r.key, Missed: r.missed, OK: r.ok, Why: r.why}
+  4. 回傳 Result{Zh: r.zh, Center: r.center, Key: r.key, Hits: r.hits, Missed: r.missed, OK: r.ok, Why: r.why}
 
-resolvePiece(p) -> {zh, center, replaced, ok, why, key, missed}:
+resolvePiece(p) -> {zh, center, replaced, ok, why, key, hits, missed}:
   f := parse(p.Fmt)                       # 失敗（未支援規格、尾端 %）→ ok=false, why=badformat
   若 f 沒有轉換（字面）:
-      t := 規範化(字面(p.Fmt))             # %% 讀作 %
+      t := 規範化(p.Literal)               # 字面鍵一律取字面文字（不取 Format：P 類修補只改 Text 與 Cells）
       若 t 不含 A-Z a-z → ok=false, why=passthrough
       raw := p.FmtKind=static ? ui[t] : p.FmtKind=buffer ? prose[摘要(t)] : 無
-      raw 缺 → ok=false, why=nokey, key=t（FmtKind 為 other 時 key 為空）
-      raw 為空字串 → ok=false, why=blank_missing, key=t
-      raw 為 <blank> → ok=true, zh=空
-      否則 zh、center := 去掉 \c 前綴後的 raw、是否有前綴
+      raw 缺 → ok=false, why=nokey；key=t 只在 FmtKind=static 時填，buffer、other 時 key 為空
+                （緩衝區內容在組句驗證失敗時可能含玩家名，不得進鍵集合）
+      raw 為空字串 → ok=false, why=blank_missing（key 同上規則）
+      raw 為 <blank> → ok=true, zh=空, hits=[t 的鍵]
+      否則 zh、center := 去掉 \c 前綴後的 raw、是否有前綴；hits=[t 的鍵]
       return
   # 含轉換（模板）
   k := rstrip(p.Fmt)
-  raw := ui[k]（空字串視同缺）
-  若 raw 缺:
-      若 p.Fmt 去掉轉換後不含 A-Z a-z → tpl := p.Fmt；恆等模板
-      否則 → ok=false, why=nokey, key=k
-  否則 tpl := 去掉 \c 前綴的 raw；center := 是否有前綴
+  若 p.FmtKind 不是 static:               # 以名字緩衝區等資料當格式字串時，名字含 % 會被解析成模板，不得查 ui
+      若 p.Fmt 去掉轉換後含 A-Z a-z → ok=false, why=nokey（key 空）
+      否則 tpl := p.Fmt；恆等模板
+  否則:
+      raw := ui[k]（空字串視同缺）
+      若 raw 缺:
+          若 p.Fmt 去掉轉換後不含 A-Z a-z → tpl := p.Fmt；恆等模板
+          否則 → ok=false, why=nokey, key=k
+      否則 tpl := 去掉 \c 前綴的 raw；center := 是否有前綴；hits += k
   對每個 %s 轉換 i，a := p.ArgStrs[i]:
       a.Content 含 <20h 或 >7Eh 的 byte → ok=false, why=badarg（整個事件不翻譯，計 badarg）
       若 a.Piece 非空:
           s := resolvePiece(a.Piece)       # 內層缺譯：該引數保留原字串，s.key 非空時加入 missed
-          成功 → 使用 s.zh（內層的 center 忽略）
-      否則若 rstrip(a.Content) 為空 → 原樣保留（不計 Missed）
-      否則依 a.Kind:
-          static  → v := ui[規範化(a.Content)]
-          monster、town → v := ui[規範化(a.Content)]
-          buffer  → v := prose[摘要(規範化(a.Content))]
-          other   → 原樣保留，不查表
-        v 缺或為空字串 → 原樣保留；static、monster、town 把規範化(a.Content) 加入 missed，buffer、other 不加
-        v 帶 \c 前綴：僅當 tpl 恆等且是單一 %s（卷軸行 `%s`）時，center := true 並去掉前綴；
-                    其他情形視為資料錯誤 → ok=false, why=badarg
-  Appends（組句後以 strcat 追加的字串）:每一筆以 static 規則查 ui；缺 → 原樣保留並加入 missed
+          成功 → 使用 s.zh（內層的 center 忽略）；hits += s.hits
+      否則 → 依 a.Kind 查表（lookupArg，下）
+  Appends（組句後以 strcat 追加的字串）：每一筆是帶 Kind 的 ArgStr，同樣用 lookupArg；順序接在 formatTarget 結果之後
   zh := formatTarget(tpl, p.Args, 各 %s 的最終字串) ++ 各 Appends 的最終字串      # §7.2
   replaced := 任一 %s 引數或 Append 被換成譯文
   若 tpl 是恆等模板:
       若 p 沒有 %s 轉換 → ok=false, why=passthrough
       否則若 !replaced → ok=false, why=identity（保留原畫面）
   return ok
+
+lookupArg(a):
+  若 rstrip(a.Content) 為空 → 原樣保留（不計 Missed）
+  依 a.Kind:
+      static  → v := ui[規範化(a.Content)]
+      monster、town → v := ui[規範化(a.Content)]
+      buffer  → v := prose[摘要(規範化(a.Content))]
+      other   → 原樣保留，不查表
+  v 缺或為空字串 → 原樣保留；static、monster、town 把規範化(a.Content) 加入 missed，buffer、other 不加
+  v 命中 → hits += 該鍵
+  v 帶 \c 前綴：僅當 tpl 恆等且是單一 %s（卷軸行 `%s`）時，center := true 並去掉前綴；
+              其他情形視為資料錯誤 → ok=false, why=badarg
 ```
 
 規則補充：
@@ -178,7 +188,7 @@ resolvePiece(p) -> {zh, center, replaced, ok, why, key, missed}:
 
 ### 7.3 兩套實作共用測試向量
 
-格式引擎有三份實作：Go 的 `FormatEnglish` 與 `formatTarget`、Python 的 `catalog_lib`（lint 與工具）。三者共用 `tests/vectors/format.tsv`（欄：`fmt`、`args`、`expect_english`、`target_args`、`expect_target_h`、`error`）與 `tests/vectors/parse.tsv`（格式字串 → 轉換序或錯誤）；Go 與 Python 各跑一次，期望值是字面值（不以另一個語言的輸出當期望）。Python 的 `CONV` 收斂到本節規格：不接受旗標 `0`、`+`、`#`、`*`、`h`，不接受 `x X o e f g`，不接受 `%n$`。
+格式引擎有三份實作：Go 的 `FormatEnglish` 與 `formatTarget`、Python 的 `catalog_lib`（lint 與工具）。三者共用 `tests/vectors/` 下的三個檔案：`parse.tsv`（欄：`fmt`、`expect`；格式字串 → 轉換序或 `ERR`）、`english.tsv`（欄：`fmt`、`args`、`expect`；原版英文語意）、`target.tsv`（欄：`tpl`、`args`、`expect`、`h`；目標語言語意與半格寬度）。向量檔內 `_` 代表半形空白，期望值以 `[ ]` 包住；Go 與 Python 各跑一次，期望值是字面值（不以另一個語言的輸出當期望）。Python 的 `CONV` 收斂到本節規格：不接受旗標 `0`、`+`、`#`、`*`、`h`，不接受 `x X o e f g`，不接受 `%n$`。
 
 ## 8. 置中
 
@@ -208,7 +218,8 @@ resolvePiece(p) -> {zh, center, replaced, ok, why, key, missed}:
 | 寬度 | 譯文的半格寬度不超過原文格式化寬度的兩倍（原文：字面字元數加各轉換的欄位寬度，無寬度時 `%s` 取 8、數字取最大位數，數字精度取最多字元數；譯文：以同一組樣本引數格式化）。超過者為錯誤。`prose` 依單元列實際長度檢查（最後一行 `L mod 40`、選項欄位 11 或 3 字元，各自的 `avail = 2 × 長度` h） |
 | 術語 | `text/glossary.tsv`（欄：英文詞、譯詞、備註）。僅涵蓋 `ui`：原文鍵含該英文詞（大小寫不計，詞界）時，譯文必須含該譯詞。縮寫（`HP`、`MP`、`XP`、`GP`）與全稱各自列入詞表。`prose` 的術語檢查在 `tools/prose_build.py` 以 `workplace/` 內的英文來源進行 |
 | 保護 | 保護清單的鍵不得出現在 catalog |
-| 空譯文 | 草稿模式只報數量；發行模式（`--release`）是錯誤 |
+| 空譯文 | 草稿模式只報數量；發行模式（`--release`）是錯誤。`--release` 同時要求指定字型表（`--font-tar`）、詞表與保護清單，缺任一為錯誤 |
+| 原地改寫的兩極性 | 鍵以 `+` 或 `-` 開頭且其後是字母者（開關標籤），相反符號的鍵（`+` 對 `-`）也必須存在（`001` §4 的 P 類：標籤字串被程式原地改寫，兩種極性都會被畫出） |
 | 冗餘 | 模板鍵沒有英文字面且譯文等於鍵：警告 |
 | 孤兒與缺譯 | `--sources` 指定靜態列舉結果（`tools/enumerate_text.py` 的輸出）：catalog 中沒有出現在列舉內的鍵是孤兒；列舉內沒有 catalog 的鍵是缺譯。兩者列出 |
 | 動態缺譯 | `--harvest` 指定動態蒐集結果（`workplace/harvest/texts.tsv`）：`in_static=Y` 的字串必須全在 catalog，缺者為錯誤；其他缺者列為警告 |
@@ -233,12 +244,12 @@ resolvePiece(p) -> {zh, center, replaced, ok, why, key, missed}:
 4. 玩家輸入的名字在中文模板內以半形 ASCII 顯示；是否改以全形或音譯待決（`AGENTS.md` §12 待決第 2 項）。
 5. 保護清單的觸發路徑（到達時的畫面行為）：動態未量到；收據標「未量到」。
 6. **第三種文字來源**：地圖上的位置描述文字（開在地圖上遇到的建築或路的說明，四份記錄共 11 筆事件、3 種相異字串）由呼叫端 `2EA0`、`2EEE`、`2F10` 以 `%s` 畫出，指標在 `C99D`、`C9C5`、`CA3D`（`other` 種類，超過 overlay 資料區末端 `C45E`，不在堆疊）。內容是 39 字元、前後以空白置中的句子，原檔內沒有明文，不在 MESS、SCROLLS、`ui`、`prose`。由哪個函式建構（`strcat`、`sprintf` 或資料檔解碼）未確認。目前歸 `other`，不翻譯，收據列為已知缺口；來源確認後以 `002` 風格新開規格或併入 `prose`。
-7. 怪物記錄陣列筆數 `N`（§5.1）與 `regions.tsv` 的初始內容：實作期由 asm 確定。
+7. `regions.tsv` 的初始內容就是 §5.1 表（怪物 3 筆、城鎮 12 筆、`static` 與 `buffer` 區間）；`i > 0` 的城鎮指標與怪物指標的其他來源動態未量到，由 `arg_unclassified` 與收據的「資料型引數事件集合」補強。
 8. 玩家名在 `%s` 精度下的顯示字元數：原樣保留的 ASCII 名字以 `P` 個字元為上限（§7.2），與原版一致；名字長度上限（動態量到名字輸入最多 9 字元）與各欄 `P` 的關係待逐欄核對。
 
 ## 13. 驗收
 
-1. **`FormatEnglish` 向量**（純 Go，字面值，同時存成 `tests/vectors/format.tsv` 給 Python 跑）：`%-4.3d` 對 5、1234、-12；`%s` 精度與寬度；`%c` 為 0；`%ld`、`%lu` 字組順序；`%%`；未支援規格（`%x`、`%05d`、`%2$s`、`%*d`、尾端 `%`）回失敗。
+1. **`FormatEnglish` 向量**（純 Go，字面值，同時存成 `tests/vectors/english.tsv` 給 Python 跑）：`%-4.3d` 對 5、1234、-12；`%s` 精度與寬度；`%c` 為 0；`%ld`、`%lu` 字組順序；`%%`；未支援規格（`%x`、`%05d`、`%2$s`、`%*d`、尾端 `%`）回失敗。
 2. **`formatTarget` 向量**：§7.2 的四個字面期望值；全形字寬度與精度截斷；`-` 補右側。
 3. **`Resolve` 表驅動測試**（假 catalog、假 `EventRecord`）：字面鍵命中、模板命中、恆等模板無替換回 `identity`、恆等模板無 `%s` 回 `passthrough`、部分替換（一個引數缺譯、另一個替換）、`Missed` 只含 `static`、`monster`、`town`、空譯文回 `blank_missing`、`<blank>` 回空 `Zh` 且 `OK`、巢狀組句（內層成功、內層缺譯）、組句加 `Appends`、`FmtKind` 為 `other` 的字面事件不查表、**卷軸標題 `%s` 事件 `Center` 為真且 `Zh` 不含 `\` 與 `c`**、`badarg`（引數含控制字元、字組不足）、含 `%` 的緩衝區不關聯。
 4. **負對照**：
@@ -246,6 +257,6 @@ resolvePiece(p) -> {zh, center, replaced, ok, why, key, missed}:
    - 玩家名與某個選項欄位的 `prose` 鍵同字（`other` 種類），不得翻譯；把 `buffer` 與 `other` 混為一類應失敗。
    - 怪物名與城鎮名（`monster`、`town`）查 `ui`，缺譯時出現在 `Missed`；關掉 `monster`、`town` 種類應失敗。
    - 保護清單命中（含模板型的格式字串命中）：`OK=false`、`Why=protected`、事件矩形被 `Clear`；只比對 `Text` 的實作應失敗。
-5. **共用向量**：Go 與 Python 的解析器（`parse.tsv`）與格式化（`format.tsv`）各跑一次，結果一致且等於字面期望值。
+5. **共用向量**：Go 與 Python 的解析器（`parse.tsv`）與格式化（`english.tsv`、`target.tsv`）各跑一次，結果一致且等於字面期望值。
 6. **lint 反例**（`tools/tests/lint/`，Docker 內執行）：鍵尾端空白、譯文尾端空白、規範化後鍵重複、保護清單的鍵進 catalog、`ui` 與 `prose` 同文衝突、`--sources` 孤兒與缺譯、`%x`、`%2$s`、`%05d`、壞跳脫（`\xZZ`）與另一列超寬（兩個錯誤都要報）、`…`（U+2026）三個對鍵 `OK`（寬度為真實字寬 6 h）、`<blank>` 在模板內、`\c` 不在開頭，每一個都必須被擋下。
 7. **回歸統計**（有原版時）：以動態記錄重跑「`ui` 命中的靜態字串事件全部有譯文」與「資料型引數被保留原樣的事件數」，後者須能由 `arg_unclassified` 集合完全解釋。

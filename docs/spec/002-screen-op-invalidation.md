@@ -51,7 +51,7 @@
 ```go
 type ShadowEntry struct {
     ID     string   // 事件編號 g<N>；由 records[ID] 取得 EventRecord
-    Hidden [][2]int // 該事件在 Layer 中已被覆蓋的像素 x 範圍 [x0, x1)（由 Transparent 格換算）
+    Hidden [][2]int // 該事件的事件矩形內「已不可見」的像素 x 範圍 [x0, x1)：事件矩形減去現存可見範圍（見下）的補集
 }
 type Shadow []ShadowEntry // 依 Layer.Stamps 的順序（疊序）
 ```
@@ -60,15 +60,15 @@ type Shadow []ShadowEntry // 依 Layer.Stamps 的順序（疊序）
 - `empties`：已知「該內容的正確影子是空」的雜湊集合，容量 64 筆，先進先出。空影子不進 `known`，避免大量空影子把有內容的影子擠掉（第二輪審查 S-01：一條路線在 `copy12` 前後有最多 58 次 `save1`，每次 `load1` 未命中都登記一筆）。
 - 取得影子 `shadowOf(h)`：`known[h]` 存在回它；`h` 在 `empties` 內回空影子；否則「未知」。
 
-**由 `Layer` 產生影子**：依 `Layer.Stamps` 順序，對每個不同的 `Key`（出現順序即疊序）產生一筆條目；`Hidden` 由該 `Key` 所有疊字的透明格換算（格 `i` 的像素範圍 `[X + i×CellW, X + (i+1)×CellW)`），相鄰範圍合併。沒有疊字的事件不在影子內。
+**由 `Layer` 產生影子**：依 `Layer.Stamps` 順序，對每個不同的 `Key`（出現順序即疊序）產生一筆條目。沒有疊字的事件不在影子內。**`Hidden` 取補集**：先求「可見範圍」`V` = 該 `Key` 現存疊字的非透明格像素範圍的聯集（格 `i` 的像素範圍 `[X + i×CellW, X + (i+1)×CellW)`），再令 `Hidden` = `records[ID]` 的事件矩形 x 範圍 `[Col×8, min(Col×8 + len(Text)×8, 320))` 減去 `V`，相鄰範圍合併。不直接由透明格換算，因為 `Layer.Add`、`Layer.Clear` 在疊字全部格透明時整筆移除（`layer.go` `Add`、`Clear`），整段被清除的範圍不在現存疊字內，由透明格換算會遺失它，還原或切換語言時該段會復活並蓋在視窗內部或清除過的區域上（第三輪審查 C-02，Go 實驗已驗證）。這個函式 `hiddenOf(rec, stamps)` 由影子登記、影子還原、語言切換（`004` §5）三處共用。
 
-**由影子還原**（`restoreShadow(s)`）：`Layer.Clear(0, 0, 320, 200)` 後，依影子順序，對每筆條目取 `records[ID]`，以目前顯示語言 `Resolve` 與排版（`001` §6、§7），產生疊字；每個疊字格若與任一 `Hidden` 範圍相交則設 `Transparent`；全部格都透明的疊字不加入。疊字以**直接附加**到 `Layer.Stamps` 的方式加入（保留影子的疊序，不經 `Layer.Add` 的覆蓋判斷），`State = Pending`（下一個 `Frame` 依當下畫面 `recolor` 並重算指紋）。`records[ID]` 不存在或 `Resolve` 回 `OK=false` 的條目略過，計入 `shadow_lost`。
+**由影子還原**（`restoreShadow(s)`）：`Layer.Clear(0, 0, 320, 200)` 後，依影子順序，對每筆條目取 `records[ID]`，以**影子語言 `shadowLang`**（`004` §4；不是顯示語言：顯示語言為 `en` 時沒有 catalog，全部 `OK=false`）`Resolve` 與排版（`001` §6、§7），產生疊字；每個疊字格若與任一 `Hidden` 範圍相交則設 `Transparent`；全部格都透明的疊字不加入。疊字以**直接附加**到 `Layer.Stamps` 的方式加入（保留影子的疊序，不經 `Layer.Add` 的覆蓋判斷），`State = Pending`（下一個 `Frame` 依當下畫面 `recolor` 並重算指紋）。`records[ID]` 不存在或 `Resolve` 回 `OK=false` 的條目略過，計入 `shadow_lost`。還原後的第一個 `Frame` 由 `recolor` 的有效性閘門（`001` §8）檢查：畫面已不是原文的格（例如 `save1` 距圖形繪製不足 3 次 `Frame`，畫面已被圖形蓋過，指紋偵測的基線取自當下畫面而不會移除）標為透明。語言無關只指儲存形式：`Resolve` 失敗的事件沒有疊字，不在影子內（`004` §5 已知限制）。
 
 | 操作 | 動作 |
 |---|---|
 | save1 | 完成時 `h = hash(螢幕 B800:0000 起 4000h)`（與被存入的內容相同）；由 `Layer` 產生影子 `s`：`s` 為空則 `empties.add(h)`（並從 `known` 移除 `h`），否則 `known[h] = s` |
 | load1、load2 | 入口時 `h = hash(對應緩衝區內容)`。完成時：`shadowOf(h)` 為非空影子則 `restoreShadow`；為空影子則 `Layer.Clear(0, 0, 320, 200)`；未知則 `Layer.Clear(0, 0, 320, 200)` 並 `empties.add(h)`（空層正是該內容的正確影子，讓之後的 row24 能在其上合併）。兩者之後螢幕內容都等於緩衝區 |
-| row24 | 入口時 `h_old = hash(緩衝區 1)`、`h_new = hash(緩衝區 1 把 +1E00h、+3E00h 起各 140h bytes 換成螢幕 B800:1E00、BA00:1E00 起各 140h bytes 後的內容)`。完成時：`s_old = shadowOf(h_old)` 已知則 `s_new = (s_old 去掉 Row = 24 的條目) + (目前 Layer 中 Row = 24 的條目)`，依 `s_new` 為空與否登記到 `empties` 或 `known[h_new]`；`h_old` 未知則不登記 |
+| row24 | 入口時 `h_old = hash(緩衝區 1)`、`h_new = hash(緩衝區 1 把 +1E00h、+3E00h 起各 140h bytes 換成螢幕 B800:1E00、BA00:1E00 起各 140h bytes 後的內容)`。完成時：`s_old = shadowOf(h_old)` 已知則 `s_new = (s_old 去掉 records[ID].Row = 24 的條目) + (目前 Layer 中 records[ID].Row = 24 的條目依 §4 產生)`（`ShadowEntry` 沒有 `Row`，列號由 `records[ID]` 取得），依 `s_new` 為空與否登記到 `empties` 或 `known[h_new]`；`h_old` 未知則不登記 |
 | copy12 | 不處理：複製不改內容，內容定址已涵蓋（緩衝區 2 的內容與入口時緩衝區 1 相同，影子已以該雜湊登記，或在 `empties`，或沒有登記） |
 | `2398`、檔案讀入緩衝區、OV2 逐列填緩衝區 | 不處理：內容改變，之後 load 時以實際內容查表，未知的走 `Clear` 並登記空影子 |
 
@@ -83,7 +83,7 @@ type Shadow []ShadowEntry // 依 Layer.Stamps 的順序（疊序）
 | 操作 | 動作 |
 |---|---|
 | int86 INT 10h `AH=00h` | 視訊模式改變：`Layer.Clear(0,0,320,200)`、清空 `known` 與 `empties` |
-| int86 INT 10h `AH=06h`，`AL=0` | 視窗清除：左上 `(CL, CH)`、右下 `(DL, DH)`（格），夾到螢幕（欄 0 至 39、列 0 至 24）；上緣大於下緣或左緣大於右緣不動作。像素矩形 `[CL×8, CH×8, (DL+1)×8, (DH+1)×8)`，`Layer.Clear` 該矩形 |
+| int86 INT 10h `AH=06h`，`AL=0` | 視窗清除：左上 `(CL, CH)`、右下 `(DL, DH)`（格）。矩形檢查與夾邊的次序依 dosgolem 規格 `250-cga-int10-scroll-and-palette` §3.1（先檢查上緣大於下緣或左緣大於右緣，成立就不動作；之後才夾到螢幕：欄 0 至 39、列 0 至 24），本規格不另寫一份。像素矩形 `[CL×8, CH×8, (DL+1)×8, (DH+1)×8)`，`Layer.Clear` 該矩形 |
 | int86 INT 10h `AH=06h`，`AL=n>0` | 視窗上捲 n 列：若 `n` 不小於視窗列數（`DH - CH + 1`，夾邊後）視同清除（`Layer.Clear`，同 dosgolem 規格 `250-cga-int10-scroll-and-palette` §3.1）；否則 `Layer.Scroll(x0, y0, x1, y1, -8n)`。限制：`Layer.Scroll` 只移動整筆在 `[x0, x1)` 內的疊字，橫向跨出視窗的疊字不被處理，由指紋偵測處理（像素移動後 3 次 `Frame` 內失效） |
 | int86 INT 10h `AH=07h`，`AL=n>0` | 視窗下捲 n 列：同上，`Layer.Scroll(x0, y0, x1, y1, +8n)`；`AL=0` 同清除 |
 | int86 INT 10h `AH=0Bh` | 所有疊字改 `Pending`（調色盤可能改變，下一次 `Frame` 重新 `recolor`）；RGB 一律由 `oracle.CGAPalette()` 取得（dosgolem 規格 `250-cga-int10-scroll-and-palette`），本規格不自行追蹤色彩選擇 |
@@ -105,13 +105,13 @@ CGA 模式 04h 的四色由色彩選擇暫存器決定，`oracle.CGAPalette()`�
 
 ## 8. 驗收
 
-1. 單元測試（純 Go，以假的記憶體讀取函式，期望值字面值）：`known` 與 `empties` 的登記、查找、淘汰（`get` 與 `set` 都算用到）、`row24` 合併、由 `Layer` 產生影子的 `Hidden` 換算（含相鄰合併）、還原時 `Transparent` 與疊序（較晚的事件仍在較早的事件之上）；**load 未知後登記空影子，接著 row24 能合併出含城名疊字的影子**；`copy12` 後的 `load2` 命中（`known` 內其他條目被 58 次空影子登記不擠出）；INT 10h `AH=06h`／`07h` 矩形換算、夾邊、上緣大於下緣不動作、`AL` 不小於視窗列數視同清除；**INT 16h `AH=00h`、INT 21h `AH=07h`、`AH=0Bh` 不觸發任何 `Layer` 動作**；反白矩形與疊字相交時整組改 `Pending`；「反白、捲動、反白、繪字」序列（以 `mk14.log:7218-7236` 的序列轉成字面期望值）；冪等去重（完成重複記 `dup_close`）。
+1. 單元測試（純 Go，以假的記憶體讀取函式，期望值字面值）：`known` 與 `empties` 的登記、查找、淘汰（`get` 與 `set` 都算用到）、`row24` 合併、由 `Layer` 產生影子的 `Hidden` 換算（補集；含相鄰合併；**整段被 `Clear` 移除的疊字**：同一事件兩段，`Clear` 把第二段整筆移除後，產生的 `Hidden` 必須包含第二段的範圍，還原後該段不復活）、還原時 `Transparent` 與疊序（較晚的事件仍在較早的事件之上）；**load 未知後登記空影子，接著 row24 能合併出含城名疊字的影子**；`copy12` 後的 `load2` 命中（`known` 內其他條目被 58 次空影子登記不擠出）；INT 10h `AH=06h`／`07h` 矩形換算、夾邊、上緣大於下緣不動作、`AL` 不小於視窗列數視同清除；**INT 16h `AH=00h`、INT 21h `AH=07h`、`AH=0Bh` 不觸發任何 `Layer` 動作**；反白矩形與疊字相交時整組改 `Pending`；「反白、捲動、反白、繪字」序列（以 `mk14.log:7218-7236` 的序列轉成字面期望值）；冪等去重（完成重複記 `dup_close`）。
 2. 同狀態收據（需原版，缺檔 SKIP）：
-   - 公會選單在移動反白（`Down`）前後，被反白的項目仍是中文，且前後顏色反相；其餘項目不變。
+   - 公會選單在移動反白（`Down`）前後，被反白的項目仍是中文，且前後顏色反相；其餘項目不變。量測方式（獨立於疊字層的 `recolor`）：以 `oracle.CGA4()` 在該事件矩形內，依字模遮罩分出遮罩為 0 與非 0 的像素色號，反白前後兩類色號互換（原背景色號出現在原墨像素上，反之亦然）；疊字的 `FG`、`BG` 與 `CGAPalette()` 換算出的 RGB 對照，不拿 `recolor` 自己算出的 `FG`、`BG` 比對自己。
    - 開啟視窗（查看清單）後以 `Esc` 關閉：關閉後的 `Layer` 與「沒有開過視窗的原生路線到達同一個 vram 雜湊時」所建出的疊字集合（`Key` 以外的位置與 `Text`）相同。比對的對象是獨立路線，不是還原前後自己的影子。
    - 視窗清除：視窗內舊疊字被移除，視窗外保持（此項需 dosgolem 規格 `250-cga-int10-scroll-and-palette` 已實作）。
    - 清單上捲與下捲（`AL=1`）：捲動後的疊字位置與原文位置一致。
-3. 負對照（每一項都在操作後 0 或 1 次 `Frame` 內直接檢查 `Layer.Stamps`，不等指紋偵測）：關閉 `load1` 的影子查找（一律 `Clear`），上列第二項收據應失敗。關閉 invert 的 `Pending`，第一項應失敗。關閉視窗清除的 `Layer.Clear`，第三項在 1 次 `Frame` 內應失敗（舊疊字仍在）。把 `INT 10h` 的限定拿掉（`AH=00h` 規則對 INT 16h 也生效），第 1 項的「不觸發」測試應失敗。把影子還原改回 `Layer.Add`（疊序依 `Key` 迭代而非影子順序），疊序測試應失敗。
+3. 負對照（每一項都在操作後 0 或 1 次 `Frame` 內直接檢查 `Layer.Stamps`，不等指紋偵測）：關閉 `load1` 的影子查找（一律 `Clear`），上列第二項收據應失敗。關閉 invert 的 `Pending`，第一項應失敗。關閉視窗清除的 `Layer.Clear`，第三項在 1 次 `Frame` 內應失敗（舊疊字仍在）。把 `INT 10h` 的限定拿掉（`AH=00h` 規則對 INT 16h 也生效），第 1 項的「不觸發」測試應失敗。把影子還原改回 `Layer.Add`（疊序依 `Key` 迭代而非影子順序），疊序測試應失敗。把 `Hidden` 改回「由現存疊字的透明格換算」，整段被移除不復活的測試應失敗。把還原的語言改成顯示語言（顯示語言為 `en`），還原後疊字消失的測試應失敗。
 4. 覆蓋清單：驗收時列出每一種在途操作（int86 的（中斷號、`AH`）、八個畫面函式）在收據路線中被觸發的次數；次數為 0 的標「未量到」。目前動態未量到：`copy12`（未掛探針）、`invert2`、INT 10h `AH=0Bh`。已量到：`load2`（`restore-buf2`）、`AH=07h`、清單上下捲序列。另補一份帶 `-vram-callers` 與 `copy12` 掛點的記錄，涵蓋 OV2 的直接寫視訊函式（`sub_AE40`、`sub_B20C`、`sub_B6EC`、`sub_B8A1`、`sub_B9D6`）在途與否。
 5. 擷取順序：收據擷取畫面前先呼叫一次 `Frame`（`Add`、`Clear`、反白、`AH=0Bh` 都會讓疊字進入 `Pending`，`Frame` 前不顯示）。
 

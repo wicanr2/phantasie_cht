@@ -56,14 +56,14 @@
 
 ## 5. 無頭收據工具 `cmd/phantasie-receipt`
 
-輸入：`-root`、`-route`、`-lang`（可重複）、`-overlay on|off`、`-frame-every <步數>`（無頭模式在 `@check` 以外的 `Frame` 間隔，預設與前端每幀步數相同）、`-out`。
+輸入：`-root`、`-route`、`-lang`（可重複）、`-overlay on|off`（`off`：維護 `Layer` 但不呼叫 `Draw`，等同顯示語言 `en`）、`-hooks none`（完全不掛 hook，供唯讀證明）、`-fault <名稱>`（僅測試用的故障注入，§5.1）、`-frame-every <步數>`（無頭模式在 `@check` 以外的 `Frame` 間隔，預設與前端每幀步數相同）、`-out`。
 
 每個 `@check` 輸出一列收據（TSV）：
 
 | 欄 | 內容 |
 |---|---|
 | `check` | 檢查點名稱 |
-| `image_hash` | 解壓後映像雜湊（`001` §3.1，每次執行一個值，每列重複） |
+| `image_hash`、`img_seg` | 解壓後映像雜湊與載入段（`001` §3.1：重定位後的位元組依載入段而變，同載入段的兩次執行才可比較；每次執行一個值，每列重複） |
 | `hook_sig` | hook 簽章檢查結果（`ok` 或失敗的掛點名稱）；非 `ok` 時工具以非零離開，不產生其餘欄位 |
 | `font_hash` | 快取的 `FONT` 2,032 bytes 雜湊（`001` §8） |
 | `steps` | 原版已執行的指令數 |
@@ -72,7 +72,7 @@
 | `mem_hash` | 映像段起至 `DGROUP` 末端（`2E4E:FFFF` 範圍）的雜湊 |
 | `stamps` | `Layer` 疊字數 |
 | `layer_hash` | 疊字集合（`Key`、位置、`Text`、`State`、`FG`、`BG`、`Transparent`）的雜湊（含顏色與透明格，使整列反色與透明格遺失會改變雜湊） |
-| `keys` | 實際疊字鍵集合（`@expect` 比對用） |
+| `keys` | 實際疊字鍵集合（`@expect` 比對用）：目前 `Layer` 內各事件組的 `hits[ID]`（`Result.Hits`，`001` §5、§7）的聯集，含字面鍵、模板鍵、各 `%s` 引數鍵與 `prose` 摘要鍵 |
 | `untranslated`、`untranslated_args` | 該檢查點之前累計的未譯鍵集合（不含玩家輸入；`001` §9） |
 | `counters` | `001` §9 的全部計數器（`unpaired` 必須為 0；`composed_miss_*`、`arg_unclassified`、`straddle`、`recolor_fallback`、`rebuild_lost`、`shadow_lost` 列出） |
 | `stale_cells`、`exposed_events` | 稽核結果（§5.1），必須為 0 或在已知清單內 |
@@ -80,14 +80,14 @@
 
 ### 5.1 同狀態 A/B 與稽核
 
-**hook 唯讀證明**：同一路線、同一 `-frame-every`，疊字 `on`、疊字 `off`、完全不掛 hook 三組各跑一次，每個檢查點的 `steps`、`reads`、`vram_hash`、`mem_hash` 必須相同。這證明 hook 沒有改機器。`on` 與 `off` 的 2 倍畫面在疊字矩形以外逐點相同只是回歸護欄（`Layer.Draw` 只改疊字矩形內像素，所以由構造保證），**不是位置或內容正確的證據**；位置由 `001` §10.3 的位置 oracle 判定，內容與殘字由下列稽核判定。
+**hook 唯讀證明**：同一路線、同一 `-frame-every`，三種執行模式各跑一次：`-hooks none`（完全不掛 hook）、`-overlay off`（掛全部 hook、維護 `Layer`，但不呼叫 `Draw`；等同顯示語言 `en`）、`-overlay on`（預設）。每個檢查點的 `steps`、`reads`、`vram_hash`、`mem_hash` 必須相同。這證明 hook 沒有改機器。`on` 與 `off` 的 2 倍畫面在疊字矩形以外逐點相同只是回歸護欄（`Layer.Draw` 只改疊字矩形內像素，所以由構造保證），**不是位置或內容正確的證據**；位置由 `001` §10.3 的位置 oracle 判定，內容與殘字由下列稽核判定。
 
-**獨立稽核**（以原版 `FONT` 位元圖與目前視訊記憶體為基準，不使用疊字層自己的狀態當期望值）：
+**獨立稽核**（以原版 `FONT` 位元圖與目前視訊記憶體為基準，不使用疊字層自己的狀態當期望值）。稽核有自己的**事件日誌**：每個 T 類且在提交時 `Resolve` 回 `OK` 的事件，記 `(ID, Col, Row, Text, 提交的 Step)`，上限 4096 筆、與 `records` 的清理無關（`records` 只保留被 `Layer` 或影子引用者；疊字被指紋偵測、`Clear` 移除的事件正是最先被清掉的，稽核不能依賴它）。遮罩一致檢查共用 `001` §8 的 `maskScan`（像素粒度，只計非透明格範圍內的像素）；全是空白字元的格要求該格同一色號像素不少於 85%（不是恆通過）。
 
-1. **殘字稽核**（`stale_cells`）：對每一個 `Shown` 疊字的每個非透明格，取其對應的原版格（`records[Key]` 的 `Cells`），檢查畫面是否仍是該原文的字模畫出的結果：字模遮罩為 0 的像素全為同一色號、非 0 的像素全為另一色號（反白後色號互換仍成立）。不成立者計為殘字格（疊字蓋在已不是原文的畫面上）。
-2. **英文外露稽核**（`exposed_events`）：對 `records` 內每個在提交時 `Resolve` 回 `OK` 的事件，若其事件矩形目前仍顯示該原文（同上的遮罩一致檢查，且該矩形沒有被反白以外的操作改動），則 `Layer` 內必須有覆蓋該矩形全部非隱藏格的疊字；缺少者計為英文外露事件。
-3. 兩項稽核每個 `@check` 執行一次，另在無頭模式每個 `Frame` 抽樣（含事件中途的 `Frame`）。結果必須為 0；不為 0 的鍵列入 `@known-untranslated` 同風格的已知清單並附原因，否則失敗。
-4. 稽核本身要有負對照：關閉疊字（`-overlay off` 但稽核仍以 on 的 records 執行）時 `exposed_events` 必須大於 0；把一個 `Shown` 疊字故意留在被改寫的畫面上，`stale_cells` 必須大於 0。
+1. **殘字稽核**（`stale_cells`）：對每一個 `Shown` 疊字的每個非透明格，取其對應的原版格，檢查畫面是否仍是該原文的字模畫出的結果：配對率不低於 85%（反白後色號互換仍成立）。不成立者計為殘字格（疊字蓋在已不是原文的畫面上）。
+2. **英文外露稽核**（`exposed_events`）：對事件日誌內的每個事件，若其事件矩形目前仍顯示該原文（同上的遮罩一致檢查，且該矩形沒有被反白以外的操作改動），則 `Layer` 內必須有覆蓋該矩形全部可見像素的疊字；缺少者計為英文外露事件。
+3. 兩項稽核每個 `@check` 執行一次，另在無頭模式每個 `Frame` 抽樣。**抽樣略過開啟中事件（A 已觸發、B 未觸發）的矩形**：A 與 B 之間畫面被半寫，舊疊字的字模檢查必然不成立，不是缺陷。結果必須為 0；不為 0 的鍵列入 `@known-untranslated` 同風格的已知清單並附原因，否則失敗。
+4. 稽核本身要有負對照，以**故障注入**旗標（`-fault`，僅測試用）達成，不用 `-overlay off`（`off` 仍維護 `Layer`，`exposed_events` 為 0）：`-fault noadd`（提交時不 `Add` 疊字）時 `exposed_events` 必須大於 0；`-fault noclear`（不對未譯事件與 K、N 類 `Clear`）加後續覆寫時 `stale_cells` 必須大於 0；把一個 `Shown` 疊字故意留在被改寫的畫面上，`stale_cells` 必須大於 0。
 
 **`Frame` 節奏**：換 `-frame-every` 重跑（例如 20,000 步與每次讀鍵入口兩種）：`vram_hash`、`mem_hash` 必須相同；`layer_hash` 與畫面在檢查點若不同，視為**失敗**，除非該檢查點列在 `tests/routes/known-frame-sensitive.tsv`（附原因與 Issue 編號）。殘字缺陷會呈現為節奏敏感，所以不允許只「說明原因」。
 
@@ -130,4 +130,4 @@
 |---|---|
 | `apps/phantasie/input.go` `KeyGate.fire`、讀鍵計數 | 重複觸發去重（開啟旗標加 `SP`，同 `001` §3.2）；新增 `PressAfterReads(n, name)`（以讀鍵入口次數為準的閘門），`@wait` 使用 |
 | `apps/phantasie/cmd/textlog` | 供收據工具重用的路線重播與計數輸出（見 `001` §11） |
-| `oracle` | `CGAPalette()`（dosgolem 規格 `250-cga-int10-scroll-and-palette`） |
+| `oracle` | `CGAPalette()` 與 `CGA4RGB()`（色號畫面換算成 RGB，前端與收據共用，dosgolem 規格 `250-cga-int10-scroll-and-palette` §4） |
