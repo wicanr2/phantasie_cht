@@ -1,0 +1,678 @@
+key	translation	source
+  Well done, my small friends.  You have	  干得好，我的小朋友们。你们已经	ov1:B90A
+ AT RANK	 目标列	ov2:C33B
+ EARTH	 土	res:2FA5
+ FIRE	 火	res:2FAC
+ GOD	 神	res:2FB9
+ RANK	 列	ov2:C345
+ Reset the game	 重设游戏	res:0C5D
+ Return	 返回	res:0C6D
+ Transfer characters from backup disk	 从备份软盘转入角色	res:0C37
+ Transfer characters to backup disk	 将角色转出到备份软盘	res:0C13
+ WATER	 水	res:2FB2
+%-10.9s%-5.4sHAS%6u GP	%-10.9s%-5.4s持有%6u 金币	res:0CC4
+%-10.9s%-6.5sHP%4d/%-4dMP%3d/%-3d	%-10.9s%-6.5s生命%4d/%-4d魔力%3d/%-3d	ov2:BD7D
+%-10.9s%-6.5sHP%4d/%-4dMP%3d/%d	%-10.9s%-6.5s生命%4d/%-4d魔力%3d/%d	ov2:C170
+%-10.9s%-9.8s%-9.8s%-5s	%-10.9s%-9.8s%-9.8s%-5s	res:0CA7
+%-10.9s%c HP%4d/%-4dA:%d MP%3d/%d	%-10.9s%c 生命%4d/%-4d甲:%d 魔力%3d/%d	ov2:BDB1
+%-10.9sAVOIDS THE TRAP	%-10.9s避开了陷阱	ov2:BC0A;ov2:BC45
+%-10.9sDIES	%-10.9s死亡	ov2:BA8E;ov2:BC21;ov2:C2B3
+%-10.9sGAINS MORE MAGIC	%-10.9s魔力增加了	ov2:C257
+%-10.9sHP:%-4.3dMP:%-3d	%-10.9s生命:%-4.3d魔力:%-3d	ov2:C2EB
+%-10.9sIS CHANGED	%-10.9s发生了变化	ov2:C239
+%-10.9sIS RESTING	%-10.9s休息中	ov2:C26F
+%-10.9sSINKS AND TAKES %-3d DAMAGE	%-10.9s下沉并受到 %-3d 点伤害	ov2:C2BF
+%-10.9sSWIMS	%-10.9s游泳	ov2:C2A6
+%-10.9sTAKES %-3d DAMAGE	%-10.9s受到 %-3d 点伤害	ov2:BA9A
+%-10.9sTAKES %-3dDAMAGE	%-10.9s受到 %-3d 点伤害	ov2:BC2D
+%-10s IS RESTING	%-10s 休息中	ov1:C118
+%-10s:%3d %c%s	%-10s:%3d %c%s	ov1:BC72
+%-11.10sGP:%-6u	%-11.10s金币:%-6u	ov1:BCC5
+%-13.12sPTS:%-2u	%-13.12s点数:%-2u	res:2F28
+%-23s%10u	%-23s%10u	ov1:BE14
+%-2d%-11.9s%-4.3s%4d%4d%4d%4d	%-2d%-11.9s%-4.3s%4d%4d%4d%4d	ov1:BE2F
+%-3uhl potions	%-3u 治疗药水	res:2F39
+%-3umg potions	%-3u 魔力药水	res:2F48
+%-3uscroll(s)	%-3u 卷轴	res:2F57
+%-3utreasures	%-3u 宝物	res:2F65
+%-4.3d%s(S)	%-4.3d%s	ov2:BE67
+%10s LEVEL:%2d%11s%11s%6s	%10s 等级:%2d%11s%11s%6s	ov1:C24D
+%4d%3d	%4d%3d	ov1:C1A3
+%7ld XP	%7ld 经验	ov1:C1DF
+%7u gold	%7u 金币	ov1:C1D6
+%d gold	%d 金币	ov1:C0E0
+%d. %d	%d. %d	ov2:C1EC
+%d. %s	%d. %s	ov2:C21E
+%ld XP AND %ld GP	\c%ld 经验与 %ld 金币	ov2:BCF3
+%ld XP.	%ld 经验。	ov1:C215
+%ld more	还差 %ld	ov1:C0AA
+%s %s	%s %s	ov2:BBBC;ov2:BC5C
+%s AWAKENS	%s 醒来了	ov2:B8F0;ov2:B9A8
+%s BREATHES	%s 喷出气息	ov2:BA0A
+%s CASTS A SPELL	%s 施放法术	ov2:B8FB;ov2:BA16
+%s DIES	\c%s 死亡	ov2:B9DB;ov2:BA02
+%s HEARS MONSTERS	%s 听到怪物的声音	ov2:C3B8
+%s HITS	\c%s 命中	ov2:B963;ov2:B975
+%s IS HEALED	%s 被治疗	ov2:B90C
+%s IS ON WATCH	\c%s 在警戒	ov2:C362;ov2:C371
+%s IS RESURRECTED	%s 复活了	ov1:BD76;ov2:B9B4
+%s IS SLEPT	%s 睡着了	ov2:B9E3;ov2:BA58
+%s MISSES	\c%s 未命中	ov2:B96B;ov2:B99E
+%s SPOTS AN ITEM	%s 发现物品	ov2:BD18
+%s TAKES %d DAMAGE	\c%s 受到 %d 点伤害	ov2:B9C8;ov2:B9EF
+%s YOU HAVE BEEN %s	\c%s 你已%s	ov1:BB3F
+%s YOUR STATUS IS UNDEAD	%s 你的状态是不死族	ov1:BB1A
+%s has aged	%s 老了	ov1:BC8D
+%s has died	%s 死了	ov1:BC81
+%s is shopping	%s 正在购物	ov1:C17A
+%u gold and	%u 金币，并且	ov1:C209
+** Press ENTER when disk drive ready. **	** 磁盘机就绪后请按 ENTER **	res:2D86
+*** READ ERROR ***	*** 读取错误 ***	ov1:C32C
+*** WRITE ERROR ***	*** 写入错误 ***	ov1:C318
++Auto save	+自动存盘	dyn
++Sound	+音效	res:0BE1;res:0BE9;res:0BF1
+- continue saved game	- 继续已存盘的游戏	res:077D
+- run the utility program	- 运行工具程序	res:0BF9
+- start this turn in Pelnor	- 在佩尔诺开始本回合	res:0761
+-Auto save	-自动存盘	res:088A
+-Sound	-音效	dyn
+/ AIR	/ 风	res:2F9F
+A DUNGEON. ENTER?	一座地下城。要进入吗？	res:0B8E
+A MAGICAL POOL	一池魔法之水	ov2:C22A
+A NIGHT ENCOUNTER	夜间遭遇	ov2:C350
+A SPELL IS CAST	施放了法术	ov2:BABB
+A STUNNING BLOW	一记重击	ov2:B98E
+A TOWN. ENTER?	一座城镇。要进入吗？	res:09F8
+AGREE	同意	res:09B1
+ALL DATA ON YOUR GAME DISK WILL BE RESET	游戏软盘上的所有数据都会被重设	ov1:C2D0
+AN EXIT. TAKE IT?	一个出口。要离开吗？	res:0BA7
+AN INN. ENTER?	一间旅店。要进入吗？	res:0AC5
+AND HEARS THE MONSTERS	\c并听到怪物的声音	ov2:C380
+APPLETON	艾普顿	TWNS.DAT:05A3
+APPRENTICE DEVIL	见习恶魔	res:1D18
+ARMOR	护甲	ov2:BDEC
+ASP	眼镜蛇	res:238D
+AT RANK	目标列	res:0B3C
+ATTACK	攻击	res:0A49;res:0B54;ov2:C30B
+AWAKEN	唤醒	res:1A1F
+AXE	斧	res:122C
+AXE +1	斧 +1	res:12E2
+Add member	加入成员	res:08A5
+Armory	武器店	res:07AB
+Armory is empty. Sorry.	武器店已经空了，抱歉。	ov1:BCA8
+Available spells:	可用法术：	ov1:C067
+BABOON	狒狒	res:1EA7
+BABY DRAGON	幼龙	res:211A
+BADGER	獾	res:1E6E
+BANDED ML	条纹甲	res:113D
+BANTIR	班提尔	res:1AA5
+BARBARIAN	蛮族	res:1F19
+BARDICHE	长柄战斧	res:127E
+BEAR	熊	res:1E35
+BINDING I	束缚 I	res:1925
+BINDING II	束缚 II	res:192F
+BINDING III	束缚 III	res:193A
+BINDING IV	束缚 IV	res:1946
+BLACK KNIGHT	黑骑士	res:2B58
+BLACK KNIGHTS !!!	黑骑士！！！	res:0A07
+BLACK KNIGHTS SEE YOU AND FLEE !	黑骑士看到你便逃走了！	ov2:C397
+BLACK LORD	黑暗领主	res:2A74
+BLUE OOZE	蓝色软泥	res:25C7
+Bank	银行	res:079A
+Beg mercy	求饶	res:0AFC
+CAST	施法	res:0B67
+CAUTION !!!	小心！！！	ov1:C2C4
+CENTIPEDE	蜈蚣	res:1DC3
+CHAIN +1	链甲 +1	res:118A
+CHAIN +2	链甲 +2	res:1193
+CHAIN ML	链甲	res:112A
+CHARISMA%8u EX. PTS%11ld	魅力%14u 经验%16ld	res:3045
+CHARM	魅惑	res:19B9
+CLOTH +1	布衣 +1	res:1150
+CLOTHING	布衣	res:10F6
+CLUB	棍棒	res:11E5
+COIN A	硬币 A	res:15E5
+COIN B	硬币 B	res:15EC
+COIN C	硬币 C	res:15F3
+COIN D	硬币 D	res:15FA
+COIN E	硬币 E	res:1601
+CONFUSION I	混乱 I	res:18C1
+CONFUSION II	混乱 II	res:18CD
+CONFUSION III	混乱 III	res:18DA
+CONFUSION IV	混乱 IV	res:18E8
+CONSTITUTION%4u GOLD IN BANK%6u	体质%14u 银行存款%14u	res:3025
+COYOTE	郊狼	res:1BFB
+Cash ->	现金 ->	ov1:C189
+Cast spell	施放法术	res:0861;res:0A8E
+Choose RACE	选择种族	res:08DC
+DAGGER	匕首	res:11D5
+DAGGER+1	匕首+1	res:1299
+DAGGER+2	匕首+2	res:12AC
+DAGGER+3	匕首+3	res:12B5
+DAGGER+4	匕首+4	res:12C7
+DAY OUT%21u	外出天数%24u	ov2:BE34
+DEAD	死亡	res:173F
+DEATH BEETLE	死亡甲虫	res:2354
+DEATH FLY	死亡飞蝇	res:2036
+DEMON	恶魔	res:251C
+DESTROYED	被消灭	ov1:BB53
+DEVIL	魔鬼	res:2270
+DEXTERITY%7u MAGIC%9u/%-3u	敏捷%14u 魔力%12u/%-3u	res:300A
+DIAMOND A	钻石 A	res:1638
+DIAMOND B	钻石 B	res:1642
+DIAMOND C	钻石 C	res:164C
+DIAMOND D	钻石 D	res:1656
+DIAMOND E	钻石 E	res:1660
+DISPELL UNDEAD	驱散不死族	res:1A08
+DISSOLVE	溶解	res:19EE
+DIVINE I	神圣 I	res:1A4D
+DONE	完成	res:2F91;ov1:BCC0;ov1:BE75
+DRAGON KING	龙王	res:291E
+DRAGONOR	德拉戈诺尔	TWNS.DAT:0A2F
+DRIP SLIME	滴水黏液	res:1ADE
+DWARF	矮人	res:08EE;res:16D8
+Deposit	存款	res:09C4
+Distribute	分配	res:09D5
+Do you want:	你想要：	res:0754
+Drop member	移除成员	res:08BB
+EACH SURVIVOR GETS	每位幸存者获得	ov2:BD05
+ELF	精灵	res:08F4;res:16DE
+EMERALD A	翡翠 A	res:155F
+EMERALD B	翡翠 B	res:1569
+EMERALD D	翡翠 D	res:1577
+EMERALD E	翡翠 E	res:1581
+EQUIPMENT	装备	res:0998
+EXPERIENCE POINTS%11lu	经验值%25lu	ov2:BE40
+Each share is:	每人分得：	ov1:C1FA
+Exit	离开	res:07A6;res:09E9;res:09EE;res:09F3;res:0A64;res:0AA9;res:0B83
+Exit Inn	离开旅店	res:09CC
+FAILS	失败	ov2:BBEE
+FEAR	恐惧	res:19E9
+FIGHT	战斗	res:0A1D;res:0B19;res:0B76;ov2:C2E2
+FIGHTER	战士	res:0921;res:093B;res:169C
+FIRE ELEMENTAL	火元素	res:2639
+FIREFLASH I	火闪 I	res:17F1
+FIREFLASH II	火闪 II	res:17FD
+FIREFLASH III	火闪 III	res:180A
+FIREFLASH IV	火闪 IV	res:1818
+FLAIL	连枷	res:120F
+FLAIL +1	连枷 +1	res:12D0
+FLAMEBOLT I	火焰弹 I	res:1985
+FLAMEBOLT II	火焰弹 II	res:1991
+FLAMEBOLT III	火焰弹 III	res:199E
+FLAMEBOLT IV	火焰弹 IV	res:19AC
+Flee	逃跑	res:0B1F
+GHOST	幽灵	res:258E
+GHOUL	食尸鬼	res:1D8A
+GIANT ANT	巨蚁	res:1B50
+GIANT BEE	巨蜂	res:1B89
+GIANT HORNET	巨黄蜂	res:22E2
+GIANT SH	巨盾	res:10C6
+GLOVE	手套	res:1034
+GNOLL	豺狼人	res:1703
+GNOME	侏儒	res:0901;res:16EB
+GNT SH +1	巨人盾+1	res:10CF
+GNT SH +2	巨人盾+2	res:10D9
+GNT SH +3	巨人盾+3	res:10E3
+GO AND LEARN	去学习吧	ov1:C0C6
+GOBLIN	哥布林	res:171A;res:1EE0
+GOD ARMOR	神之甲	res:11A6
+GOD AXE	神之斧	res:1395
+GOD KNIFE	神之刀	res:1382
+GOD MACE	神之锤	res:138C
+GOD ROBES	神之袍	res:119C
+GOD SHLD	神之盾	res:10ED
+GOD SWORD	神之剑	res:139D
+GOLD CARRIED %u	携带金币 %u	ov1:BDCF
+GOLD COIN	金币	res:1624
+GOLD KEY	钥匙	res:1612
+GOLD PIECES%17u	金币%26u	ov2:BE57
+GOLD RING	金戒指	res:162E
+GOLD STAT	金像	res:1608
+GOOD TREASURE	好宝物	ov2:BE26
+GOOD WEAPON	好武器	ov2:BDF9
+GREAT TROLL	大巨魔	res:29C9
+GREEN DRAGON	绿龙	res:23C6
+GREENVILLE	格林维尔	TWNS.DAT:035D
+Greetings	问候	res:0B0F
+Guild	公会	res:0850
+H LEATHER	硬皮甲	res:110D
+HALBERD	戟	res:1287
+HALBERD+1	戟+1	res:1329
+HALBERD+2	戟+2	res:133C
+HALBERD+3	戟+3	res:1346
+HALBERD+4	戟+4	res:135A
+HALBERD+5	戟+5	res:1364
+HALBERD+6	戟+6	res:136E
+HALBERD+7	戟+7	res:1378
+HALFLING	半身人	res:08F8;res:16E2
+HALFLINGOR	哈夫林戈尔	TWNS.DAT:0480
+HAMMER	锤	res:1215
+HEALING 1	治疗 1	res:13A7
+HEALING 2	治疗 2	res:13B1
+HEALING 3	治疗 3	res:13BB
+HEALING 4	治疗 4	res:13C5
+HEALING 5	治疗 5	res:13CF
+HEALING 6	治疗 6	res:13D9
+HEALING 7	治疗 7	res:13E3
+HEALING 8	治疗 8	res:13ED
+HEALING 9	治疗 9	res:13F7
+HEALING I	治疗 I	res:17C5
+HEALING II	治疗 II	res:17CF
+HEALING III	治疗 III	res:17DA
+HEALING IV	治疗 IV	res:17E6
+HEALING10	治疗10	res:1401
+HEALTH REPORT:	\c健康报告：	ov2:BD6E
+HEARS MONSTERS. GO BACK ?	听到怪物声。要退回吗？	ov2:BBA2
+HIGH DEMON	高级恶魔	res:27C8
+HIGH DEVIL	高级魔鬼	res:2801
+HIGH RANGER	高级游侠	res:278F
+HILL GIANT	丘陵巨人	res:2471
+HISSING SKUZ	嘶嘶斯库兹	res:231B
+HP MP	生命 魔力	ov1:C19D
+HUMAN	人类	res:08E8;res:16D2
+HVY MACE	重锤矛	res:1236
+He's just bought ninth item.	他刚买了第九件物品。	ov1:C143
+Health	健康	res:0A87
+Heroes of Gelnor.	格尔诺的英雄们。	ov1:BF48
+How much to withdraw? %5u	要提多少？%5u	ov1:C079
+I  grant  You Your  First  Divine  Spell	我赐予你第一个神圣法术	ov1:B9AE
+ILLUSIONIST	幻术师	res:1F52
+IN PEACE	平安地	ov1:C12A
+IN THE INN:	在旅店里：	ov2:C24B
+IN THE TRAP:	在陷阱里：	ov2:BBFD
+INPUT NAME:	输入名字：	ov1:BBFF
+INSPECT MEMBER?	查看成员？	res:0AAE
+INTELLIGENCE%4u HIT POINTS%4u/%-3u	智力%14u 生命值%11u/%-3u	res:2FE7
+Inn	旅店	res:084C
+Insert the BACKUP disk	请插入备份软盘	ov1:C374
+Insert the GAME disk	请插入游戏软盘	ov1:C35F
+Inspect	查看	res:08CE;res:0A7F
+It will cost	需要花费	ov1:C0D3
+J. R. TROLKIN	J. R. 特罗尔金	res:2B1F
+KEEP	保留	res:0957
+KEY	钥匙	res:1573
+KILLER BEE	杀人蜂	res:20A8
+KILLER CRUD	杀人污泥	res:283A
+KILLER WASP	杀人黄蜂	res:2873
+KNIFE	小刀	res:11B6
+KOBOLD	狗头人	res:170F;res:1C6D
+LARGE SKELETON	大型骷髅	res:1FC4
+LEATHER	皮甲	res:1105
+LEATHER+1	皮甲+1	res:1162
+LEATHER+2	皮甲+2	res:116C
+LEAVE	离开	res:0A50
+LEAVING %s	\c离开 %s	ov1:C284
+LEVEL%3u %s %s %s	等级%3u %s %s %s	res:2FC1
+LIZ.MAN	蜥蜴人	res:1721
+LIZARD MAN	蜥蜴人	res:218C
+LNG SWORD	长剑	res:126D
+LORD	领主	res:24E3
+LR SHIELD	大盾	res:109E
+LR SHLD+1	大盾+1	res:10A8
+LR SHLD+2	大盾+2	res:10B2
+LR SHLD+3	大盾+3	res:10BC
+LRG AXE	大斧	res:1256
+LRG AXE+1	大斧+1	res:1304
+LRG SPEAR	大矛	res:124C
+LUCK%12u SCORE%13u	幸运%14u 分数%16u	res:305E
+LUNGE	突刺	res:0B61;ov2:C318
+Look	查看	res:0AA4
+MACE	锤矛	res:11EA
+MAGIC 1	魔法 1	res:140B
+MAGIC 10	魔法 10	res:1453
+MAGIC 2	魔法 2	res:1413
+MAGIC 3	魔法 3	res:141B
+MAGIC 4	魔法 4	res:1423
+MAGIC 5	魔法 5	res:142B
+MAGIC 6	魔法 6	res:1433
+MAGIC 7	魔法 7	res:143B
+MAGIC 8	魔法 8	res:1443
+MAGIC 9	魔法 9	res:144B
+MAGIC INCREASES	魔力增加了	ov1:C133
+MAGIC IS DRAINED	魔力被吸取了	ov2:B97D
+MAGIC USER	魔法师	res:1F8B
+MASTER ILLUSIONIST	大幻术师	res:2756
+MAUL	大槌	res:123F
+MD SHIELD	中盾	res:1076
+MD SHLD+1	中盾+1	res:1080
+MD SHLD+2	中盾+2	res:108A
+MD SHLD+3	中盾+3	res:1094
+MG WEAPON	魔法武器	ov2:BE05
+MINDBLAST I	心灵冲击 I	res:1951
+MINDBLAST II	心灵冲击 II	res:195D
+MINDBLAST III	心灵冲击 III	res:196A
+MINDBLAST IV	心灵冲击 IV	res:1978
+MINOR DEITY	小神	res:2AAD
+MINOTAUR	牛头怪	res:1729
+MONK	武僧	res:092F;res:1690
+MONSTER EVAL.	怪物评估	res:1A26
+MONSTERS APPEAR	怪物出现	ov2:BB35
+MONSTERS ARE AT LEVEL %-2d	怪物等级为 %-2d	ov2:BEAE
+MONSTERS ARE CHARMED	怪物被魅惑了	ov2:B919
+MONSTERS DON'T RESPOND	怪物没有回应	ov2:BC83
+MONSTERS GREET YOU	怪物向你问候	ov2:BCAD
+MONSTERS KILLED	击杀怪物	ov2:BCE3
+MONSTERS RUN	怪物逃跑了	ov2:B948;ov2:BCC0
+MONSTERS START DISSOLVING	怪物开始溶解	ov2:B92E
+MONSTERS STOP AND TAKE YOUR GOLD	怪物停下来拿走你的金币	ov2:BC62
+MONSTERS SURPRISE YOU !	怪物让你吃了一惊！	ov2:C3DE
+MONSTERS SURRENDER	怪物投降了	ov2:BC9A
+MORN.STAR	晨星锤	res:125E
+Mystic	神秘客	res:079F
+NAME        CLASS WPN ARM SHL   #	名字                    职业        武器    护甲    盾牌        #	ov1:BDF2
+NINJA I	忍者 I	res:1A17
+NINJA II	忍者 II	res:19E0
+NO	否	res:098E;res:0ABE;res:0AD8;res:0B80;res:0BA4
+NO ONE CAN PICK THE LOCK	没有人能打开这个锁	ov2:BB89
+NORTHFORD	诺斯福德	TWNS.DAT:0B52
+NOT	不同意	res:09B7
+NOTHING	没有	res:102C
+Name is not unique!	名字不能重复！	ov1:BBEB
+New member	新成员	res:08B0
+No one is wise enough to teach You!	没有人聪明到能教你！	ov1:BC35
+Not in the town	不在城镇里	res:095C
+Now if you are brave and  cold  blooded	如果你够勇敢，又够冷血，	res:07B2
+OGRE	食人魔	res:16FE;res:2438
+OK	正常	res:1744
+OLD MAN	老人	res:2B91
+OLYMPIA	奥林匹亚	TWNS.DAT:0D98
+ON WHOM :	对谁：	ov2:C32B
+ON WHOM:	对谁：	ov2:BD65;ov2:BEA5
+ON WHOM?	对谁？	ov1:BEA0
+ORANGE DRAGON	橘龙	res:2672;res:2C03
+ORC	兽人	res:1716;res:1C34
+OVERLORD	大君主	res:2A3B
+Option	选项	res:0793
+Options	选项	res:0A56
+PARRY	格挡	res:0B6C;ov2:C335
+PARTY AWAKENS	队伍醒来了	ov2:B955
+PARTY OPTIONS	队伍选项	res:0ADB
+PELNOR	佩尔诺	TWNS.DAT:0117
+PHANTASIA	芬塔西亚	TWNS.DAT:090C
+PICKS THE LOCK	打开了锁	ov2:BB7A
+PIKE	长枪	res:1268
+PINEVILLE	派恩维尔	TWNS.DAT:023A
+PIXIE	小妖精	res:16F1
+PLATE ML	板甲	res:1147
+PLATINUM	白金	res:161B
+POTION	药水	ov2:BE0F
+POTIONS	药水	res:09A9
+POTIONS:	药水：	ov1:C276
+PRIEST	牧师	res:0943;res:16A4;res:2237
+PROTECTION I	防护 I	res:1889
+PROTECTION II	防护 II	res:1896
+PROTECTION III	防护 III	res:18A4
+PROTECTION IV	防护 IV	res:18B3
+PTCH FORK	干草叉	res:121C
+PTS:%d	点数:%d	ov1:BCD5
+PURGE	删除	res:0951
+PYTHON	巨蟒	res:2600
+Party health	队伍健康	res:0B2F
+Press R for reset	按 R 重设	ov1:C2F9
+Press any key ...	请按任意键…	ov1:C33F
+Print scroll? (y/n)	打印卷轴？(y/n)	ov1:C220
+Printer not ready	打印机未就绪	ov1:C237
+Printout	打印	res:09E0
+Purge	删除	res:08D6
+QUICKNESS I	快速 I	res:1825
+QUICKNESS II	快速 II	res:1831
+QUICKNESS III	快速 III	res:183E
+QUICKNESS IV	快速 IV	res:184C
+RANDOM	随机	res:0907
+RANGER	游侠	res:0934;res:1695;res:1CA6
+RANK %1d : %1d  %s(S)	第%1d列：%1d 只%s	ov2:BCCD
+REPORT:	报告：	ov2:BA86
+RESURRECTED	被复活	ov1:BB33
+RESURRECTION	复活术	res:19D3
+RING A	戒指 A	res:151B
+RING B	戒指 B	res:1522
+RING C	戒指 C	res:1529
+RING D	戒指 D	res:1530
+RING E	戒指 E	res:1537
+RING F	戒指 F	res:153E
+RING G	戒指 G	res:1545
+RING H	戒指 H	res:154C
+RING I	戒指 I	res:1553
+RING MAIL	环甲	res:1117
+RING ML+1	环甲+1	res:1176
+RING ML+2	环甲+2	res:1180
+RING:%s	戒指:%s	res:2F89
+ROBES	长袍	res:10FF
+ROBES +1	长袍 +1	res:1159
+RUBY A	红宝石 A	res:15C2
+RUBY B	红宝石 B	res:15C9
+RUBY C	红宝石 C	res:15D0
+RUBY D	红宝石 D	res:15D7
+RUBY E	红宝石 E	res:15DE
+RUN	逃跑	res:0A19;res:0B72
+Rename	改名	res:08C7
+SAPPHIRE A	蓝宝石 A	res:158B
+SAPPHIRE B	蓝宝石 B	res:1596
+SAPPHIRE C	蓝宝石 C	res:15AC
+SAPPHIRE D	蓝宝石 D	res:15A1
+SAPPHIRE E	蓝宝石 E	res:15B7
+SCALE ML	鳞甲	res:1121
+SCRIBE	抄写员	res:1CDF
+SCROLL	卷轴	ov2:BE16
+SCROLL 1	卷轴 1	res:145C
+SCROLL 10	卷轴 10	res:14AD
+SCROLL 11	卷轴 11	res:14B7
+SCROLL 12	卷轴 12	res:14C1
+SCROLL 13	卷轴 13	res:14CB
+SCROLL 14	卷轴 14	res:14D5
+SCROLL 15	卷轴 15	res:14DF
+SCROLL 16	卷轴 16	res:14E9
+SCROLL 17	卷轴 17	res:14F3
+SCROLL 18	卷轴 18	res:14FD
+SCROLL 19	卷轴 19	res:1507
+SCROLL 2	卷轴 2	res:1465
+SCROLL 20	卷轴 20	res:1511
+SCROLL 3	卷轴 3	res:146E
+SCROLL 4	卷轴 4	res:1477
+SCROLL 5	卷轴 5	res:1480
+SCROLL 6	卷轴 6	res:1489
+SCROLL 7	卷轴 7	res:1492
+SCROLL 8	卷轴 8	res:149B
+SCROLL 9	卷轴 9	res:14A4
+SELL	卖出	ov1:BE1E
+SHIELD	盾	ov2:BDE5
+SKELETON	骷髅	res:1A6C
+SKILLS	技能	res:09A2
+SKUM	斯库姆	res:1B17
+SLASH	劈砍	res:0B5B;ov2:C312
+SLEEP	睡眠	res:1747;res:19BF
+SM AXE	小斧	res:11F9
+SM CLUB	小棍	res:11BC
+SM FLAIL	小连枷	res:11DC
+SM HAMMER	小锤	res:11EF
+SM MACE	小锤矛	res:11CD
+SM MACE+1	小锤矛+1	res:128F
+SM MACE+2	小锤矛+2	res:12A2
+SM SHIELD	小盾	res:104E
+SM SHLD+1	小盾+1	res:1058
+SM SHLD+2	小盾+2	res:1062
+SM SHLD+3	小盾+3	res:106C
+SM STAFF	小法杖	res:11C4
+SM SWORD	小剑	res:1206
+SMOKE FILLS THE AIR	烟雾弥漫在空中	ov2:BB64
+SNAKE	蛇	res:20E1
+SOME OF YOUR GOLD IS TAKEN	你的一部分金币被拿走了	ov2:BAE4
+SORCERER	妖术师	res:24AA
+SORRY	抱歉	ov2:C296
+SPEAR	矛	res:1226
+SPEAR +1	矛 +1	res:12D9
+SPEED	速度	res:0AE9
+SPELLS	法术	res:0991
+SPELLS AVAILABLE:	可用法术：	res:2EBA
+SPELLS:	法术：	ov1:C267
+SPETUM	长柄叉	res:1277
+SPIRIT	灵体	res:28AC
+SPLAT BEAST	爆浆兽	res:2BCA
+SPLINT ML	夹板甲	res:1133
+SPLITWATER	斯普利沃特	TWNS.DAT:06C6
+SPOTS A TRAP. DISARM IT ?	发现陷阱。要解除吗？	ov2:BBC2
+SPRITE	妖精	res:16F7
+SQUISHY GUNK	软烂黏液	res:206F
+STAFF	法杖	res:1200
+STAFF +1	法杖 +1	res:12BE
+STAIRS FROM LEVEL %-2d TO %-2d	从第 %-2d 层到第 %-2d 层的楼梯	ov2:BB45
+STARVILLE	斯塔维尔	TWNS.DAT:0C75
+STICK	木棍	res:11B0
+STING BEETLE	刺甲虫	res:1DFC
+STORM GIANT	风暴巨人	res:2957
+STRENGTH I	力量 I	res:1859
+STRENGTH II	力量 II	res:1864
+STRENGTH III	力量 III	res:1870
+STRENGTH IV	力量 IV	res:187D
+STRENGTH%8u AGE%15u	力量%14u 年龄%16u	res:2FD3
+SUCCEEDS	成功	ov2:BBF4
+SUMMON ELEMENTAL	召唤元素	res:19F7
+SURRENDER	投降	res:0A23
+SWIMMING:	游泳中：	ov2:C29C
+SWORD	剑	res:1230
+SWORD +1	剑 +1	res:12E9
+SWORD +10	剑 +10	res:1350
+SWORD +2	剑 +2	res:12F2
+SWORD +3	剑 +3	res:12FB
+SWORD +4	剑 +4	res:130E
+SWORD +5	剑 +5	res:1317
+SWORD +6	剑 +6	res:1320
+SWORD +7	剑 +7	res:1333
+Sack is full!!!	背包满了！！！	ov2:BD3F
+Save game	存盘	res:0880
+Shares for:	分配给：	ov1:C1E7
+Show names	显示名字	res:0B24
+Show party	显示队伍	res:0875
+Speed	速度	res:0A5E
+Spells	法术	res:0895
+Supreme Beings.	至高存在。	ov1:BF5A
+TELEPORTATION	瞬间移动	res:19C5
+THAT IS THE OCEAN	那是海洋	ov2:C1A9
+THAT IS THE WALL	那是墙壁	ov2:BA73
+THE GREAT DEMON APPEARS AND SPEAKS:	\c大恶魔现身并说道：	ov1:BBA9
+THE INN	旅店	ov1:C110
+THE PARTY GETS SOME GOLD	队伍得到一些金币	ov2:BACB
+THE PARTY IS MOVED	队伍被移动了	ov2:BAFF
+THE PARTY IS SLOWED	队伍变慢了	ov2:BA44
+THE PARTY'S ARMOR IS REDUCED	队伍的护甲降低了	ov2:BA27
+THE RIVER STYX	冥河	ov2:C19A
+THE WAND OF NIKADEMUS	尼卡迪穆斯之杖	res:2F73
+THIEF	盗贼	res:091B;res:0929;res:168A
+THRUST	刺击	res:0B4D;ov2:C304
+TIGER	老虎	res:2153
+TITAN	泰坦	res:2990
+TRANSPORT TO WHICH TOWN?	传送到哪座城镇？	res:0CE8
+TRANSPORTATION	传送术	res:1A3B
+TREASURE	宝物	ov2:BE1D
+TRIDENT	三叉戟	res:1244
+TROLKIN	特罗尔金	res:21C5
+TROLL	巨魔	res:1709;res:26E4
+TROLLPORT	特罗尔波特	TWNS.DAT:07E9
+The Gods and face the tests.	诸神，并面对试炼。	ov1:BFC3
+The Gods.	诸神。	ov1:BFE0
+The cost is %d GP.	费用是 %d 金币。	ov1:C054
+The wise old mystic peers	睿智的老神秘客凝视着	ov1:BF6A
+There is no room	没有空间了	ov1:BDA1
+Threaten	威吓	res:0B06
+Training	训练	res:089C
+UNDEAD	不死族	res:1732
+UNUSABLE	无法使用	ov1:BCDC;ov1:C191
+Use ESC key to exit most menus.	按 ESC 键离开大部分菜单。	ov1:C2A4
+Use item	使用物品	res:086C
+Use potion	使用药水	res:0A99
+Utility menu	工具菜单	res:0C75
+VAMPIRE	吸血鬼	res:2555
+VIPER	毒蛇	res:1BC2
+VISION	视觉	res:1A34
+WAND	魔杖	res:155A
+WARRIOR	战斗员	res:271D
+WATER ELEMENTAL	水元素	res:28E5
+WEAKNESS I	衰弱 I	res:18F5
+WEAKNESS II	衰弱 II	res:1900
+WEAKNESS III	衰弱 III	res:190C
+WEAKNESS IV	衰弱 IV	res:1919
+WEAPON	武器	ov2:BDF2
+WERE BEAR	熊人	res:23FF
+WERE WOLF	狼人	res:26AB
+WHICH SPELL?	哪个法术？	res:0CDB;ov2:C31E
+WHO IS GOING TO BE TRAINED?	谁要接受训练？	ov1:BC19
+WHO NEEDS RENAMING?	谁需要改名？	ov1:BD0B
+WHO WILL CAST A SPELL?	谁要施放法术？	ov1:BD45
+WHO WILL CAST SPELL:	谁要施放法术：	ov2:BE90
+WHO WILL DISARM ?	谁要解除？	ov2:BBDC
+WHO WILL LEARN?	谁要学习？	ov1:BC59
+WHO WILL SHOP?	谁要购物？	ov1:BC99
+WHO WILL USE POTION:	谁要使用药水：	ov2:BD50
+WHO WILL USE?	谁要使用？	ov1:BE92
+WHO WILL WITHDRAW?	谁要提款？	ov1:BDDF
+WHOM DO YOU WANT TO ADD?	要加入哪一位？	ov1:BD88
+WHOM DO YOU WANT TO DROP?	要移除哪一位？	ov1:BCF1
+WHOM DO YOU WANT TO HEAL?	要治疗哪一位？	ov1:BD5C
+WHOM DO YOU WANT TO INSPECT?	要查看哪一位？	ov1:BDB2;ov2:BE73
+WHOM DO YOU WANT TO PURGE?	要删除哪一位？	ov1:BD2A
+WIGHT	尸妖	res:1FFD
+WITCH DOCTOR	巫医	res:21FE
+WIZARD	巫师	res:094A;res:16AB;res:2A02
+WOOD SH+1	木盾+1	res:1044
+WOOD SHLD	木盾	res:103A
+WOULD YOU LIKE TO SAVE THE DUNGEON MAP?	要保存地下城地图吗？	res:0BB9
+WRAITH	幽魂	res:22A9
+Wait a moment	请稍候	ov1:C351
+Withdraw	提款	res:09BB
+YES	是	res:098A;res:0AC1;res:0AD4;res:0B7C;res:0BA0
+YOU CAN'T AFFORD IT.	你买不起。	ov2:C281
+YOU FIND %s. KEEP IT?	你找到 %s。要留下吗？	ov2:BD29
+YOU HAVE ARRIVED AT THE ASTRAL PLANE	\c你已抵达星界	ov1:BB84
+YOU HEAR A NOISE IN THE DISTANCE	你听到远处有声响	ov2:BB14
+YOU SPOT SLEEPING MONSTERS!	你发现沉睡的怪物！	res:0A2D
+YOU SURPRISE THEM !	你让他们吃了一惊！	ov2:C3CA
+YOUR PARTY HAS BEEN DEFEATED	\c你的队伍被击败了	ov1:BB5D
+You  will  learn  later  how  to  use it	你以后会学到如何使用它	ov1:B9D7
+You are trained.	你受过训练了。	ov1:C0FF
+You can learn %d more spells.	你还可以学 %d 个法术。	ov1:C036
+You can not afford it!	你买不起！	ov1:C0E8
+You can not afford it.	你买不起。	ov1:C160
+You can't afford it!	你买不起！	ov1:C004
+You can't learn any more!	你学不了更多了！	ov1:BFEA
+You have:	你拥有：	ov1:C1CC
+You must assemble a group.	你必须先组成队伍。	ov1:BEA9
+You need	你需要	ov1:C0A1
+You've failed	你失败了	ov1:C028
+You've learned	你学会了	ov1:C019
+Your  Quest  is  over, now  go  and rest	你的任务结束了，现在去休息吧	ov1:B95C
+Your score is %d. You are	你的分数是 %d。你是	ov1:BFA6
+ZEUS	宙斯	res:2AE6
+ZOMBIE	僵尸	res:1D51
+almost ready to visit	几乎可以前往	ov1:BF16
+and press ENTER when ready	准备好后请按 ENTER	ov1:C38B
+any key to begin the adventure.	按任意键开始冒险。	res:082C
+attack%7u	攻击%11u	res:2ECC
+choose CLASS	选择职业	res:090E
+disarm trap%4u	解除陷阱%11u	res:2EED
+enough  to   enter   Phantasie,   insert	敢于踏进《幽灵战士》的世界，	res:07DA
+exit	离开	res:0A7A
+experience points.	经验值。	ov1:C0B3
+experienced adventurers.	老练的冒险者。	ov1:BEE6
+experienced enough to visit	已经够老练可以前往	ov1:BF2C
+fast	快	res:0A69
+find item%6u	寻宝%13u	res:2F09
+into his crystal ball and speaks:	水晶球并说道：	ov1:BF84
+it takes 2 months	耗时 2 个月	res:096C
+listen%9u	聆听%13u	res:2F1E
+normal	普通	res:0A6E
+not yet ready to visit	还不能前往	ov1:BEFF
+novice adventurers.	新手冒险者。	ov1:BED2
+or X to exit	或按 X 离开	ov1:C30B
+parry%10u	格挡%13u	res:2ED6
+pick lock%4u	开锁%11u	res:2EFC
+properly in Phantasie II.	在《幽灵战士 II》中正确使用。	ov1:BA00
+quick	快速	res:0B88
+removed  a  Great   Evil  from   Gelnor.	从格尔诺除去了一个大恶。	ov1:B933
+runes:	符文：	res:3071
+slow	慢	res:0A75
+spot trap%4u	侦测陷阱%9u	res:2EE0
+swim%9u	游泳%11u	res:2F16
+to  prepare You  for the next adventure.	为你准备下一次冒险。	ov1:B985
+to get here	才能到这里	res:097E
+your  Data Disk into the drive and press	就把数据软盘放进磁盘机，然后	res:0803
