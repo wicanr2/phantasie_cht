@@ -98,9 +98,13 @@ def main():
                 if any(ord(c) < 0x20 for c in line):
                     problems.append(f"{where}#{i}: 含控制字元")
                     bad = True
-                if cl.width_h(line.strip(" ")) > 80:
-                    problems.append(f"{where}#{i}: 寬度 {cl.width_h(line.strip(' '))}h 超過 80h")
-                    bad = True
+                # 寬度上限依該行實際繪出的長度（avail = 2 × 繪出字元數，docs/spec/001 §6）：開頭空白數、去尾端空白的原文、尾端空白數
+                if u["lines"][i].strip():
+                    avail = 2 * (u["lead"][i] + len(u["lines"][i].lstrip(" ")) + u["trail"][i])
+                    w = cl.width_h(line.strip(" ") if is_centered(u, i) else line.rstrip(" "))
+                    if w > avail:
+                        problems.append(f"{where}#{i}: 寬度 {w}h 超過這行的 {avail}h")
+                        bad = True
                 if cps is not None:
                     for ch in set(line):
                         if ord(ch) not in cps:
@@ -110,9 +114,12 @@ def main():
             if len(oz) != len(u.get("opt_cells", [])) or any(not isinstance(x, str) or not x.strip() for x in oz):
                 problems.append(f"{where}: opt_zh 數量 {len(oz)} 與選項 {len(u.get('opt_cells', []))} 不同或有空白")
                 continue
+            raw_cells = [c.replace("~", " ") for c in (u.get("opt") or "").split("|") if c.strip()]
             for j, x in enumerate(oz):
-                if cl.width_h(x.strip()) > 22:
-                    problems.append(f"{where}: 選項 {j} 寬度超過 22h（11 格）")
+                # 選項欄位每格 11 或 3 字元（開頭空白保留，只去尾端）：上限 = 2 × 欄位實際長度
+                avail = 2 * len(raw_cells[j]) if j < len(raw_cells) else 22
+                if cl.width_h(x.strip()) > avail:
+                    problems.append(f"{where}: 選項 {j} 寬度 {cl.width_h(x.strip())}h 超過 {avail}h")
                     bad = True
             en_all = " ".join(u["lines"] + u.get("opt_cells", []))
             zh_all = "".join(zh + oz)
@@ -143,9 +150,13 @@ def main():
         for i, (en, zh) in enumerate(zip(u["lines"], t["zh"])):
             if not en.strip():
                 continue
-            tr = zh.strip(" ") if zh.strip() else BLANK
-            if tr != BLANK and is_centered(u, i):
-                tr = cl.CENTER + tr
+            # 置中行去掉頭尾空白（版面層置中）；其他行只去尾端，保留譯文自己的開頭空白（docs/spec/001 §6）
+            if not zh.strip():
+                tr = BLANK
+            elif is_centered(u, i):
+                tr = cl.CENTER + zh.strip(" ")
+            else:
+                tr = zh.rstrip(" ")
             add(key_of(en), tr, f"{uid}#{i}")
         for j, (en, zh) in enumerate(zip(u.get("opt_cells", []), t.get("opt_zh", []))):
             add(key_of(en), zh.strip(), f"{uid}/opt{j}")

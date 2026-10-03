@@ -1,0 +1,18 @@
+fmt	expect
+%s HITS	s
+%-10.9s%-9.8s%-9.8s%-5s	-10.9s,-9.8s,-9.8s,-5s
+%ld %lu	ld,lu
+%%	(none)
+100%%%d	d
+%1d : %1d  %s(S)	1d,1d,s
+%x	ERR
+%05d	ERR
+%2$s	ERR
+%*d	ERR
+%	ERR
+100%	ERR
+%+d	ERR
+%hd	ERR
+%o	ERR
+%f	ERR
+%0d	ERR

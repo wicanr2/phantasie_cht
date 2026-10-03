@@ -26,6 +26,9 @@ OV_CODE = 0x53EA
 OV_DATA = 0xB8F0
 MIN_LEN = 2
 FILE_RE = re.compile(r"^[A-Za-z0-9_%-]+(\.[A-Za-z0-9]{1,3})?$")
+# 檔名判定（docs/spec/003 §11）：副檔名必須是遊戲用到的副檔名；無副檔名者只認全小寫或全大寫的檔名單字
+# （區分選單項目 Guild 與檔名 guild、GUILD；區分種族名的點號縮寫與檔名）。
+FILE_EXTS = {"IBM", "PAT", "DTX", "INT", "DAT", "SAV", "OVR", "EXE", "COM", "BAT", "DOC", "BSV"}
 FILE_WORDS = {"font", "phm", "pat", "ov1", "ov2", "phbackup", "sack", "twns", "guild"}
 
 
@@ -72,8 +75,12 @@ def dptr_refs(data: bytes, lo: int, hi: int, ds: int):
 def kind_of(text: str) -> str:
     if "%" in text:
         return "fmt"
-    if FILE_RE.match(text) and (("." in text) or text.lower() in FILE_WORDS):
-        return "file"
+    if FILE_RE.match(text):
+        if "." in text:
+            if text.rsplit(".", 1)[1].upper() in FILE_EXTS:
+                return "file"
+        elif text.lower() in FILE_WORDS and (text == text.lower() or text == text.upper()):
+            return "file"
     return "text"
 
 

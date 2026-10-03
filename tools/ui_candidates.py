@@ -16,8 +16,15 @@ OK_CHARS = re.compile(r"^[A-Za-z0-9 .,:;!?'%+\-/*()#$@=<>&_\[\]]+$")
 SHORT_OK = {"GP", "HP", "MP", "OK", "XP", "NO", "ON", "ID"}
 
 
-def plausible(s: str) -> bool:
+REF_UPPER = re.compile(r"^[A-Z0-9 +\-]{2,}$")
+
+
+def plausible(s: str, has_ref: bool = False) -> bool:
+    """has_ref：該字串在程式碼或資料表中有指標參照。有參照的全大寫短字串（縮寫、含加成的物品名）
+    不要求母音（docs/spec/003 §11；第二輪審查 A-11：12 筆盾牌加成名稱被無母音規則誤剔）。"""
     t = s.strip()
+    if has_ref and REF_UPPER.match(t) and sum(c.isalpha() for c in t) >= 2 and len(t) <= 14:
+        return True
     if len(t) < 2 or not OK_CHARS.match(s):
         return False
     letters = sum(c.isalpha() for c in t)
@@ -48,7 +55,7 @@ def main():
             continue
         text = text.encode().decode("unicode_escape", errors="replace")
         key = text.rstrip()
-        if not plausible(key):
+        if not plausible(key, has_ref=bool(imm or dptr)):
             continue
         e = seen.setdefault(key, {"kind": kind, "regions": set()})
         e["regions"].add(region)
