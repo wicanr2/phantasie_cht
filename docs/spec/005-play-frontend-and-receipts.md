@@ -1,6 +1,6 @@
 # 005 遊玩前端與同狀態驗收
 
-狀態：DRAFT 第三版（2026-10-03，依第二輪四份審查意見修訂）。依賴 `001` 至 `004` 與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 與 `oracle.CGAPalette()`）。證據來源：`apps/phantasie/input.go`（`KeyGate`）、`oracle`（`Run`、`SendKeys`、`TypeKeys`、`Scratch`）、dosgolem 規格 `237`（scratch 層）。
+狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001` 至 `004` 與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 與 `oracle.CGAPalette()`）。證據來源：`apps/phantasie/input.go`（`KeyGate`）、`oracle`（`Run`、`SendKeys`、`TypeKeys`、`Scratch`）、dosgolem 規格 `237`（scratch 層）。
 
 ## 1. 範圍
 
@@ -84,7 +84,7 @@
 
 **獨立稽核**（以原版 `FONT` 位元圖與目前視訊記憶體為基準，不使用疊字層自己的狀態當期望值）。稽核有自己的**事件日誌**：每個 T 類且在提交時 `Resolve` 回 `OK` 的事件，記 `(ID, Col, Row, Text, 提交的 Step)`，上限 4096 筆、與 `records` 的清理無關（`records` 只保留被 `Layer` 或影子引用者；疊字被指紋偵測、`Clear` 移除的事件正是最先被清掉的，稽核不能依賴它）。遮罩一致檢查共用 `001` §8 的 `maskScan`（像素粒度，只計非透明格範圍內的像素）；全是空白字元的格要求該格同一色號像素不少於 85%（不是恆通過）；其他格用 `cellConsistent`。
 
-1. **殘字稽核**（`stale_cells`）：對每一個 `Shown` 疊字的每個非透明格，取其對應的原版格，檢查畫面是否仍是該原文的字模畫出的結果：`cellConsistent`（`001` §8：配對率不低於 70%，墨像素保留率不低於 50%；反白後色號互換仍成立）。不成立者計為殘字格（疊字蓋在已不是原文的畫面上）。
+1. **殘字稽核**（`stale_cells`）：對每一個 `Shown` 疊字的每個非透明格，取其對應的原版格（事件組的實際列取疊字的 `Y`，不用 `Row×8`，否則捲動後的疊字會被判成殘字），檢查畫面是否仍是該原文的字模畫出的結果：`cellConsistent`（`001` §8：配對率不低於 70%，墨像素保留率不低於 50%；反白後色號互換仍成立）。不成立者計為殘字格（疊字蓋在已不是原文的畫面上）。
 2. **英文外露稽核**（`exposed_events`）：對事件日誌內的每個事件，若其事件矩形目前仍顯示該原文（同上的遮罩一致檢查，且該矩形沒有被反白以外的操作改動），則 `Layer` 內必須有覆蓋該矩形全部可見像素的疊字；缺少者計為英文外露事件。
 3. 兩項稽核每個 `@check` 執行一次，另在無頭模式每個 `Frame` 抽樣。**抽樣略過開啟中事件（A 已觸發、B 未觸發）的矩形**：A 與 B 之間畫面被半寫，舊疊字的字模檢查必然不成立，不是缺陷。結果必須為 0；不為 0 的鍵列入 `@known-untranslated` 同風格的已知清單並附原因，否則失敗。
 4. 稽核本身要有負對照，以**故障注入**旗標（`-fault`，僅測試用）達成，不用 `-overlay off`（`off` 仍維護 `Layer`，`exposed_events` 為 0）：`-fault noadd`（提交時不 `Add` 疊字）時 `exposed_events` 必須大於 0；`-fault noclear`（不對未譯事件與 K、N 類 `Clear`）加後續覆寫時 `stale_cells` 必須大於 0；把一個 `Shown` 疊字故意留在被改寫的畫面上，`stale_cells` 必須大於 0。

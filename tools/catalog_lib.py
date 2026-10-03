@@ -115,7 +115,14 @@ def convs(fmt: str):
 def has_bad_percent(fmt: str) -> bool:
     """有 % 但不是支援的規格（尾端 %、旗標 0 + # * h、%x %o %e %f %g、%n$ 等）。"""
     rest = CONV.sub("", fmt)
-    return "%" in rest
+    if "%" in rest:
+        return True
+    for m in CONV.finditer(fmt):
+        if m.group(4) == "l" and m.group(5) not in "du":  # %ls、%lc：長度 l 只配 d、u
+            return True
+        if m.group(5) == "%" and (m.group(1) or m.group(2) or m.group(3) is not None or m.group(4)):  # %5%、%-%
+            return True
+    return False
 
 
 # 全形判定：由字型寬度表決定（docs/spec/001 §6、004 §3）。沒載入字型時退回碼點範圍（僅供沒有字型的情形）。

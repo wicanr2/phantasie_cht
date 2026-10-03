@@ -1,6 +1,6 @@
 # 003 譯文 catalog 與字串解析
 
-狀態：DRAFT 第三版（2026-10-03，依第二輪四份審查意見修訂）。依賴 `001`。證據來源：`docs/re/005`、`007`、`008`，`textlog -args -sprintf` 動態記錄。
+狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`。證據來源：`docs/re/005`、`007`、`008`，`textlog -args -sprintf` 動態記錄。
 
 ## 1. 範圍
 
@@ -80,7 +80,7 @@ EventRecord 擷取時依指標值分類（`001` §3.3），分類表是組態（
 
 ```text
 Resolve(rec):
-  1. 保護清單（§9）：規範化後的 rec.Text、rec.Format、rec.Composed.Fmt（若有）任一在清單內
+  1. 保護清單（§9）：規範化後的 rec.Text、rec.Format、以及 rec.Composed 與所有 ArgStrs[i].Piece（遞迴）的 Fmt 任一在清單內
        → OK=false, Why=protected
   2. p := rec.Composed 非空 ? rec.Composed : Piece{Fmt: rec.Format, FmtKind: rec.FmtKind, Literal: rec.Text,
                                                    Args: rec.Args, ArgStrs: rec.ArgStrs}
@@ -245,12 +245,13 @@ lookupArg(a):
 5. 保護清單的觸發路徑（到達時的畫面行為）：動態未量到；收據標「未量到」。
 6. **第三種文字來源**：地圖上的位置描述文字（開在地圖上遇到的建築或路的說明，四份記錄共 11 筆事件、3 種相異字串）由呼叫端 `2EA0`、`2EEE`、`2F10` 以 `%s` 畫出，指標在 `C99D`、`C9C5`、`CA3D`（`other` 種類，超過 overlay 資料區末端 `C45E`，不在堆疊）。內容是 39 字元、前後以空白置中的句子，原檔內沒有明文，不在 MESS、SCROLLS、`ui`、`prose`。由哪個函式建構（`strcat`、`sprintf` 或資料檔解碼）未確認。目前歸 `other`，不翻譯，收據列為已知缺口；來源確認後以 `002` 風格新開規格或併入 `prose`。
 7. `regions.tsv` 的初始內容就是 §5.1 表（怪物 3 筆、城鎮 12 筆、`static` 與 `buffer` 區間）；`i > 0` 的城鎮指標與怪物指標的其他來源動態未量到，由 `arg_unclassified` 與收據的「資料型引數事件集合」補強。
-8. 玩家名在 `%s` 精度下的顯示字元數：原樣保留的 ASCII 名字以 `P` 個字元為上限（§7.2），與原版一致；名字長度上限（動態量到名字輸入最多 9 字元）與各欄 `P` 的關係待逐欄核對。
+8. 模板鍵與追加字串的尾端空白被 rstrip（`%-3d ` 之後接追加字、`" AT RANK "` 之後接數字），譯文中該分隔消失，影響限於一個半形空白，列為已知限制（第三輪審查 S-3）。
+9. 玩家名在 `%s` 精度下的顯示字元數：原樣保留的 ASCII 名字以 `P` 個字元為上限（§7.2），與原版一致；名字長度上限（動態量到名字輸入最多 9 字元）與各欄 `P` 的關係待逐欄核對。
 
 ## 13. 驗收
 
-1. **`FormatEnglish` 向量**（純 Go，字面值，同時存成 `tests/vectors/english.tsv` 給 Python 跑）：`%-4.3d` 對 5、1234、-12；`%s` 精度與寬度；`%c` 為 0；`%ld`、`%lu` 字組順序；`%%`；未支援規格（`%x`、`%05d`、`%2$s`、`%*d`、尾端 `%`）回失敗。
-2. **`formatTarget` 向量**：§7.2 的四個字面期望值；全形字寬度與精度截斷；`-` 補右側。
+1. **`FormatEnglish` 向量**（純 Go，字面值，同時存成 `tests/vectors/english.tsv` 給 Python 跑）：`%-4.3d` 對 5、1234、-12；`%s` 精度與寬度；`%ld`、`%lu` 字組順序（`%c` 為 0 輸出含 NUL，NUL 無法寫進 TSV 向量，改在 Go 單元測試驗證比對與顯示都截到第一個 NUL）；`%%`；未支援規格（`%x`、`%05d`、`%2$s`、`%*d`、尾端 `%`）回失敗。
+2. **`formatTarget` 向量**：§7.2 的五個字面期望值；全形字寬度與精度截斷；`-` 補右側。
 3. **`Resolve` 表驅動測試**（假 catalog、假 `EventRecord`）：字面鍵命中、模板命中、恆等模板無替換回 `identity`、恆等模板無 `%s` 回 `passthrough`、部分替換（一個引數缺譯、另一個替換）、`Missed` 只含 `static`、`monster`、`town`、空譯文回 `blank_missing`、`<blank>` 回空 `Zh` 且 `OK`、巢狀組句（內層成功、內層缺譯）、組句加 `Appends`、`FmtKind` 為 `other` 的字面事件不查表、**卷軸標題 `%s` 事件 `Center` 為真且 `Zh` 不含 `\` 與 `c`**、`badarg`（引數含控制字元、字組不足）、含 `%` 的緩衝區不關聯。
 4. **負對照**：
    - 玩家名（`other` 種類）與某個 `ui` 鍵同字，顯示不得翻譯；把 `Kind` 檢查關掉（一律查 `ui`）應失敗。
@@ -258,5 +259,5 @@ lookupArg(a):
    - 怪物名與城鎮名（`monster`、`town`）查 `ui`，缺譯時出現在 `Missed`；關掉 `monster`、`town` 種類應失敗。
    - 保護清單命中（含模板型的格式字串命中）：`OK=false`、`Why=protected`、事件矩形被 `Clear`；只比對 `Text` 的實作應失敗。
 5. **共用向量**：Go 與 Python 的解析器（`parse.tsv`）與格式化（`english.tsv`、`target.tsv`）各跑一次，結果一致且等於字面期望值。
-6. **lint 反例**（`tools/tests/lint/`，Docker 內執行）：鍵尾端空白、譯文尾端空白、規範化後鍵重複、保護清單的鍵進 catalog、`ui` 與 `prose` 同文衝突、`--sources` 孤兒與缺譯、`%x`、`%2$s`、`%05d`、壞跳脫（`\xZZ`）與另一列超寬（兩個錯誤都要報）、`…`（U+2026）三個對鍵 `OK`（寬度為真實字寬 6 h）、`<blank>` 在模板內、`\c` 不在開頭，每一個都必須被擋下。
+6. **lint 反例**（`tools/tests/lint_cases.py`，Docker 內執行）：鍵尾端空白、譯文尾端空白、規範化後鍵重複、保護清單的鍵進 catalog、`ui` 與 `prose` 同文衝突、`--sources` 孤兒與缺譯、`%x`、`%2$s`、`%05d`、壞跳脫（`\xZZ`）與另一列超寬（兩個錯誤都要報）、`…`（U+2026）三個對鍵 `OK`（寬度為真實字寬 6 h）、`<blank>` 在模板內、`\c` 不在開頭，每一個都必須被擋下。
 7. **回歸統計**（有原版時）：以動態記錄重跑「`ui` 命中的靜態字串事件全部有譯文」與「資料型引數被保留原樣的事件數」，後者須能由 `arg_unclassified` 集合完全解釋。

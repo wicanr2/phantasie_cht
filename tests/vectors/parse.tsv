@@ -16,3 +16,7 @@ fmt	expect
 %o	ERR
 %f	ERR
 %0d	ERR
+%ls	ERR
+%lc	ERR
+%5%	ERR
+%-%	ERR

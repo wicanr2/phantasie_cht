@@ -1,6 +1,6 @@
 # 002 畫面操作與疊字失效
 
-狀態：DRAFT 第三版（2026-10-03，依第二輪四份審查意見修訂）。依賴 `001`（疊字核心）與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 捲動、清除與調色盤選擇）。證據來源：`docs/re/005`、`006`、`008`，`textlog -int10 -pages -ops` 動態記錄與 `cmd/overlay-prototype` 的原型截圖（開啟反白前後對照）。
+狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`（疊字核心）與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 捲動、清除與調色盤選擇）。證據來源：`docs/re/005`、`006`、`008`，`textlog -int10 -pages -ops` 動態記錄與 `cmd/overlay-prototype` 的原型截圖（開啟反白前後對照）。
 
 ## 1. 問題
 
@@ -63,7 +63,7 @@ type Shadow []ShadowEntry // 依 Layer.Stamps 的順序（疊序）
 
 **由 `Layer` 產生影子**：依 `Layer.Stamps` 順序，對每個不同的 `Key`（出現順序即疊序）產生一筆條目。沒有疊字的事件不在影子內。**`Hidden` 取補集**：先求「可見範圍」`V` = 該 `Key` 現存疊字的非透明格像素範圍的聯集（格 `i` 的像素範圍 `[X + i×CellW, X + (i+1)×CellW)`），再令 `Hidden` = `records[ID]` 的事件矩形 x 範圍 `[Col×8, min(Col×8 + len(Text)×8, 320))` 減去 `V`，相鄰範圍合併。不直接由透明格換算，因為 `Layer.Add`、`Layer.Clear` 在疊字全部格透明時整筆移除（`layer.go` `Add`、`Clear`），整段被清除的範圍不在現存疊字內，由透明格換算會遺失它，還原或切換語言時該段會復活並蓋在視窗內部或清除過的區域上（第三輪審查 C-02，Go 實驗已驗證）。這個函式 `hiddenOf(rec, stamps)` 由影子登記、影子還原、語言切換（`004` §5）三處共用。**垂直位移 `DY`**：`Layer.Scroll`（INT 10h `AH=06h`／`07h`）會改疊字的 `Y`，而還原是由 `records[ID]` 的 `Row` 排版；捲動後才存的影子若不記位移，還原後疊字會回到捲動前的列（第三輪審查 A-01，Go 實驗已驗證，動態尚未實際發生）。登記時 `DY` = 該 `Key` 疊字的 `Y` 減 `Row×8`；同一事件各疊字的 `DY` 不一致時（`Scroll` 只移動整筆落在水平範圍內的疊字）該事件不入影子，計 `shadow_skip`；還原時疊字的 `Y` = `Row×8 + DY`。
 
-**由影子還原**（`restoreShadow(s)`）：`Layer.Clear(0, 0, 320, 200)` 後，依影子順序，對每筆條目取 `records[ID]`，以**影子語言 `shadowLang`**（`004` §4；不是顯示語言：顯示語言為 `en` 時沒有 catalog，全部 `OK=false`）`Resolve` 與排版（`001` §6、§7），產生疊字；每個疊字格若與任一 `Hidden` 範圍相交則設 `Transparent`；全部格都透明的疊字不加入。疊字以**直接附加**到 `Layer.Stamps` 的方式加入（保留影子的疊序，不經 `Layer.Add` 的覆蓋判斷），`State = Pending`（下一個 `Frame` 依當下畫面 `recolor` 並重算指紋）。`records[ID]` 不存在或 `Resolve` 回 `OK=false` 的條目略過，計入 `shadow_lost`。還原後的第一個 `Frame` 由 `recolor` 的有效性閘門（`001` §8）檢查：畫面已不是原文的格（例如 `save1` 距圖形繪製不足 3 次 `Frame`，畫面已被圖形蓋過，指紋偵測的基線取自當下畫面而不會移除）標為透明。語言無關只指儲存形式：`Resolve` 失敗的事件沒有疊字，不在影子內（`004` §5 已知限制）。
+**由影子還原**（`restoreShadow(s)`）：`Layer.Clear(0, 0, 320, 200)` 後，依影子順序，對每筆條目取 `records[ID]`，以**影子語言 `shadowLang`**（`004` §4；不是顯示語言：顯示語言為 `en` 時沒有 catalog，全部 `OK=false`）`Resolve` 與排版（`001` §6、§7），產生疊字；每個疊字格若與任一 `Hidden` 範圍相交則設 `Transparent`；全部格都透明的疊字不加入。疊字以**直接附加**到 `Layer.Stamps` 的方式加入（保留影子的疊序，不經 `Layer.Add` 的覆蓋判斷），`State = Pending`（下一個 `Frame` 依當下畫面 `recolor` 並重算指紋）。`records[ID]` 不存在或 `Resolve` 回 `OK=false` 的條目略過，計入 `shadow_lost`。還原後的第一個 `Frame` 由 `recolor` 的有效性閘門（`001` §8；閘門只在這條路徑執行）檢查：畫面已不是原文的格（例如 `save1` 距圖形繪製不足 3 次 `Frame`，畫面已被圖形蓋過，指紋偵測的基線取自當下畫面而不會移除）標為透明。語言無關只指儲存形式：`Resolve` 失敗的事件沒有疊字，不在影子內（`004` §5 已知限制）。
 
 | 操作 | 動作 |
 |---|---|
