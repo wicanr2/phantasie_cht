@@ -36,10 +36,8 @@ def main():
             unit = {"id": f"mess{n}:{idx}", "kind": kind, "len": int(length), "lines": lines, "opt": None, "opt_cells": []}
             if opt:
                 cnt, _, body = opt.partition(":")
-                w = 11 if int(cnt) <= 7 else 3
-                body = body.replace("~", " ")
-                unit["opt"] = body.rstrip()
-                unit["opt_cells"] = [body[i * w:(i + 1) * w].strip() for i in range(int(cnt) - 1) if body[i * w:(i + 1) * w].strip()]
+                unit["opt"] = body
+                unit["opt_cells"] = [c.strip() for c in body.split("|") if c.strip()]
             units.append(unit)
     for line in open(f"{src}/SCROLLS.tsv", encoding="utf-8"):
         n, text = line.rstrip("\n").split("\t", 1)

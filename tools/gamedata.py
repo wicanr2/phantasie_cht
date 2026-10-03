@@ -63,8 +63,8 @@ def parse_mess(dec: bytes):
     msgs = []
     for idx in range(1, TABLE_WORDS):
         c = chunks[idx]
-        if c is None or idx in used:
-            continue
+        if c is None or idx in used or idx == 111:
+            continue  # 第 111 個 chunk 是尾記錄（008 §2），不是訊息
         length = c[0]
         if length in (0, 1, 32):
             continue  # 續頁、標記；沒被取用的之後列為 orphan
@@ -75,22 +75,37 @@ def parse_mess(dec: bytes):
             ck = chunks.get(idx + k)
             if ck is None:
                 break
-            lines.append(ck[1])
+            text = ck[1]
+            # 實際繪出的是前綴：最後一行只繪 L mod 40 個字元（008 §2）
+            if k == n - 1 and length % 40:
+                text = text[:length % 40]
+            lines.append(text)
             used.add(idx + k)
-        opt_n, opt_text = None, None
-        nxt = chunks.get(idx + 1)
-        if nxt is not None and 2 <= nxt[0] <= 20:
-            oc = chunks.get(idx + n)
-            if oc is not None:
-                opt_n, opt_text = nxt[0], oc[1]
-                used.add(idx + n)
-        msgs.append((kind, idx, length, lines, opt_n, opt_text))
+        opt_n, opt_cells = None, None
+        if kind == "short":
+            # L < 40：選項數強制為 3（兩個選項、欄寬 11），選項欄位在同一個 chunk 的 L 之後
+            opt_n, opt_cells = 3, cells(chunks[idx][1][length:], 3)
+        else:
+            nxt = chunks.get(idx + 1)
+            if nxt is not None and 2 <= nxt[0] <= 20:
+                oc = chunks.get(idx + n)
+                if oc is not None:
+                    opt_n, opt_cells = nxt[0], cells(oc[1], nxt[0])
+                    used.add(idx + n)
+        msgs.append((kind, idx, length, lines, opt_n, opt_cells))
     for idx in range(1, TABLE_WORDS):
         c = chunks[idx]
         if c is not None and idx not in used:
-            msgs.append(("orphan", idx, c[0], [c[1]], None, None))
+            kind = "trailer" if idx == 111 else "orphan"
+            msgs.append((kind, idx, c[0], [c[1]], None, None))
     msgs.sort(key=lambda m: m[1])
     return msgs
+
+
+def cells(text: bytes, n: int):
+    """選項欄位：n 為選項數（2 至 20），n - 1 個欄位，欄寬 11（n 不大於 7）或 3（008 §2）。"""
+    w = 11 if n <= 7 else 3
+    return [text[i * w:(i + 1) * w] for i in range(n - 1)]
 
 
 def show(b: bytes) -> str:
@@ -100,27 +115,27 @@ def show(b: bytes) -> str:
 
 def main():
     src, out = sys.argv[1], sys.argv[2]
-    kinds = {"msg": 0, "short": 0, "orphan": 0}
+    kinds = {"msg": 0, "short": 0, "orphan": 0, "trailer": 0}
     total_chars = 0
     for n in range(1, 11):
         raw = open(f"{src}/phantasi/MESS{n}", "rb").read()
         dec = decode_mess(raw, n)
         msgs = parse_mess(dec)
         with open(f"{out}/MESS{n}.msgs.tsv", "w", encoding="utf-8") as f:
-            for kind, idx, length, lines, opt_n, opt_text in msgs:
-                opt = "" if opt_n is None else f"{opt_n}:{show(opt_text)}"
+            for kind, idx, length, lines, opt_n, opt_cells in msgs:
+                opt = "" if opt_n is None else f"{opt_n}:" + "|".join(show(c).rstrip() for c in opt_cells)
                 f.write(f"{kind}\t{idx}\t{length}\t{'|'.join(show(l) for l in lines)}\t{opt}\n")
         for m in msgs:
             kinds[m[0]] += 1
             total_chars += sum(len(l.rstrip(b' \x00')) for l in m[3])
-        print(f"MESS{n}: {len(raw)} bytes, msg {sum(1 for m in msgs if m[0] == 'msg')}, orphan {sum(1 for m in msgs if m[0] == 'orphan')}")
+        print(f"MESS{n}: {len(raw)} bytes, msg {sum(1 for m in msgs if m[0] == 'msg')}, orphan {sum(1 for m in msgs if m[0] == 'orphan')}, trailer {sum(1 for m in msgs if m[0] == 'trailer')}")
     raw = open(f"{src}/phantasi/SCROLLS.DTX", "rb").read()
     with open(f"{out}/SCROLLS.tsv", "w", encoding="utf-8") as f:
         for n in range(len(raw) // 800):
             dec = decode_scroll(raw[n * 800:(n + 1) * 800], n)
             lines = [dec[i:i + 40] for i in range(0, 800, 40)]
             f.write(f"{n}\t{'|'.join(show(l.split(b'\\x00')[0]) for l in lines)}\n")
-    print(f"MESS 合計 msg {kinds["msg"]}、short {kinds["short"]}、orphan {kinds['orphan']}，可讀字元約 {total_chars}；SCROLLS {len(raw) // 800} 卷")
+    print(f"MESS 合計 msg {kinds["msg"]}、short {kinds["short"]}、orphan {kinds["orphan"]}、trailer {kinds["trailer"]}，可讀字元約 {total_chars}；SCROLLS {len(raw) // 800} 卷")
 
 
 if __name__ == "__main__":
