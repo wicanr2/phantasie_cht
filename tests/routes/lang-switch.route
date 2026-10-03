@@ -18,3 +18,4 @@ Esc
 @lang zh-TW
 @check guild-closed-tw
 @assert-visible-same town-tw guild-closed-tw
+@assert-same-screen town-tw guild-closed-tw
