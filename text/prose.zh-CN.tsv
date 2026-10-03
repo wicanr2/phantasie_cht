@@ -7,6 +7,7 @@ h:00647f8ebba4	\c一只红色的布利布说：	mess7:30#0
 h:00c83db42322	\c便沿着走廊跑开了。	mess5:62#2
 h:00e380f9806d	跟他谈	mess1:103/opt1
 h:016ba521b0e8	水已经淹过你们的头顶。	mess8:89#0
+h:016e5f5e107c	\c路标上写着：佩尔诺在东方 270 英里，	out:OUT5.DAT#595
 h:01ffd4cb9e5f	「这是明智的决定，朋友们。」	mess9:72#0
 h:021af9580551	安全保管的地方。其中三枚	scroll6#9
 h:028b4a01309f	贤者菲尔蒙今日报导，	scroll3#3
@@ -20,6 +21,7 @@ h:04d3f1188e71	\c这里有一座神像。	mess4:65#0
 h:04e5d6b46c6f	\c「只有鲁莽的人才会再往前走」	mess4:49#1
 h:05272d3e7701	在诸神的协助下，这九位巫师	scroll1#6
 h:054f7a652371	\c一只蓝色布利布说：	mess7:32#0
+h:06248f5df542	\c嵌在山里	out:OUT2.DAT#635
 h:0633beab4a88	的布利布意见不同，那么牠们是：	mess7:74#1
 h:0636776cbbde	\c这里坐着一位穿橘色长袍的老人。	mess3:70#0
 h:0642be2e3738	有时说谎，有时不说谎？」	mess7:71#1
@@ -31,12 +33,15 @@ h:06fc118dfed9	尼卡迪穆斯把它们放在能够	scroll6#8
 h:0717b192a199	---- 石头凿成的走廊 ----	mess2:17#0
 h:07423d8ae06d	\c「蓝色的水池有害。」	mess7:40#1
 h:075210eade47	战事似乎已近尾声。在格尔诺	scroll0#10
+h:0759854ede44	\c派恩维尔在北方 30 英里，	out:OUT5.DAT#635
 h:07b5b4bb3b40	一只坐在王座上的大布利布说：	mess7:66#0
 h:07b7ad127129	水从地板上的一个小洞冒了出来。	mess1:42#1
 h:07ba3089f758	就是土、风、水与火，象征强大的力量。	mess1:106#1
 h:07e2f4dd4e3f	沿着大海湾的岸边，	scroll8#6
 h:084567c69af5	第二座池位于南部的某处。	scroll4#10
 h:087e22170ad1	9	mess4:60/opt8
+h:0933a2991773	\c西边有一栋建筑，名叫	out:OUT1.DAT#595
+h:0977d3c94d3b	\c一座宏伟的大门	out:OUT2.DAT#595
 h:09a1cd422053	\c这里有一个被绑住的矮人。	mess8:64#0
 h:09cb491d9e3d	\c----- 基尔摩的房间 ------	mess1:27#0
 h:0a4942a4a009	\c「避开蓝色的门。」	mess7:47#1
@@ -46,6 +51,7 @@ h:0b3670a80358	J. R. 特罗尔金和他的手下	scroll5#12
 h:0b7307b699f1	尼卡迪穆斯所需要的。」	mess5:82#4
 h:0be21babc637	西边有一池奇异的水，	mess3:30#0
 h:0c10d5b9e6aa	<blank>	scroll15#13
+h:0c77830e4904	\c「金色独角兽」	out:OUT4.DAT#675
 h:0c90bd9f419f	伍德领主是善良的守护者。	scroll11#8
 h:0cb0f100067e	上面写着「基尔摩」。	mess1:50#1
 h:0cb8facd04d3	<blank>	mess6:50#1
@@ -69,14 +75,17 @@ h:11f88fee8c52	为造访的人带来好运。	scroll4#6
 h:126b928444b3	接着他便倒下死去了。	mess3:52#3
 h:127c671d0d83	救她	mess3:46/opt1
 h:12de1b806907	一只绿色的布利布说：	mess7:38#0
+h:13203059d450	地面覆盖着浓雾	out:OUT19.DAT#795
 h:13967ca70529	\c----- 1 号房间 -----	mess4:34#0
 h:13abe179829e	\c--- 挤满臭烘烘动物的房间 ---	mess5:29#0
 h:13ed972014c8	一位老侏儒正在这里煮东西，他说：	mess2:90#0
 h:1467381f4eb2	能从城堡回来。	scroll12#9
 h:14f57266d01a	接着他便消失了。	mess8:60#3
+h:150e0944c0cf	\c「康利旅店」在西方 170 英里	out:OUT5.DAT#675
 h:151b3861d5eb	\c--- 狂风呼啸的房间 ---	mess10:22#0
 h:154083f59bbf	这里的桌上有一卷卷轴。	mess1:70#0
 h:155aae0d988a	<blank>	scroll0#13
+h:155ab5ceb718	这里有一座小神殿	out:OUT2.DAT#835
 h:156c5aa1915d	\c----- 泥土地面的房间 -----	mess10:24#0
 h:15dac1cca9d6	\c「按错数字你们就会死。」	mess4:45#1
 h:1686b808000a	「你们通过了战斗试炼。」	mess10:62#0
@@ -140,6 +149,7 @@ h:2429fd4de463	\c天花板塌了下来，你被困住了。	mess3:65#0
 h:242c0bb870bf	<blank>	mess2:59#3
 h:24838f5cacce	西边有一间小房间。房间后墙上	mess10:40#0
 h:2556f8efe1d2	通道穿过一处洞穴，	mess1:47#0
+h:255a934de05a	附近有一座壮丽的黄金之城	out:OUT18.DAT#675
 h:2575945edb7c	想一想	mess9:62/opt2
 h:257aa9230ec5	\c一道小裂缝通往南方，	mess3:38#0
 h:2586745497b6	很久很久以前，在尼卡迪穆斯	scroll4#3
@@ -161,6 +171,7 @@ h:2a4079d1ee67	这里有一道大门，	mess1:101#0
 h:2ad629e3e6e8	\c----- 火焰之室 -----	mess10:23#0
 h:2b78274687f2	是大巫师，他们原本打算	scroll6#5
 h:2b8c5498ffc1	救她	mess8:71/opt1
+h:2c28397f03c5	\c这里有一座大型石造城堡	out:OUT15.DAT#635
 h:2c470d607d61	菲尔蒙说着，双手比划并施放了法术。	mess9:72#1
 h:2c70fd46b5eb	所有巫师都被俘虏，戒指也全被夺走。	scroll1#12
 h:2c767d539ea4	队伍成员感觉到周围有邪恶的力量，	mess9:75#0
@@ -191,6 +202,7 @@ h:336e4af98a6c	「NIFLE SCRO」	mess1:52#1
 h:337cba292056	这里的一套护甲上刻着：	mess5:47#0
 h:339c814d0d24	是	mess2:50/opt1
 h:33c7b6fe0a73	布利布王是非常强大的生物。	scroll13#9
+h:33d4a8184191	\c嵌在山坡里	out:OUT1.DAT#795
 h:33e55943fcbe	很久以前，尼卡迪穆斯入侵	scroll5#2
 h:33f93cbb206e	巨魔妈妈的精灵汤食谱...........第7页	scroll3#12
 h:34039e34a7ee	4	mess4:63/opt3
@@ -253,8 +265,10 @@ h:4245c251a8fc	NISCOSNAT	mess4:98/opt2
 h:42490384ac94	没有凡人见过他之后，还能活着	scroll15#9
 h:430b1a413195	\c----- 水之室 -----	mess10:25#0
 h:438ce148dc38	这扇门上了锁，	mess2:73#0
+h:438e6727ad37	\c船夫卡戎载着你	out:OUT19.DAT#595
 h:4390bff34871	\c伍德维尔	scroll10#1
 h:4416aa5e8afb	\cJ. R. 特罗尔金的城堡	scroll12#1
+h:44a7f3d335d4	\c东边有一座小镇	out:OUT1.DAT#715
 h:44daac5d55d3	递给你一把钥匙，并说：「好好使用它。	mess8:67#0
 h:4550c6acd2bd	他说：「这个消息将非常有价值。	mess4:72#0
 h:458818160aeb	这里有一个小金属盒。	mess8:86#0
@@ -268,6 +282,7 @@ h:46d66e4606bd	\c第二号报告	scroll18#1
 h:47d5cbea9076	\c布利布们的地下城	scroll13#1
 h:481e19bbc332	\c「你听说伍德领主出了什么事吗？」	mess4:55#1
 h:482b846fa85b	向他祈祷	mess10:70/opt0
+h:4832331d8418	\c你在一条小径上，	out:OUT1.DAT#675
 h:486ca277b840	\c绿色烟雾弥漫在空中	mess7:9#0
 h:490d218dd35e	\c相同的按钮，我的颜色是红色。」	mess7:53#1
 h:491bda8444c3	\c一只蓝色的布利布说：	mess7:34#0
@@ -336,6 +351,7 @@ h:599cc25e3a55	你一进入，就被一个泰坦	mess4:107#0
 h:59e3d88ea898	三位矮人感谢你们让他们	mess4:83#0
 h:5a1d03681385	这个房间里有一套护甲和一件武器，	mess1:50#0
 h:5a473f090116	\c一把大型的钥匙。	mess8:57#0
+h:5a6fbfce89ff	\c这里有一座小教堂	out:OUT5.DAT#795
 h:5a7a67105979	「我们几乎没有什么秘密。」	mess2:57#1
 h:5aa0e1b934cd	队伍成员就纷纷倒下。	mess3:62#1
 h:5abb2d857d99	是用你看得懂的语言写成的。	mess1:86#1
@@ -344,6 +360,7 @@ h:5b2fe4e74217	说：「你现在有资格获得土之符文了。」	mess2:46#1
 h:5b43c16396b2	\c---- 又大又暗的储物间 ----	mess5:36#0
 h:5b4b7c47a769	精良。不请自来的访客，很少有人	scroll12#8
 h:5b9bb1eae901	一群穿长袍的人说：「你们走错	mess5:70#0
+h:5bc2273e0eaa	\c「银星」	out:OUT15.DAT#595
 h:5bdcb438ce53	小心 J. R. 特罗尔金。」	mess4:72#5
 h:5be7ca32e5c7	\c---- 明亮的蓝色走廊 ----	mess7:14#0
 h:5c10afe7c2a0	\cJ. R. 特罗尔金	scroll5#0
@@ -352,16 +369,19 @@ h:5c159bd025c8	\c墙壁沾满血迹的格斗场	mess3:20#0
 h:5c640ea81365	作为报答，我把这个送给你们。」	mess3:56#1
 h:5cd8b93b1836	2	mess4:63/opt1
 h:5d6f49b7f11c	红色	mess7:71/opt2
+h:5da94b80e03e	\c飘浮于此	out:OUT19.DAT#715
 h:5df6fea00334	「你必须保持洁净，才能见高级牧师。」	mess2:53#1
 h:5e022a6ecdda	在将近一百年前结束了。	scroll0#5
 h:5e23740d4ed1	墙上刻着这段消息：	mess5:94#0
 h:5e45a292af35	\c---- 废弃的卫兵室 ----	mess1:21#0
 h:5ebf7ac3acd2	\c老人醒来，说：	mess5:78#0
+h:5f15607bb757	\c「绿龙旅店」	out:OUT9.DAT#635
 h:5fcf14efa3ed	拉2号	mess6:44/opt1
 h:604a4d02be7b	远在斯塔维尔的西方，大海湾的	scroll14#4
 h:607b2316c2af	蓝/绿	mess7:78/opt2
 h:6093fdcc1b48	逛逛，就当作在自己家。」	mess5:57#3
 h:6098db715c5e	\c一只红色的布利布说：	mess7:42#0
+h:609b0295880f	\c南边有「康利旅店」	out:OUT5.DAT#715
 h:615a5443dc33	洞穴里除了蜥蜴人，	scroll9#11
 h:61d657b63345	<blank>	scroll5#14
 h:61dadebd2ff9	他接着说：「伍德领主去了邪恶的	mess5:82#0
@@ -371,10 +391,12 @@ h:62ca31c0fb1b	拿走它	mess9:58/opt1
 h:637a5f1ce5ab	北方大森林的边缘，	scroll9#4
 h:63c85f8897bf	你一走近水池，	mess3:62#0
 h:63f364bbd5cb	\c---- 瞬间移动室 ----	mess2:24#0
+h:63f97fb6178b	\c「红小马旅店」	out:OUT1.DAT#635
 h:63fce7a85843	<blank>	scroll19#14
 h:642086327761	黑暗领主的力量似乎来自	scroll17#4
 h:642f27a010bf	要交给你们。伟大的伍德领主的叔叔	mess2:101#1
 h:655ef7cde5b4	\c----- 展示室 -----	mess8:29#0
+h:65671a67701b	北边有一座设有城墙的大城	out:OUT13.DAT#595
 h:66c89ac1b6bf	<blank>	scroll7#14
 h:671c39721b5f	佩尔诺城西北方的丘陵地带，	scroll7#5
 h:6823bfac69eb	<blank>	scroll4#15
@@ -391,6 +413,7 @@ h:69c22fc3fff8	8	mess4:60/opt7
 h:69c5d3bd7170	作为这番举动的奖赏，	scroll5#9
 h:69d5fc1bbaf9	我们丢下他	mess4:67/opt0
 h:69e4b9ea71fc	「蓝色布利布们有时说谎」	mess7:38#1
+h:6a0a94944e45	\c渡过冥河	out:OUT19.DAT#635
 h:6aa309531385	诸神的六项试炼，因此我赐予你们	mess10:73#2
 h:6aa331c2139e	\c你看到走廊那头有几只食人魔	mess5:62#0
 h:6ab3207bd460	隔壁牢房的矮人。」	mess8:60#2
@@ -424,6 +447,7 @@ h:731268991bb7	其他地方的所有人类	scroll16#13
 h:73189c1b96ce	他会帮助你们。	mess4:72#4
 h:7331728e4011	「谢谢你们，勇敢的冒险者。我是	mess5:78#1
 h:733678b4286b	\c坐在这里的一位老人告诉你：	mess5:55#0
+h:73c6e992ca59	这里有一座坚固的大神殿	out:OUT7.DAT#595
 h:73e10f364aa1	\c第 1 部	scroll0#1
 h:7417bd7925f5	格尔诺沦陷前的最后几天，	scroll1#2
 h:7429e3d34647	有什么我能帮你的吗？」	mess4:98#1
@@ -458,9 +482,11 @@ h:7b65edae6f77	要先去神殿，按下 75。」	mess4:104#0
 h:7b7ba169662f	\c穿过一道暗门跑了出去。	mess9:37#4
 h:7b91ce7401e0	他说：「谢	mess8:64/opt0
 h:7bba95d73fd4	拉动它	mess1:64/opt0
+h:7be3953b2243	\c地底下	out:OUT4.DAT#635
 h:7bfade7d2918	这些东西，他的力量大概	scroll17#7
 h:7c772892370e	\c一位神明低沉的声音	mess10:50#0
 h:7cffc161fba1	这些生物包括巨魔、巨人	scroll11#14
+h:7d488e61067e	\c这里有一个阴森不祥的洞穴	out:OUT9.DAT#595
 h:7d9437291f0b	你看到几个大吃一惊的兽人。	mess1:77#0
 h:7dca3320db89	「我喜欢冒险者。你认识伟大的	mess2:90#1
 h:7e225d62d685	7	mess4:60/opt6
@@ -502,6 +528,7 @@ h:86fc986b6df6	侏儒回答：「告诉他，	mess2:97#0
 h:874144092008	接着他施放了一道法术，	mess2:46#2
 h:8745794e8d11	\c一尊极其巨大的神像。	mess8:53#0
 h:874769f07998	\c-- 有许多作战地图的图书室 --	mess6:24#0
+h:876dba972e71	你身处奥林帕斯界的一角	out:OUT19.DAT#755
 h:8783c06b4da4	并掳走俘虏。	scroll9#10
 h:87e7385c95b3	并把他带到伍德维尔的神殿。	mess2:101#3
 h:88333d8b4761	6	mess4:60/opt5
@@ -510,10 +537,13 @@ h:889a24d2ea96	才能得到戒指。」	mess7:66#4
 h:88fec8193456	这片土地上最伟大的巫师们	scroll1#3
 h:891a11cb0642	开锁	mess2:43/opt0
 h:892b9da63709	--- 堆满卷轴的图书室 ---	mess1:29#0
+h:892c1e052306	\c「绿叶旅店」	out:OUT10.DAT#675
 h:896ce3365384	小生物，喜欢谜题和笑话。	scroll13#6
+h:89764e2723d2	\c河边座落着	out:OUT10.DAT#595
 h:898ee793b68e	九位大巫师想出了阻止他的绝妙计划。	scroll5#5
 h:899274c93963	<blank>	scroll0#16
 h:89caea1b042e	多年来，这座城堡一直是	scroll11#9
+h:89eb352f5cca	\c你的附近有一扇小门	out:OUT1.DAT#755
 h:8a26edd06216	\c这里有几件不错的物品。	mess6:43#0
 h:8a6149476af9	破坏它	mess4:65/opt0
 h:8aaa3418b7ad	这里有三卷卷轴，	mess1:86#0
@@ -554,12 +584,14 @@ h:92a1ba2037a7	第一座池位于格尔诺的东北部。	scroll4#9
 h:92a42ebfaae3	----格尔诺牧师神殿---	mess4:31#0
 h:931792c15127	大地再度震动。黑暗领主从	mess9:55#0
 h:9321e6bd8d8b	坐在这里的牧师说：	mess2:55#0
+h:9332a29393ce	\c这里有一座小神殿	out:OUT1.DAT#835
 h:934debf2d4e5	与不死族，由黑骑士组织起来，	scroll11#15
 h:935055fd264e	这里的墙上写着：	mess1:52#0
 h:9399e440d92f	接着你遭到攻击。	mess1:96#1
 h:93b14a703c5e	这个聚落并击败矮人，至今	scroll7#9
 h:93e195c3fdf1	\c『STRATICON UBLE AND 48』」	mess3:52#2
 h:93eac5c88ca0	\c到处都是卷轴的凌乱图书室	mess5:27#0
+h:943d8f1f163f	\c这里有一座大型白色城堡	out:OUT19.DAT#675
 h:9477a94d974f	<blank>	scroll11#18
 h:94ac7a27fd00	一扇绿色的门。	mess7:29#0
 h:94c45cf22c48	\c「红色布利布们有时说谎」	mess7:36#1
@@ -647,6 +679,7 @@ h:aa6a9669353e	惊恐地逃走了。	mess9:80#1
 h:aaa867c69fd0	黑骑士的堡垒位于格尔诺东部的	scroll15#3
 h:ab0e60ad5c3c	门上的告示牌写着：	mess2:40#0
 h:ab7cb0cb6a08	\c---- 伍德维尔旅店 ----	mess4:30#0
+h:ab816c7dc76f	\c有人建造了一颗巨大的星星	out:OUT14.DAT#595
 h:abc6e83ca3db	RO FINLE CO	mess2:90/opt1
 h:abece0029bdd	熔岩开始涌入。	mess3:46#1
 h:abf4b9eb0a71	被抓走了。你们必须救出他，	mess2:101#2
@@ -668,6 +701,7 @@ h:aec0084b526a	「冒险者们，你们好。我们布利布	mess7:66#1
 h:af1a86ab35cc	接着，尼卡迪穆斯与他的军队	scroll1#13
 h:af3e625aae3b	你听到有人正在接近。	mess1:68#1
 h:af73d2c1fc70	\c---- 私人住宅 ----	mess4:21#0
+h:af8bfc8c7789	\c用木头建在南边的海滩上	out:OUT14.DAT#635
 h:afbf934f6e8c	\c「红色的水池有时会让人瞬间移动。」	mess7:42#1
 h:afde3c86893e	我们就卖你一卷珍贵的卷轴。」	mess2:75#1
 h:aff135cad9bf	侏儒不理你。	mess2:99#0
@@ -706,6 +740,8 @@ h:b83d51371bb8	CS NIFLE SC	mess2:90/opt0
 h:b87dbd08e688	\c---- 空荡凌乱的房间 ----	mess5:33#0
 h:b8c147b0155b	这里坐着一位老人。	mess1:103#0
 h:b8d52dc3f650	1	mess4:63/opt0
+h:b914780a9296	\c「石犁旅店」	out:OUT8.DAT#595
+h:b919391d6b84	\c四周围绕着耀眼的光芒	out:OUT18.DAT#635
 h:b940fa5ce0e2	\c「让战斗开始吧！」	mess6:100#2
 h:b942c98359b7	格尔诺时，人类与野兽放下	scroll5#3
 h:b946f829696f	第一只布利布说：「按下和我颜色	mess7:53#0
@@ -763,6 +799,7 @@ h:c7a92ab662d7	\c--- 雅致的大理石走廊 ---	mess5:20#0
 h:c7ce9d966026	红/绿	mess7:74/opt3
 h:c7f10ca87450	J. R. 特罗尔金占领了。」	mess5:78#3
 h:c7f39a537f8a	三枚交给多斯尼比亚的牧师。	scroll6#11
+h:c80ae1f34ab3	\c一座小巧而优雅的城堡	out:OUT10.DAT#635
 h:c80fd632160b	勇敢的冒险者必须继续	scroll16#11
 h:c819db370d44	\c---- 昏暗凌乱的壁橱 ----	mess6:23#0
 h:c83a5a43a38e	所知甚少，只知道他们与牛头怪结盟。	scroll14#7
@@ -790,6 +827,7 @@ h:cd6996a26502	\c一群吵闹的士兵大喊：	mess5:67#0
 h:cd74bbdbbd08	了三座魔法之池。这些池水会	scroll4#5
 h:cdc535b75914	\c第二只布利布说：	mess7:55#0
 h:ce6e6f1d51b8	\c--- 魔法之池守护者的房间 ---	mess5:37#0
+h:ce78ca5d6f95	\c一道奇异的阶梯通往	out:OUT4.DAT#595
 h:cedc31fb1b25	就得死。黑骑士至今仍统治	scroll2#14
 h:cee8460f2e30	\c----- 卫兵室 -----	mess6:26#0
 h:cf4d34b3121e	里面有四间牢房。	mess5:45#1
@@ -860,11 +898,13 @@ h:e3fc1bc512fd	这里有大量的金币。	mess9:30#0
 h:e4115bb642dc	\c你们可以从中挤过去。	mess3:38#1
 h:e427559527c4	\c--- 奇异的迷雾走廊 ---	mess10:21#0
 h:e43d32227114	还住着其他邪恶的生物。	scroll9#12
+h:e4b93c4e87b3	\c「星辰」	out:OUT7.DAT#635
 h:e4da8eb70fca	箱子，什么都没有。	mess2:43#1
 h:e4e0948274ca	<blank>	scroll8#15
 h:e4e0f26c1ae2	雕像，一道密门就会打开，	scroll18#13
 h:e527830879b5	\c这里有许多宝石。	mess9:33#0
 h:e5394a13e332	这卷卷轴会引导你们找到伍德领主，	mess4:72#3
+h:e5673d3c8975	\c「孤寂旅店」	out:OUT16.DAT#595
 h:e5eab19eb4d7	\c无论你怎么试都打不开。	mess6:55#1
 h:e611aa9cb5c3	STRATICON	mess8:40/opt0
 h:e61cebc57a0c	\c正在开会。他们看到你，	mess5:62#1
@@ -890,6 +930,7 @@ h:ea96eddf7f59	昏了过去，你在一间上锁的牢房里醒来。	mess6:53#0
 h:eab86acbdd78	这片土地，并替尼卡迪穆斯收取钱财。	scroll2#15
 h:eadff0b34615	否	mess2:50/opt0
 h:eaf6fc76355e	NISCOTTAN	mess4:98/opt0
+h:eb75a8bcacc6	\c「老鹰」	out:OUT11.DAT#595
 h:eb8d9fea3f59	南边有一间大房间，	mess2:35#0
 h:ebc27709f3a1	大约十五年前，兽人入侵了	scroll7#8
 h:ebf43f07e78a	三扇魔法门。一扇给格斗场，	scroll3#5
@@ -901,6 +942,7 @@ h:ecb61a763e91	镇旁那颗星的南边。它受到魔法	scroll4#12
 h:ecc1d0e4e806	<blank>	scroll6#15
 h:ed0e65a3211e	进入这座伟大的神殿。」	mess8:94#1
 h:ed46469cc18f	\c和一面好盾牌。	mess6:48#1
+h:ed554feca16b	\c你身处星界，	out:OUT18.DAT#595
 h:ed574156f4a0	\c魔杖就放在这里的地上。	mess9:58#0
 h:ed6183bd343b	\c「避开红色的门。」	mess7:49#1
 h:ed6583c42aa3	很久以前，尼卡迪穆斯攻占	scroll6#2
@@ -939,6 +981,7 @@ h:f4b87de0bf86	以伍德领主命名，	scroll10#6
 h:f4cb7b38fb2a	\c这里有一件不错的武器	mess6:48#0
 h:f4e1d9033c9c	的战斗中踏出的第一步。	scroll16#4
 h:f508edea941a	位于格尔诺附近的某座岛上。	scroll13#4
+h:f5313e1ac709	山坡	out:OUT2.DAT#795
 h:f532519f61ce	「你们不配进入	mess8:91#1
 h:f5367c60f245	\c就遭到黑骑士攻击。	mess9:37#1
 h:f58eb6120c95	\c-红绿蓝三色的王座室-	mess7:25#0
@@ -961,6 +1004,7 @@ h:faa75fac460d	表面，再滑进一间小房间。	mess5:98#1
 h:faae42276263	与半身人聚落，掠夺财物	scroll9#9
 h:fabf6e6497ce	<blank>	scroll12#11
 h:fad44a1bc810	「欢迎来到我们简朴的城堡」	mess5:49#1
+h:fae5204a48b0	\c你的附近有一池奇异的冒泡水塘	out:OUT5.DAT#755
 h:fafb8bedc448	\c---- 杂役的房间 ----	mess2:32#0
 h:fb3136dd774f	\c一个面相凶恶的老人说：「走开！」	mess5:65#0
 h:fb6a1e321730	\c--- 大地的裂缝之中 ---	mess9:21#0
