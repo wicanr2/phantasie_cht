@@ -7,4 +7,4 @@
 
 不含原版遊戲：原版與任何掃描檔都是使用者本機輸入，不進版控。專案規則見 [AGENTS.md](AGENTS.md)。
 
-授權：採 RRSAL-1.0（source-available，非商業免費），不涵蓋原版素材；`LICENSE` 在轉公開前加入。
+授權：採 RRSAL-1.0（復古重製 source-available 授權條款，非商業免費），不涵蓋原版素材；條款全文見 [LICENSE](LICENSE)。
