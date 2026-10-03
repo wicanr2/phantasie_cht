@@ -1,0 +1,53 @@
+en	zh-TW	note
+HUMAN	人類	種族
+DWARF	矮人	種族
+ELF	精靈	種族
+HALFLING	半身人	種族
+GNOME	侏儒	種族
+PIXIE	小妖精	種族；與 SPRITE 都含「妖精」
+SPRITE	妖精	種族
+OGRE	食人魔	種族與怪物
+GNOLL	豺狼人	種族
+TROLL	巨魔	種族與怪物
+KOBOLD	狗頭人	種族與怪物
+ORC	獸人	種族與怪物
+GOBLIN	哥布林	種族與怪物
+MINOTAUR	牛頭怪	種族與怪物
+UNDEAD	不死族	種族與狀態
+THIEF	盜賊	職業
+MONK	武僧	職業
+RANGER	遊俠	職業
+FIGHTER	戰士	職業
+PRIEST	牧師	職業
+WIZARD	巫師	職業
+STRENGTH	力量	屬性
+INTELLIGENCE	智力	屬性
+DEXTERITY	敏捷	屬性
+CONSTITUTION	體質	屬性
+CHARISMA	魅力	屬性
+LUCK	幸運	屬性
+LEVEL	等級	
+HIT POINTS	生命值	
+MAGIC	魔力	屬性；法術點數
+SCORE	分數	
+GOLD	金幣	
+Option	選項	城鎮選單列
+Bank	銀行	
+Mystic	神祕客	城鎮建築
+Armory	武器店	
+Inn	旅店	
+Guild	公會	
+Exit	離開	
+SWORD	劍	武器
+AXE	斧	武器
+SHIELD	盾	
+SHLD	盾	縮寫
+ARMOR	甲	
+ROBES	長袍	
+SCROLL	卷軸	
+POTION	藥水	
+RING	戒指	
+SPELL	法術	
+PELNOR	佩爾諾	城鎮
+Gelnor	格爾諾	島名
+NIKADEMUS	尼卡迪穆斯	反派
