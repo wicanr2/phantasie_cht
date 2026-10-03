@@ -25,3 +25,5 @@
 - dosgolem 分支新增 commit `a8bdd6e`：spec 197（`int 27h`，DRAFT）。依 `AGENTS.md` §4 以兩個不同角度的唯讀子代理審查：契約對程式、資料對證據。
 - overlay 靜態盤點：標頭格式與載入器語意見 `docs/re/004-overlay-format.md`。`tools/ida/compose_overlay.py` 把 overlay 疊到常駐映像上，`tools/ida/ida.sh overlay` 建庫。
 - overlay 內沒有 `INT`、視訊段常數或埠操作，繪字路徑在常駐程式碼。
+- IDA 匯出的兩個缺陷已修正：`get_operand_value` 對 16 位元立即值回傳符號延伸的 64 位元值（`B800` 比對落空）；「程式碼 bytes」原本只數指令首位元組。修正後常駐程式碼涵蓋 19,202 / 21,482 bytes（89.4%）。`0110:53EA` 以後 30,214 bytes 在常駐映像中全為 0，是 overlay 載入區，先前把它算進分母是錯的，已在 `003` 更正。
+- 靜態定位繪字路徑：`docs/re/005-video-and-text-paths.md`。

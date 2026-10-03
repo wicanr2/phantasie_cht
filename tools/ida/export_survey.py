@@ -181,7 +181,7 @@ def scan_instructions():
             ports.append({"ea": ea, "func": ida_funcs.get_func_name(ea) or "",
                           "context": prior_heads(ea, 3) + [(ea, disasm(ea))]})
         for n in range(2):
-            if idc.get_operand_type(ea, n) == idc.o_imm and idc.get_operand_value(ea, n) in interesting_seg:
+            if idc.get_operand_type(ea, n) == idc.o_imm and (idc.get_operand_value(ea, n) & 0xFFFF) in interesting_seg:
                 segconsts.append({"ea": ea, "func": ida_funcs.get_func_name(ea) or "",
                                   "context": prior_heads(ea, 2) + [(ea, disasm(ea))]})
     result["int_sites"] = ints
@@ -219,17 +219,18 @@ def call_contexts():
 
 
 def counts():
+    """已解碼的指令長度、已定義資料長度與其餘（以項目大小累計，不是只數首位元組）。"""
     seg = ida_segment.get_first_seg()
-    code = data = unk = 0
-    for ea in range(seg.start_ea, seg.end_ea):
+    code = data = 0
+    for ea in idautils.Heads(seg.start_ea, seg.end_ea):
         fl = ida_bytes.get_flags(ea)
+        size = ida_bytes.get_item_size(ea)
         if ida_bytes.is_code(fl):
-            code += 1
+            code += size
         elif ida_bytes.is_data(fl):
-            data += 1
-        else:
-            unk += 1
-    result["byte_classes"] = {"code": code, "data": data, "unknown": unk, "total": seg.end_ea - seg.start_ea}
+            data += size
+    total = seg.end_ea - seg.start_ea
+    result["byte_classes"] = {"code": code, "data": data, "unknown": total - code - data, "total": total}
 
 
 def write_json():
