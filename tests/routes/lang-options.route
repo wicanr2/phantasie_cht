@@ -1,0 +1,171 @@
+# 語言切換與選項開關符號（docs/spec/004 §7 第 3 項的第三例）：
+# 建立並加入隊員 Alice 後開啟 Options 選單，游標下移兩次到「音效」項（符號 +），Return 切成 -，
+# 切換顯示語言到 zh-CN（標籤為簡體，符號仍是 -），再 Return 切回 +，再切換回 zh-TW 後再 Return 切成 -。
+# 驗證 P 類修補（單字元事件覆寫符號）與語言切換重建同時成立。
+# @known-untranslated 的 ---------- 是 Options 選單的分隔線，沒有文字，不是漏譯。
+Return
+Return
+Return
+Return
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Up
+Return
+Return
+Esc
+Left
+Left
+Left
+Left
+Left
+Left
+Return
+@check o-open
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Down
+@check o-d1
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Down
+@check o-d2
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check o-minus-tw
+@expect -Auto save
+@expect -Sound
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+@lang zh-CN
+@check o-minus-cn
+@expect -Auto save
+@expect -Sound
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check o-plus-cn
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+@lang zh-TW
+@check o-plus-tw
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check o-minus-tw2
+@expect -Auto save
+@expect -Sound
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
