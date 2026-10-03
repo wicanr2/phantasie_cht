@@ -94,7 +94,8 @@ def parse_mess(dec: bytes):
 
 
 def show(b: bytes) -> str:
-    return b.decode("latin-1").replace("\x00", "~").replace("\t", " ").replace("\n", " ")
+    """NUL 顯示為 ~，其他控制字元與高位元組顯示為 \\xNN，使每筆記錄留在同一行。"""
+    return "".join("~" if c == 0 else chr(c) if 0x20 <= c < 0x7F else "\\x%02x" % c for c in b)
 
 
 def main():

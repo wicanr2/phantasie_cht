@@ -26,11 +26,8 @@ DEXTERITY	敏捷	屬性
 CONSTITUTION	體質	屬性
 CHARISMA	魅力	屬性
 LUCK	幸運	屬性
-LEVEL	等級	
 HIT POINTS	生命值	
-MAGIC	魔力	屬性；法術點數
 SCORE	分數	
-GOLD	金幣	
 Option	選項	城鎮選單列
 Bank	銀行	
 Mystic	神祕客	城鎮建築
@@ -43,10 +40,8 @@ AXE	斧	武器
 SHIELD	盾	
 SHLD	盾	縮寫
 ARMOR	甲	
-ROBES	長袍	
 SCROLL	卷軸	
 POTION	藥水	
-RING	戒指	
 SPELL	法術	
 PELNOR	佩爾諾	城鎮
 Gelnor	格爾諾	島名
