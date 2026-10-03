@@ -39,3 +39,24 @@
 - 同狀態收據：標題與武器店路線在 `-hooks none`、`-overlay off`、`-overlay on` 三種模式下 `steps`、`reads`、`vram_hash`、`mem_hash` 相同；兩種 `-frame-every` 下 `layer_hash` 相同（`tools/ab_receipt.sh`）。語言切換路線（`lang-switch`、`lang-name`）在 zh-TW 與 zh-CN 之間切換前後可見格集合相同，開啟並關閉公會選單後畫面與疊字內容回到切換前。
 - 負對照（故障注入）：`-fault noadd` 時 `exposed_events` 大於 0（武器店路線 23、12、14）；`-fault noclear` 時 `stale_cells` 大於 0（195）；`-fault verify-early` 在 LZEXE 解壓前驗簽章會失敗並印出期望與實際位元組。
 - 工具誤用：撰寫過程中多次在主機誤呼叫 `python3`（只查版本，無實際執行），已違反「主機不執行 Python」的規則；一個子代理回報同樣在主機執行過一次 `python3 --version`。沒有造成檔案或環境變更。另一次 commit 誤收了測試代理進行中的突變，已以還原 commit 修正（`dc6fe6e`）。
+
+## 2026-10-04：路線探索的缺陷與修正
+
+- 規格前提被推翻：`002` §5 原先寫「反白矩形一定完整包含事件矩形，部分相交不會造成同組顏色不一致」。旅店分配畫面的一列事件（名字、職業與四個數字）只反白名字與職業，整組取同一組顏色會把未反白的格蓋成反白色，稽核也把這些格判成殘字（`stale_cells` 4、2、1）。原先 3601 次 `invert` 的統計沒有量到這種部分反白。現行做法在 `001` §8：事件內各格狀態不一致時，疊字依狀態切開並逐片定色，閘門與稽核共用逐格狀態。整組眾數底墨同色時（兩種狀態的像素數接近）改取各格 (底, 墨) 配對的多數，並要求最多數配對與其對調配對涵蓋至少一半有墨的格。dosgolem commit `979456f`。
+- 負對照：停用切割後 `TestRecolorSplitsPartiallyInvertedGroup`、`TestRecolorSplitKeepsTransparentCells`、`TestGateKeepsMixedInvertedGroup` 失敗。`TestGateKeepsMixedInvertedGroup` 原本固定的行為是「兩格一正常一反白時退回 xlate 的色並計 `recolor_fallback`」，已改為切成兩片各自定色。
+- 判準的一個教訓：最初只用「底色像素多數是組前景色」判反白，會把整格被純色填滿（底與墨都是前景色）的格誤判成反白；加上「墨像素多數是組背景色」後修正，由單元測試 `TestGateNotRunForPatchRebuild` 抓到。
+- 銀行金額輸入：原版 `How much to withdraw? %5u` 是單一事件，數字在 col 30，輸入時另行重畫；譯文 `要提多少？%5u` 把數字接在問句後，疊字數字不更新，與原版重畫的粗體數字並存。模板補寬為 `%22u`（zh-TW、zh-CN）、`%19u`（ja）、`%18u`（ko）。`catalog_lib.field_right_edges` 的右緣規則加上末尾右靠數字欄位，`ui_align.py` 加 `--lines`。其他語言與其他列的右緣警告（ja、ko 的角色屬性畫面等）多為先前已知，未整批套用，因為工具的建議包含不合理的結果（例如 `STAIRS FROM LEVEL` 補成 `%-18d`）。
+- 位置列：地城底部位置列的格式字串指標是 `OV2:C400`（OV2 資料區界外起點），先前被判成 `other`，譯文在 catalog 內卻沒覆繪。區間表加 `buffer@ov2 C400 0 50`（`docs/re/011`），收據工具加 `-dump-keys` 與 `fmt_other_ptr` 診斷。
+- IRQ0 雙觸發：`handleA` 在判定重入之前就計 `badlen`、`truncated_input`、`arg_unclassified`，重入時會翻倍（規格 001 §3.2 要求重入整個忽略）。由 `capture_test.go` 的 `TestCaptureDupOpenIgnoredNoDoubleCount` 發現，已改為重入只計 `dup_open`。該測試檔共 53 個測試，80 筆突變全數被抓到。
+- 其他修正：`SACK` 補 ui 鍵；ja、ko 的 `%7ld XP` 原本是恆等（保留原文），與同列的 gold 字重不一致，改為 `経験値`、`경험치`；OUT 地圖描述補 ja、ko 全部與 zh-TW 兩行新鍵（`A SMALL DOOR SET INTO THE`、`MIST.`）。`OUT6` 至 `OUT16` 偏移 755 槽的 `ENDING SEQUENCE` 是原版資料瑕疵，保持原文（`docs/re/010`）。
+- 路線：新增 `guild`、`town`、`shops`、`messages`、`save-load`、`title-items`、`inn-distribute`，連同既有共 11 條，zh-TW 全部 PASS；除 `lang-*` 外（`ab_receipt.sh` 不支援額外語言）全部通過同狀態 A/B：`hooks none`、`overlay off`、`overlay on` 的 `steps`、`reads`、`vram_hash`、`mem_hash` 相同，兩種 `frame-every` 的 `layer_hash` 相同。
+
+已知限制（未解或未量到）：
+
+- 部分反白或逐格重畫後，原版重畫的數字是粗體，其餘疊字數字是細體，字重不一致（旅店分配畫面取走物品後、銀行金額）。數字欄位若改為透明讓原版數字顯示，會要求譯文欄位與原版逐格對齊，風險大於收益，未做。
+- 訊息畫面在計時延遲後還原（神祕客、無隊員進店、現金 0 購買、公會重名輸入），固定吃約 13 萬至 105 萬步，沒有額外讀鍵，`@check` 停不到；Options 的「顯示隊伍」「列印」Return 後畫面不變。這些路徑只能檢查延遲後的畫面無殘字、無英文外露，訊息本身未量到。
+- 存檔讀回：收據工具沒有 `SetScratch`，存檔不落地，不能在同一行程內讀回。
+- 探索期間代理回報 `mask_strict` 偶發 1 至 3，最終路線重跑兩次都沒有，原因未排除；探索期間工作樹有未提交修改造成兩次編譯錯誤，可能與此有關。
+- 稽核的 `scanRect`、`laterRanges` 以事件編號與列判定後續覆寫，只有同列覆寫會被扣除。
+
+規則違反：本段又在主機執行了一次 `python3 -`（空腳本，無任何檔案變更），子代理另回報一次 `python3 --version` 與以 perl、awk 編輯自己的檔案。`rm -rf ./*` 被安全檢查擋下，沒有執行；子代理改用新建目錄。
