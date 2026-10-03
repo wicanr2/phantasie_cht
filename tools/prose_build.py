@@ -55,6 +55,7 @@ def main():
         units[u["id"]] = u
     cps = None
     if a.font_tar:
+        cl.load_wide_from_hex(a.font_tar, a.font_member)
         cps = set(range(0x20, 0x7F))
         for line in tarfile.open(a.font_tar).extractfile(a.font_member).read().decode().splitlines():
             if ":" in line:
@@ -134,7 +135,7 @@ def main():
         old = rows[seen[k]]
         if old[1] != tr:
             conflicts.append(f"{k} {old[2]} 與 {src}: 譯文不同，取顯示寬度較小者")
-            if cl.width_h(tr.removeprefix("\\c")) < cl.width_h(old[1].removeprefix("\\c")):
+            if cl.width_h(tr.removeprefix(cl.CENTER)) < cl.width_h(old[1].removeprefix(cl.CENTER)):
                 rows[seen[k]] = (k, tr, old[2])
 
     for uid, t in got.items():
@@ -144,7 +145,7 @@ def main():
                 continue
             tr = zh.strip(" ") if zh.strip() else BLANK
             if tr != BLANK and is_centered(u, i):
-                tr = "\\c" + tr
+                tr = cl.CENTER + tr
             add(key_of(en), tr, f"{uid}#{i}")
         for j, (en, zh) in enumerate(zip(u.get("opt_cells", []), t.get("opt_zh", []))):
             add(key_of(en), zh.strip(), f"{uid}/opt{j}")

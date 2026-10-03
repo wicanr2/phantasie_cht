@@ -44,8 +44,8 @@ def main():
             else:
                 flag = ""
                 body = tr
-                if body.startswith("\\c"):
-                    flag, body = "\\c", body[2:]
+                if body.startswith(cl.CENTER):
+                    flag, body = cl.CENTER, body[1:]
                 out = flag + conv.convert(body)
             rows.append((key, out, source))
         cl.write_tsv(f"{d}/{fam}.zh-CN.tsv", rows)

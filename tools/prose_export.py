@@ -43,7 +43,7 @@ def main():
             if opt:
                 cnt, _, body = opt.partition(":")
                 unit["opt"] = body
-                unit["opt_cells"] = [c.strip() for c in body.split("|") if c.strip()]
+                unit["opt_cells"] = [c.rstrip() for c in body.split("|") if c.strip()]  # 開頭空白保留（003 §4）
             units.append(unit)
     for line in open(f"{src}/SCROLLS.tsv", encoding="utf-8"):
         n, text = line.rstrip("\n").split("\t", 1)
