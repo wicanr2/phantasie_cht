@@ -24,6 +24,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import catalog_lib as cl  # noqa: E402
 
 BLANK = "<blank>"
+GENERIC = {"Exit", "Option", "Bank", "Inn", "Guild", "Armory"}
+
+
+def is_centered(u, i):
+    """置中判斷（docs/spec/003 §8）：卷軸前兩行（標題）；訊息行兩端空白都至少 1 且（差不超過 2 或含 --）。"""
+    if u["kind"] == "scroll":
+        return i < 2
+    lead, trail = u.get("lead", [0] * 99)[i], u.get("trail", [0] * 99)[i]
+    return lead >= 1 and trail >= 1 and (abs(lead - trail) <= 2 or "--" in u["lines"][i])
 
 
 def key_of(line: str) -> str:
@@ -107,34 +116,38 @@ def main():
             en_all = " ".join(u["lines"] + u.get("opt_cells", []))
             zh_all = "".join(zh + oz)
             for en_term, zh_term in glossary:
+                if en_term in GENERIC:
+                    continue  # 一般詞（Exit 等）在敘事裡常作動詞，不檢查
                 if re.search(r"(?<![A-Za-z])" + re.escape(en_term) + r"S?(?![A-Za-z])", en_all, re.I) and zh_term not in zh_all:
                     problems.append(f"{where}: 原文含 {en_term}，譯文應含「{zh_term}」")
                     bad = True
             if not bad:
                 got[uid] = t
-    rows, conflicts, seen = [], [], {}
+    rows, conflicts, seen = [], [], {}  # seen[k] = rows 內的位置
+
+    def add(k, tr, src):
+        """同一鍵有不同譯文時取顯示寬度較小者（較不易超寬），列為衝突待人工確認。"""
+        if k not in seen:
+            seen[k] = len(rows)
+            rows.append((k, tr, src))
+            return
+        old = rows[seen[k]]
+        if old[1] != tr:
+            conflicts.append(f"{k} {old[2]} 與 {src}: 譯文不同，取顯示寬度較小者")
+            if cl.width_h(tr.removeprefix("\\c")) < cl.width_h(old[1].removeprefix("\\c")):
+                rows[seen[k]] = (k, tr, old[2])
+
     for uid, t in got.items():
         u = units[uid]
         for i, (en, zh) in enumerate(zip(u["lines"], t["zh"])):
             if not en.strip():
                 continue
-            k = key_of(en)
-            tr = zh.rstrip(" ") if zh.strip() else BLANK
-            if k in seen:
-                if seen[k][0] != tr:
-                    conflicts.append(f"{k} {seen[k][1]} 與 {uid}#{i}: 譯文不同")
-                continue
-            seen[k] = (tr, f"{uid}#{i}")
-            rows.append((k, tr, f"{uid}#{i}"))
+            tr = zh.strip(" ") if zh.strip() else BLANK
+            if tr != BLANK and is_centered(u, i):
+                tr = "\\c" + tr
+            add(key_of(en), tr, f"{uid}#{i}")
         for j, (en, zh) in enumerate(zip(u.get("opt_cells", []), t.get("opt_zh", []))):
-            k = key_of(en)
-            tr = zh.strip()
-            if k in seen:
-                if seen[k][0] != tr:
-                    conflicts.append(f"{k} {seen[k][1]} 與 {uid}/opt{j}: 譯文不同")
-                continue
-            seen[k] = (tr, f"{uid}/opt{j}")
-            rows.append((k, tr, f"{uid}/opt{j}"))
+            add(key_of(en), zh.strip(), f"{uid}/opt{j}")
     rows.sort()
     cl.write_tsv(a.out, rows)
     lines_total = sum(1 for u in units.values() for l in u["lines"] if l.strip())

@@ -20,6 +20,12 @@ def rstrip_nul(s: str) -> str:
     return s.replace("~", " ").rstrip()
 
 
+def spaces(s: str):
+    """原始行（NUL 視為空白）的開頭與尾端空白數，供置中判斷（docs/spec/003 §8）。"""
+    raw = s.replace("~", " ")
+    return len(raw) - len(raw.lstrip(" ")), len(raw) - len(raw.rstrip(" "))
+
+
 def main():
     src, out = sys.argv[1], sys.argv[2]
     per = int(sys.argv[3]) if len(sys.argv) > 3 else 25
@@ -33,7 +39,7 @@ def main():
                 continue  # 空白行與流程標記（含控制字元，例如結束序列）不是文字
             if kind == "short":
                 continue  # L < 40 的短訊息內嵌選項，事件形式待量測（docs/spec/003 §11 第 2 項）
-            unit = {"id": f"mess{n}:{idx}", "kind": kind, "len": int(length), "lines": lines, "opt": None, "opt_cells": []}
+            unit = {"id": f"mess{n}:{idx}", "kind": kind, "len": int(length), "lines": lines, "opt": None, "opt_cells": [], "lead": [spaces(x)[0] for x in text.split("|")], "trail": [spaces(x)[1] for x in text.split("|")]}
             if opt:
                 cnt, _, body = opt.partition(":")
                 unit["opt"] = body
@@ -45,7 +51,8 @@ def main():
         while lines and not lines[-1]:
             lines.pop()
         if lines:
-            units.append({"id": f"scroll{n}", "kind": "scroll", "len": 0, "lines": lines, "opt": None, "opt_cells": []})
+            raws = text.split("|")[:len(lines)]
+            units.append({"id": f"scroll{n}", "kind": "scroll", "len": 0, "lines": lines, "opt": None, "opt_cells": [], "lead": [spaces(x)[0] for x in raws], "trail": [spaces(x)[1] for x in raws]})
     os.makedirs(f"{out}/batches", exist_ok=True)
     with open(f"{out}/prose-units.jsonl", "w", encoding="utf-8") as f:
         for u in units:
