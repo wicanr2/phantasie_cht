@@ -1,0 +1,84 @@
+# 武器店清單捲動：建立並加入一位隊員，進武器店，選人後在購物清單按 Down 六次與 Up 四次。
+# 清單超出視窗時原版發出 INT 10h AH=06h AL=1（上捲）與 AH=07h AL=1（下捲）；
+# 同一條路線供 dosgolem 規格 250 的同狀態收據使用（tools/cga_scroll_replay.py）。
+# 涵蓋：城鎮選單列、公會建立與加入隊員、武器店選人視窗、購物清單與捲動。
+Return
+Return
+Return
+Return
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Up
+Return
+Return
+Esc
+Left
+Left
+Return
+Return
+@check ws-items
+@expect %-11.10sGP:%-6u
+@expect %s is shopping
+@expect Armory
+@expect Bank
+@expect CLOTHING
+@expect Cash ->
+@expect Exit
+@expect Guild
+@expect Inn
+@expect KNIFE
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PTS:%d
+@expect SM SHIELD
+Down
+Down
+Down
+Down
+Down
+Down
+@check ws-down6
+@expect %-11.10sGP:%-6u
+@expect %s is shopping
+@expect Armory
+@expect Bank
+@expect Cash ->
+@expect Exit
+@expect Guild
+@expect Inn
+@expect MACE
+@expect MAGIC 1
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PTS:%d
+@expect SCROLL 8
+Up
+Up
+Up
+Up
+@check ws-up4
+@expect %-11.10sGP:%-6u
+@expect %s is shopping
+@expect Armory
+@expect Bank
+@expect CLOTHING
+@expect Cash ->
+@expect DAGGER
+@expect Exit
+@expect Guild
+@expect Inn
+@expect KNIFE
+@expect MACE
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PTS:%d
+@expect SM SHIELD
