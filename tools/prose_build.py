@@ -82,6 +82,9 @@ def main():
                     problems.append(f"{where}#{i}: 不是字串")
                     bad = True
                     continue
+                if line.strip() and not u["lines"][i].strip():
+                    problems.append(f"{where}#{i}: 原文是空白行，譯文不得放文字（不會被顯示）")
+                    bad = True
                 if any(ord(c) < 0x20 for c in line):
                     problems.append(f"{where}#{i}: 含控制字元")
                     bad = True
@@ -93,8 +96,16 @@ def main():
                         if ord(ch) not in cps:
                             problems.append(f"{where}#{i}: 字型缺字 U+{ord(ch):04X} {ch}")
                             bad = True
-            en_all = " ".join(u["lines"])
-            zh_all = "".join(zh)
+            oz = t.get("opt_zh", [])
+            if len(oz) != len(u.get("opt_cells", [])) or any(not isinstance(x, str) or not x.strip() for x in oz):
+                problems.append(f"{where}: opt_zh 數量 {len(oz)} 與選項 {len(u.get('opt_cells', []))} 不同或有空白")
+                continue
+            for j, x in enumerate(oz):
+                if cl.width_h(x.strip()) > 22:
+                    problems.append(f"{where}: 選項 {j} 寬度超過 22h（11 格）")
+                    bad = True
+            en_all = " ".join(u["lines"] + u.get("opt_cells", []))
+            zh_all = "".join(zh + oz)
             for en_term, zh_term in glossary:
                 if re.search(r"(?<![A-Za-z])" + re.escape(en_term) + r"S?(?![A-Za-z])", en_all, re.I) and zh_term not in zh_all:
                     problems.append(f"{where}: 原文含 {en_term}，譯文應含「{zh_term}」")
@@ -115,6 +126,15 @@ def main():
                 continue
             seen[k] = (tr, f"{uid}#{i}")
             rows.append((k, tr, f"{uid}#{i}"))
+        for j, (en, zh) in enumerate(zip(u.get("opt_cells", []), t.get("opt_zh", []))):
+            k = key_of(en)
+            tr = zh.strip()
+            if k in seen:
+                if seen[k][0] != tr:
+                    conflicts.append(f"{k} {seen[k][1]} 與 {uid}/opt{j}: 譯文不同")
+                continue
+            seen[k] = (tr, f"{uid}/opt{j}")
+            rows.append((k, tr, f"{uid}/opt{j}"))
     rows.sort()
     cl.write_tsv(a.out, rows)
     lines_total = sum(1 for u in units.values() for l in u["lines"] if l.strip())

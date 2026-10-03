@@ -10,9 +10,25 @@ key	translation	source
  Transfer characters from backup disk	 從備份磁片轉入角色	res:0C37
  Transfer characters to backup disk	 將角色轉出到備份磁片	res:0C13
  WATER	 水	res:2FB2
+%-10.9s%-5.4sHAS%6u GP	%-10.9s%-5.4s持有%6u 金幣	res:0CC4
+%-10.9s%-6.5sHP%4d/%-4dMP%3d/%-3d	%-10.9s%-6.5s生命%4d/%-4d魔力%3d/%-3d	ov2:BD7D
+%-10.9s%-6.5sHP%4d/%-4dMP%3d/%d	%-10.9s%-6.5s生命%4d/%-4d魔力%3d/%d	ov2:C170
 %-10.9s%-9.8s%-9.8s%-5s	%-10.9s%-9.8s%-9.8s%-5s	res:0CA7
+%-10.9s%c HP%4d/%-4dA:%d MP%3d/%d	%-10.9s%c 生命%4d/%-4d甲:%d 魔力%3d/%d	ov2:BDB1
+%-10.9sAVOIDS THE TRAP	%-10.9s避開了陷阱	ov2:BC0A;ov2:BC45
+%-10.9sDIES	%-10.9s死亡	ov2:BA8E;ov2:BC21;ov2:C2B3
+%-10.9sGAINS MORE MAGIC	%-10.9s魔力增加了	ov2:C257
+%-10.9sHP:%-4.3dMP:%-3d	%-10.9s生命:%-4.3d魔力:%-3d	ov2:C2EB
+%-10.9sIS CHANGED	%-10.9s發生了變化	ov2:C239
+%-10.9sIS RESTING	%-10.9s休息中	ov2:C26F
+%-10.9sSINKS AND TAKES %-3d DAMAGE	%-10.9s下沉並受到 %-3d 點傷害	ov2:C2BF
+%-10.9sSWIMS	%-10.9s游泳	ov2:C2A6
+%-10.9sTAKES %-3d DAMAGE	%-10.9s受到 %-3d 點傷害	ov2:BA9A
+%-10.9sTAKES %-3dDAMAGE	%-10.9s受到 %-3d 點傷害	ov2:BC2D
 %-10s IS RESTING	%-10s 休息中	ov1:C118
 %-10s:%3d %c%s	%-10s:%3d %c%s	ov1:BC72
+%-11.10sGP:%-6u	%-11.10s金幣:%-6u	ov1:BCC5
+%-13.12sPTS:%-2u	%-13.12s點數:%-2u	res:2F28
 %-23s%10u	%-23s%10u	ov1:BE14
 %-2d%-11.9s%-4.3s%4d%4d%4d%4d	%-2d%-11.9s%-4.3s%4d%4d%4d%4d	ov1:BE2F
 %-3uhl potions	%-3u 治療藥水	res:2F39

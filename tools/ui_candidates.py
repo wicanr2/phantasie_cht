@@ -29,7 +29,7 @@ def plausible(s: str) -> bool:
     sym = sum(not (c.isalnum() or c == " ") for c in t)
     if sym * 2 > len(t) and "%" not in t:
         return False
-    words = re.findall(r"[A-Za-z]+", t)
+    words = re.findall(r"[A-Za-z]+", re.sub(r"%[-0-9.]*l?[sdcu]", " ", t))
     has_vowel_word = any(re.search(r"[AEIOUaeiou]", w) and len(w) >= 2 for w in words)
     if not has_vowel_word and "%" not in t:
         return False
