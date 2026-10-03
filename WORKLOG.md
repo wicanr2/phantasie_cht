@@ -18,3 +18,10 @@
 - 傾印 LZEXE 解壓後映像（117,232 bytes，兩次執行雜湊相同），以 IDA 9.4 靜態盤點。IDA 的預設 DS 必須設為 DGROUP `0DAF`，否則 `main` 不會被解碼。結果見 `docs/re/003-ida-static-survey.md`。
 - `-queue` 串跑可以走到 `PHANTASI.EXE` 並切到模式 04h，但 `.COM` 沒有常駐，`IBMCOVER` 被讀到 `PHANTASI.EXE` 自己的 PSP 上，之後的觀察一律無效，已在 `002` 標明。
 - 工具腳本：`tools/ida/ida.sh`（巢狀掛載目標先由本人建立，避免 dockerd 以 root 建出空目錄）、`tools/ida/export_survey.py`。
+
+## 2026-10-03：push、Issue、spec 197、overlay 盤點
+
+- 使用者授權 push 與建立 Issue，並設定總目標「使用 dosgolem 完成幽靈戰士中文化」。推送 `main`（`aab21b2`）；建立 Issue #1 至 #4（`INT 27h`、重跑序列、overlay 建庫、字串來源）。
+- dosgolem 分支新增 commit `a8bdd6e`：spec 197（`int 27h`，DRAFT）。依 `AGENTS.md` §4 以兩個不同角度的唯讀子代理審查：契約對程式、資料對證據。
+- overlay 靜態盤點：標頭格式與載入器語意見 `docs/re/004-overlay-format.md`。`tools/ida/compose_overlay.py` 把 overlay 疊到常駐映像上，`tools/ida/ida.sh overlay` 建庫。
+- overlay 內沒有 `INT`、視訊段常數或埠操作，繪字路徑在常駐程式碼。

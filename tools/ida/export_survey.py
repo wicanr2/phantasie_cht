@@ -20,15 +20,23 @@ import ida_ua
 import idautils
 import idc
 
+# 用法：export_survey.py <輸出目錄> <映像> [標籤 [進入點偏移 [種子範圍起 [種子範圍迄]]]]
+# 偏移一律是映像偏移（CS=0110 的偏移），十六進位。預設是常駐映像。
 OUT = sys.argv[1]
 BIN = sys.argv[2]
+LABEL = sys.argv[3] if len(sys.argv) > 3 else "resident"
 
 # 進入點 0110:4EE5，由 dosgolem probe -seg-log 取得（#266847 10D4:00F8 → 0110:4EE5）。
 # IDA 線性位址 = 載入段 0110 * 16 + 偏移。
 BASE = 0x1100
-ENTRY = BASE + 0x4EE5
+ENTRY = BASE + (int(sys.argv[4], 16) if len(sys.argv) > 4 else 0x4EE5)
+# 序言種子的掃描範圍（映像偏移）。常駐映像預設為整個程式碼區；overlay 為其程式碼段落。
+SEED_LO = BASE + (int(sys.argv[5], 16) if len(sys.argv) > 5 else 0)
+SEED_HI = BASE + (int(sys.argv[6], 16) if len(sys.argv) > 6 else 0xC9F0)
 # DGROUP 段值：進入點的第一道指令 `mov bp, 0DAFh`（sub_5FE5）與 probe 的 DS=0DAF 一致。
 DGROUP = 0x0DAF
+SURVEY_JSON = "/survey.json" if LABEL == "resident" else "/survey_%s.json" % LABEL
+ASM_NAME = "/phantasi.asm" if LABEL == "resident" else "/%s.asm" % LABEL
 
 result = {"errors": []}
 
@@ -83,6 +91,10 @@ def fix_bitness_and_seed():
     ok_insn = ida_ua.create_insn(ENTRY)
     ok_func = ida_funcs.add_func(ENTRY)
     result["seed"] = {"entry": ENTRY, "create_insn": ok_insn, "add_func": bool(ok_func)}
+    if LABEL != "resident":
+        # overlay：程式碼段落的第一個位元組也是函式（標頭只給入口，不給全部的函式表）。
+        ok2 = ida_ua.create_insn(SEED_LO) and ida_funcs.add_func(SEED_LO)
+        result["seed"]["code_start"] = {"ea": SEED_LO, "ok": bool(ok2)}
     ida_auto.auto_wait()
 
 
@@ -101,11 +113,11 @@ def seed_prologues():
     這是啟發式種子：序言位元組也可能出現在資料裡，所以只收 IDA 能建出函式的。
     """
     result["functions_entry_reach"] = function_list()
-    code_end = DGROUP * 16
+    lo, hi = SEED_LO, SEED_HI
     seg = ida_segment.get_first_seg()
     tried = ok = 0
-    ea = seg.start_ea
-    while ea < min(code_end, seg.end_ea - 3):
+    ea = max(seg.start_ea, lo)
+    while ea < min(hi, seg.end_ea - 3):
         b = ida_bytes.get_bytes(ea, 3)
         if b in (b"\x55\x8b\xec", b"\x55\x89\xe5") and not ida_funcs.get_func(ea):
             tried += 1
@@ -221,7 +233,7 @@ def counts():
 
 
 def write_json():
-    with open(OUT + "/survey.json", "w", encoding="utf-8") as f:
+    with open(OUT + SURVEY_JSON, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=1)
 
 
@@ -240,7 +252,7 @@ def main():
 
     def gen_asm():
         seg = ida_segment.get_first_seg()
-        r = idc.gen_file(idc.OFILE_ASM, OUT + "/phantasi.asm", seg.start_ea, seg.end_ea, 0)
+        r = idc.gen_file(idc.OFILE_ASM, OUT + ASM_NAME, seg.start_ea, seg.end_ea, 0)
         result["gen_asm_return"] = r
 
     guard("gen_asm", gen_asm)
