@@ -43,24 +43,24 @@ key	translation	source
 %d gold	%d 金幣	ov1:C0E0
 %d. %d	%d. %d	ov2:C1EC
 %d. %s	%d. %s	ov2:C21E
-%ld XP AND %ld GP	%ld 經驗與 %ld 金幣	ov2:BCF3
+%ld XP AND %ld GP	\c%ld 經驗與 %ld 金幣	ov2:BCF3
 %ld XP.	%ld 經驗。	ov1:C215
 %ld more	還差 %ld	ov1:C0AA
 %s %s	%s %s	ov2:BBBC;ov2:BC5C
 %s AWAKENS	%s 醒來了	ov2:B8F0;ov2:B9A8
 %s BREATHES	%s 噴出氣息	ov2:BA0A
 %s CASTS A SPELL	%s 施放法術	ov2:B8FB;ov2:BA16
-%s DIES	%s 死亡	ov2:B9DB;ov2:BA02
+%s DIES	\c%s 死亡	ov2:B9DB;ov2:BA02
 %s HEARS MONSTERS	%s 聽到怪物的聲音	ov2:C3B8
-%s HITS	%s 命中	ov2:B963;ov2:B975
+%s HITS	\c%s 命中	ov2:B963;ov2:B975
 %s IS HEALED	%s 被治療	ov2:B90C
-%s IS ON WATCH	%s 在警戒	ov2:C362;ov2:C371
+%s IS ON WATCH	\c%s 在警戒	ov2:C362;ov2:C371
 %s IS RESURRECTED	%s 復活了	ov1:BD76;ov2:B9B4
 %s IS SLEPT	%s 睡著了	ov2:B9E3;ov2:BA58
-%s MISSES	%s 未命中	ov2:B96B;ov2:B99E
+%s MISSES	\c%s 未命中	ov2:B96B;ov2:B99E
 %s SPOTS AN ITEM	%s 發現物品	ov2:BD18
-%s TAKES %d DAMAGE	%s 受到 %d 點傷害	ov2:B9C8;ov2:B9EF
-%s YOU HAVE BEEN %s	%s 你已%s	ov1:BB3F
+%s TAKES %d DAMAGE	\c%s 受到 %d 點傷害	ov2:B9C8;ov2:B9EF
+%s YOU HAVE BEEN %s	\c%s 你已%s	ov1:BB3F
 %s YOUR STATUS IS UNDEAD	%s 你的狀態是不死族	ov1:BB1A
 %s has aged	%s 老了	ov1:BC8D
 %s has died	%s 死了	ov1:BC81
@@ -87,7 +87,7 @@ AGREE	同意	res:09B1
 ALL DATA ON YOUR GAME DISK WILL BE RESET	遊戲磁片上的所有資料都會被重設	ov1:C2D0
 AN EXIT. TAKE IT?	一個出口。要離開嗎？	res:0BA7
 AN INN. ENTER?	一間旅店。要進入嗎？	res:0AC5
-AND HEARS THE MONSTERS	並聽到怪物的聲音	ov2:C380
+AND HEARS THE MONSTERS	\c並聽到怪物的聲音	ov2:C380
 APPLETON	艾普頓	TWNS.DAT:05A3
 APPRENTICE DEVIL	見習惡魔	res:1D18
 ARMOR	護甲	ov2:BDEC
@@ -262,7 +262,7 @@ HEALING II	治療 II	res:17CF
 HEALING III	治療 III	res:17DA
 HEALING IV	治療 IV	res:17E6
 HEALING10	治療10	res:1401
-HEALTH REPORT:	健康報告：	ov2:BD6E
+HEALTH REPORT:	\c健康報告：	ov2:BD6E
 HEARS MONSTERS. GO BACK ?	聽到怪物聲。要退回嗎？	ov2:BBA2
 HIGH DEMON	高階惡魔	res:27C8
 HIGH DEVIL	高階魔鬼	res:2801
@@ -302,7 +302,7 @@ LEATHER	皮甲	res:1105
 LEATHER+1	皮甲+1	res:1162
 LEATHER+2	皮甲+2	res:116C
 LEAVE	離開	res:0A50
-LEAVING %s	離開 %s	ov1:C284
+LEAVING %s	\c離開 %s	ov1:C284
 LEVEL%3u %s %s %s	等級%3u %s %s %s	res:2FC1
 LIZ.MAN	蜥蜴人	res:1721
 LIZARD MAN	蜥蜴人	res:218C
@@ -550,7 +550,7 @@ Supreme Beings.	至高存在。	ov1:BF5A
 TELEPORTATION	瞬間移動	res:19C5
 THAT IS THE OCEAN	那是海洋	ov2:C1A9
 THAT IS THE WALL	那是牆壁	ov2:BA73
-THE GREAT DEMON APPEARS AND SPEAKS:	大惡魔現身並說道：	ov1:BBA9
+THE GREAT DEMON APPEARS AND SPEAKS:	\c大惡魔現身並說道：	ov1:BBA9
 THE INN	旅店	ov1:C110
 THE PARTY GETS SOME GOLD	隊伍得到一些金幣	ov2:BACB
 THE PARTY IS MOVED	隊伍被移動了	ov2:BAFF
@@ -623,11 +623,11 @@ Withdraw	提款	res:09BB
 YES	是	res:098A;res:0AC1;res:0AD4;res:0B7C;res:0BA0
 YOU CAN'T AFFORD IT.	你買不起。	ov2:C281
 YOU FIND %s. KEEP IT?	你找到 %s。要留下嗎？	ov2:BD29
-YOU HAVE ARRIVED AT THE ASTRAL PLANE	你已抵達星界	ov1:BB84
+YOU HAVE ARRIVED AT THE ASTRAL PLANE	\c你已抵達星界	ov1:BB84
 YOU HEAR A NOISE IN THE DISTANCE	你聽到遠處有聲響	ov2:BB14
 YOU SPOT SLEEPING MONSTERS!	你發現沉睡的怪物！	res:0A2D
 YOU SURPRISE THEM !	你讓他們吃了一驚！	ov2:C3CA
-YOUR PARTY HAS BEEN DEFEATED	你的隊伍被擊敗了	ov1:BB5D
+YOUR PARTY HAS BEEN DEFEATED	\c你的隊伍被擊敗了	ov1:BB5D
 You  will  learn  later  how  to  use it	你以後會學到如何使用它	ov1:B9D7
 You are trained.	你受過訓練了。	ov1:C0FF
 You can learn %d more spells.	你還可以學 %d 個法術。	ov1:C036
