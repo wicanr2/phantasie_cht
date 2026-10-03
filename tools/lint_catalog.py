@@ -21,6 +21,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import catalog_lib as cl  # noqa: E402
 
 EDGE_TOLERANCE_H = 2
+# 一般詞：在句子裡常作動詞或普通名詞，詞表只在鍵恰為該詞時強制（日文、韓文的活用與詞序使「含譯詞」的檢查不適用）
+GENERIC = {"exit", "option", "bank", "inn", "guild", "armory"}
 
 
 def font_codepoints(tar_path, member):
@@ -155,6 +157,8 @@ def main():
             # 術語（只涵蓋 ui）
             if glossary and fam == "ui":
                 for en_term, zh_term in glossary:
+                    if en_term.lower() in GENERIC and key.strip().lower() != en_term.lower():
+                        continue
                     if re.search(r"(?<![A-Za-z])" + re.escape(en_term) + r"(?![A-Za-z])", key, re.I) and zh_term not in body:
                         errors.append(f"{where}: 術語 {en_term} 應含「{zh_term}」")
     # ui 與 prose 同一規範化文字同時有非空譯文：譯文不同為錯誤（ui 優先，但兩處不一致表示維護錯誤），相同為警告
