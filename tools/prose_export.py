@@ -31,24 +31,35 @@ def main():
             lines = [rstrip_nul(x) for x in text.split("|")]
             if not any(lines) or any("\\x" in l for l in lines):
                 continue  # 空白行與流程標記（含控制字元，例如結束序列）不是文字
-            units.append({"id": f"mess{n}:{idx}", "kind": kind, "len": int(length), "lines": lines,
-                          "opt": rstrip_nul(opt) if opt else None})
+            if kind == "short":
+                continue  # L < 40 的短訊息內嵌選項，事件形式待量測（docs/spec/003 §11 第 2 項）
+            unit = {"id": f"mess{n}:{idx}", "kind": kind, "len": int(length), "lines": lines, "opt": None, "opt_cells": []}
+            if opt:
+                cnt, _, body = opt.partition(":")
+                w = 11 if int(cnt) <= 7 else 3
+                body = body.replace("~", " ")
+                unit["opt"] = body.rstrip()
+                unit["opt_cells"] = [body[i * w:(i + 1) * w].strip() for i in range(int(cnt) - 1) if body[i * w:(i + 1) * w].strip()]
+            units.append(unit)
     for line in open(f"{src}/SCROLLS.tsv", encoding="utf-8"):
         n, text = line.rstrip("\n").split("\t", 1)
         lines = [rstrip_nul(x) for x in text.split("|")]
         while lines and not lines[-1]:
             lines.pop()
         if lines:
-            units.append({"id": f"scroll{n}", "kind": "scroll", "len": 0, "lines": lines, "opt": None})
+            units.append({"id": f"scroll{n}", "kind": "scroll", "len": 0, "lines": lines, "opt": None, "opt_cells": []})
     os.makedirs(f"{out}/batches", exist_ok=True)
     with open(f"{out}/prose-units.jsonl", "w", encoding="utf-8") as f:
         for u in units:
             f.write(json.dumps(u, ensure_ascii=False) + "\n")
-    # 卷軸每卷最多 20 行，單獨成批，其餘按單位數分批
-    batches, cur = [], []
+    # 卷軸每 4 卷成一批（每卷最多 20 行），訊息按單位數分批
+    batches, cur, scrolls = [], [], []
     for u in units:
         if u["kind"] == "scroll":
-            batches.append([u])
+            scrolls.append(u)
+            if len(scrolls) == 4:
+                batches.append(scrolls)
+                scrolls = []
             continue
         cur.append(u)
         if len(cur) >= per:
@@ -56,6 +67,8 @@ def main():
             cur = []
     if cur:
         batches.append(cur)
+    if scrolls:
+        batches.append(scrolls)
     for i, b in enumerate(batches, 1):
         with open(f"{out}/batches/batch-{i:03d}.jsonl", "w", encoding="utf-8") as f:
             for u in b:

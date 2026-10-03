@@ -29,7 +29,9 @@
 
 建置：`tools/build_font.py --tar <unifont 壓縮檔> --member <hex> --chars <字元來源>... --out <golemfnt>`（Docker 內執行）。字元來源：該語言所有 catalog 的 `translation` 欄，加 `font/<lang>.extra.txt`（手動補的標點與符號）。ASCII `20h` 至 `7Eh` 一律收入。缺任何要求的字就以非零離開；不為遷就缺字而改譯文（`AGENTS.md` §6）。字型檔不進版控，只提交 `font/<lang>.extra.txt` 與 `font/README.md`（來源、版本、雜湊、重建指令）。
 
-字型名稱：`full16-<lang>`（寫入 `Font.Name`），`Layer.FontRegistry` 與 `Layer.Restore` 以此名稱換回指標。
+字型名稱：`full16-<lang>`（寫入 `Font.Name`，必須非空），`Layer.FontRegistry` 與 `Layer.Restore` 以此名稱換回指標。
+
+字型寬度表：`tools/build_font.py` 依 Unifont hex 的行長決定每個字是全形（32 bytes 位元圖，16 px 寬）或半形（16 bytes，8 px 寬），寫入 GOLEMFNT 每字的 `source` 位元組（bit 7 為 1 是全形，低 7 位元是來源編號，Unifont 為 1）。`xlate.ParseFont` 不解讀該位元組，adapter 以自己的檔頭解析讀出 `wide(r)` 表。`001` §6、`003` §7 與 lint 都查同一張表；沒有收入字型的字元視為缺字。以碼點範圍判定全形並不可靠：本機 Unifont 的 `U+2026`、`U+2460`、`U+2606` 是 16 px 寬。
 
 缺字的執行期處理：`Layer.Draw` 對缺字的 rune 呼叫 `missing`，字模不畫（計入 `missing_glyph`）。發行前 lint 與建置保證 `missing_glyph = 0`。
 
@@ -48,7 +50,7 @@
 
 資料結構：
 
-- 每個事件產生一筆 `EventRecord`：`Format`、`Text`、`Col`、`Row`、原文寬度（格）、已解析的引數（類型、數值或字串）。編號 `g<N>`，作為該事件所有疊字的 `Stamp.Key`。
+- 每個事件有一筆 `EventRecord`（`001` §3.3：`Format`、`Text`、`Col`、`Row`、`Args`、已擷取的 `%s` 字串、組句關聯）。編號 `g<N>` 作為該事件所有疊字的 `Stamp.Key`；解析只用 `EventRecord`，不再讀原版記憶體，所以語言切換時原版記憶體已變也能重建。
 - `records map[string]*EventRecord`：保留被 `Layer` 或 `known` 中任一疊字引用的記錄；每次切換與每 256 個事件掃描一次，移除沒被引用的記錄；上限 4096 筆，超過時最舊的優先移除（移除後該疊字在下次切換時無法重建，改為移除該疊字並計入 `rebuild_lost`）。
 
 切換流程（單執行緒，在 `RunUntil` 返回之間）：

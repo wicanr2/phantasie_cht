@@ -1,6 +1,6 @@
 # 005 遊玩前端與同狀態驗收
 
-狀態：DRAFT（2026-10-03）。依賴 `001` 至 `004`。證據來源：`apps/phantasie/input.go`（`KeyGate`）、`oracle`（`Run`、`SendKeys`、`TypeKeys`、`Scratch`）、dosgolem 規格 237（scratch 層）。
+狀態：DRAFT 第二版（2026-10-03）。依賴 `001` 至 `004` 與 dosgolem 規格 243（CGA 圖形模式的 INT 10h 與 `oracle.CGAPalette()`）。證據來源：`apps/phantasie/input.go`（`KeyGate`）、`oracle`（`Run`、`SendKeys`、`TypeKeys`、`Scratch`）、dosgolem 規格 237（scratch 層）。
 
 ## 1. 範圍
 
@@ -14,7 +14,7 @@
 | 路線 `Return Return Up Return`（`KeyGate` 送鍵）在 60M 步內可重現「新成員、加入、離開城鎮」等流程；同一路線同一步數畫面雜湊相同，與 `Frame` 呼叫節奏無關 | `006`、本輪 `textlog -route` | 已證實（已測路線） |
 | 單一字元鍵（字母與數字）以 `oracle.TypeKeys` 進 BIOS 佇列；有名字的鍵（`Return`、`Esc`、方向鍵、`Space`、功能鍵）以 `SendKeys` | `oracle/input.go` | 已證實 |
 | 寫檔：DOS 檔案層有 `Scratch` 目錄，建立與寫入都落在該目錄，原始目錄不被修改 | `internal/dos/files.go` 的 `create`；規格 237 | 已證實（讀碼）；與本遊戲存檔流程的對應待量測 |
-| `oracle` 的 `CGA4()` 回 320×200 色號；CGA 調色盤（模式 04h 預設調色盤 1 高強度）不由 `oracle` 提供 | `oracle/oracle.go` | 已證實 |
+| `oracle` 的 `CGA4()` 回 320×200 色號；CGA 色彩選擇暫存器與 RGB 表目前不由 `oracle` 提供，dosgolem 規格 243 補 `oracle.CGAPalette()` | `oracle/oracle.go`；規格 243 | 已證實（現況） |
 | 遊戲動態量到的 INT 10h 只有 `AH=00h` 與 `AH=06h` | `002` §2 | 已證實（已測路線） |
 
 ## 3. 互動前端 `cmd/phantasie-play`
@@ -71,6 +71,8 @@
 同狀態 A/B：同一路線、同一 `-frame-every`，疊字 `on` 與 `off` 各跑一次，每個檢查點的 `steps`、`reads`、`vram_hash`、`mem_hash` 必須相同；`on` 的 2 倍畫面在疊字矩形以外必須與 `off` 逐點相同（以工具內建比較，輸出差異像素數與差異是否全在疊字矩形內）。
 
 換 `-frame-every` 重跑（例如 20,000 步與每次讀鍵入口兩種）：`vram_hash`、`mem_hash` 必須相同；`layer_hash` 與畫面在檢查點若不同，列為「對 `Frame` 節奏敏感」，需說明原因（`001` §11 第 4 項）。
+
+擷取畫面前（PNG 與疊字比較）先呼叫一次 `Layer.Frame`，使 `Pending` 疊字進入 `Shown`（`002` §8）。RGB 依 `oracle.CGAPalette()`。hook 簽章檢查（`001` §3.1）不通過時工具以非零離開並印診斷，不產生收據。
 
 缺原版檔時整個工具 SKIP 並印出原因，不算驗收。
 
