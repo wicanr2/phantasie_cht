@@ -1,0 +1,137 @@
+# 存檔與讀檔：標題選單直接 Return（游標在「繼續已存檔的遊戲」），讀入原版目錄的 DNG.SAV（全為零位元組），
+# 進入佩爾諾城鎮；在公會建立並加入一位隊員 Alice 後，開啟 Options 選單，游標預設在「存檔」。
+# 涵蓋畫面：讀檔後的城鎮、加入隊員後的城鎮、Options 選單游標在存檔、按 Return 存檔後的選單（存檔沒有任何畫面回饋）、
+# 再存一次、Esc 關閉選單、存檔後開啟銀行選單再關閉（確認存檔後其他選單與畫面照常）。
+# 收據工具沒有暫存層（寫檔不落地、不寫原版目錄），所以存檔後無法在同一條路線讀回，
+# 路線只驗證存檔動作前後畫面無殘字與疊字完整。
+# @known-untranslated 的 ---------- 是 Options 選單的分隔線，沒有文字，不是漏譯。
+Return
+@check load-town
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Return
+Return
+Return
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Up
+Return
+Return
+Esc
+@check town-with-member
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Left
+Left
+Left
+Left
+Left
+Return
+@check opt-open
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check after-save
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check after-save-2
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Esc
+@check opt-closed
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+Right
+Return
+@check bank-menu
+@expect Armory
+@expect Bank
+@expect Deposit
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Withdraw
+@known-untranslated ----------
+Esc
+@check bank-closed
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------

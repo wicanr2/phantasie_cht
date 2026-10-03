@@ -1,0 +1,1467 @@
+# 公會：選單九項中除 Leave 以外的功能與離開方式。
+# 建立角色：種族清單（六項游標、環狀不需要）、職業清單（六項）、屬性畫面（KEEP、PURGE 游標、PURGE 後回種族清單並重擲）、
+# 輸入名字（送出 Al 兩個字母後與全名各做一次 @check，核對輸入列的部分覆蓋），共建立三位：
+# Alice（人類、巫師）、Bob（精靈、牧師）、Carl（種族選隨機）。
+# 其他功能：Add member（名單與逐位加入）、Spells（巫師與牧師的可學法術）、Training（選人）、
+# Drop member（移除隊員）、Rename、Inspect（屬性畫面、法術清單與四個項目的游標）、Purge（刪除角色）、Leave（游標與離開）、Esc 離開。
+# 各清單與屬性畫面的游標位置會被遊戲記住（種族、職業、KEEP 或 PURGE、名單列），改動鍵序時要用 @check 確認游標位置。
+# 沒有隊員時這些功能都不會有畫面，所以每個功能都在建立並加入隊員之後進入。
+Return
+Return
+@check guild-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Return
+@check race-human
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Down
+@check race-dwarf
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Down
+@check race-elf
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Down
+@check race-hobbit
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Down
+@check race-gnome
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Down
+@check race-random
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Up
+Up
+Up
+Up
+Up
+Return
+@check class-thief
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Down
+@check class-monk
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Down
+@check class-ranger
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Down
+@check class-fighter
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Down
+@check class-priest
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Down
+@check class-wizard
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Return
+@check stats-wizard
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect KEEP
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PURGE
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Left
+@check stats-purge
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect KEEP
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PURGE
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Return
+@check race-again
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Return
+@check class-again
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Return
+@check stats-again
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect KEEP
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PURGE
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Right
+@check stats-keep
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect KEEP
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PURGE
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Return
+@check name-prompt
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INPUT NAME:
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+A
+l
+@check name-al
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INPUT NAME:
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+i
+c
+e
+@check name-alice
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INPUT NAME:
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Return
+@check created-alice
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Return
+@check race2
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Down
+Down
+@check race2-elf
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Return
+@check class2
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Up
+@check class2-priest
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect MONK
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect RANGER
+@expect THIEF
+@expect WIZARD
+@expect choose CLASS
+Return
+@check stats2
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect ELF
+@expect Exit
+@expect Guild
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect KEEP
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect PURGE
+@expect STRENGTH%8u AGE%15u
+Return
+@check name2-prompt
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect ELF
+@expect Exit
+@expect Guild
+@expect INPUT NAME:
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect STRENGTH%8u AGE%15u
+B
+o
+b
+Return
+@check created-bob
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Return
+@check race3
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Down
+Down
+Down
+@check race3-random
+@expect Armory
+@expect Bank
+@expect Choose RACE
+@expect DWARF
+@expect ELF
+@expect Exit
+@expect GNOME
+@expect Guild
+@expect HALFLING
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect RANDOM
+Return
+@check class3
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect choose CLASS
+Up
+@check class3-fighter
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect choose CLASS
+Return
+@check stats3
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect KEEP
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PURGE
+@expect STRENGTH%8u AGE%15u
+Return
+C
+a
+r
+l
+Return
+@check created-carl
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Up
+Return
+@check add-list
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO ADD?
+@expect WIZARD
+Return
+@check add-after1
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO ADD?
+Return
+@check add-after2
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect WHOM DO YOU WANT TO ADD?
+Esc
+@check add-esc
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Up
+Up
+Return
+@check spells-pick
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO WILL LEARN?
+@expect WIZARD
+Return
+@check spells-alice
+@expect Armory
+@expect Available spells:
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect QUICKNESS I
+@expect The cost is %d GP.
+@expect You can learn %d more spells.
+Return
+@check spells-learn-alice
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO WILL LEARN?
+@expect WIZARD
+Down
+Return
+@check spells-bob
+@expect AWAKEN
+@expect Armory
+@expect Available spells:
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect The cost is %d GP.
+@expect VISION
+@expect You can learn %d more spells.
+Return
+@check spells-learn-bob
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO WILL LEARN?
+@expect WIZARD
+Esc
+@check spells-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Down
+Return
+@check train-pick
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO IS GOING TO BE TRAINED?
+@expect WIZARD
+Return
+@check train-alice
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO IS GOING TO BE TRAINED?
+@expect WIZARD
+Esc
+@check train-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Down
+Down
+Down
+Return
+@check remove-pick
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO DROP?
+@expect WIZARD
+Return
+@check remove-after1
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect WHOM DO YOU WANT TO DROP?
+@expect WIZARD
+Esc
+@check remove-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Up
+Up
+Return
+@check readd-list
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO ADD?
+Return
+@check readd-after
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect WHOM DO YOU WANT TO ADD?
+Esc
+@check readd-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Down
+Down
+Down
+Return
+@check rename-pick
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO NEEDS RENAMING?
+@expect WIZARD
+Return
+@check rename-prompt
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect INPUT NAME:
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO NEEDS RENAMING?
+@expect WIZARD
+R
+e
+@check rename-re
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect INPUT NAME:
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO NEEDS RENAMING?
+@expect WIZARD
+x
+Return
+@check rename-after
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHO NEEDS RENAMING?
+@expect WIZARD
+Esc
+@check rename-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Down
+Return
+@check inspect-pick
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO INSPECT?
+@expect WIZARD
+Return
+@check inspect-alice
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Up
+@check inspect-cursor-spells
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Return
+@check inspect-spells
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIREFLASH I
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect SPELLS AVAILABLE:
+Esc
+@check inspect-back
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Right
+@check inspect-cursor-equip
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Down
+@check inspect-cursor-potions
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Left
+@check inspect-cursor-skills
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Esc
+@check inspect-list
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO INSPECT?
+@expect WIZARD
+Esc
+@check inspect-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Down
+Return
+@check delete-pick
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO PURGE?
+@expect WIZARD
+Down
+Down
+@check delete-cursor-carl
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect ORC
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO PURGE?
+@expect WIZARD
+Return
+@check delete-after
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect ELF
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect PRIEST
+@expect WHOM DO YOU WANT TO PURGE?
+@expect WIZARD
+Esc
+@check delete-menu
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Down
+@check leave-cursor
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Return
+@check leave-closed
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Return
+@check guild-reopen
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Esc
+@check guild-esc
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR

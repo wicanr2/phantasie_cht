@@ -196,18 +196,20 @@ type Result struct {
 每次 `Layer.Frame` 之後，對本次由 `Pending` 轉為 `Shown` 的疊字所屬的每個事件組（`Key` 相同）執行 `recolor`：
 
 1. 像素集 = 該組全部疊字的非透明格範圍，與事件矩形相交。空白字元（`Text[k] = 20h`）全是背景像素，照算。
-2. `bgIdx` = 背景直方圖的眾數，`fgIdx` = 前景直方圖的眾數（平手取較小色號）。
+2. `bgIdx` = 背景直方圖的眾數，`fgIdx` = 前景直方圖的眾數（平手取較小色號）。整組眾數的底與墨同色時（事件內有一部分格被反白，兩種狀態的像素數接近），改取各格自己的 (底, 墨) 色號配對中最多的一組（同數取最左格者）；最多數配對與其對調配對合計要涵蓋至少一半有墨的格（底與墨同色的格不計），否則視為沒有可靠的組色，走步驟 3 末項與步驟 5。
 3. **有效性閘門**（只對 `restoreShadow` 產生的 `Pending` 疊字執行，`002` §4）：畫面已不是原文的格要標透明，因為影子還原時畫面可能已被圖形蓋過，指紋偵測的基線取自當下畫面，不會再把它移除。**不對一般提交與 P 類重建執行**：新提交的疊字與畫面由構造一致；P 類的 `%c` 事件與其後的反白之間（約 450 步）畫面是暫態，閘門在這段執行會把符號格誤標透明（第四輪審查 R4-03）。閘門以原版格 `k` 為單位（不是疊字格）評估：該原版格被非透明格覆蓋的像素少於 24 個時略過（視為一致）；否則該格 `cellConsistent`：
    - 像素中 `(m = 0 且色號 = bgIdx)` 或 `(m ≠ 0 且色號 = fgIdx)` 的比例不低於 70%；
    - 且墨像素（`m ≠ 0`）不少於 6 個時，其中色號 = fgIdx 者不低於 30%（整數比較：`10 × 保留 ≥ 3 × 墨像素`）；
+   - 以上兩項的 (底, 墨) 依該格的反白狀態計：遮罩為 0 的像素中色號 = fgIdx 者多於色號 = bgIdx 者，且墨像素中色號 = bgIdx 者不少於色號 = fgIdx 者，該格是反白狀態，以對調後的 (fgIdx, bgIdx) 計。底與墨都是 fgIdx 的格（純色填滿）不算反白；
    - 全是空白字元的格要求該格同一色號像素不少於 85%。
-   - **`bgIdx = fgIdx` 的處理**（整組被空白或同色填滿時兩個眾數相同，上列比例會空成立）：若該組像素有 90% 以上是同一色號，整組視為不一致，移除（`inconsistent_groups`）；否則（例如反白前後混合）不執行閘門，退回 `xlate.Frame` 已定的色並計 `recolor_fallback`。事件全是空白字元者不適用本條。
+   - **`bgIdx = fgIdx` 的處理**（整組被空白或同色填滿時兩個眾數相同，上列比例會空成立）：若該組像素有 90% 以上是同一色號，整組視為不一致，移除（`inconsistent_groups`）；否則（沒有可靠的格配對）不執行閘門，退回 `xlate.Frame` 已定的色並計 `recolor_fallback`。事件全是空白字元者不適用本條。
    
    不一致的格標 `Transparent`，計 `inconsistent_cells`；整組全部格都標透明時移除該組疊字（`inconsistent_groups`）。門檻的依據（第四輪審查對真實 `FONT` 的實算）：停用項目變暗（`002` §5 的 `invert2`：格內第 2、4 條掃描線歸零）時，整格（95 個可印字模）配對率最差 78.1%（`#`），墨像素保留率最低 50.0%（`=`、`s`），所以 70% 與 30% 不誤判；半格最差保留率 33.3%，30% 仍可容納；「原文被空白蓋掉」的格墨像素保留為 0%，墨像素不少於 6 個者必不一致（`.` 只有 4 個墨像素，不在此列，列為已知限制）。已知限制：蓋成另一個字時有 21% 至 26% 的格漏判，稽核（`005` §5.1）以整組為單位看。
-4. `BG`、`FG` 取 `rgb` 中該色號第一次出現的位置的 RGB（與 `xlate` 的取色相同）。整組疊字（含補白段與半形段）一律用同一組 `BG`、`FG`，所以不再需要「複製第一個非單色段」的 `unifyColors`。
-5. 前景直方圖為空（事件全是空白字元）、或 `bgIdx = fgIdx` 且未被步驟 3 判為不一致（例如反白前後混合、變暗），退回 `xlate.Frame` 已定的色並計入 `recolor_fallback`。
+4. `BG`、`FG` 取 `rgb` 中該色號第一次出現的位置的 RGB（與 `xlate` 的取色相同）。同一反白狀態的疊字（含補白段與半形段）一律用同一組 `BG`、`FG`，所以不再需要「複製第一個非單色段」的 `unifyColors`；反白狀態的疊字 `BG`、`FG` 對調。
+   - **依狀態切開**：疊字第 `i` 格對應的原版格是 `(X + i × 格寬 - 事件左緣) / 8`（夾在事件範圍內）。事件內各格狀態不一致且某筆疊字橫跨兩種狀態時，把該疊字依狀態切成多片：每片的 `Text`、`X`、`Cells`、`Transparent` 是原疊字的對應子區間，狀態為 `Pending`，疊序不變，`restoreShadow` 的閘門成員資格一併帶過去。透明格沿用前一格的狀態（前導的透明格沿用第一個非透明格）。切開後 `Frame` 在同一幀內再跑一輪（最多 3 輪）讓新疊字定色，計 `recolor_split`。沒有 `Text` 與格一一對應或使用實體像素路徑的疊字不切。切開的疊字之後維持多片；語言切換與影子還原由 record 重新排版，下一個 `Frame` 依畫面再切。
+5. 前景直方圖為空（事件全是空白字元）、或 `bgIdx = fgIdx` 且沒有可靠的格配對、也未被步驟 3 判為不一致（例如變暗、整組幾乎同色），退回 `xlate.Frame` 已定的色並計入 `recolor_fallback`。
 
-遮罩與螢幕色號是函數關係（字模像素值 → 螢幕色號，每事件一個固定映射），所以反白（色號取反）後 `recolor` 自動得到對調的前景與背景，不需要追蹤反白狀態。`FONT` 在驗證點（§3.1）從 `DS:3244` 讀入 2,032 bytes 並快取，雜湊記入收據。
+遮罩與螢幕色號是函數關係（字模像素值 → 螢幕色號，每事件一個固定映射），所以反白（色號取反）後 `recolor` 自動得到對調的前景與背景，不需要追蹤反白狀態。原版對一段文字做 `invert` 時，事件可以只有一部分被反白（旅店分配畫面一列的名字與職業反白、同列數字不反白），各格狀態由畫面像素逐格判定，不依賴 `invert` 的矩形，所以影子還原重新排版後仍成立。`FONT` 在驗證點（§3.1）從 `DS:3244` 讀入 2,032 bytes 並快取，雜湊記入收據。
 
 顯示：`Layer.Draw(dst, 2, missing)`，`dst` 是原版畫面放大 2 倍的 RGBA。`Pending` 疊字在下一次 `Frame` 之前不顯示；無頭收據擷取畫面前必須先呼叫一次 `Frame`（`005`）。
 
@@ -221,7 +223,7 @@ type Result struct {
 | `translated`、`untranslated`、`untranslated_args`、`passthrough`、`protected`、`blank`、`nonprintable`、`patched`、`patch_fallback` | B 提交時（§7）。`untranslated` 與 `untranslated_args` 帶鍵集合，只收靜態字串與模板鍵，**不得含玩家輸入或資料型引數內容**（收據記呼叫端與格式字串） |
 | `composed`、`composed_miss_dest`、`composed_miss_prefix`、`composed_miss_content`、`composed_miss_percent` | A 的關聯檢查時（§3.4） |
 | `truncated`、`truncated_input`、`badformat`、`badlen`、`badarg`、`clipped` | 擷取與版面時 |
-| `straddle`、`recolor_fallback`、`inconsistent_cells`、`inconsistent_groups`、`missing_glyph`（`Draw` 的 `missing` 回呼） | 疊字與定色時（§6、§8） |
+| `straddle`、`recolor_fallback`、`recolor_split`、`inconsistent_cells`、`inconsistent_groups`、`missing_glyph`（`Draw` 的 `missing` 回呼） | 疊字與定色時（§6、§8） |
 | `unpaired`、`dup_open`、`dup_close`、`prearm`、`prearm_completion` | hook 配對（§3.2）。已測的四條路線實測：`unpaired` 0、`dup_open` 0、`dup_close` 0、`prearm` 9（設模式前觸發的 `int86`：入口 5、完成 4）、`prearm_completion` 1，作為回歸預期 |
 | `rebuild_lost`、`switch_untranslated`、`shadow_lost`、`shadow_skip` | 語言切換與影子還原（`004`、`002`） |
 | `no_rec` | `strcat` 的目的沒有 `sprintf` 記錄（載入器把 `.ovr` 追加到堆疊緩衝區等），忽略（§3.4） |
@@ -234,7 +236,7 @@ type Result struct {
 ## 10. 驗收
 
 1. 單元測試（純 Go，不需原版，期望值字面值）：事件分類（含 E、K、N、P、裁切）、半形全形切段（寬度表來自測試字型）、補白與截斷、置中、疊字欄位（`Font.Name` 缺漏回錯）、**`recolor`**（見下）、冪等去重（同引數重入忽略、任一不同記 `unpaired` 並提交上一事件；`badlen` 與 E 類事件的 B 不記 `dup_close`）、B 重複記 `dup_close`、`prearm` 期間的入口與完成不記 `dup_close`、提交時機（A 之後、B 之前 `Layer` 不變）、組句關聯（`sprintf`、`strcat` 追加、巢狀在 S 時建立、**`25A5` 的頂層 `%s` 引數指向含 `Appends` 的 `dest`**、含 `%` 的緩衝區不關聯、前綴相符記 `composed_miss_prefix`）、簽章驗證時機（視訊模式非 04h 時的 hook 被忽略並記 `prearm`）、**P 類**（實測形式：格式恆為單一 `%s`、引數指向 `+Sound ` 的事件被單字元 `-` 覆寫後，新記錄的 `Text`、`Cells`、`ArgStrs[0].Content` 同步，`Resolve` 命中 `-Sound` 的譯文，切回 `+` 命中 `+Sound`；字面事件同理；舊記錄不變；其他形式與 `Resolve` 失敗退回 `Clear`）。
-   - `recolor` 的字面期望值（合成字型，不含原版素材）：測試字型內自訂兩種字模：`heavy`（8×8 內 36 個墨點）與 `light`（10 個墨點），以它們組成的事件文字建出螢幕（墨色 3、底色 0，以及反白後墨色 0、底色 3 兩種）；期望 `fgIdx`、`bgIdx` 為字面值；對照：`xlate.Colors` 多數色規則在以 `heavy` 開頭的單一全形段上判反（作為「兩種規則確實不同」的對照）。另有粗體混合、空白格、部分格被覆蓋（`Transparent`）、4 像素半形段與 8 像素原版格錯位的案例。有效性閘門（只對 `restoreShadow` 的 `Pending` 疊字）：把某格的畫面換成與字模無關的圖樣，該格被標 `Transparent`；整組被同一色號填滿（`bgIdx = fgIdx` 且 90% 以上同色）時整組被移除，而反白前後混合的組不移除；一般提交與 P 類重建的 `Pending` 不執行閘門（P 類暫態：`%c` 事件之後、反白之前插入一次 `Frame`，符號格仍不透明）；半格與跨格的變暗（保留率最低 33.3%）不被誤判。**捲動序列**：疊字經 `Layer.Scroll` 上移一列後再反白，`recolor` 取疊字的 `Y` 為 `y0`，顏色仍由遮罩決定（不退回 `xlate.Colors`）；捲動後切換語言與 P 類重建沿用 `DY`。
+   - `recolor` 的字面期望值（合成字型，不含原版素材）：測試字型內自訂兩種字模：`heavy`（8×8 內 36 個墨點）與 `light`（10 個墨點），以它們組成的事件文字建出螢幕（墨色 3、底色 0，以及反白後墨色 0、底色 3 兩種）；期望 `fgIdx`、`bgIdx` 為字面值；對照：`xlate.Colors` 多數色規則在以 `heavy` 開頭的單一全形段上判反（作為「兩種規則確實不同」的對照）。另有粗體混合、空白格、部分格被覆蓋（`Transparent`）、4 像素半形段與 8 像素原版格錯位的案例。有效性閘門（只對 `restoreShadow` 的 `Pending` 疊字）：把某格的畫面換成與字模無關的圖樣，該格被標 `Transparent`；整組被同一色號填滿（`bgIdx = fgIdx` 且 90% 以上同色）時整組被移除；一半反白一半正常的組不移除，疊字依狀態切成兩片、各自定色；一般提交與 P 類重建的 `Pending` 不執行閘門（P 類暫態：`%c` 事件之後、反白之前插入一次 `Frame`，符號格仍不透明）；半格與跨格的變暗（保留率最低 33.3%）不被誤判。**捲動序列**：疊字經 `Layer.Scroll` 上移一列後再反白，`recolor` 取疊字的 `Y` 為 `y0`，顏色仍由遮罩決定（不退回 `xlate.Colors`）；捲動後切換語言與 P 類重建沿用 `DY`。
    - 以真實 `FONT`（有原版時，缺檔 SKIP）驗證：字模遮罩與螢幕色號對應率 100%：任一已畫出的 T 類事件（未被反白或變暗者），遮罩為 0 的像素全為同一色號，非 0 的像素全為另一色號；另以 `MONK`、`NO`、`HALBERD`、`MAGIC 1` 四個鍵的真實字模建出畫面，`recolor` 得到的 `fgIdx`、`bgIdx` 與畫面的墨色、底色一致，且 `xlate.Colors` 多數色規則在 `MONK` 上判反。
 2. 同狀態比對（需原版，缺檔 SKIP 並說明不算驗收）：以「完全不掛任何 hook 的 `RunUntil`」為基準，與「掛全部 hook、疊字開啟」「掛全部 hook、疊字關閉（`-overlay off`，`005` §5.1）」三組在同一固定步數的 `B800:0000` 起 `4000h` bytes 雜湊、映像與 DGROUP 記憶體雜湊必須全部相同。這是 hook 唯讀的證明；疊字畫對位置與顏色另由 3、4、5 判定。
 3. 位置 oracle：以 `CaptureVideoWrites`（掛 `sub_5E65` 的實際視訊寫入）取得每個 `25A5` 呼叫的實際寫入足跡；每筆疊字矩形必須落在其事件的寫入足跡內，足跡之外不得有疊字；**反向**：T 類且 `OK` 的事件，疊字的聯集必須等於事件矩形，且事件矩形等於該 `25A5` 呼叫的實際寫入足跡（以 8 次寫入換算像素），否則記為疑似殘字（原文露出）。判定在 B 當下評估。

@@ -16,3 +16,4 @@
 - 區間表 `apps/phantasie/regions.tsv` 加一列 `buffer C94D 0 118`：描述區的 `%s` 引數與格式字串指標歸 `buffer` 種類，查 `prose`。
 - `tools/out_text.py` 擷取全部描述行；`tools/out_text_merge.py` 把譯文（以去頭尾空白的英文為鍵的對照檔，工作區檔案，含原版英文故不進版控）併進 `text/prose.<lang>.tsv`。鍵是原文行 rstrip 的 sha256 前 12 位元；原文行開頭有空白（資料已置中）者譯文加 `\c` 由版面置中。同一句話在不同檔案以不同置中位置出現時是不同鍵，各自一列。
 - 描述行跨 2 至 3 行連續顯示，每行各自一個事件；譯文逐行對應，語序以能分行接續為準。
+- 原版資料瑕疵：`OUT6` 至 `OUT16` 的偏移 755 槽（共 11 個檔案）內容是 `ENDING SEQUENCE` 加 `GE BUBBLING POOL`（前後是 0Dh 等空白控制字元，另有 `1Ah`），像是 `YOU ARE NEAR A STRANGE BUBBLING POOL`（`OUT5` 偏移 755）被其他字串覆寫一半。`OUT19` 的偏移 835 槽是 ` MIST.`（上一行 `...A DENSE MIST` 已含 MIST）。`tools/out_text.py` 不收含 `ENDING SEQUENCE` 的槽，並列在 stderr 的略過清單，保持原文、不譯；這些槽能否在遊戲中被顯示尚未量到（等級：未知）。` MIST.` 與 `A SMALL DOOR SET INTO THE`（`OUT2`、`OUT3`，下一行是 `HILLSIDE`）是正常描述行，已有譯文。

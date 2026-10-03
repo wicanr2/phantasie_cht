@@ -1,0 +1,484 @@
+# 標題選單與城鎮：標題三個項目的游標移動與環狀繞回、城鎮選單列七個項目由左往右、由右往左的反白與環狀繞回、
+# Options 選單（施放法術、使用物品、顯示隊伍、存檔、自動存檔開關、音效開關、列印、離開）的開啟、各項游標、
+# 音效與自動存檔以符號 + 或 - 切換、游標在首尾項目間繞回、Esc 與 Exit 關閉。
+# 沒有隊員時施放法術、使用物品、顯示隊伍、存檔、列印按 Return 不會有任何反應，所以只檢查游標位置。
+# 標題的初始游標在第二項，這條路線繞一圈回第一項再 Return（在 Pelnor 開始本回合）進入城鎮。
+# @known-untranslated 的 ---------- 是 Options 選單的分隔線，沒有文字，不是漏譯。
+@check title
+@expect - continue saved game
+@expect - run the utility program
+@expect - start this turn in Pelnor
+@expect Do you want:
+@expect Use ESC key to exit most menus.
+Up
+@check title-item1
+@expect - continue saved game
+@expect - run the utility program
+@expect - start this turn in Pelnor
+@expect Do you want:
+@expect Use ESC key to exit most menus.
+Down
+Down
+@check title-item3
+@expect - continue saved game
+@expect - run the utility program
+@expect - start this turn in Pelnor
+@expect Do you want:
+@expect Use ESC key to exit most menus.
+Down
+@check title-wrap-item1
+@expect - continue saved game
+@expect - run the utility program
+@expect - start this turn in Pelnor
+@expect Do you want:
+@expect Use ESC key to exit most menus.
+Return
+@check town
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+@check town-inn
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+@check town-weapon
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+@check town-leave
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+@check town-mystic
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+@check town-bank
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+@check town-options
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+@check wrap-left-guild
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+@check wrap-right-options
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+@check right-bank
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+@check right-mystic
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+@check right-leave
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+@check right-weapon
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+@check right-inn
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+@check right-guild
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+Return
+@check opt-open
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Down
+@check opt-autosave
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Down
+@check opt-sound-on
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check opt-sound-off
+@expect -Auto save
+@expect -Sound
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check opt-sound-on-again
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+Return
+@check opt-autosave-toggled
+@expect +Auto save
+@expect +Sound
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check opt-autosave-restored
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Down
+Down
+@check opt-printout
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Down
+@check opt-exit
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Down
+@check opt-wrap-top
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+@check opt-wrap-bottom
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+Up
+Up
+Up
+@check opt-save-game
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+Up
+@check opt-use-item
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+@check opt-cast-spell
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Esc
+@check opt-closed-esc
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+Return
+@check opt-reopen
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+Return
+@check opt-closed-exit
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------

@@ -1,0 +1,79 @@
+# 標題選單的第三項「執行工具程式」與第二項「繼續已存檔的遊戲」。
+# 涵蓋畫面：標題選單游標在第三項、工具選單（轉出到備份磁片、從備份磁片轉入、重設遊戲、返回的四個游標位置）、
+# 重設遊戲的確認畫面與 X 取消、兩條備份轉移的「請插入備份磁片」與「請插入遊戲磁片」提示、返回標題，
+# 以及繼續存檔後（原版目錄的 DNG.SAV 全為零位元組）進入的城鎮。
+# 標題選單的游標預設在第二項；第一項「在佩爾諾開始本回合」與第二項進入的城鎮畫面相同（vram_hash 相同）。
+# 重設遊戲只看確認畫面並按 X 取消，不按 R。收據工具沒有暫存層，兩條備份轉移的寫檔不落地。
+# 工具選單的四個項目鍵都以空白開頭，@expect 的解析會去掉開頭空白，所以這幾個鍵不列 @expect。
+Down
+@check title-sel3
+@expect - continue saved game
+@expect - run the utility program
+@expect - start this turn in Pelnor
+@expect Do you want:
+@expect Use ESC key to exit most menus.
+Return
+@check util-menu
+@expect Utility menu
+Up
+@check util-sel-reset
+@expect Utility menu
+Return
+@check reset-confirm
+@expect ALL DATA ON YOUR GAME DISK WILL BE RESET
+@expect CAUTION !!!
+@expect Press R for reset
+@expect or X to exit
+X
+@check reset-cancel
+@expect Utility menu
+Up
+@check util-sel-from
+@expect Utility menu
+Up
+@check util-sel-to
+@expect Utility menu
+Return
+@check prompt-backup-1
+@expect Insert the BACKUP disk
+@expect and press ENTER when ready
+Return
+@check prompt-game-1
+@expect Insert the GAME disk
+@expect and press ENTER when ready
+Return
+@check util-after-to
+@expect Utility menu
+Down
+Return
+@check prompt-backup-2
+@expect Insert the BACKUP disk
+@expect and press ENTER when ready
+Return
+@check prompt-game-2
+@expect Insert the GAME disk
+@expect and press ENTER when ready
+Return
+@check util-after-from
+@expect Utility menu
+Down
+Down
+@check util-sel-return
+@expect Utility menu
+Return
+@check title-back
+@expect - continue saved game
+@expect - run the utility program
+@expect - start this turn in Pelnor
+@expect Do you want:
+Up
+Return
+@check continue-town
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR

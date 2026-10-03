@@ -1,0 +1,157 @@
+# 旅店「分配」畫面：建立並加入隊員 Alice 後進旅店，開啟分配，取走物品。
+# 涵蓋：旅店視窗、分配清單（反白只涵蓋名字與職業，同列數字不反白；SACK 標題）、
+# 取走物品後原版逐格重畫數字、Esc 返回、離開旅店。
+# 驗證事件只有一部分被反白時疊字依狀態切開、逐片定色，稽核沒有殘字（stale_cells）。
+Return
+Return
+Return
+Return
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Up
+Return
+Return
+Esc
+Left
+Return
+@check inn-in
+@expect %-10s IS RESTING
+@expect Armory
+@expect Bank
+@expect Distribute
+@expect Exit
+@expect Exit Inn
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect THE INN
+Left
+@check inn-dist-hl
+@expect %-10s IS RESTING
+@expect Armory
+@expect Bank
+@expect Distribute
+@expect Exit
+@expect Exit Inn
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect THE INN
+Return
+@check inn-dist
+@expect %-10s:%3d %c%s
+@expect %-23s%10u
+@expect %-2d%-11.9s%-4.3s%4d%4d%4d%4d
+@expect Armory
+@expect Bank
+@expect CLUB
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect NAME        CLASS WPN ARM SHL   #
+@expect Option
+@expect PELNOR
+@expect ROBES
+@expect SACK
+@expect SELL
+@expect SM SHIELD
+@expect THIEF
+@expect h:e12a7e051731
+Return
+@check inn-dist2
+@expect %-10s:%3d %c%s
+@expect %-23s%10u
+@expect %-2d%-11.9s%-4.3s%4d%4d%4d%4d
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect NAME        CLASS WPN ARM SHL   #
+@expect Option
+@expect PELNOR
+@expect ROBES
+@expect SACK
+@expect SELL
+@expect SM SHIELD
+@expect THIEF
+@expect h:e12a7e051731
+Return
+@check inn-dist3
+@expect %-10s:%3d %c%s
+@expect %-23s%10u
+@expect %-2d%-11.9s%-4.3s%4d%4d%4d%4d
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect NAME        CLASS WPN ARM SHL   #
+@expect Option
+@expect PELNOR
+@expect SACK
+@expect SELL
+@expect SM SHIELD
+@expect THIEF
+@expect h:e12a7e051731
+Esc
+@check inn-esc
+@expect %-10s:%3d %c%s
+@expect %-23s%10u
+@expect %-2d%-11.9s%-4.3s%4d%4d%4d%4d
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect NAME        CLASS WPN ARM SHL   #
+@expect Option
+@expect PELNOR
+@expect SACK
+@expect SELL
+@expect SM SHIELD
+@expect THIEF
+@expect h:e12a7e051731
+Right
+@check inn-r
+@expect %-10s:%3d %c%s
+@expect %-23s%10u
+@expect %-2d%-11.9s%-4.3s%4d%4d%4d%4d
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect NAME        CLASS WPN ARM SHL   #
+@expect Option
+@expect PELNOR
+@expect SACK
+@expect SELL
+@expect SM SHIELD
+@expect THIEF
+@expect h:e12a7e051731
+Return
+@check inn-exit
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
