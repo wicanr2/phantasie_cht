@@ -126,7 +126,7 @@ CENTIPEDE	ムカデ	res:1DC3
 CHAIN +1	チェイン +1	res:118A
 CHAIN +2	チェイン +2	res:1193
 CHAIN ML	チェインメイル	res:112A
-CHARISMA%8u EX. PTS%11ld	魅力%12u 経験値%12ld	res:3045
+CHARISMA%8u EX. PTS%11ld	魅力%14u 経験値%15ld	res:3045
 CHARM	魅了	res:19B9
 CLOTH +1	布の服 +1	res:1150
 CLOTHING	布の服	res:10F6
@@ -140,7 +140,7 @@ CONFUSION I	混乱 I	res:18C1
 CONFUSION II	混乱 II	res:18CD
 CONFUSION III	混乱 III	res:18DA
 CONFUSION IV	混乱 IV	res:18E8
-CONSTITUTION%4u GOLD IN BANK%6u	体力%12u 銀行預金%10u	res:3025
+CONSTITUTION%4u GOLD IN BANK%6u	体力%14u 銀行預金%14u	res:3025
 COYOTE	コヨーテ	res:1BFB
 Cash ->	現金 ->	ov1:C189
 Cast spell	呪文を唱える	res:0861;res:0A8E
@@ -150,14 +150,14 @@ DAGGER+1	短剣+1	res:1299
 DAGGER+2	短剣+2	res:12AC
 DAGGER+3	短剣+3	res:12B5
 DAGGER+4	短剣+4	res:12C7
-DAY OUT%21u	外出日数%20u	ov2:BE34
+DAY OUT%21u	外出日数%24u	ov2:BE34
 DEAD	死亡	res:173F
 DEATH BEETLE	デスビートル	res:2354
 DEATH FLY	デスフライ	res:2036
 DEMON	デーモン	res:251C
 DESTROYED	消滅	ov1:BB53
 DEVIL	悪魔	res:2270
-DEXTERITY%7u MAGIC%9u/%-3u	敏捷%12u 魔力%10u/%-3u	res:300A
+DEXTERITY%7u MAGIC%9u/%-3u	敏捷%14u 魔力%12u/%-3u	res:300A
 DIAMOND A	ダイヤモンド A	res:1638
 DIAMOND B	ダイヤモンド B	res:1642
 DIAMOND C	ダイヤモンド C	res:164C
@@ -182,7 +182,7 @@ EMERALD B	エメラルド B	res:1569
 EMERALD D	エメラルド D	res:1577
 EMERALD E	エメラルド E	res:1581
 EQUIPMENT	装備	res:0998
-EXPERIENCE POINTS%11lu	経験値%22lu	ov2:BE40
+EXPERIENCE POINTS%11lu	経験値%25lu	ov2:BE40
 Each share is:	一人の取り分は：	ov1:C1FA
 Exit	出る	res:07A6;res:09E9;res:09EE;res:09F3;res:0A64;res:0AA9;res:0B83
 Exit Inn	宿屋を出る	res:09CC
@@ -283,7 +283,7 @@ IN THE INN:	宿屋の中：	ov2:C24B
 IN THE TRAP:	罠の中：	ov2:BBFD
 INPUT NAME:	名前を入力：	ov1:BBFF
 INSPECT MEMBER?	メンバーを調べる？	res:0AAE
-INTELLIGENCE%4u HIT POINTS%4u/%-3u	知力%14u ヒットポイント%7u/%-3u	res:2FE7
+INTELLIGENCE%4u HIT POINTS%4u/%-3u	知力%14u ヒットポイント%8u/%-3u	res:2FE7
 Inn	宿屋	res:084C
 Insert the BACKUP disk	バックアップディスクを入れてください	ov1:C374
 Insert the GAME disk	ゲームディスクを入れてください	ov1:C35F

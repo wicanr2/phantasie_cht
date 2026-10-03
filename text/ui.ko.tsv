@@ -126,7 +126,7 @@ CENTIPEDE	지네	res:1DC3
 CHAIN +1	사슬 갑옷 +1	res:118A
 CHAIN +2	사슬 갑옷 +2	res:1193
 CHAIN ML	사슬 갑옷	res:112A
-CHARISMA%8u EX. PTS%11ld	매력%8u 경험치%11ld	res:3045
+CHARISMA%8u EX. PTS%11ld	매력%14u 경험치%15ld	res:3045
 CHARM	매혹	res:19B9
 CLOTH +1	천옷 +1	res:1150
 CLOTHING	천옷	res:10F6
@@ -140,7 +140,7 @@ CONFUSION I	혼란 I	res:18C1
 CONFUSION II	혼란 II	res:18CD
 CONFUSION III	혼란 III	res:18DA
 CONFUSION IV	혼란 IV	res:18E8
-CONSTITUTION%4u GOLD IN BANK%6u	체질%4u 은행 골드%6u	res:3025
+CONSTITUTION%4u GOLD IN BANK%6u	체질%14u 은행 골드%14u	res:3025
 COYOTE	코요테	res:1BFB
 Cash ->	현금 ->	ov1:C189
 Cast spell	주문 시전	res:0861;res:0A8E
@@ -150,14 +150,14 @@ DAGGER+1	단검+1	res:1299
 DAGGER+2	단검+2	res:12AC
 DAGGER+3	단검+3	res:12B5
 DAGGER+4	단검+4	res:12C7
-DAY OUT%21u	외출 일수%21u	ov2:BE34
+DAY OUT%21u	외출 일수%23u	ov2:BE34
 DEAD	사망	res:173F
 DEATH BEETLE	죽음의 딱정벌레	res:2354
 DEATH FLY	죽음의 파리	res:2036
 DEMON	데몬	res:251C
 DESTROYED	소멸	ov1:BB53
 DEVIL	악마	res:2270
-DEXTERITY%7u MAGIC%9u/%-3u	민첩%7u 마력%9u/%-3u	res:300A
+DEXTERITY%7u MAGIC%9u/%-3u	민첩%14u 마력%12u/%-3u	res:300A
 DIAMOND A	다이아몬드 A	res:1638
 DIAMOND B	다이아몬드 B	res:1642
 DIAMOND C	다이아몬드 C	res:164C
@@ -182,7 +182,7 @@ EMERALD B	에메랄드 B	res:1569
 EMERALD D	에메랄드 D	res:1577
 EMERALD E	에메랄드 E	res:1581
 EQUIPMENT	장비	res:0998
-EXPERIENCE POINTS%11lu	경험치%11lu	ov2:BE40
+EXPERIENCE POINTS%11lu	경험치%25lu	ov2:BE40
 Each share is:	각자 몫은:	ov1:C1FA
 Exit	나가기	res:07A6;res:09E9;res:09EE;res:09F3;res:0A64;res:0AA9;res:0B83
 Exit Inn	여관 나가기	res:09CC
@@ -283,7 +283,7 @@ IN THE INN:	여관에서:	ov2:C24B
 IN THE TRAP:	함정 속:	ov2:BBFD
 INPUT NAME:	이름 입력:	ov1:BBFF
 INSPECT MEMBER?	살펴볼 멤버?	res:0AAE
-INTELLIGENCE%4u HIT POINTS%4u/%-3u	지능%14u 생명력%11u/%-3u	res:2FE7
+INTELLIGENCE%4u HIT POINTS%4u/%-3u	지능%14u 생명력%12u/%-3u	res:2FE7
 Inn	여관	res:084C
 Insert the BACKUP disk	백업 디스크를 넣으세요	ov1:C374
 Insert the GAME disk	게임 디스크를 넣으세요	ov1:C35F
@@ -315,7 +315,7 @@ LR SHLD+3	큰 방패+3	res:10BC
 LRG AXE	큰 도끼	res:1256
 LRG AXE+1	큰 도끼+1	res:1304
 LRG SPEAR	큰 창	res:124C
-LUCK%12u SCORE%13u	행운%12u 점수%13u	res:305E
+LUCK%12u SCORE%13u	행운%14u 점수%16u	res:305E
 LUNGE	찌르기	res:0B61;ov2:C318
 Look	보기	res:0AA4
 MACE	철퇴	res:11EA
@@ -526,7 +526,7 @@ STRENGTH I	힘 I	res:1859
 STRENGTH II	힘 II	res:1864
 STRENGTH III	힘 III	res:1870
 STRENGTH IV	힘 IV	res:187D
-STRENGTH%8u AGE%15u	힘%14u 나이%14u	res:2FD3
+STRENGTH%8u AGE%15u	힘%15u 나이%16u	res:2FD3
 SUCCEEDS	성공했다	ov2:BBF4
 SUMMON ELEMENTAL	정령 소환	res:19F7
 SURRENDER	항복	res:0A23
@@ -666,7 +666,7 @@ not yet ready to visit	아직 방문할 준비가 안 됐다	ov1:BEFF
 novice adventurers.	초보 모험가.	ov1:BED2
 or X to exit	또는 X를 눌러 나가기	ov1:C30B
 parry%10u	막기%13u	res:2ED6
-pick lock%4u	자물쇠 따기%7u	res:2EFC
+pick lock%4u	자물쇠 따기%8u	res:2EFC
 properly in Phantasie II.	판타지 II에서 제대로 사용된다.	ov1:BA00
 quick	신속	res:0B88
 removed  a  Great   Evil  from   Gelnor.	겔노르에서 거대한 악을 몰아냈다.	ov1:B933
