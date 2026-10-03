@@ -1,0 +1,55 @@
+en	ja	note
+HUMAN	人間	種族
+DWARF	ドワーフ	種族
+ELF	エルフ	種族
+HALFLING	ハーフリング	種族
+GNOME	ノーム	種族
+PIXIE	ピクシー	種族
+SPRITE	スプライト	種族
+OGRE	オーガ	種族と怪物
+GNOLL	ノール	種族
+TROLL	トロール	種族と怪物
+KOBOLD	コボルド	種族と怪物
+ORC	オーク	種族と怪物
+GOBLIN	ゴブリン	種族と怪物
+MINOTAUR	ミノタウロス	種族と怪物
+UNDEAD	アンデッド	種族と状態
+THIEF	盗賊	職業
+MONK	武僧	職業
+RANGER	レンジャー	職業
+FIGHTER	戦士	職業
+PRIEST	僧侶	職業
+WIZARD	魔術師	職業
+STRENGTH	腕力	属性
+INTELLIGENCE	知力	属性
+DEXTERITY	敏捷	属性
+CONSTITUTION	体力	属性
+CHARISMA	魅力	属性
+LUCK	運	属性
+HIT POINTS	ヒットポイント	
+SCORE	スコア	
+Option	オプション	町のメニュー
+Bank	銀行	
+Mystic	神秘家	町の建物
+Armory	武器屋	
+Inn	宿屋	
+Guild	ギルド	
+Exit	出る	
+SWORD	剣	武器
+AXE	斧	武器
+SHIELD	盾	
+SHLD	盾	略語
+ARMOR	鎧	
+SCROLL	巻物	
+POTION	薬	
+SPELL	呪文	
+PELNOR	ペルノア	町
+Gelnor	ゲルノール	島名
+NIKADEMUS	ニカデムス	悪役
+GELNOR	ゲルノール	島名（Gelnorと同じ）
+TROLKIN	トロルキン	人名
+BLEEB	ブリーブ	生物名
+WOODVILLE	ウッドビル	地名
+FILMON	フィルモン	人名
+KILMOR	キルモア	人名
+DOSNEBIAN	ドスネビアン	人名または地名

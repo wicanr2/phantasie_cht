@@ -1,0 +1,55 @@
+en	ko	note
+HUMAN	인간	종족
+DWARF	드워프	종족
+ELF	엘프	종족
+HALFLING	하플링	종족
+GNOME	노움	종족
+PIXIE	픽시	종족
+SPRITE	스프라이트	종족
+OGRE	오우거	종족과 몬스터
+GNOLL	놀	종족
+TROLL	트롤	종족과 몬스터
+KOBOLD	코볼트	종족과 몬스터
+ORC	오크	종족과 몬스터
+GOBLIN	고블린	종족과 몬스터
+MINOTAUR	미노타우로스	종족과 몬스터
+UNDEAD	언데드	종족과 상태
+THIEF	도적	직업
+MONK	수도승	직업
+RANGER	레인저	직업
+FIGHTER	전사	직업
+PRIEST	사제	직업
+WIZARD	마법사	직업
+STRENGTH	힘	능력치
+INTELLIGENCE	지능	능력치
+DEXTERITY	민첩	능력치
+CONSTITUTION	체질	능력치
+CHARISMA	매력	능력치
+LUCK	행운	능력치
+HIT POINTS	생명력	
+SCORE	점수	
+Option	옵션	마을 메뉴
+Bank	은행	
+Mystic	신비술사	마을 건물
+Armory	무기점	
+Inn	여관	
+Guild	길드	
+Exit	나가기	
+SWORD	검	무기
+AXE	도끼	무기
+SHIELD	방패	
+SHLD	방패	약어
+ARMOR	갑옷	
+SCROLL	두루마리	
+POTION	물약	
+SPELL	주문	
+PELNOR	펠노르	마을
+Gelnor	겔노르	섬 이름
+NIKADEMUS	니카데무스	악당
+GELNOR	겔노르	섬 이름(Gelnor와 같음)
+TROLKIN	트롤킨	인명
+BLEEB	블리브	생물 이름
+WOODVILLE	우드빌	지명
+FILMON	필몬	인명
+KILMOR	킬모어	인명
+DOSNEBIAN	도스네비안	인명 또는 지명

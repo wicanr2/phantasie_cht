@@ -76,7 +76,7 @@
 | 語言 | 來源 | 流程 |
 |---|---|---|
 | zh-TW | 人工與子代理依英文原文翻譯，經 lint | 先寫 `text/glossary.tsv` 的譯名，再批次翻譯（`~/.claude/knowledge-base/workflows/batch-subagent-localization.md`），子代理回收後以檢查工具驗欄數 |
-| zh-CN | zh-TW 以 OpenCC `tw2sp` 轉換（`tools/derive_zhcn.py`，Docker 映像記錄版本），加 `text/overrides.zh-CN.tsv`（欄：key、translation；逐鍵覆寫轉換結果，用於地區用語） | 轉換後 lint；轉換結果與 `t2s` 的差異抽樣人工檢視 |
+| zh-CN | zh-TW 以 OpenCC `tw2sp` 轉換（`tools/derive_zhcn.py`，Docker 映像記錄版本），兩層覆寫：`text/phrases.zh-CN.tsv`（欄：from、to、note；轉換後的全域詞組取代，例：「傳送」被轉成「发送」）與 `text/overrides.zh-CN.tsv`（欄：key、translation；逐鍵覆寫整句） | 轉換後 lint；轉換結果與 `t2s` 的差異抽樣人工檢視 |
 | ja、ko | 以英文原文為源的機器翻譯 | 先定各語言詞表再批次進行；README、讀我與發行說明寫明「機器輔助、未經母語者校對」 |
 
 所有譯文檔以 UTF-8 TSV 為唯一正式來源（`003` §3）。專名沿用譯名表一致處理：`text/glossary.tsv` 與 lint（`003` §10）保證整個 catalog 同詞同譯。
