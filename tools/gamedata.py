@@ -8,7 +8,7 @@
     python:3.13-bookworm python -B /t/gamedata.py /o /out
 
 輸出（都是原版文字，只寫進 workplace/，不進版控）：
-  MESSn.msgs.tsv  每則訊息一列：索引、總長 L、行（以 | 連接）、選項
+  MESSn.msgs.tsv  每則訊息一列：種類（msg、orphan）、索引、總長 L、行（以 | 連接）、選項
   SCROLLS.tsv     每卷一列：卷號、行（以 | 連接）
 """
 import struct
@@ -49,32 +49,47 @@ def chunk_at(dec: bytes, table, idx):
 
 
 def parse_mess(dec: bytes):
+    """依 OV2 sub_8F71 的規則切成訊息。
+
+    訊息從第一個 chunk 開始，其第 1 byte 是整則長度 L，ceil(L / 40) 個連續索引各給一行。
+    選項數是索引 idx+1 那個 chunk 的第 1 byte（2 至 20 才算），選項文字在最後一行之後的 chunk。
+    L 小於 40 的 chunk 是短訊息（文字在前 L 個字元，其後是選項欄位，見 sub_8F71 的 var_45 強制為 3）。
+    第 1 byte 為 0、1、32 的 chunk 是續頁與標記。沒有被任何訊息取用的 chunk 列為 orphan，不補規則。
+    回傳 [(kind, idx, L, 行 list, 選項數, 選項文字)]。
+    """
     table = struct.unpack_from("<%dH" % TABLE_WORDS, dec, 0)
+    chunks = {i: chunk_at(dec, table, i) for i in range(1, TABLE_WORDS)}
+    used = set()
     msgs = []
-    idx = 1
-    while idx < TABLE_WORDS:
-        c = chunk_at(dec, table, idx)
-        if c is None:
-            idx += 1
+    for idx in range(1, TABLE_WORDS):
+        c = chunks[idx]
+        if c is None or idx in used:
             continue
-        length, text = c
-        lines = [text]
-        nxt = idx + 1
-        # sub_8F71：每 40 個字元讀下一個索引
-        for _ in range(max(0, (length + 39) // 40 - 1)):
-            c2 = chunk_at(dec, table, nxt)
-            if c2 is None:
+        length = c[0]
+        if length in (0, 1, 32):
+            continue  # 續頁、標記；沒被取用的之後列為 orphan
+        kind = "short" if length < 40 else "msg"
+        n = (length + 39) // 40
+        lines = []
+        for k in range(n):
+            ck = chunks.get(idx + k)
+            if ck is None:
                 break
-            lines.append(c2[1])
-            nxt += 1
-        options = None
-        if length == 40:
-            c3 = chunk_at(dec, table, nxt)
-            if c3 is not None and 2 <= c3[0] <= 20:
-                options = (c3[0], c3[1])
-                nxt += 1
-        msgs.append((idx, length, lines, options))
-        idx = nxt
+            lines.append(ck[1])
+            used.add(idx + k)
+        opt_n, opt_text = None, None
+        nxt = chunks.get(idx + 1)
+        if nxt is not None and 2 <= nxt[0] <= 20:
+            oc = chunks.get(idx + n)
+            if oc is not None:
+                opt_n, opt_text = nxt[0], oc[1]
+                used.add(idx + n)
+        msgs.append((kind, idx, length, lines, opt_n, opt_text))
+    for idx in range(1, TABLE_WORDS):
+        c = chunks[idx]
+        if c is not None and idx not in used:
+            msgs.append(("orphan", idx, c[0], [c[1]], None, None))
+    msgs.sort(key=lambda m: m[1])
     return msgs
 
 
@@ -84,25 +99,27 @@ def show(b: bytes) -> str:
 
 def main():
     src, out = sys.argv[1], sys.argv[2]
-    total_msgs = total_chars = 0
+    kinds = {"msg": 0, "short": 0, "orphan": 0}
+    total_chars = 0
     for n in range(1, 11):
         raw = open(f"{src}/phantasi/MESS{n}", "rb").read()
         dec = decode_mess(raw, n)
         msgs = parse_mess(dec)
         with open(f"{out}/MESS{n}.msgs.tsv", "w", encoding="utf-8") as f:
-            for idx, length, lines, options in msgs:
-                opt = "" if options is None else f"{options[0]}:{show(options[1])}"
-                f.write(f"{idx}\t{length}\t{'|'.join(show(l) for l in lines)}\t{opt}\n")
-        total_msgs += len(msgs)
-        total_chars += sum(len(l.rstrip(b' \x00')) for m in msgs for l in m[2])
-        print(f"MESS{n}: {len(raw)} bytes, {len(msgs)} messages")
+            for kind, idx, length, lines, opt_n, opt_text in msgs:
+                opt = "" if opt_n is None else f"{opt_n}:{show(opt_text)}"
+                f.write(f"{kind}\t{idx}\t{length}\t{'|'.join(show(l) for l in lines)}\t{opt}\n")
+        for m in msgs:
+            kinds[m[0]] += 1
+            total_chars += sum(len(l.rstrip(b' \x00')) for l in m[3])
+        print(f"MESS{n}: {len(raw)} bytes, msg {sum(1 for m in msgs if m[0] == 'msg')}, orphan {sum(1 for m in msgs if m[0] == 'orphan')}")
     raw = open(f"{src}/phantasi/SCROLLS.DTX", "rb").read()
     with open(f"{out}/SCROLLS.tsv", "w", encoding="utf-8") as f:
         for n in range(len(raw) // 800):
             dec = decode_scroll(raw[n * 800:(n + 1) * 800], n)
             lines = [dec[i:i + 40] for i in range(0, 800, 40)]
             f.write(f"{n}\t{'|'.join(show(l.split(b'\\x00')[0]) for l in lines)}\n")
-    print(f"MESS 合計 {total_msgs} 則、約 {total_chars} 個字元；SCROLLS {len(raw) // 800} 卷")
+    print(f"MESS 合計 msg {kinds["msg"]}、short {kinds["short"]}、orphan {kinds['orphan']}，可讀字元約 {total_chars}；SCROLLS {len(raw) // 800} 卷")
 
 
 if __name__ == "__main__":
