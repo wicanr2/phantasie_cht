@@ -73,6 +73,10 @@ def main():
             if not tr:
                 empty += 1
                 continue
+            if tr == "<blank>":
+                continue
+            if tr.startswith("\\c"):
+                tr = tr[2:]  # 置中標記不計入內容
             if any(ord(c) < 0x20 for c in tr):
                 errors.append(f"{where}: 譯文含控制字元")
             if cl.has_bad_percent(key) or cl.has_bad_percent(tr):

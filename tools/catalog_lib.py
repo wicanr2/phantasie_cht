@@ -54,7 +54,11 @@ def read_tsv(path: str):
         cols = line.split("\t")
         if len(cols) != 3:
             raise ValueError(f"第 {n + 1} 列欄數是 {len(cols)}，要 3")
-        rows.append((n + 1, unescape(cols[0]), unescape(cols[1]).rstrip(" "), cols[2]))
+        tr = cols[1]
+        marker = ""
+        if tr.startswith("\\c"):  # 開頭的 \\c 是置中標記（003 §3），記憶體內以同樣兩個字元表示
+            marker, tr = "\\c", tr[2:]
+        rows.append((n + 1, unescape(cols[0]), marker + unescape(tr).rstrip(" "), cols[2]))
     return rows
 
 
@@ -62,7 +66,10 @@ def write_tsv(path: str, rows):
     with open(path, "w", encoding="utf-8", newline="") as f:
         f.write("key\ttranslation\tsource\n")
         for key, tr, src in rows:
-            f.write(f"{escape(key)}\t{escape(tr.rstrip(' '))}\t{src}\n")
+            marker = ""
+            if tr.startswith("\\c"):
+                marker, tr = "\\c", tr[2:]
+            f.write(f"{escape(key)}\t{marker}{escape(tr.rstrip(' '))}\t{src}\n")
 
 
 def convs(fmt: str):
