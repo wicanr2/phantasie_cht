@@ -21,6 +21,37 @@ export DOSGOLEM_ORIG=$PWD/../orig DOSGOLEM_CPUS=2 DOSGOLEM_MEM=2g \
 tools/go.sh run ./cmd/probe -exe /orig/phantasi/<檔名> -root /orig/phantasi <旗標>
 ```
 
+## 三個 `.COM` 的完整手工解讀
+
+三個檔案各 86、44、44 bytes，全部位元組手工解讀（未經反組譯器；`R32768.COM` 的流程另與單跑軌跡逐道核對）。三支都只含 `int 20h` 與 `int 27h`，沒有 `int 21h`。等級：強推論。
+
+`R32768.COM`（進入點 `0100h`）：
+
+```text
+0100 cli ; sub ax,ax ; mov es,ax
+0105 mov ax,es:[0180] ; cmp ax,49A6 ; jnz 011A
+010E mov ax,es:[0182] ; cmp ax,49A6 ; jnz 011A
+0117 sti ; int 20h                      ; 兩個字組都是標記：已安裝，結束
+011A mov es:[0180],49A6 ; mov es:[0182],49A6     ; INT 60h = 49A6:49A6
+     mov es:[0188],49A7 ; mov es:[018A],49A7     ; INT 62h = 49A7:49A7（佔位值）
+     mov es:[018C],49A8 ; mov es:[018E],49A8     ; INT 63h = 49A8:49A8（佔位值）
+     mov es:[0184],0000 ; mov es:[0186],cs       ; INT 61h = CS:0000
+0150 sti ; mov dx,8000 ; int 27h
+```
+
+`M1.COM`（`M2.COM` 相同，位址換成 `[018C]`、`[018E]`，標記換成 `49A8`）：
+
+```text
+0100 cli ; sub ax,ax ; mov es,ax
+0105 mov ax,es:[0188] ; cmp ax,49A7 ; jz 011A
+010E mov ax,es:[018A] ; cmp ax,49A7 ; jz 011A
+0117 sti ; int 20h                      ; 兩個字組都不是佔位值：結束
+011A mov es:[0188],0000 ; mov es:[018A],cs       ; INT 62h = CS:0000
+0126 sti ; mov dx,84D8 ; int 27h
+```
+
+`M1.COM`、`M2.COM` 在任一個字組仍是 `R32768.COM` 放的佔位值時安裝，把該向量改成自己的 `CS:0000`；`DX` 為 `84D8h`。`M2.COM` 的 `DX` 同為 `84D8h`。
+
 ## 單獨執行
 
 | 程式 | 結果 | 等級 |
