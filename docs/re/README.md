@@ -11,5 +11,6 @@
 | 004 | `004-overlay-format.md` | overlay 的檔案格式、常駐載入器語意（程式碼載入 `0110:53EA`、資料載入 `DGROUP:B8F0`）、兩個 overlay 的靜態盤點 |
 | 005 | `005-video-and-text-paths.md` | 視訊與文字繪製路徑（靜態）：螢幕幾何、字模格式、繪字函式 `0110:25A5`、螢幕緩衝區函式 |
 | 006 | `006-dynamic-receipts.md` | `INT 27h` 補上後的動態證據：啟動鏈、overlay 載入、鍵盤路徑、標題與城鎮與公會的畫面時序、決定性 |
+| 007 | `007-message-and-scroll-formats.md` | MESSn 與 SCROLLS.DTX 的解碼、記錄結構、讀取函式與未決事項 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。
