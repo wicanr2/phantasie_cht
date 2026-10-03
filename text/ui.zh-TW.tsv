@@ -65,15 +65,17 @@ key	translation	source
 %s has aged	%s 老了	ov1:BC8D
 %s has died	%s 死了	ov1:BC81
 %s is shopping	%s 正在購物	ov1:C17A
-%u gold and	%u 金幣與	ov1:C209
+%u gold and	%u 金幣，並且	ov1:C209
 ** Press ENTER when disk drive ready. **	** 磁碟機就緒後請按 ENTER **	res:2D86
 *** READ ERROR ***	*** 讀取錯誤 ***	ov1:C32C
 *** WRITE ERROR ***	*** 寫入錯誤 ***	ov1:C318
++Auto save	+自動存檔	dyn
 +Sound	+音效	res:0BE1;res:0BE9;res:0BF1
 - continue saved game	- 繼續已存檔的遊戲	res:077D
 - run the utility program	- 執行工具程式	res:0BF9
 - start this turn in Pelnor	- 在佩爾諾開始本回合	res:0761
 -Auto save	-自動存檔	res:088A
+-Sound	-音效	dyn
 / AIR	/ 風	res:2F9F
 A DUNGEON. ENTER?	一座地下城。要進入嗎？	res:0B8E
 A MAGICAL POOL	一池魔法之水	ov2:C22A
@@ -86,6 +88,7 @@ ALL DATA ON YOUR GAME DISK WILL BE RESET	遊戲磁片上的所有資料都會被
 AN EXIT. TAKE IT?	一個出口。要離開嗎？	res:0BA7
 AN INN. ENTER?	一間旅店。要進入嗎？	res:0AC5
 AND HEARS THE MONSTERS	並聽到怪物的聲音	ov2:C380
+APPLETON	艾普頓	TWNS.DAT:05A3
 APPRENTICE DEVIL	見習惡魔	res:1D18
 ARMOR	護甲	ov2:BDEC
 ASP	眼鏡蛇	res:238D
@@ -165,6 +168,7 @@ DISSOLVE	溶解	res:19EE
 DIVINE I	神聖 I	res:1A4D
 DONE	完成	res:2F91;ov1:BCC0;ov1:BE75
 DRAGON KING	龍王	res:291E
+DRAGONOR	德拉戈諾爾	TWNS.DAT:0A2F
 DRIP SLIME	滴水黏液	res:1ADE
 DWARF	矮人	res:08EE;res:16D8
 Deposit	存款	res:09C4
@@ -207,6 +211,9 @@ GIANT SH	巨盾	res:10C6
 GLOVE	手套	res:1034
 GNOLL	豺狼人	res:1703
 GNOME	侏儒	res:0901;res:16EB
+GNT SH +1	巨人盾+1	res:10CF
+GNT SH +2	巨人盾+2	res:10D9
+GNT SH +3	巨人盾+3	res:10E3
 GO AND LEARN	去學習吧	ov1:C0C6
 GOBLIN	哥布林	res:171A;res:1EE0
 GOD ARMOR	神之甲	res:11A6
@@ -226,7 +233,9 @@ GOOD TREASURE	好寶物	ov2:BE26
 GOOD WEAPON	好武器	ov2:BDF9
 GREAT TROLL	大巨魔	res:29C9
 GREEN DRAGON	綠龍	res:23C6
+GREENVILLE	格林維爾	TWNS.DAT:035D
 Greetings	問候	res:0B0F
+Guild	公會	res:0850
 H LEATHER	硬皮甲	res:110D
 HALBERD	戟	res:1287
 HALBERD+1	戟+1	res:1329
@@ -237,6 +246,7 @@ HALBERD+5	戟+5	res:1364
 HALBERD+6	戟+6	res:136E
 HALBERD+7	戟+7	res:1378
 HALFLING	半身人	res:08F8;res:16E2
+HALFLINGOR	哈夫林戈爾	TWNS.DAT:0480
 HAMMER	錘	res:1215
 HEALING 1	治療 1	res:13A7
 HEALING 2	治療 2	res:13B1
@@ -259,6 +269,7 @@ HIGH DEVIL	高階魔鬼	res:2801
 HIGH RANGER	高階遊俠	res:278F
 HILL GIANT	丘陵巨人	res:2471
 HISSING SKUZ	嘶嘶斯庫茲	res:231B
+HP MP	生命 魔力	ov1:C19D
 HUMAN	人類	res:08E8;res:16D2
 HVY MACE	重錘矛	res:1236
 He's just bought ninth item.	他剛買了第九件物品。	ov1:C143
@@ -293,10 +304,14 @@ LEATHER+2	皮甲+2	res:116C
 LEAVE	離開	res:0A50
 LEAVING %s	離開 %s	ov1:C284
 LEVEL%3u %s %s %s	等級%3u %s %s %s	res:2FC1
+LIZ.MAN	蜥蜴人	res:1721
 LIZARD MAN	蜥蜴人	res:218C
 LNG SWORD	長劍	res:126D
 LORD	領主	res:24E3
 LR SHIELD	大盾	res:109E
+LR SHLD+1	大盾+1	res:10A8
+LR SHLD+2	大盾+2	res:10B2
+LR SHLD+3	大盾+3	res:10BC
 LRG AXE	大斧	res:1256
 LRG AXE+1	大斧+1	res:1304
 LRG SPEAR	大矛	res:124C
@@ -320,6 +335,9 @@ MAGIC USER	魔法師	res:1F8B
 MASTER ILLUSIONIST	大幻術師	res:2756
 MAUL	大槌	res:123F
 MD SHIELD	中盾	res:1076
+MD SHLD+1	中盾+1	res:1080
+MD SHLD+2	中盾+2	res:108A
+MD SHLD+3	中盾+3	res:1094
 MG WEAPON	魔法武器	ov2:BE05
 MINDBLAST I	心靈衝擊 I	res:1951
 MINDBLAST II	心靈衝擊 II	res:195D
@@ -347,7 +365,8 @@ NINJA I	忍者 I	res:1A17
 NINJA II	忍者 II	res:19E0
 NO	否	res:098E;res:0ABE;res:0AD8;res:0B80;res:0BA4
 NO ONE CAN PICK THE LOCK	沒有人能打開這個鎖	ov2:BB89
-NOT	不	res:09B7
+NORTHFORD	諾斯福德	TWNS.DAT:0B52
+NOT	不同意	res:09B7
 NOTHING	沒有	res:102C
 Name is not unique!	名字不能重複！	ov1:BBEB
 New member	新成員	res:08B0
@@ -357,6 +376,7 @@ Now if you are brave and  cold  blooded	如果你夠勇敢，又夠冷血，	res
 OGRE	食人魔	res:16FE;res:2438
 OK	正常	res:1744
 OLD MAN	老人	res:2B91
+OLYMPIA	奧林匹亞	TWNS.DAT:0D98
 ON WHOM :	對誰：	ov2:C32B
 ON WHOM:	對誰：	ov2:BD65;ov2:BEA5
 ON WHOM?	對誰？	ov1:BEA0
@@ -368,8 +388,11 @@ Options	選項	res:0A56
 PARRY	格擋	res:0B6C;ov2:C335
 PARTY AWAKENS	隊伍醒來了	ov2:B955
 PARTY OPTIONS	隊伍選項	res:0ADB
+PELNOR	佩爾諾	TWNS.DAT:0117
+PHANTASIA	芬塔西亞	TWNS.DAT:090C
 PICKS THE LOCK	打開了鎖	ov2:BB7A
 PIKE	長槍	res:1268
+PINEVILLE	派恩維爾	TWNS.DAT:023A
 PIXIE	小妖精	res:16F1
 PLATE ML	板甲	res:1147
 PLATINUM	白金	res:161B
@@ -387,7 +410,7 @@ PURGE	刪除	res:0951
 PYTHON	巨蟒	res:2600
 Party health	隊伍健康	res:0B2F
 Press R for reset	按 R 重設	ov1:C2F9
-Press any key ...	請按任意鍵...	ov1:C33F
+Press any key ...	請按任意鍵…	ov1:C33F
 Print scroll? (y/n)	列印卷軸？(y/n)	ov1:C220
 Printer not ready	印表機未就緒	ov1:C237
 Printout	列印	res:09E0
@@ -467,7 +490,10 @@ SM MACE	小錘矛	res:11CD
 SM MACE+1	小錘矛+1	res:128F
 SM MACE+2	小錘矛+2	res:12A2
 SM SHIELD	小盾	res:104E
-SM STAFF	小杖	res:11C4
+SM SHLD+1	小盾+1	res:1058
+SM SHLD+2	小盾+2	res:1062
+SM SHLD+3	小盾+3	res:106C
+SM STAFF	小法杖	res:11C4
 SM SWORD	小劍	res:1206
 SMOKE FILLS THE AIR	煙霧瀰漫在空中	ov2:BB64
 SNAKE	蛇	res:20E1
@@ -484,12 +510,14 @@ SPETUM	長柄叉	res:1277
 SPIRIT	靈體	res:28AC
 SPLAT BEAST	爆漿獸	res:2BCA
 SPLINT ML	夾板甲	res:1133
+SPLITWATER	斯普利沃特	TWNS.DAT:06C6
 SPOTS A TRAP. DISARM IT ?	發現陷阱。要解除嗎？	ov2:BBC2
 SPRITE	妖精	res:16F7
 SQUISHY GUNK	軟爛黏液	res:206F
 STAFF	法杖	res:1200
 STAFF +1	法杖 +1	res:12BE
 STAIRS FROM LEVEL %-2d TO %-2d	從第 %-2d 層到第 %-2d 層的樓梯	ov2:BB45
+STARVILLE	斯塔維爾	TWNS.DAT:0C75
 STICK	木棍	res:11B0
 STING BEETLE	刺甲蟲	res:1DFC
 STORM GIANT	風暴巨人	res:2957
@@ -540,6 +568,7 @@ TREASURE	寶物	ov2:BE1D
 TRIDENT	三叉戟	res:1244
 TROLKIN	特羅爾金	res:21C5
 TROLL	巨魔	res:1709;res:26E4
+TROLLPORT	特羅爾波特	TWNS.DAT:07E9
 The Gods and face the tests.	諸神，並面對試煉。	ov1:BFC3
 The Gods.	諸神。	ov1:BFE0
 The cost is %d GP.	費用是 %d 金幣。	ov1:C054
@@ -629,7 +658,7 @@ experienced enough to visit	已經夠老練可以前往	ov1:BF2C
 fast	快	res:0A69
 find item%6u	尋寶%13u	res:2F09
 into his crystal ball and speaks:	水晶球並說道：	ov1:BF84
-it takes 2 months	需要 2 個月	res:096C
+it takes 2 months	耗時 2 個月	res:096C
 listen%9u	聆聽%13u	res:2F1E
 normal	普通	res:0A6E
 not yet ready to visit	還不能前往	ov1:BEFF

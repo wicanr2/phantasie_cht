@@ -247,7 +247,10 @@ def format_target(tpl: str, args):
             ai += used
             if prec is not None and conv != "c":
                 text = text[:prec]
-        pad = max(0, 2 * width - width_h(text))
+        eff = width if (width or conv != "c") else 1  # %c 無寬度時佔一格（003 §7.2）
+        pad = max(0, 2 * eff - width_h(text))
+        if conv == "c" and not width:
+            left = True  # 無寬度的 %c：字元在格內靠左，右側補空白
         out.append(text + " " * pad if left else " " * pad + text)
     return "".join(out)
 
@@ -285,7 +288,7 @@ def sample_format(tpl: str, samples):
                 s = "".join(keep)
             h = width_h(s)
         elif conv == "c":
-            h = 1
+            h = 2  # %c 佔一格（003 §7.2）
             si += 1
         else:
             h = len(NUM_MAX.get((conv, ll), "65535"))
@@ -329,7 +332,7 @@ def field_right_edges(tpl: str, samples, english: bool):
                     s = "".join(keep)
             h = 2 * len(s) if english else width_h(s)
         elif conv == "c":
-            h = 2 if english else 1
+            h = 2  # 原版與目標語言都佔一格
             si += 1
         else:
             n = len(NUM_MAX.get((conv, ll), "65535"))

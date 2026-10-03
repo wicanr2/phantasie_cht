@@ -77,6 +77,7 @@ def main():
             if i and line.strip():
                 protected.add(line.split("\t")[0].rstrip())
     fam_rows = {"ui": {}, "prose": {}}  # 規範化鍵 -> (where, 譯文)
+    ui_src = {}  # ui 鍵 -> source 欄
     empty = total = 0
     for path in a.files:
         fam = "prose" if os.path.basename(path).startswith("prose.") else "ui"
@@ -98,6 +99,8 @@ def main():
             if key in seen:
                 errors.append(f"{where}: 鍵重複（規範化後，另一筆在 {seen[key][0]}）")
             seen[key] = (where, tr)
+            if fam == "ui":
+                ui_src[key] = src
             if key in protected:
                 errors.append(f"{where}: 保護清單的鍵不得出現在 catalog")
             if fam == "prose" and not re.fullmatch(r"h:[0-9a-f]{12}", key):
@@ -173,6 +176,8 @@ def main():
                 cand.add(line.split("\t")[0])
         ui = set(fam_rows["ui"])
         for k in sorted(ui - cand):
+            if not any(t.startswith(("res:", "ov1:", "ov2:")) for t in ui_src.get(k, "").split(";")):
+                continue  # 動態變體（dyn）與資料檔字串（TWNS.DAT）本來就不在靜態列舉內
             warns.append(f"孤兒鍵（不在靜態列舉）: {k!r}")
         for k in sorted(cand - ui - protected):
             warns.append(f"缺譯（靜態列舉有、ui 沒有）: {k!r}")
@@ -187,6 +192,17 @@ def main():
                 continue
             if t not in ui:
                 errors.append(f"動態缺譯：in_static=Y 的字串不在 ui: {t!r}（出現 {cnt} 次）")
+    # 原地改寫的兩極性（003 §10、001 §4 的 P 類）：+X 與 -X 要成對
+    ui_keys = set(fam_rows["ui"])
+    for k in sorted(ui_keys):
+        if re.match(r"[+-][A-Za-z]", k):
+            other = ("-" if k[0] == "+" else "+") + k[1:]
+            if other not in ui_keys:
+                errors.append(f"開關標籤 {k!r} 缺相反極性的鍵 {other!r}（001 §4 P 類）")
+    if a.release:
+        for opt, name in ((a.font_tar, "--font-tar"), (a.glossary, "--glossary"), (a.protected, "--protected")):
+            if not opt:
+                errors.append(f"--release 要求指定 {name}")
     if empty:
         (errors if a.release else warns).append(f"空譯文 {empty} 筆")
     for w in warns:

@@ -62,7 +62,7 @@ def main():
         {"ui.t.tsv": HEAD + "HELLO THERE\t你好\tx\n", "prose.t.tsv": HEAD + h + "\t哈囉\tx\n"}, True, ["譯文不同"], fx)
     # 孤兒與缺譯
     run("--sources 孤兒與缺譯",
-        {"ui.t.tsv": HEAD + "ORPHAN\t孤兒\tx\n", "cand.tsv": "key\tkind\tregions\tdyn_seen\tnote\nMISSING\ttext\tres\tN\t\n"},
+        {"ui.t.tsv": HEAD + "ORPHAN\t孤兒\tres:0000\n", "cand.tsv": "key\tkind\tregions\tdyn_seen\tnote\nMISSING\ttext\tres\tN\t\n"},
         False, ["孤兒鍵", "缺譯"], fx + ["--sources", "{d}/cand.tsv"])
     run("--harvest 動態缺譯",
         {"ui.t.tsv": HEAD + "EXIT\t離開\tx\n", "texts.tsv": "count\tcls\tin_static\ttext\n3\tfmtonly\tY\t'Inspect'\n"},
@@ -73,6 +73,10 @@ def main():
     run("%05d", {"ui.t.tsv": HEAD + "N %d\tN %05d\tx\n"}, True, ["不支援的轉換規格"], fx)
     run("轉換序不一致", {"ui.t.tsv": HEAD + "%s HITS %d\t%d 命中 %s\tx\n"}, True, ["轉換序"], fx)
     run("精度改動", {"ui.t.tsv": HEAD + "%-5s\t%-5.1s\tx\n"}, True, ["精度"], fx)
+    # 原地改寫的兩極性、發行模式
+    run("開關標籤缺相反極性", {"ui.t.tsv": HEAD + "+Sound\t+音效\tx\n"}, True, ["缺相反極性"], fx)
+    run("開關標籤成對通過", {"ui.t.tsv": HEAD + "+Sound\t+音效\tx\n-Sound\t-音效\tx\n"}, False, ["錯誤 0"], fx)
+    run("--release 缺字型表", {"ui.t.tsv": HEAD + "EXIT\t離開\tx\n"}, True, ["--release 要求指定 --font-tar"], ["--release"])
     # 置中與留白
     run("<blank> 在模板內", {"ui.t.tsv": HEAD + "A %s\t<blank> %s\tx\n"}, True, ["<blank>"], fx)
     run("\\c 不在開頭", {"ui.t.tsv": HEAD + "A\t甲\\c乙\tx\n"}, True, ["不認得的跳脫"], fx)

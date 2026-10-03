@@ -24,7 +24,7 @@
 | 格式規格只用到 `%s %d %u %c %ld %lu`，旗標只有 `-`，另有無旗標的寬度與 `%-d`（檔名格式）；`%%`、`*`、`0`、`+`、`#`、`h` 靜態掃描未見 | 靜態掃描 150 個實例（`008` §7） | 已證實（靜態）。動態是否出現其他規格見 §12 |
 | 原版格式化核心 `sub_5032` 的精度對字串與數字都是「最多輸出的字元數」，不補零；旗標 `0` 只決定寬度左補白的字元 | `008` §7 | 已證實（讀碼） |
 | 組句：訊息類文字多以 `sprintf(dest, fmt, ...)`（映像 `3E35`）先組進緩衝區（動態：`dest = DS:638E` 的組句有「受到傷害」「命中」「死亡」「你已」等十餘種格式），再以緩衝區當格式字串呼叫 `25A5`；`%s` 引數也可能是這類緩衝區 | `textlog -sprintf` 動態（73 筆 sprintf、122 次關聯） | 已證實 |
-| 組句之後以 `strcat`（映像 `4DEF`，`repne scasb` 找尾端再複製，目的恆為 `638E`）追加指令字：戰鬥指令列的 `sub_D034` 呼叫 `sub_D067`（`sprintf(638E, …)`）後，`sub_D0A1` 內有 7 處 `call sub_5EEF`（`strcat`），最後以 `sub_36A5(0, 列, "%s", 638E)` 畫出；動態 10 次（呼叫端 `BF60`），畫出的文字比 `sprintf` 結果多出追加的指令字 | `ov2.asm` `31748-31778`、`31939` 起；第二輪審查 A-01（`mk11s.log:988-990`） | 已證實 |
+| 組句之後以 `strcat`（映像 `4DEF`，`repne scasb` 找尾端再複製）追加指令字：戰鬥指令列的 `sub_D034` 呼叫 `sub_D067`（`sprintf(638E, …)`）後，`sub_D0A1` 內有 7 處、`sub_D470` 內有 3 處 `call sub_5EEF`（`strcat`），最後以 `sub_36A5(0, 列, "%s", 638E)` 畫出；動態 10 次（呼叫端 `BF60`），畫出的文字比 `sprintf` 結果多出追加的指令字。`strcat` 的目的不限 `638E`：overlay 載入器（呼叫端 `3D3D`）把 `.ovr` 追加到堆疊上的 `FF8E`（四條路線共 33 次），常駐 `sub_3CC8` 也以堆疊緩衝區 `strcat`，這些目的沒有 `sprintf` 記錄（記 `no_rec`，不是缺陷）。T 掛點在函式入口，不依呼叫點數量；動態 `dest=638E` 的 17 次追加（呼叫端 `C069`、`C312`、`C3AF`、`C418`）全部與 `638E` 內容吻合 | `ov2.asm` `31748-31778`、`31939` 起；第二輪審查 A-01（`mk11s.log:988-990`）；第三輪審查 B（四條路線 40 次 `strcat`、組句 95 加 26 次全部吻合） | 已證實 |
 | 卷軸行以格式 `%s`、引數為堆疊緩衝區近指標逐行畫出（列 2 至 21、欄 0） | `008` §2 | 已證實（靜態） |
 | MESS 行：逐字元複製進 `DS:638E`，滿 40 字元才畫一行，最後一行是 chunk 的前 `L mod 40` 字元；選項每欄 11 或 3 字元，格式字串在堆疊 | `008` §2 | 讀碼推論（動態未量到） |
 | 單字元事件覆寫既有文字一格：選項選單把符號 `+` 或 `-` 原地寫進靜態字串（`sub_2A2B`，三個音效選項與自動存檔），再以 `%c` 單字元事件在該格重畫符號。動態 11 次 | `phantasi.asm` `2A2B`；`mk12.log:1152-1158` | 已證實 |
@@ -53,7 +53,7 @@
 | B | `277D` | 共用結尾，視訊寫入已全部完成 | `8B C6 5E 5F` |
 | L | `3D0F` | overlay 載入器入口，`[SP+2]` 是檔名指標。無 BP 框架函式，不是 `55 8B EC` | `8B DC 8B 47 02` |
 | S | `3E35` | `sprintf(dest, fmt, ...)` 入口 | `55 8B EC` |
-| T | `4DEF` | `strcat(dest, src)` 入口（目的恆為 `638E`） | `55 8B EC BA FF 7F` |
+| T | `4DEF` | `strcat(dest, src)` 入口（目的不限 `638E`；沒有 `sprintf` 記錄的目的記 `no_rec` 並忽略） | `55 8B EC BA FF 7F` |
 | `25A5` 入口 | `25A5` | 僅作簽章檢查 | `55 8B EC` |
 
 `002` 的掛點同樣在驗證點檢查（入口 `55 8B EC`，完成位址 `C3`）。
@@ -119,7 +119,15 @@ A 時：
 
 事件矩形：`x0 = Col × 8`、`y0 = Row × 8`、`x1 = min(x0 + len(t) × 8, 320)`、`y1 = min(y0 + 8, 200)`。`Col + len > 40` 或 `Row ≥ 25` 時裁切到畫布並計入 `clipped`（原版會寫進下一條掃描線，疊字層不跟隨）。
 
-**P 類（符號修補）**：只接受已量測的組合（`AGENTS.md` §5）：選項選單的開關符號。處理：**複製**被覆寫的事件記錄成新記錄（新 `ID`），把新記錄的 `Cells` 與 `Text` 該格換成新字元（字面事件的 `Format` 與 `Text` 等長，同步更新；字面鍵一律取 `Text`，`003` §5.2），重新 `Resolve`；成功就以 `004` §5 的重建流程把該事件組換成新 `ID` 的疊字（保留可見範圍、疊序，不 `Clear`）；舊記錄保持原樣，因為先前登記的影子（`002` §4）仍以舊 `ID` 引用它，還原時得到當時的極性。`Resolve` 失敗（catalog 沒有該極性的鍵）則退回 `Layer.Clear` 並計入 `untranslated`。catalog 要同時收開關兩種極性的鍵（`003` §11）。計數 `patched`、`patch_fallback`。其他單字元事件（名字回顯、框線）一律走 N 或 T 的一般流程，不修補。
+**P 類（符號修補）**：只接受已量測的組合（`AGENTS.md` §5）：選項選單的開關符號。動態量到的 11 次符號覆寫，被覆蓋的事件**全部是格式 `%s`**（呼叫端 `107E`，引數指向靜態字串，例如 `+Sound `），沒有字面事件（第三輪審查 B）。處理：**複製**被覆寫的事件記錄成新記錄（新 `ID`），依事件形式把新字元寫進「文字來源」：
+
+| 被覆寫事件的形式 | 修補 |
+|---|---|
+| 格式字串恰為單一 `%s`（恆等模板）且 `ArgStrs[0].Content` 與 `Text` 等長（實測的 11 次都是這一種） | 新記錄的 `Text`、`Cells` 與 `ArgStrs[0].Content` 該格都換成新字元（格偏移對內容偏移） |
+| 字面事件（沒有轉換） | 新記錄的 `Text`、`Cells`、`Format`、`Literal` 該格換成新字元（四者等長） |
+| 其他（模板含字面文字或多個轉換、組句） | 不修補，退回 `Layer.Clear`，計 `patch_fallback` |
+
+之後重新 `Resolve`（`%s` 型以 `ArgStrs[0].Content` 查 `ui`，字面型以 `Literal` 查，所以兩種極性的鍵各命中各自的譯文）；成功就以 `004` §5 的重建流程把該事件組換成新 `ID` 的疊字（保留可見範圍、疊序，不 `Clear`）；舊記錄保持原樣，因為先前登記的影子（`002` §4）仍以舊 `ID` 引用它，還原時得到當時的極性。`Resolve` 失敗（catalog 沒有該極性的鍵）則退回 `Layer.Clear` 並計入 `untranslated`。catalog 要同時收開關兩種極性的鍵（`003` §11）。計數 `patched`、`patch_fallback`。其他單字元事件（名字回顯、框線）一律走 N 或 T 的一般流程，不修補。
 
 ## 5. 解析介面
 
@@ -172,7 +180,7 @@ type Result struct {
 - T 類且 `Resolve` 回 `OK`：對事件的每一筆疊字呼叫 `Layer.Add`（新疊字 `State = Pending`），並記 `hits[ID] = Result.Hits`（收據的 `keys` 取目前 `Layer` 內各事件組的 `hits` 聯集，`005` §5）。計 `translated`。
 - T 類且 `OK=false`：對事件矩形呼叫 `Layer.Clear`；`Reason` 為 `passthrough`、`protected` 時不計缺譯，其餘計入 `untranslated`。原文照常顯示。
 - E 類：不動 `Layer`。K、N 類：`Layer.Clear` 事件矩形（K 計 `blank`，N 計 `nonprintable`）。P 類：見 §4。`badlen`、`truncated_input` 的事件不解析，當 E 類處理（只計數）。
-- `Missed` 非空時，不論 `OK`，計入 `untranslated_args`（鍵集合記錄各缺譯引數）。恆等模板未替換（`Reason = identity`）只計 `untranslated`，不重複計入 `untranslated_args`。
+- `Missed` 非空時，不論 `OK`，計入 `untranslated_args`（鍵集合記錄各缺譯引數）。恆等模板未替換（`Reason = identity`）計一次 `untranslated`（無鍵，因為來源是資料型引數），**其 `Missed` 鍵照常列入 `untranslated_args` 鍵集合**：單一 `%s` 事件缺譯的靜態、怪物、城鎮名正是走 identity，若不列入，覆蓋收據永遠看不到缺譯（第三輪審查 A-04）。
 - `events` 在 A 開啟時計數（每個簽章通過的 A 一次，含重入以外的所有事件）。
 
 延到 B 才動 `Layer` 的理由：A 到 B 是整個 `25A5` 呼叫，前端的步數預算可能在其間結束；若 A 時就移除舊疊字，畫面會有一幀露出正在被改寫的英文。延到 B 時，舊疊字在原版寫入期間繼續遮住，不會閃現原文。因此不需要 `Printing` 狀態，也不要求前端續跑到 B。`Layer.Frame` 與 hook 在同一個 goroutine，只在 `RunUntil` 返回之間呼叫。若 `Frame` 落在 A 與 B 之間（前提：A 與 B 之間至多一次 `Frame`），Shown 舊疊字的指紋比較最多讓部分格的 `misses` 加 1（失效門檻是連續 3 次）；即使 `-frame-every` 很小而有多次 `Frame`，被 B 重寫的格也會在 B 時被 `Add` 取代並重置，不會有殘留。
@@ -189,7 +197,7 @@ type Result struct {
 
 1. 像素集 = 該組全部疊字的非透明格範圍，與事件矩形相交。空白字元（`Text[k] = 20h`）全是背景像素，照算。
 2. `bgIdx` = 背景直方圖的眾數，`fgIdx` = 前景直方圖的眾數（平手取較小色號）。
-3. **有效性閘門**：逐一疊字格計算配對率：像素中 `(m = 0 且色號 = bgIdx)` 或 `(m ≠ 0 且色號 = fgIdx)` 的比例。配對率低於 85% 的格標 `Transparent`（畫面上已不是原文：例如影子還原時畫面已被圖形蓋過，指紋偵測的基線取自當下畫面，不會再把它移除），計入 `inconsistent_cells`；整組全部格都標透明時移除該組疊字（`inconsistent_groups`）。85% 的容忍使停用項目變暗（`002` §5 的 `invert2`：墨像素落在第 2、4 條掃描線者歸零，約佔像素的 8%）仍算一致。全是空白字元的格要求該格同一色號像素不少於 85%。
+3. **有效性閘門**：逐一疊字格計算配對率：像素中 `(m = 0 且色號 = bgIdx)` 或 `(m ≠ 0 且色號 = fgIdx)` 的比例。配對不一致的格標 `Transparent`（`cellConsistent`：該格像素中，`(m = 0 且色號 = bgIdx)` 或 `(m ≠ 0 且色號 = fgIdx)` 的比例不低於 70%，且墨像素（`m ≠ 0`）不少於 6 個時，其中色號 = fgIdx 者不低於 50%）（畫面上已不是原文：例如影子還原時畫面已被圖形蓋過，指紋偵測的基線取自當下畫面，不會再把它移除），計入 `inconsistent_cells`；整組全部格都標透明時移除該組疊字（`inconsistent_groups`）。70% 與 50% 的門檻使停用項目變暗（`002` §5 的 `invert2`：格內第 2、4 條掃描線歸零）仍算一致：對 FONT 的實算，變暗後整格配對率最差的字模（`#`）為 78.1%、`MONK` 整字 84.8%，墨像素保留率不低於 50%（第三輪審查 A-07）；而「原文被空白蓋掉」的格墨像素配對為 0%，必不一致（只用總配對率的話，墨少的字模蓋在空白上仍有 90% 以上）。全是空白字元的格要求該格同一色號像素不少於 85%。
 4. `BG`、`FG` 取 `rgb` 中該色號第一次出現的位置的 RGB（與 `xlate` 的取色相同）。整組疊字（含補白段與半形段）一律用同一組 `BG`、`FG`，所以不再需要「複製第一個非單色段」的 `unifyColors`。
 5. 前景直方圖為空（事件全是空白字元）、或 `bgIdx = fgIdx`（例如反白前後混合、變暗），退回 `xlate.Frame` 已定的色並計入 `recolor_fallback`。
 
@@ -208,8 +216,8 @@ type Result struct {
 | `composed`、`composed_miss_dest`、`composed_miss_prefix`、`composed_miss_content`、`composed_miss_percent` | A 的關聯檢查時（§3.4） |
 | `truncated`、`truncated_input`、`badformat`、`badlen`、`badarg`、`clipped` | 擷取與版面時 |
 | `straddle`、`recolor_fallback`、`inconsistent_cells`、`inconsistent_groups`、`missing_glyph`（`Draw` 的 `missing` 回呼） | 疊字與定色時（§6、§8） |
-| `unpaired`、`dup_open`、`dup_close`、`prearm`、`prearm_completion` | hook 配對（§3.2） |
-| `rebuild_lost`、`switch_untranslated`、`shadow_lost` | 語言切換與影子還原（`004`、`002`） |
+| `unpaired`、`dup_open`、`dup_close`、`prearm`、`prearm_completion` | hook 配對（§3.2）。已測的四條路線實測：`unpaired` 0、`dup_open` 0、`dup_close` 0、`prearm` 9（設模式前觸發的 `int86`：入口 5、完成 4）、`prearm_completion` 1，作為回歸預期 |
+| `rebuild_lost`、`switch_untranslated`、`shadow_lost`、`shadow_skip` | 語言切換與影子還原（`004`、`002`） |
 | `dim` | `invert2` 完成（`002` §5） |
 | `arg_unclassified` | 分類為 `other` 的 `%s` 引數（`003` §5.1），帶 `(呼叫端, 引數序, 指標高位元組)` 集合 |
 | `op_<名稱>` | 每個在途畫面操作的觸發次數：int86 依（中斷號、`AH`）分列、八個畫面函式各一（`002` §8.4） |
@@ -218,7 +226,7 @@ type Result struct {
 
 ## 10. 驗收
 
-1. 單元測試（純 Go，不需原版，期望值字面值）：事件分類（含 E、K、N、P、裁切）、半形全形切段（寬度表來自測試字型）、補白與截斷、置中、疊字欄位（`Font.Name` 缺漏回錯）、**`recolor`**（見下）、冪等去重（同引數重入忽略、任一不同記 `unpaired` 並提交上一事件；`badlen` 與 E 類事件的 B 不記 `dup_close`）、B 重複記 `dup_close`、`prearm` 期間的入口與完成不記 `dup_close`、提交時機（A 之後、B 之前 `Layer` 不變）、組句關聯（`sprintf`、`strcat` 追加、巢狀在 S 時建立、**`25A5` 的頂層 `%s` 引數指向含 `Appends` 的 `dest`**、含 `%` 的緩衝區不關聯、前綴相符記 `composed_miss_prefix`）、簽章驗證時機（視訊模式非 04h 時的 hook 被忽略並記 `prearm`）、**P 類**（開關兩種極性：`+標籤` 被 `-` 覆寫後 `Resolve` 命中另一極性的鍵；舊記錄不變；`Resolve` 失敗退回 `Clear`）。
+1. 單元測試（純 Go，不需原版，期望值字面值）：事件分類（含 E、K、N、P、裁切）、半形全形切段（寬度表來自測試字型）、補白與截斷、置中、疊字欄位（`Font.Name` 缺漏回錯）、**`recolor`**（見下）、冪等去重（同引數重入忽略、任一不同記 `unpaired` 並提交上一事件；`badlen` 與 E 類事件的 B 不記 `dup_close`）、B 重複記 `dup_close`、`prearm` 期間的入口與完成不記 `dup_close`、提交時機（A 之後、B 之前 `Layer` 不變）、組句關聯（`sprintf`、`strcat` 追加、巢狀在 S 時建立、**`25A5` 的頂層 `%s` 引數指向含 `Appends` 的 `dest`**、含 `%` 的緩衝區不關聯、前綴相符記 `composed_miss_prefix`）、簽章驗證時機（視訊模式非 04h 時的 hook 被忽略並記 `prearm`）、**P 類**（實測形式：格式恆為單一 `%s`、引數指向 `+Sound ` 的事件被單字元 `-` 覆寫後，新記錄的 `Text`、`Cells`、`ArgStrs[0].Content` 同步，`Resolve` 命中 `-Sound` 的譯文，切回 `+` 命中 `+Sound`；字面事件同理；舊記錄不變；其他形式與 `Resolve` 失敗退回 `Clear`）。
    - `recolor` 的字面期望值（合成字型，不含原版素材）：測試字型內自訂兩種字模：`heavy`（8×8 內 36 個墨點）與 `light`（10 個墨點），以它們組成的事件文字建出螢幕（墨色 3、底色 0，以及反白後墨色 0、底色 3 兩種）；期望 `fgIdx`、`bgIdx` 為字面值；對照：`xlate.Colors` 多數色規則在以 `heavy` 開頭的單一全形段上判反（作為「兩種規則確實不同」的對照）。另有粗體混合、空白格、部分格被覆蓋（`Transparent`）、4 像素半形段與 8 像素原版格錯位的案例。有效性閘門：把某格的畫面換成與字模無關的圖樣，該格被標 `Transparent`。
    - 以真實 `FONT`（有原版時，缺檔 SKIP）驗證：字模遮罩與螢幕色號對應率 100%：任一已畫出的 T 類事件（未被反白或變暗者），遮罩為 0 的像素全為同一色號，非 0 的像素全為另一色號；另以 `MONK`、`NO`、`HALBERD`、`MAGIC 1` 四個鍵的真實字模建出畫面，`recolor` 得到的 `fgIdx`、`bgIdx` 與畫面的墨色、底色一致，且 `xlate.Colors` 多數色規則在 `MONK` 上判反。
 2. 同狀態比對（需原版，缺檔 SKIP 並說明不算驗收）：以「完全不掛任何 hook 的 `RunUntil`」為基準，與「掛全部 hook、疊字開啟」「掛全部 hook、疊字關閉（`-overlay off`，`005` §5.1）」三組在同一固定步數的 `B800:0000` 起 `4000h` bytes 雜湊、映像與 DGROUP 記憶體雜湊必須全部相同。這是 hook 唯讀的證明；疊字畫對位置與顏色另由 3、4、5 判定。
