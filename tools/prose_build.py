@@ -4,7 +4,7 @@
   python -B prose_build.py <prose-units.jsonl> <譯文目錄> <輸出 prose.zh-TW.tsv> \
       [--glossary text/glossary.tsv] [--font-tar T --font-member M] [--report 報告檔]
 
-譯文檔：<譯文目錄>/*.zh.jsonl，每列 {"id": ..., "zh": [每行一個字串], "opt_zh": [選項標籤]}。
+譯文檔：<譯文目錄>/*.<lang>.jsonl（--lang，預設 zh），每列 {"id": ..., "<lang>": [每行一個字串], "opt_<lang>": [選項標籤]}。
 檢查（任一項違規就列出，違規的單位不寫入）：
   id 都在單位清單內、行數與原文相同、每行顯示寬度（全形 2、其他 1，半格）不超過 80、無控制字元、
   字型有該字、英文原文含術語表的詞（不分大小寫、詞界）時，該則譯文必須含對應譯詞。
@@ -48,6 +48,7 @@ def main():
     ap.add_argument("--font-tar")
     ap.add_argument("--font-member")
     ap.add_argument("--report")
+    ap.add_argument("--lang", default="zh", help="譯文語言代碼（zh、ja、ko）：決定檔名 *.<lang>.jsonl 與欄位名")
     a = ap.parse_args()
     units = {}
     for l in open(a.units, encoding="utf-8"):
@@ -67,7 +68,7 @@ def main():
                 c = line.rstrip("\n").split("\t")
                 glossary.append((c[0], c[1]))
     problems, got = [], {}
-    for path in sorted(glob.glob(os.path.join(a.zhdir, "*.zh.jsonl"))):
+    for path in sorted(glob.glob(os.path.join(a.zhdir, f"*.{a.lang}.jsonl"))):
         for n, l in enumerate(open(path, encoding="utf-8"), 1):
             if not l.strip():
                 continue
@@ -81,7 +82,7 @@ def main():
                 problems.append(f"{path}:{n}: 未知的 id {uid}")
                 continue
             u = units[uid]
-            zh = t.get("zh")
+            zh = t.get(a.lang)
             where = f"{os.path.basename(path)}:{uid}"
             bad = False
             if not isinstance(zh, list) or len(zh) != len(u["lines"]):
@@ -110,9 +111,9 @@ def main():
                         if ord(ch) not in cps:
                             problems.append(f"{where}#{i}: 字型缺字 U+{ord(ch):04X} {ch}")
                             bad = True
-            oz = t.get("opt_zh", [])
+            oz = t.get(f"opt_{a.lang}", [])
             if len(oz) != len(u.get("opt_cells", [])) or any(not isinstance(x, str) or not x.strip() for x in oz):
-                problems.append(f"{where}: opt_zh 數量 {len(oz)} 與選項 {len(u.get('opt_cells', []))} 不同或有空白")
+                problems.append(f"{where}: opt_{a.lang} 數量 {len(oz)} 與選項 {len(u.get('opt_cells', []))} 不同或有空白")
                 continue
             raw_cells = [c.replace("~", " ") for c in (u.get("opt") or "").split("|") if c.strip()]
             for j, x in enumerate(oz):
@@ -147,7 +148,7 @@ def main():
 
     for uid, t in got.items():
         u = units[uid]
-        for i, (en, zh) in enumerate(zip(u["lines"], t["zh"])):
+        for i, (en, zh) in enumerate(zip(u["lines"], t[a.lang])):
             if not en.strip():
                 continue
             # 置中行去掉頭尾空白（版面層置中）；其他行只去尾端，保留譯文自己的開頭空白（docs/spec/001 §6）
@@ -158,7 +159,7 @@ def main():
             else:
                 tr = zh.rstrip(" ")
             add(key_of(en), tr, f"{uid}#{i}")
-        for j, (en, zh) in enumerate(zip(u.get("opt_cells", []), t.get("opt_zh", []))):
+        for j, (en, zh) in enumerate(zip(u.get("opt_cells", []), t.get(f"opt_{a.lang}", []))):
             add(key_of(en), zh.strip(), f"{uid}/opt{j}")
     rows.sort()
     cl.write_tsv(a.out, rows)
