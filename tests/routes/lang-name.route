@@ -1,0 +1,22 @@
+# 語言切換（docs/spec/004 §7 第 3 項的第二例：輸入名字畫面）。
+# 建立角色到「輸入名字」，輸入兩個字母後切換語言：單字元事件部分覆蓋輸入列的疊字，
+# zh-TW 與 zh-CN 切換前後可見格集合不變，玩家剛輸入的字母不被蓋住；ja、ko 以截圖目視。
+Return
+Return
+Return
+Return
+Return
+Return
+A
+l
+@check name-tw
+@lang zh-CN
+@check name-cn
+@assert-visible-same name-tw name-cn
+@lang ja
+@check name-ja
+@lang ko
+@check name-ko
+@lang zh-TW
+@check name-tw2
+@assert-visible-same name-tw name-tw2

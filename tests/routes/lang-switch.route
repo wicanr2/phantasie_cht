@@ -1,0 +1,20 @@
+# 語言切換（docs/spec/004 §7 第 3 項的第一例：部分覆蓋事件與影子還原）。
+# 城鎮選單列顯示時切換語言，下一個 Frame 後選單列為新語言；開啟公會選單再關閉（影子還原）後，
+# 選單列仍為新語言；zh-TW 與 zh-CN 的切段相同，所以可見格集合在切換前後不變。
+Return
+@check town-tw
+@lang zh-CN
+@check town-cn
+@assert-visible-same town-tw town-cn
+Return
+@check guild-open-cn
+Esc
+@check guild-closed-cn
+@assert-visible-same town-tw guild-closed-cn
+@lang ja
+@check guild-closed-ja
+@lang ko
+@check guild-closed-ko
+@lang zh-TW
+@check guild-closed-tw
+@assert-visible-same town-tw guild-closed-tw
