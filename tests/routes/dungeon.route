@@ -1,0 +1,155 @@
+# 地牢：建立四位隊員、離開城鎮、走到地圖上的地牢入口（Left 5、Up 7）並進入，
+# 涵蓋地牢進入提示、地牢底部位置列（走道、衛兵室）、頂端選單、選項選單（含「查看」）、速度選單。
+# 地牢訊息視窗與選項視窗未走到（見回報）。前 4 步無遭遇；第 7 步會遭遇戰鬥，本路線不走到。
+# 注意：@check 之間的讀鍵節奏會影響隨機數，改動既有檢查點可能改變遭遇時機。
+Return
+Return
+Return
+Return
+Down
+Down
+Down
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Return
+Return
+Down
+Down
+Return
+Return
+B
+o
+b
+Return
+Return
+Return
+Up
+Return
+Return
+C
+a
+r
+o
+l
+Return
+Return
+Return
+Up
+Return
+Return
+D
+a
+v
+e
+Return
+Up
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Esc
+Left
+Left
+Left
+Return
+Left
+Left
+Left
+Left
+Left
+Up
+Up
+Up
+Up
+Up
+Up
+Up
+@check dungeon-prompt
+@expect A DUNGEON. ENTER?
+@expect NO
+@expect YES
+Return
+Down
+@check dungeon-step1
+@expect h:7752efa11e70
+Down
+Down
+Down
+@check dungeon-step4
+@expect h:5e45a292af35
+Left
+Left
+@check dungeon-guard-left
+@expect h:5e45a292af35
+Right
+Right
+Right
+@check dungeon-guard-right
+@expect h:5e45a292af35
+Return
+@check dungeon-top
+@expect Exit
+@expect Options
+@expect Speed
+@expect h:5e45a292af35
+Return
+@check dungeon-opts
+@expect +Sound
+@expect Cast spell
+@expect Exit
+@expect Health
+@expect Inspect
+@expect Look
+@expect Options
+@expect Speed
+@expect Use potion
+@expect h:5e45a292af35
+Down
+Down
+Down
+Down
+@check dungeon-opts-look
+@expect +Sound
+@expect Cast spell
+@expect Exit
+@expect Health
+@expect Inspect
+@expect Look
+@expect Options
+@expect Speed
+@expect Use potion
+@expect h:5e45a292af35
+Return
+@check dungeon-look
+@expect +Sound
+@expect Cast spell
+@expect Exit
+@expect Health
+@expect Inspect
+@expect Look
+@expect Options
+@expect Speed
+@expect Use potion
+@expect h:5e45a292af35
+Esc
+Right
+Return
+@check dungeon-speed
+@expect Exit
+@expect Options
+@expect Speed
+@expect exit
+@expect fast
+@expect h:5e45a292af35
+@expect normal
+@expect slow

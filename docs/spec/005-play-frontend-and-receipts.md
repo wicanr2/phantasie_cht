@@ -49,8 +49,13 @@
 | `Return`、`Esc`、`Up`、…、`A`、`1` | 送出一個按鍵（經 `KeyGate`，每次讀鍵入口送一個） |
 | `@wait <N>` | 等原版**再讀鍵 N 次**（讀鍵入口次數，不是步數）後才送下一個鍵（用於需要等動畫的畫面；預設 0）。需要新的閘門機制 `KeyGate.PressAfterReads(n, name)`（§8） |
 | `@check <名稱>` | 在原版第 K 次讀鍵入口（K 為該行之前已送出的鍵數加 1）停下，輸出收據（§5） |
-| `@expect <key>` | 緊接在 `@check` 之後，可多行：該檢查點畫面上**必須已有疊字**的 catalog 鍵（`ui` 的英文鍵或 `prose` 的 `h:` 摘要鍵）。收據比對實際疊字鍵集合，缺少者為失敗 |
-| `@known-untranslated <key>` | 緊接在 `@check` 之後，可多行：該檢查點允許未譯的鍵（已知缺口，附 Issue 編號作註解）；收據的 `untranslated` 與 `untranslated_args` 鍵集合超出此清單者為失敗 |
+| `@snap <名稱> <N>` | 所有排入的鍵都送出後，再執行 **N 步**並擷取，輸出收據（§5）。用於原版沒有讀鍵入口的畫面（戰鬥回合結算：命中、傷害、治療等訊息）。N 相對於目前位置，連續的 `@snap` 逐段累加。不等在途事件結束：步數只由路線決定，`-hooks none`、`-overlay off`、`-overlay on` 的 `steps` 才可比對（§5.1）；擷取點可能落在事件的 A 與 B 之間，稽核對在途事件的矩形略過。名稱與 `@check` 共用同一個名稱空間 |
+| `@lang <語言>` | 切換顯示語言（需要 `-extra-lang` 或路線用到的語言自動載入；`004` §5、§7） |
+| `@assert-visible-same <A> <B>`、`@assert-same-screen <A> <B>` | 兩個先前出現的檢查點的可見格集合（前者）或畫面與疊字內容（後者，`vram_hash` 與 `content_hash`）必須相同（`004` §7 第 3 項） |
+| `@expect <key>` | 緊接在 `@check` 或 `@snap` 之後，可多行：該檢查點畫面上**必須已有疊字**的 catalog 鍵（`ui` 的英文鍵或 `prose` 的 `h:` 摘要鍵）。收據比對實際疊字鍵集合，缺少者為失敗 |
+| `@known-untranslated <key>` | 緊接在 `@check` 或 `@snap` 之後，可多行：該檢查點允許未譯的鍵（已知缺口，附 Issue 編號作註解）；收據的 `untranslated` 與 `untranslated_args` 鍵集合超出此清單者為失敗 |
+
+`@snap` 的覆蓋門檻（§5）：沒有 `@expect` 的 `@snap` 不要求 `stamps` 至少為 1（擷取點可能落在沒有文字的畫面，例如戰鬥動畫），它的價值在於累計的未譯鍵集合與每個 `Frame` 取樣的稽核涵蓋整個回合；有 `@expect` 者照一般檢查點處理。
 
 路線不含任何防拷題或手冊答案（`AGENTS.md` §1）。路線檔不含原版素材，可進版控。`@expect`、`@known-untranslated` 的鍵只列 UI 字串與摘要鍵，不列玩家輸入。
 

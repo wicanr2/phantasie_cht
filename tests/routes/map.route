@@ -1,0 +1,220 @@
+# 大地圖：建立四位隊員（戰士、巫師、牧師、戰士）、離開城鎮到大地圖，涵蓋頂端選單、選項選單、
+# 檢視（外出天數面板、隊員清單、角色頁、法術列表）、施放法術（誰施放、哪個法術、對誰）、
+# 使用藥水（誰使用）、音效開關、速度選單，以及地圖上旅店與城鎮的進入提示。
+# 地圖畫面本身沒有文字，不放檢查點。決定性：不含隨機戰鬥路段（走 7 格內無遭遇）。
+Return
+Return
+Return
+Return
+Down
+Down
+Down
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Return
+Return
+Down
+Down
+Return
+Return
+B
+o
+b
+Return
+Return
+Return
+Up
+Return
+Return
+C
+a
+r
+o
+l
+Return
+Return
+Return
+Up
+Return
+Return
+D
+a
+v
+e
+Return
+Up
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Esc
+Left
+Left
+Left
+Return
+Return
+@check map-top
+@expect Exit
+@expect Options
+@expect Speed
+Return
+@check map-opts
+@expect +Sound
+@expect Cast spell
+@expect Exit
+@expect Health
+@expect Inspect
+@expect Options
+@expect Speed
+@expect Use potion
+Return
+@check map-inspect
+@expect DAY OUT%21u
+@expect EXPERIENCE POINTS%11lu
+@expect GOLD PIECES%17u
+@expect INSPECT MEMBER?
+@expect NO
+@expect YES
+Right
+@check map-inspect-yes
+@expect DAY OUT%21u
+@expect EXPERIENCE POINTS%11lu
+@expect GOLD PIECES%17u
+@expect INSPECT MEMBER?
+@expect NO
+@expect YES
+Return
+@check map-inspect-list
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect FIGHTER
+@expect HUMAN
+@expect OK
+@expect PRIEST
+@expect WHOM DO YOU WANT TO INSPECT?
+@expect WIZARD
+Down
+Return
+@check map-sheet
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect OK
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect WIZARD
+Up
+Return
+@check map-spells
+@expect FIREFLASH I
+@expect SPELLS AVAILABLE:
+Esc
+Esc
+Esc
+Down
+Down
+Return
+@check map-cast-who
+@expect %-10.9s%-6.5sHP%4d/%-4dMP%3d/%d
+@expect OK
+@expect WHO WILL CAST SPELL:
+Return
+@check map-cast-bob
+@expect FIREFLASH I
+@expect WHICH SPELL?
+Esc
+Down
+Return
+@check map-cast-carol
+@expect HEALING I
+@expect WHICH SPELL?
+Return
+@check map-cast-onwhom
+@expect %-10.9s%-6.5sHP%4d/%-4dMP%3d/%d
+@expect OK
+@expect ON WHOM:
+Return
+Down
+Return
+@check map-potion-who
+@expect %-10.9s%-6.5sHP%4d/%-4dMP%3d/%d
+@expect OK
+@expect WHO WILL USE POTION:
+Esc
+Down
+Return
+@check map-sound-off
+@expect -Sound
+@expect Cast spell
+@expect Exit
+@expect Health
+@expect Inspect
+@expect Options
+@expect Speed
+@expect Use potion
+Esc
+Right
+Return
+@check map-speed
+@expect Exit
+@expect Options
+@expect Speed
+@expect exit
+@expect fast
+@expect normal
+@expect slow
+Down
+Return
+@check map-speed-slow
+@expect Exit
+@expect Options
+@expect Speed
+@expect exit
+@expect fast
+@expect normal
+@expect slow
+Esc
+Esc
+Left
+Left
+Left
+Left
+Left
+Left
+Left
+Up
+Up
+@check map-inn-prompt
+@expect AN INN. ENTER?
+@expect NO
+@expect YES
+Return
+Down
+Down
+Right
+Right
+Right
+Right
+Right
+Right
+Right
+@check map-town-prompt
+@expect A TOWN. ENTER?
+@expect NO
+@expect YES

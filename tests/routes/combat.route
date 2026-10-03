@@ -1,0 +1,240 @@
+# 戰鬥：建立四位隊員（戰士、巫師、牧師、戰士）、走進地牢，第 7 步遭遇戰鬥（調色盤綠紅黃），
+# 涵蓋戰鬥選單列、速度選單、隊伍選項選單（含分隔線，該行 ------------ 為已知未譯鍵）、
+# 戰鬥指令列（隊員清單）、單一隊員指令選擇（刺擊、攻擊、劈砍、突刺、施法、格擋）、法術列表、施法對象清單，
+# 以及按 Esc 開始的整個戰鬥回合：回合期間原版沒有讀鍵入口，@check 停不下來，改用 @snap 每 20,000,000 步擷取一次
+# （命中、治療等訊息出現在 @snap 的畫面）。未譯鍵集合是累計的，殘字與外露稽核在每個 Frame 取樣，
+# 所以整個回合內任何時刻出現的未譯文字或殘字都會讓後面的 @snap 失敗，不限於擷取當下的畫面。
+# 注意：@check 之間的讀鍵節奏會影響隨機數，改動既有檢查點可能改變遭遇時機。
+Return
+Return
+Return
+Return
+Down
+Down
+Down
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Return
+Return
+Down
+Down
+Return
+Return
+B
+o
+b
+Return
+Return
+Return
+Up
+Return
+Return
+C
+a
+r
+o
+l
+Return
+Return
+Return
+Up
+Return
+Return
+D
+a
+v
+e
+Return
+Up
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Esc
+Left
+Left
+Left
+Return
+Left
+Left
+Left
+Left
+Left
+Up
+Up
+Up
+Up
+Up
+Up
+Up
+@check combat-prompt
+@expect A DUNGEON. ENTER?
+@expect NO
+@expect YES
+Return
+Down
+@check combat-step1
+@expect h:7752efa11e70
+Down
+@check combat-step2
+@expect h:7752efa11e70
+Down
+@check combat-step3
+@expect h:5e45a292af35
+Down
+@check combat-step4
+@expect h:5e45a292af35
+Down
+@check combat-step5
+@expect h:7752efa11e70
+Down
+@check combat-step6
+@expect h:7752efa11e70
+Down
+@check combat-bar
+@expect PARTY OPTIONS
+@expect SPEED
+Right
+Return
+@check combat-speed
+@expect PARTY OPTIONS
+@expect SPEED
+@expect exit
+@expect fast
+@expect normal
+@expect slow
+Esc
+@check combat-bar2
+@expect PARTY OPTIONS
+@expect SPEED
+Left
+Return
+@check combat-popup
+@expect +Sound
+@expect Beg mercy
+@expect Exit
+@expect FIGHT
+@expect Flee
+@expect Greetings
+@expect PARTY OPTIONS
+@expect Party health
+@expect SPEED
+@expect Show names
+@expect Threaten
+@known-untranslated ------------
+Return
+@check combat-cmd
+@expect %-10.9sHP:%-4.3dMP:%-3d
+@expect FIGHT
+@expect PARRY
+@known-untranslated ------------
+Down
+Return
+@check combat-cmd-row
+@expect %-10.9sHP:%-4.3dMP:%-3d
+@expect ATTACK
+@expect CAST
+@expect FIGHT
+@expect LUNGE
+@expect PARRY
+@expect SLASH
+@expect THRUST
+@known-untranslated ------------
+Return
+@check combat-cmd-alice-set
+@expect %-10.9sHP:%-4.3dMP:%-3d
+@expect FIGHT
+@expect PARRY
+@expect THRUST
+@known-untranslated ------------
+Down
+Return
+Right
+Right
+Right
+Right
+Return
+@check combat-spell-bob
+@expect FIREFLASH I
+@expect WHICH SPELL?
+@known-untranslated ------------
+Return
+@check combat-cmd-bob-set
+@expect %-10.9sHP:%-4.3dMP:%-3d
+@expect FIGHT
+@expect FIREFLASH I
+@expect PARRY
+@expect THRUST
+@known-untranslated ------------
+Down
+Return
+Return
+Return
+@check combat-onwhom
+@expect %-10.9s%-6.5sHP%4d/%-4dMP%3d/%d
+@expect OK
+@expect ON WHOM :
+@known-untranslated ------------
+Return
+@check combat-cmd-carol-set
+@expect %-10.9sHP:%-4.3dMP:%-3d
+@expect FIGHT
+@expect FIREFLASH I
+@expect HEALING I
+@expect PARRY
+@expect THRUST
+@known-untranslated ------------
+Esc
+@snap round1 20000000
+@expect %s IS HEALED
+@known-untranslated ------------
+@snap round2 20000000
+@expect %s HITS
+@expect KOBOLD
+@known-untranslated ------------
+@snap round3 20000000
+@expect %s HITS
+@expect KOBOLD
+@known-untranslated ------------
+@snap round4 20000000
+@known-untranslated ------------
+@snap round5 20000000
+@known-untranslated ------------
+@snap round6 20000000
+@known-untranslated ------------
+@snap round7 20000000
+@known-untranslated ------------
+@snap round8 20000000
+@expect %s HITS
+@expect KOBOLD
+@known-untranslated ------------
+@snap round9 20000000
+@known-untranslated ------------
+@snap round10 20000000
+@known-untranslated ------------
+@snap round11 20000000
+@known-untranslated ------------
+@snap round12 20000000
+@known-untranslated ------------
+@snap round13 20000000
+@expect PARTY OPTIONS
+@expect SPEED
+@known-untranslated ------------
+@snap round14 20000000
+@expect PARTY OPTIONS
+@expect SPEED
+@known-untranslated ------------
+@check after-round
+@expect PARTY OPTIONS
+@expect SPEED
+@known-untranslated ------------
