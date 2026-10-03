@@ -3,7 +3,7 @@
 # 並以兩種 -frame-every 重跑 on，比對每個檢查點的 steps、reads、vram_hash、mem_hash（必須全同）
 # 與 layer_hash（Frame 節奏不同時必須相同，否則失敗）。
 #
-#   tools/ab_receipt.sh <路線檔> [語言，預設 zh-TW]
+#   [PHANTASIE_AB_FLAGS="-extra-lang zh-CN"] tools/ab_receipt.sh <路線檔> [語言，預設 zh-TW]
 #
 # 收據輸出到 $PHANTASIE_OUT（預設 workplace/receipts/ab/<路線名>）。缺原版檔時 SKIP。
 set -euo pipefail
@@ -19,7 +19,8 @@ export PHANTASIE_OUT="$OUT"
 run() { # 標籤 旗標...
   local tag="$1"; shift
   local d="$OUT/$tag"
-  PHANTASIE_OUT="$d" "$ROOT/tools/run_receipt.sh" "$ROUTE" -lang "$LANG_" "$@" >"$OUT/$tag.log" 2>&1 || true
+  # PHANTASIE_AB_FLAGS：每次執行都加的旗標（例如語言路線要 -extra-lang zh-CN）
+  PHANTASIE_OUT="$d" "$ROOT/tools/run_receipt.sh" "$ROUTE" -lang "$LANG_" ${PHANTASIE_AB_FLAGS:-} "$@" >"$OUT/$tag.log" 2>&1 || true
   ls "$d"/*.tsv >/dev/null 2>&1 || { echo "SKIP 或失敗：$tag（見 $OUT/$tag.log）"; cat "$OUT/$tag.log" | tail -3; exit 0; }
 }
 
