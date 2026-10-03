@@ -6,5 +6,7 @@
 | 編號 | 檔案 | 內容 |
 |---|---|---|
 | 001 | `001-input-inventory.md`、`001-input-inventory.tsv` | 輸入清冊：70 個檔案的大小、SHA-256、格式判定、證據等級、來源權利分類 |
+| 002 | `002-probe-receipt.md` | dosgolem probe 盤點：三個 `.COM` 與 `PHANTASI.EXE` 的執行結果、LZEXE 解壓後映像、串跑診斷、dosgolem 缺口（`INT 27h`） |
+| 003 | `003-ida-static-survey.md` | 常駐映像的 IDA 靜態盤點：INT 60h 檢查、視訊模式 04h、`INT 10h` 包裝、overlay 載入器、與 `AGENTS.md` §2 未知項的對照 |
 
-產生清冊的工具是 `tools/inventory.py`，在 Docker 內執行。研究工作區 `workplace/` 不進版控。
+產生清冊的工具是 `tools/inventory.py`，IDA 盤點是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。
