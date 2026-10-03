@@ -1,6 +1,6 @@
 # 001 繪字事件與疊字核心
 
-狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。證據來源：`docs/re/003`、`005`、`006`、`007`、`008`。實作位置：dosgolem 分支 `phantasie-cht-overlay` 的 `apps/phantasie/`。
+狀態：CONFORMED（2026-10-04；驗收收據見 §13；READY 於 2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。證據來源：`docs/re/003`、`005`、`006`、`007`、`008`。實作位置：dosgolem 分支 `phantasie-cht-overlay` 的 `apps/phantasie/`。
 
 ## 1. 範圍
 
@@ -264,3 +264,30 @@ type Result struct {
 4. 非 `25A5` 文字路徑已由 `008` §9 的位元組掃描排除（第二條取字模路徑不存在）。
 5. `straddle`（全形字跨原格被部分覆寫）的實際發生頻率：量到之後再決定要不要把全形字對齊到偶數 h。
 6. 組句以外的字串建構（`strcpy` 或逐字元複製進緩衝區）：以 `composed_miss_prefix` 與 `arg_unclassified` 量化，量到再補掛點。
+
+## 13. 驗收收據（2026-10-04）
+
+### 13.1 環境
+
+| 項目 | 內容 |
+|---|---|
+| 原版 | `PHANTASI.EXE` SHA-256 `0f00a1af62cfcc383b4ca2e4382321f357063ba1457081da6edca4eb9f28e716`；解壓後映像 SHA-256 `99fd8f97695f47128a41908df68d653f9b4cbcb8b233a79a20f185165ee23728`，載入段 `21AF`，`hook_sig` 為 `ok`，`FONT` 雜湊 `290385af7a5c667a69674b447b386fa4d8b3cde326da874b053944ba7e27bb37` |
+| 引擎 | dosgolem 分支 `phantasie-cht-overlay` commit `e2513a6`（本機，未推送） |
+| 專案 | phantasie `main` commit `a0704f5（本節加入前的 HEAD）` |
+| 執行 | 全部在 Docker：`tools/go.sh`（Go 1.24）、`tools/run_receipt.sh`、`tools/ab_receipt.sh`；缺原版時整個收據工具 SKIP，不算驗收 |
+
+### 13.2 §10 各項的收據
+
+| 項 | 收據 | 結果 |
+|---|---|---|
+| 1 單元測試 | `go test ./apps/phantasie -count=1 -v`：287 個頂層測試全部 PASS，含 7 個環境閘門測試以 `DOSGOLEM_TEST_ROOT`、`DOSGOLEM_EXTRA_MOUNT` 實際執行（`TestCatalogRealFiles`、`TestFormatVectors*` 三個、`TestSessionSmoke`、`TestSessionRealFontRecolor`、`TestSessionKeyGate`，皆為 PASS，不是 SKIP）。真實 `FONT` 的驗證是 `TestSessionRealFontRecolor`（`MONK`、`NO`、`HALBERD`、`MAGIC 1` 兩種極性，`xlate.Colors` 在 `MONK` 上判反的對照）。其他 dosgolem 套件（`internal/...`、`oracle`、`xlate`）同一 commit 全過 | 通過 |
+| 2 同狀態比對 | `tools/ab_receipt.sh` 對 16 條路線（`title`、`weapon-list-scroll`、`guild`、`town`、`shops`、`messages`、`town-timed`、`save-load`、`title-items`、`inn-distribute`、`map`、`dungeon`、`combat`、`lang-switch`、`lang-name`、`lang-options`；後三條帶 `-extra-lang zh-CN`）各跑 `-hooks none`、`-overlay off`、`-overlay on`，每個檢查點的 `steps`、`reads`、`vram_hash`、`mem_hash` 相同，兩種 `-frame-every` 的 `layer_hash` 相同 | 通過（16 條） |
+| 3 位置 oracle | 收據工具預設開 `-position-oracle`，`pos_bad` 非 0 即判 FAIL；全部路線 `pos_bad` 為 0，累計 `pos_ok` 2,316 | 通過 |
+| 4 覆蓋收據 | 標題、城鎮選單列、公會選單（`title`、`title-items`、`town`、`guild`），另有大地圖、地城、戰鬥、商店、訊息、存檔（`map`、`dungeon`、`combat`、`shops`、`messages`、`save-load`）。每個 `@check` 有 PNG 與收據列；`@expect` 鍵都在 `keys` 內 | 通過；訊息視窗見 `005` §6 的「未量到」 |
+| 5 負對照 | 突變驗證（隔離副本，`go test` 判定）：規格列出的負對照與額外探針共 44 筆，41 筆被既有測試抓到，3 筆存活（`AuditEvents` 沒有正向測試的缺口）；補 `audit_test.go` 後該 3 筆與另兩筆相關突變全被抓到。故障注入：`-fault noadd` 時 `exposed_events` 為 16、12、13（`weapon-list-scroll`）；`-fault noclear` 時 `stale_cells` 為 195；`-fault nostrcat` 時戰鬥指令列 `composed_miss_prefix` 為 4、缺疊字鍵；`-fault verify-early` 在 LZEXE 解壓前驗簽章失敗並印出「掛點 A（映像 26E9）簽章不符：期望 `8B 46 06`，實際 `1E 43 E2`」 | 通過 |
+
+### 13.3 實作期間的處置與勘誤
+
+- 反白矩形可以只涵蓋事件的一部分（旅店分配畫面一列的名字與職業反白、同列數字不反白），所以 §8 的定色以逐格反白狀態為準（步驟 2、3、4）；收據 `inn-distribute` 的 8 個檢查點 `stale_cells`、`exposed_events`、`mask_strict` 皆為 0。
+- §10 第 5 項的 `recolor` 負對照要連同逐格反白判定一起關閉，`heavy` 測試才會失敗。
+- 未量到：§12 第 1 項混合行（框線與字串同一事件）動態未見；保護清單的觸發路徑（`003` §9）沒有到達。

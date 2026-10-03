@@ -3,8 +3,33 @@
 以 [dosgolem](https://github.com/wicanr2/dosgolem) 執行期輸出攔截與覆繪，為 DOS 版 Phantasie 加上繁體中文、簡體中文、日文與韓文顯示，
 並可切回英文原版。原版程式與資料不修改。
 
-狀態：剛建立，尚在盤點原版（見 [CONTEXT.md](CONTEXT.md)）。這個 repo 目前是 private。
+狀態：zh-TW 的城鎮、公會、商店、銀行、旅店、大地圖、地城入口與位置列、戰鬥（含整個戰鬥回合的訊息）、選項與存檔選單已由同狀態收據覆蓋；
+zh-CN、ja、ko 的非語言切換路線也全部通過。尚未量到的畫面與限制列在 [CONTEXT.md](CONTEXT.md) 與各規格結尾的「驗收收據」。
+ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 private，commit 尚未推送。
 
 不含原版遊戲：原版與任何掃描檔都是使用者本機輸入，不進版控。專案規則見 [AGENTS.md](AGENTS.md)。
+
+## 使用
+
+需要 Docker、原版遊戲目錄（含 `PHANTASI.EXE`、`WIZ.BAT` 與資料檔）與 GNU Unifont 17.0.05 的壓縮檔。全部建置與驗證都在 Docker 內進行。
+
+1. 建字型：`tools/build_fonts.sh <unifont-17.0.05.tar.gz> workplace/fonts`
+2. 建互動前端：`tools/build_play.sh`（輸出 `workplace/bin/phantasie-play`）
+3. 啟動：`workplace/bin/phantasie-play -root <原版目錄> -text text -font workplace/fonts -zoom 2`；`F11` 全螢幕、`F12` 切換語言；存檔放在 `$XDG_DATA_HOME/phantasie-cht`，不寫原版目錄
+4. 實機冒煙：`tools/smoke_play.sh` 在虛擬顯示器內對五種語言各截一張標題畫面（`workplace/play-shots/`）
+
+## 驗收
+
+- 規格在 `docs/spec/`（001 至 005），證據在 `docs/re/`，分期目標在 `docs/goals/`。
+- 路線與收據：`tools/run_receipt.sh tests/routes/<路線>.route [-lang ja]`；同狀態 A/B：`tools/ab_receipt.sh tests/routes/<路線>.route`。收據的 PNG 與 TSV 在 `workplace/receipts/`。
+- 譯文是 `text/ui.<語言>.tsv` 與 `text/prose.<語言>.tsv`；檢查用 `tools/lint_catalog.py`（Docker 內）。
+
+## 畫面
+
+覆繪後的展示截圖在 `docs/screenshots/`（收據工具輸出的 2 倍畫面）：標題、城鎮、公會選單與角色屬性、銀行、旅店分配、大地圖提示、地城位置列、戰鬥訊息、神祕客訊息，另有日文與韓文的角色屬性畫面。
+
+![標題畫面](docs/screenshots/01-title-zh-TW.png)
+![公會角色屬性](docs/screenshots/04-guild-inspect-zh-TW.png)
+![戰鬥訊息](docs/screenshots/09-combat-message-zh-TW.png)
 
 授權：採 RRSAL-1.0（復古重製 source-available 授權條款，非商業免費），不涵蓋原版素材；條款全文見 [LICENSE](LICENSE)。

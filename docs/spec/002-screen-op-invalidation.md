@@ -1,6 +1,6 @@
 # 002 畫面操作與疊字失效
 
-狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`（疊字核心）與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 捲動、清除與調色盤選擇）。證據來源：`docs/re/005`、`006`、`008`，`textlog -int10 -pages -ops` 動態記錄與 `cmd/overlay-prototype` 的原型截圖（開啟反白前後對照）。
+狀態：READY（2026-10-04；驗收收據見 §10，`load2`、`invert2`、INT 10h `AH=0Bh` 動態未量到，所以維持 READY；READY 於 2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`（疊字核心）與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 捲動、清除與調色盤選擇）。證據來源：`docs/re/005`、`006`、`008`，`textlog -int10 -pages -ops` 動態記錄與 `cmd/overlay-prototype` 的原型截圖（開啟反白前後對照）。
 
 ## 1. 問題
 
@@ -122,3 +122,18 @@ CGA 模式 04h 的四色由色彩選擇暫存器決定，`oracle.CGAPalette()`�
 2. 停用項目變暗（`invert2`）的重現方式。
 3. `sub_301C`（`msgline`，映像 `1F1C`）：存第 0 列到堆疊、在列 0 畫訊息、等 Return、再還原第 0 列，沒有呼叫 `0CF0` 或 `372D`。若可達，訊息結束後列 0 還原成原本的英文選單列，但疊字層不知道。靜態上沒有找到任何 `call sub_301C`，可能是死碼或間接呼叫；動態 0 次。先確認呼叫者；若可達，補掛入口與完成，存取 `Layer` 的列 0 疊字。
 4. OV2 直接寫視訊的圖形函式（§8.4 的補測）若有蓋到文字疊字：以指紋偵測處理，量到再補事件。
+
+## 10. 驗收收據（2026-10-04）
+
+環境同 `001` §13.1（原版與映像雜湊、引擎 commit `e2513a6`、專案 commit `a0704f5（本節加入前的 HEAD）`）。本規格維持 READY：`load2`、`invert2`、INT 10h `AH=0Bh` 只有單元測試覆蓋，動態未量到（第 4 項）；這三個分支有同狀態收據後再升 CONFORMED。
+
+| 項 | 收據 | 結果 |
+|---|---|---|
+| 1 單元測試 | `shadow_test.go`（33 個）、`capture_test.go` 的掛點與畫面操作部分、`overlay_test.go`、`recolor_test.go` 的反白案例，全部 PASS（`001` §13.2 第 1 項）。涵蓋 `known`、`empties` 登記與淘汰、`row24` 合併、`Hidden` 換算、捲動後取影子、`AH=06h`、`07h` 矩形、INT 16h、INT 21h 不觸發、反白相交整組改 `Pending`、完成重複記 `dup_close` | 通過 |
+| 2 同狀態收據：反白 | `guild` 路線在公會選單以 `Down`、`Up` 移動反白（78 個檢查點），每個檢查點 `stale_cells`、`exposed_events`、`mask_strict` 為 0；`mask_strict` 以字模遮罩與目前色號畫面獨立判定（遮罩為 0 的像素全為同一色號、非 0 的全為另一色號），不使用疊字層的 `FG`、`BG`。反白後項目仍是中文、顏色反相，由 PNG 目視確認 | 通過 |
+| 2 同狀態收據：開關視窗 | `lang-switch` 路線：公會選單開啟再關閉後 `@assert-same-screen town-tw guild-closed-tw`，`vram_hash` 與疊字內容（`content_hash`）與開啟前原生建出的城鎮畫面相同；`guild`、`shops`、`messages` 路線多處開關視窗後 `stale_cells` 為 0 | 通過 |
+| 2 同狀態收據：視窗清除 | 全部路線累計 INT 10h `AH=06h` 716 次、`AH=07h` 4 次，`stale_cells` 皆為 0；dosgolem `250-cga-int10-scroll-and-palette` §5.1 的 33 個真實捲動呼叫與獨立模型逐位元組相同 | 通過 |
+| 2 同狀態收據：清單捲動 | `weapon-list-scroll` 路線（`ws-items`、`ws-down6`、`ws-up4`）：清單下捲、上捲後疊字位置與原文位置一致，稽核 0 | 通過 |
+| 3 負對照 | 突變驗證：`load1`、`load2` 的影子查找改一律 `Clear`（B1）、反白不改 `Pending`（B2）、視窗清除不 `Clear`（B3a、B3b）、INT 10h 限定拿掉（B4）、還原改依 `ID` 排序或 `Layer.Add`（B5a、B5b）、`Hidden` 改由透明格換算（B6）、還原語言改顯示語言（B7），全部被既有測試抓到；故障注入 `-fault noclear` 使 `weapon-list-scroll` 的 `stale_cells` 為 195 | 通過 |
+| 4 覆蓋清單 | 全部 zh-TW 路線累計（最後一列計數器加總）：`invert` 892、`load1` 413、`save1` 134、`row24` 15、`copy12` 1、`shadow_restore` 323；**未量到**：`load2`、`invert2`（`dim`）、INT 10h `AH=0Bh`（計數 0）。OV2 直接寫視訊函式的在途與否另見 `docs/re/008` | 通過（含未量到） |
+| 5 擷取順序 | 收據工具在每個檢查點擷取前先呼叫 `Frame`；`-frame-every` 兩種節奏下 `layer_hash` 相同（`ab_receipt.sh`） | 通過 |

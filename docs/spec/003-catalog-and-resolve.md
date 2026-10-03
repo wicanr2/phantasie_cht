@@ -1,6 +1,6 @@
 # 003 譯文 catalog 與字串解析
 
-狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`。證據來源：`docs/re/005`、`007`、`008`，`textlog -args -sprintf` 動態記錄。
+狀態：CONFORMED（2026-10-04；驗收收據見 §14；READY 於 2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`。證據來源：`docs/re/005`、`007`、`008`，`textlog -args -sprintf` 動態記錄。
 
 ## 1. 範圍
 
@@ -247,6 +247,8 @@ lookupArg(a):
 7. `regions.tsv` 的初始內容就是 §5.1 表（怪物 3 筆、城鎮 12 筆、`static` 與 `buffer` 區間）；`i > 0` 的城鎮指標與怪物指標的其他來源動態未量到，由 `arg_unclassified` 與收據的「資料型引數事件集合」補強。
 8. 模板鍵與追加字串的尾端空白被 rstrip（`%-3d ` 之後接追加字、`" AT RANK "` 之後接數字），譯文中該分隔消失，影響限於一個半形空白，列為已知限制（第三輪審查 S-3）。
 9. 玩家名在 `%s` 精度下的顯示字元數：原樣保留的 ASCII 名字以 `P` 個字元為上限（§7.2），與原版一致；名字長度上限（動態量到名字輸入最多 9 字元）與各欄 `P` 的關係待逐欄核對。
+10. **地城位置列（已解決）**：地城底部位置列（MESS 行）的格式字串指標是 `OV2:C400`（OV2 資料區的界外起點），載入 OV2 時 `C400` 起 80 bytes 歸 `buffer` 種類查 `prose`（`docs/re/011`；區間表 `buffer@ov2` 列）。實測只見起點 `C400`，80 bytes 的大小是強推論。
+11. 地牢訊息視窗（MESS 的對話與事件訊息）與大地圖位置描述（`OUT*.DAT`）的觸發格未知，動態未量到；譯文以靜態列舉、lint 與單元測試保護。
 
 ## 13. 驗收
 
@@ -261,3 +263,19 @@ lookupArg(a):
 5. **共用向量**：Go 與 Python 的解析器（`parse.tsv`）與格式化（`english.tsv`、`target.tsv`）各跑一次，結果一致且等於字面期望值。
 6. **lint 反例**（`tools/tests/lint_cases.py`，Docker 內執行）：鍵尾端空白、譯文尾端空白、規範化後鍵重複、保護清單的鍵進 catalog、`ui` 與 `prose` 同文衝突、`--sources` 孤兒與缺譯、`%x`、`%2$s`、`%05d`、壞跳脫（`\xZZ`）與另一列超寬（兩個錯誤都要報）、`…`（U+2026）三個對鍵 `OK`（寬度為真實字寬 6 h）、`<blank>` 在模板內、`\c` 不在開頭，每一個都必須被擋下。
 7. **回歸統計**（有原版時）：以動態記錄重跑「`ui` 命中的靜態字串事件全部有譯文」與「資料型引數被保留原樣的事件數」，後者須能由 `arg_unclassified` 集合完全解釋。
+
+## 14. 驗收收據（2026-10-04）
+
+環境同 `001` §13.1（引擎 commit `e2513a6`、專案 commit `a0704f5（本節加入前的 HEAD）`）。
+
+| 項 | 收據 | 結果 |
+|---|---|---|
+| 1 `FormatEnglish` 向量 | Go：`TestFormatVectorsEnglish` 讀 `tests/vectors/english.tsv`（以 `DOSGOLEM_EXTRA_MOUNT` 掛入後實際執行）PASS；`%c` 為 0 的 NUL 截斷在 Go 單元測試 | 通過 |
+| 2 `formatTarget` 向量 | Go：`TestFormatVectorsTarget` 讀 `target.tsv`，PASS；全形字寬度、精度截斷、`-` 補右側 | 通過 |
+| 3 `Resolve` 表驅動測試 | `resolve_test.go`（15 個測試）、`compose_test.go`（29 個）全部 PASS，涵蓋字面鍵、模板、`identity`、`passthrough`、部分替換、`Missed` 只含 `static`、`monster`、`town`、`blank_missing`、`<blank>`、巢狀組句、`Appends`、`other` 種類不查表、卷軸標題置中、`badarg`、含 `%` 的緩衝區不關聯 | 通過 |
+| 4 負對照 | 突變驗證：資料型引數一律查 `ui`（C1a、C1b）、`buffer` 與 `other` 混為一類（C2a、C2b、C2）、關掉 `monster`、`town`（C3）、保護清單只比對 `Text`（C4a）或只比對 `Text` 與格式字串（C4b），全部被既有測試抓到 | 通過 |
+| 5 共用向量 | Go 端 `TestFormatVectorsParse`、`TestFormatVectorsEnglish`、`TestFormatVectorsTarget` PASS；Python 端 `tools/tests/run_vectors.py`（Docker）「61 項，失敗 0」；期望值是向量檔的字面值 | 通過 |
+| 6 lint 反例 | `tools/tests/lint_cases.py`（Docker，帶 Unifont 壓縮檔）「24 項，失敗 0，略過 0」 | 通過 |
+| 7 回歸統計 | 全部 zh-TW 路線的 `untranslated`、`untranslated_args` 鍵集合只有已列入 `@known-untranslated` 的選單分隔線（`----------`、`------------`），沒有其他靜態字串缺譯；資料型引數被保留原樣的事件，`arg_unclassified` 的指標高位元組全落在 `5C`、`5D`（玩家記錄）與 `8E`、`8F`、`90`、`91`（名冊記錄），與 `docs/re/009` 的指標落點表一致 | 通過 |
+
+四個語言 catalog 的 lint（`tools/lint_catalog.py`，帶字型壓縮檔與保護清單）：zh-TW、zh-CN、ja、ko 各 1705 筆（ui 678、prose 1027），錯誤 0；警告 20、20、27、27，內容是右緣差超過容差與恆等模板冗餘，皆為已檢視的已知項。

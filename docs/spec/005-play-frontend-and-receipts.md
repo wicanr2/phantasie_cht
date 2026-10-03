@@ -1,6 +1,6 @@
 # 005 遊玩前端與同狀態驗收
 
-狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001` 至 `004` 與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 與 `oracle.CGAPalette()`）。證據來源：`apps/phantasie/input.go`（`KeyGate`）、`oracle`（`Run`、`SendKeys`、`TypeKeys`、`Scratch`）、dosgolem 規格 `237`（scratch 層）。
+狀態：READY（2026-10-04；驗收收據見 §9，必備路線尚缺地牢訊息視窗、卷軸閱讀、存檔後讀回，所以維持 READY；READY 於 2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001` 至 `004` 與 dosgolem 規格 `250-cga-int10-scroll-and-palette`（CGA 圖形模式的 INT 10h 與 `oracle.CGAPalette()`）。證據來源：`apps/phantasie/input.go`（`KeyGate`）、`oracle`（`Run`、`SendKeys`、`TypeKeys`、`Scratch`）、dosgolem 規格 `237`（scratch 層）。
 
 ## 1. 範圍
 
@@ -136,3 +136,37 @@
 | `apps/phantasie/input.go` `KeyGate.fire`、讀鍵計數 | 重複觸發去重（開啟旗標加 `SP`，同 `001` §3.2）；新增 `PressAfterReads(n, name)`（以讀鍵入口次數為準的閘門），`@wait` 使用 |
 | `apps/phantasie/cmd/textlog` | 供收據工具重用的路線重播與計數輸出（見 `001` §11） |
 | `oracle` | `CGAPalette()` 與 `CGA4RGB()`（色號畫面換算成 RGB，前端與收據共用，dosgolem 規格 `250-cga-int10-scroll-and-palette` §4） |
+
+## 9. 驗收收據（2026-10-04）
+
+環境同 `001` §13.1（引擎 commit `e2513a6`、專案 commit `a0704f5（本節加入前的 HEAD）`）。本規格維持 READY：§6 的必備路線尚缺地牢訊息視窗、卷軸閱讀、存檔後讀回（見 §9.2 的原因與條件）；補上或證明到不了後再升 CONFORMED。16 條路線共 359 個檢查點，zh-TW 全部 PASS。
+
+### 9.1 工具與前端
+
+| 項 | 收據 | 結果 |
+|---|---|---|
+| 無頭收據工具 | `tools/run_receipt.sh` 對 16 條路線、4 個語言（zh-TW 全部；zh-CN、ja、ko 對 13 條非語言切換路線）輸出 TSV 與 PNG；欄位如 §5 表；缺原版時 SKIP | 通過 |
+| 同狀態 A/B 與 `Frame` 節奏 | `tools/ab_receipt.sh` 對 16 條路線全部 PASS（`001` §13.2 第 2 項）；沒有節奏敏感的檢查點，不需要 `known-frame-sensitive.tsv` | 通過 |
+| 稽核與負對照 | `stale_cells`、`exposed_events`、`mask_strict`、`pos_bad` 全部路線為 0；故障注入四種（`noadd`、`noclear`、`nostrcat`、`verify-early`）各自使稽核或簽章檢查失敗（`001` §13.2 第 5 項） | 通過 |
+| 覆蓋門檻 | 每個 `@check` 的 `stamps` 至少為 1、`@expect` 鍵都在 `keys` 內；沒有 `@expect` 的 `@snap` 不要求 `stamps`（§4） | 通過 |
+| 互動前端單元與整合測試 | `TestSessionSmoke`、`TestSessionRealFontRecolor`、`TestSessionKeyGate`（需要原版，以 `DOSGOLEM_TEST_ROOT` 與 `/phantasie-data` 掛載實際執行）PASS | 通過 |
+| 互動前端實機冒煙 | `tools/build_play.sh` 在 Docker 內建出 `phantasie-play`；`tools/smoke_play.sh` 在 Xvfb 內對 zh-TW、zh-CN、en、ja、ko 各啟動一次並截圖，目視確認標題畫面三個選單項與底部提示為各語言譯文（en 為原版英文），沒有缺字 | 通過 |
+
+### 9.2 §6 驗收路線
+
+| 項 | 路線 | 結果 |
+|---|---|---|
+| 1 標題選單 | `title`、`title-items`（標題選單、工具選單與提示） | 通過 |
+| 2 城鎮 | `town`（36 個檢查點：選單列含公會、`PELNOR` 狀態列、選單反白移動） | 通過 |
+| 3 公會 | `guild`（78 個檢查點：選單、反白、`New member` 全流程含輸入名字、`Add member`、`Inspect`、關閉） | 通過 |
+| 4 離開城鎮到地圖 | `map`（17 個檢查點：頂端選單、選項、檢視面板、隊員清單、角色頁、法術列表、施放法術、使用藥水、速度選單、旅店與城鎮進入提示） | 通過 |
+| 5 銀行、神祕、武器店、旅店 | `shops`（42）、`messages`（38）、`inn-distribute`（8）、`town-timed`（49：38 個 `@check` 加 11 個 `@snap`，擷取神祕客的訊息視窗與現金為 0 的購買） | 通過 |
+| 6 地牢 | `dungeon`（10：進入提示、位置列、選項視窗）；`combat`（33：戰鬥選單列、指令列、法術列表、施法對象，加 14 個 `@snap` 涵蓋整個戰鬥回合的命中與治療等訊息，怪物名走 `monster` 種類） | 部分通過；**未量到**：地牢訊息視窗（MESS，事件格位置未知，走過入口主走道 35 步與入口附近兩側室沒有任何視窗）、大地圖位置描述（`OUT*.DAT`，大地圖隨走 40 餘步與入口附近都沒有出現描述視窗，觸發格未知）、戰鬥勝利與死亡訊息；多回合戰鬥的探索（未收錄路線）在第 7 回合之後到達手冊對照提示，見下 |
+| 7 卷軸閱讀 | 無 | **未量到**：武器店清單、使用物品清單、神祕客與入口附近的地牢都拿不到卷軸物品（`sub_AA96` 於物品索引 `79h` 至 `8Ch` 時呼叫） |
+| 8 存檔與讀檔 | `save-load`（讀入原版目錄的全零 `DNG.SAV` 進城鎮、存檔兩次、存檔後開關選單） | 部分通過；**未量到**：存檔後讀回（收據工具沒有 `SetScratch`，寫檔不落地） |
+| 9 選項選單音效符號 | `lang-options`、`map`（`+音效` 與 `-音效` 往返） | 通過 |
+| 10 語言切換 | `lang-switch`、`lang-name`、`lang-options`（`004` §9 第 3 項） | 通過 |
+
+其餘到不了的畫面（原因與條件）：無隊員進旅店、武器店、神祕客、銀行提款按 Return 後約 101 萬步沒有讀鍵，`@snap` 在 3,000 至 300,000 步都只有城鎮選單列，沒有任何訊息文字（不是漏譯）；現金為 0 的購買只有空的訊息視窗，原版（`-overlay off`）同一時刻也是空視窗；公會重名輸入的訊息尚未走到；Options 的「顯示隊伍」「列印」按 Return 後畫面不變；新角色的「裝備、藥水、技能」沒有畫面。
+
+手冊對照提示（防拷）：探索用的多回合戰鬥路線（工作區，未收錄）在第 7 回合之後到達該畫面一次，收據的 `protected` 計數為 2、疊字數為 0（維持原文、沒有覆繪），原版畫面停在題目上等待輸入。依 `AGENTS.md` §1 該分支在到達處停止，未作答、未推導、未繞過；`tests/routes/` 的路線都不經過這個畫面（`combat` 只打一個回合）。收據工具在 `protected` 計數大於 0 時判 FAIL。

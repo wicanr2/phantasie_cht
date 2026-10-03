@@ -6,30 +6,32 @@
 
 ## 已有
 
-- 證據：`docs/re/001` 至 `009`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類與 `strcat` 組句與字模遮罩）。索引在 `docs/re/README.md`。
-- 規格（`docs/spec/`）：001 繪字事件與疊字核心、002 畫面操作與失效、003 catalog 與解析、004 字型與語言、005 前端與驗收。READY（2026-10-04，經四輪獨立審查）。狀態表在 `docs/spec/README.md`。
-- dosgolem 分支 `phantasie-cht-overlay`（worktree `workplace/dosgolem-fw`，基底為疊字框架分支，本機無上游、未推送）：規格 197（`int 27h`，CONFORMED）、規格 `250-cga-int10-scroll-and-palette`（READY，已實作：CGA 圖形模式的 INT 10h 捲動、清除與色彩選擇，`oracle.CGAPalette()` 與 `CGA4RGB()`；22 筆獨立向量加突變測試通過，同狀態收據待做）、`apps/phantasie/`（啟動鏈、繪字與 sprintf 擷取、鍵閘、證據探針 `cmd/textlog`、證據原型 `cmd/overlay-prototype`）。
-- 譯文：`text/ui.zh-TW.tsv`（677 筆，lint 0 錯誤，13 筆訊息列置中）、`text/prose.zh-TW.tsv`（981 行鍵）、`text/glossary.tsv`（含 12 個城鎮名）與 ja、ko 詞表、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 的 ui 批次翻譯進行中（機器輔助）。
-- 工具（Docker 內執行）：`gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_candidates.py`、`ui_prune.py`、`ui_build.py`、`ui_merge.py`、`ui_merge_lang.py`、`ui_center.py`、`ui_align.py`、`prose_export.py`、`prose_build.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 57 項，向量在 `tests/vectors/`）。
+- 證據：`docs/re/001` 至 `011`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`）。索引在 `docs/re/README.md`。
+- 規格（`docs/spec/`）：001 繪字事件與疊字核心、002 畫面操作與失效、003 catalog 與解析、004 字型與語言、005 前端與驗收。001、003、004 已 CONFORMED；002（`load2`、`invert2`、`AH=0Bh` 未量到）與 005（必備路線尚缺地牢訊息視窗、卷軸閱讀、存檔後讀回）維持 READY。各規格結尾的「驗收收據」列出每個驗收項的證據與結果與未量到的原因。狀態表在 `docs/spec/README.md`。
+- dosgolem 分支 `phantasie-cht-overlay`（worktree `workplace/dosgolem-fw`，基底為疊字框架分支，本機無上游、未推送）：規格 197（`int 27h`）與 `250-cga-int10-scroll-and-palette` 已 CONFORMED；`apps/phantasie/` 有格式引擎、catalog、擷取鉤子、解析、版面、疊字核心（含逐格反白狀態與依狀態切開疊字）、畫面操作與影子、語言切換、稽核、互動前端 `cmd/phantasie-play`、無頭收據工具 `cmd/phantasie-receipt`（路線 `@check`、`@snap`、`@lang`、`@assert-*`，診斷旗標 `-dump-keys`、`-dump-stamps`、`-audit-debug`，故障注入 `-fault`）。
+- 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1027 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
+- 路線（`tests/routes/`，16 條）：`title`、`title-items`、`town`、`town-timed`、`guild`、`shops`、`messages`、`inn-distribute`、`save-load`、`map`、`dungeon`、`combat`（含整個戰鬥回合）、`weapon-list-scroll`、`lang-switch`、`lang-name`、`lang-options`。zh-TW 全部 PASS，非語言切換路線在 zh-CN、ja、ko 也全部 PASS，同狀態 A/B 全部通過。
+- 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項）。
 
 ## 已知事實（摘要，等級與證據見 `docs/re/`）
 
 - 文字全經 `0110:25A5`（`printf` 風格）；視窗框線是單字元事件；組句先走 `sprintf`（`3E35`）進 `DS:638E`，可再以 `strcat`（`4DEF`）追加。
-- 字模 `FONT` 是粗體（10 個字元墨點過半），`xlate.Colors` 的多數色規則會判反，顏色改由字模遮罩決定（規格 001 §8）。
+- 字模 `FONT` 是粗體，`xlate.Colors` 的多數色規則會判反，顏色由字模遮罩與逐格反白狀態決定（規格 001 §8）。反白矩形可以只涵蓋事件的一部分。
 - 畫面操作：反白（`0672`）、頁面緩衝區（`0D30`、`0CF0`、`0D10`、`0D50`）、視窗清除與捲動（BIOS `AH=06h`、`07h`）、`AH=0Bh`。
-- 城鎮名來自 `TWNS.DAT`／`TWNS.INT`（12 個，`DS:8071 + 0123h × i`）；怪物記錄 3 筆（`7522 + 39h × i`）。
-- 遊戲含 4 個手冊對照提示字串（OV2 入口函式內，隨機條件）。沒有手冊；依 `AGENTS.md` §1：維持原文、不翻譯、不作答、到達時回報使用者。四條隨機路線（約 4000 鍵 × 多條）未觸發。
+- 城鎮名來自 `TWNS.DAT`／`TWNS.INT`（12 個）；怪物記錄 3 筆；大地圖位置描述來自 `OUT*.DAT`（`DS:C6FA`）；地城位置列的格式字串指標是 `OV2:C400`。
+- 戰鬥回合結算沒有讀鍵入口，用 `@snap` 擷取；沒有隊員時進店只有約 101 萬步的停頓，沒有訊息文字；神祕客有逐行打出的訊息。
+- 遊戲含 4 個手冊對照提示字串（OV2 入口函式內，隨機條件）。沒有手冊；依 `AGENTS.md` §1：維持原文、不翻譯、不作答、到達時回報使用者。2026-10-04 的探索用多回合戰鬥路線（工作區，未入版控）在第 7 回合之後到達一次，已停止該分支並回報；入版控的路線都不經過它。
 
 ## 阻擋與待決
 
-- 規格 001 至 005 已 READY，`apps/phantasie` 實作進行中。
+- 未量到：地牢訊息視窗（MESS）與大地圖位置描述（`OUT*.DAT`）的觸發格；卷軸閱讀（拿不到卷軸物品）；存檔後讀回（收據工具沒有 `SetScratch`）；公會重名輸入訊息；`load2`、`invert2`、INT 10h `AH=0Bh`。
+- 已知限制：被原版逐格重畫的數字是粗體，其餘疊字數字是細體，字重不一致；ja、ko 的數字欄位右緣有少數 lint 警告。
 - 發行字型授權文字（OFL 1.1 或 GPLv2+ 字型例外）待核對。
-- 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文、MESS 選項與短訊息的事件形式、位置描述文字的來源（`docs/spec/003` §12）：見規格未決段。
-- 本機 commit 尚未推送：phantasie 主分支領先 origin；dosgolem 分支無上游。推送逐項授權。
+- 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文：見規格未決段。
+- 本機 commit 尚未推送：phantasie 主分支領先 origin；dosgolem 分支無上游。推送、建立 Issue、公開 Release 逐項授權。
 
 ## 下一步
 
-1. （已完成）規格升 READY。
-2. 實作 `apps/phantasie`（格式引擎、catalog、擷取、解析、版面、疊字與 recolor、畫面操作與影子、語言切換、前端與收據工具），同狀態收據。
-3. ja、ko 批次翻譯合併與 lint；zh-CN 以 OpenCC 轉換；各語言字型。
-4. 路線與覆蓋清單，發行打包。
+1. 找到地牢訊息視窗與大地圖描述的觸發格，補路線。
+2. 發行階段：打包（需要先推送 dosgolem 分支）、外洩掃描、發行前實機冒煙、Release 說明。
+3. 轉公開前做公開稽核；影片與推廣視使用者決定。

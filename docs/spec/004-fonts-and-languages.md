@@ -1,6 +1,6 @@
 # 004 字型與語言通道
 
-狀態：READY（2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`、`002`、`003`。證據來源：`tools/build_font.py` 與本機 Unifont 17.0.05 的實測。
+狀態：CONFORMED（2026-10-04；驗收收據見 §9；READY 於 2026-10-04；經四輪獨立審查：契約對程式、資料對證據、可實作性、對抗式邊界、一致性、動態證據、確認輪。阻擋項與應改項已修，建議項帶進實作或列入已知限制）。依賴 `001`、`002`、`003`。證據來源：`tools/build_font.py` 與本機 Unifont 17.0.05 的實測。
 
 ## 1. 範圍
 
@@ -98,6 +98,19 @@
 
 ## 8. 未決
 
-1. zh-CN 的字形區域：預設 `unifont` 的字形是否符合簡體慣用，樣本確認前不聲稱完成。
+1. zh-CN 的字形區域：預設 `unifont` 的字形是否符合簡體慣用。2026-10-04 目視抽樣 `lang-options`、`guild`、`map` 的 zh-CN 收據畫面（選項、銀行、神祕客、離開、角色屬性、法術列表）未發現明顯的區域字形差異；未經母語者校對，仍列為待確認。
 2. 日韓專名的處理（音譯、保留英文）與玩家名音譯（`AGENTS.md` §12 待決第 2 項）。
 3. 發行授權文字：採 OFL 1.1 還是 GPLv2+ 字型例外，發行前核對 `COPYING` 與 `OFL-1.1.txt` 的實際條文。
+
+## 9. 驗收收據（2026-10-04）
+
+環境同 `001` §13.1（引擎 commit `e2513a6`、專案 commit `a0704f5（本節加入前的 HEAD）`）。字型以 `tools/build_fonts.sh` 從 GNU Unifont 17.0.05（zh-TW 用 `unifont_t`、ja 用 `unifont_jp`、zh-CN 與 ko 用 `unifont`）建置，四個語言的字型子集由各自正式譯文重建，缺字即建置失敗。
+
+| 項 | 收據 | 結果 |
+|---|---|---|
+| 1 單元測試 | `fontwide_test.go`（6 個）、`catalog_test.go`（7 個）、`overlay_test.go` 的語言與切換部分全部 PASS：字型缺字偵測、寬度表（含 `U+2026`）、語言載入失敗只停用該語言、`records` 建立與引用掃描與淘汰、`shadowLang` 啟動值、切換流程（透明格保留、疊序保留、同原點兩個事件、`rebuild_lost`、`switch_untranslated`、`pendingSwitch` 在 B 之後執行） | 通過 |
+| 2 同狀態收據 | 13 條路線（`title`、`weapon-list-scroll`、`guild`、`town`、`shops`、`messages`、`town-timed`、`save-load`、`title-items`、`inn-distribute`、`map`、`dungeon`、`combat`）在 zh-TW、zh-CN、ja、ko 各跑一次，同一檢查點的 `steps`、`reads`、`vram_hash`、`mem_hash` 在四個語言之間全部相同；各語言路線全部 PASS。zh-TW 與 zh-CN 之間切換前後可見格集合相同由第 3 項收據判定 | 通過 |
+| 3 切換收據 | (a) `lang-switch`：城鎮選單列顯示時切換語言，下一個 `Frame` 後為新語言；開啟再關閉公會選單（影子還原）後選單列仍為新語言，`@assert-visible-same`（可見格集合）與 `@assert-same-screen`（`vram_hash` 與疊字內容）通過；(b) `lang-name`：輸入名字畫面輸入兩個字母後切換 zh-TW、zh-CN、ja、ko，zh-TW 與 zh-CN 的可見格集合不變，ja、ko 以截圖確認玩家輸入的字母格不被疊字蓋住；(c) `lang-options`：音效符號切成 `-` 後切換語言，標籤為新語言、符號正確（`-`、`+`），再切回 zh-TW 後再切符號，8 個檢查點全部 PASS | 通過（三例） |
+| 4 負對照 | 突變驗證：語言切換重建改回 `Layer.Replace`（D1a、D1b）、`Hidden` 換算關掉（D2）、`Hidden` 改由透明格換算（D3、D3shared），全部被既有測試抓到；測試名稱含 `TestOverlaySwitchKeepsTransparentCellsAndStackOrder`、`TestOverlaySwitchSameOriginKeepsOtherEvent`、`TestOverlaySwitchHiddenIsNotRevivedByTransparentFlags` | 通過 |
+
+語言範圍：zh-TW（基準）、zh-CN（OpenCC 1.4.2 `tw2sp` 加 `text/phrases.zh-CN.tsv` 與逐鍵覆寫產生）、ja、ko（機器輔助，未經母語者校對）、en（關閉覆繪）。互動前端實機冒煙見 `005` §8。
