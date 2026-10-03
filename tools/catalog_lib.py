@@ -350,7 +350,9 @@ def field_right_edges(tpl: str, samples, english: bool):
             h = min(h, 2 * width)  # 有明寫寬度時假設內容放得進欄位：欄寬就是 2W h（兩側同一規則）
         cur += max(h, 2 * width)
         rest = tpl[m.end():]
-        edges.append((cur, width > 0 and bool(rest.strip() or CONV.search(rest))))
+        # 其後還有內容的欄位，或末尾的右靠數字欄位（原版常在同一格位置另行重畫數字）都要對齊右緣。
+        tail_num = not rest.strip() and conv in "du" and not m.group(1)
+        edges.append((cur, width > 0 and bool(rest.strip() or CONV.search(rest) or tail_num)))
     return edges
 
 

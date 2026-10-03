@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """調整 ui 模板譯文中各欄位的寬度，使右緣對齊原文（docs/spec/003 §7.2、§10 的「欄位右緣」警告）。只在 Docker 內執行。
 
-  python -B ui_align.py <ui.<lang>.tsv> [--font-tar T --font-member M] [--apply]
+  python -B ui_align.py <ui.<lang>.tsv> [--font-tar T --font-member M] [--lines 278,424] [--apply]
 
 只動「原文有明寫寬度、且其後還有內容」的欄位；類型、旗標、精度與順序不變，只改寬度（原版的格，1 格 = 2 h）。
 預設只印出建議，--apply 才改寫檔案。寬度取使右緣最接近原文者（四捨五入到整格，誤差至多 1 h）；
@@ -63,12 +63,14 @@ def main():
     ap.add_argument("--font-tar")
     ap.add_argument("--font-member")
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--lines", help="只處理這些行號（逗號分隔）；預設全部")
     a = ap.parse_args()
     if a.font_tar:
         cl.load_wide_from_hex(a.font_tar, a.font_member)
+    only = {int(x) for x in a.lines.split(",")} if a.lines else None
     rows, changed = [], 0
     for ln, key, tr, src in cl.read_tsv(a.ui):
-        if tr and tr != "<blank>" and cl.convs(key) and not cl.has_bad_percent(key) and not cl.has_bad_percent(tr):
+        if (only is None or ln in only) and tr and tr != "<blank>" and cl.convs(key) and not cl.has_bad_percent(key) and not cl.has_bad_percent(tr):
             new = align(key, tr)
             if new != tr:
                 changed += 1

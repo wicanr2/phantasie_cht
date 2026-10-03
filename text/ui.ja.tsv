@@ -38,7 +38,7 @@ key	translation	source
 %-4.3d%s(S)	%-4.3d%s	ov2:BE67
 %10s LEVEL:%2d%11s%11s%6s	%10s レベル:%2d%11s%11s%6s	ov1:C24D
 %4d%3d	%4d%3d	ov1:C1A3
-%7ld XP	%7ld XP	ov1:C1DF
+%7ld XP	%7ld 経験値	ov1:C1DF
 %7u gold	%7u ゴールド	ov1:C1D6
 %d gold	%d ゴールド	ov1:C0E0
 %d. %d	%d. %d	ov2:C1EC
@@ -275,7 +275,7 @@ HVY MACE	ヘビーメイス	res:1236
 He's just bought ninth item.	彼は9つ目のアイテムを買ったばかりだ。	ov1:C143
 Health	健康	res:0A87
 Heroes of Gelnor.	ゲルノールの英雄たち。	ov1:BF48
-How much to withdraw? %5u	いくら引き出す？%5u	ov1:C079
+How much to withdraw? %5u	いくら引き出す？%19u	ov1:C079
 I  grant  You Your  First  Divine  Spell	我は君に最初の神聖呪文を授けよう	ov1:B9AE
 ILLUSIONIST	幻術師	res:1F52
 IN PEACE	平穏に	ov1:C12A
@@ -447,6 +447,7 @@ RUBY D	ルビー D	res:15D7
 RUBY E	ルビー E	res:15DE
 RUN	逃げる	res:0A19;res:0B72
 Rename	改名	res:08C7
+SACK	袋	ov1:BE2A
 SAPPHIRE A	サファイア A	res:158B
 SAPPHIRE B	サファイア B	res:1596
 SAPPHIRE C	サファイア C	res:15AC

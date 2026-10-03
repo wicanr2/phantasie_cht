@@ -275,7 +275,7 @@ HVY MACE	重錘矛	res:1236
 He's just bought ninth item.	他剛買了第九件物品。	ov1:C143
 Health	健康	res:0A87
 Heroes of Gelnor.	格爾諾的英雄們。	ov1:BF48
-How much to withdraw? %5u	要提多少？%5u	ov1:C079
+How much to withdraw? %5u	要提多少？%22u	ov1:C079
 I  grant  You Your  First  Divine  Spell	我賜予你第一個神聖法術	ov1:B9AE
 ILLUSIONIST	幻術師	res:1F52
 IN PEACE	平安地	ov1:C12A
@@ -447,6 +447,7 @@ RUBY D	紅寶石 D	res:15D7
 RUBY E	紅寶石 E	res:15DE
 RUN	逃跑	res:0A19;res:0B72
 Rename	改名	res:08C7
+SACK	背包	ov1:BE2A
 SAPPHIRE A	藍寶石 A	res:158B
 SAPPHIRE B	藍寶石 B	res:1596
 SAPPHIRE C	藍寶石 C	res:15AC
