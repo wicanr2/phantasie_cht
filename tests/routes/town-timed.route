@@ -1,0 +1,686 @@
+# 城鎮的計時訊息畫面：神祕客的訊息視窗與現金為 0 的購買。
+# 原版在這些畫面按鍵後不讀鍵，訊息顯示一段時間（神祕客約 13 萬步、現金不足約 108 萬步）後還原，@check 停不到，
+# 所以用 @snap 在延遲期間擷取：神祕客的訊息逐行打出（「睿智的老神祕客凝視著」「水晶球並說道：」），第二次詢問重複一次；
+# 現金為 0 的購買只出現空的訊息視窗，原版（-overlay off）同一時刻也是空視窗，沒有文字。
+# 沒有隊員時進旅店、武器店、神祕客、銀行提款：按 Return 後約 101 萬步沒有讀鍵，畫面沒有任何訊息文字
+# （@snap 在 3,000 至 300,000 步都只有城鎮選單列），不是漏譯。
+# 前半段與 messages.route 相同（建立並加入 Alice，Options 開關後關閉），再走神祕客與武器店。
+Return
+Left
+Return
+@check noparty-inn
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Return
+@check noparty-weapon
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Left
+Return
+@check noparty-mystic
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Return
+@check noparty-bank-menu
+@expect Armory
+@expect Bank
+@expect Deposit
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Withdraw
+Return
+@check noparty-withdraw
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Left
+Return
+@check noparty-guild
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Return
+Return
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Up
+Return
+Return
+Esc
+@check party-added
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Left
+Left
+Left
+Left
+Return
+@check bank-menu
+@expect Armory
+@expect Bank
+@expect Deposit
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Withdraw
+Return
+@check withdraw-who
+@expect %-10.9s%-5.4sHAS%6u GP
+@expect Armory
+@expect Bank
+@expect Exit
+@expect GOLD CARRIED %u
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect WHO WILL WITHDRAW?
+Return
+@check withdraw-amount
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect How much to withdraw? %5u
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Backspace
+Backspace
+Backspace
+1
+0
+@check withdraw-typed
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect How much to withdraw? %5u
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Return
+@check withdraw-done
+@expect %-10.9s%-5.4sHAS%6u GP
+@expect Armory
+@expect Bank
+@expect Exit
+@expect GOLD CARRIED %u
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect WHO WILL WITHDRAW?
+Esc
+@check bank-left
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+Right
+Right
+Return
+@check shop-who
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect WHO WILL SHOP?
+Return
+@check shop-window
+@expect %-11.10sGP:%-6u
+@expect %s is shopping
+@expect Armory
+@expect Bank
+@expect CLOTHING
+@expect Cash ->
+@expect Exit
+@expect Guild
+@expect Inn
+@expect KNIFE
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PTS:%d
+@expect SM SHIELD
+Return
+@check shop-bought-1
+@expect %-11.10sGP:%-6u
+@expect %s is shopping
+@expect Armory
+@expect Bank
+@expect CLOTHING
+@expect Cash ->
+@expect Exit
+@expect Guild
+@expect Inn
+@expect KNIFE
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PTS:%d
+@expect SM SHIELD
+Down
+Return
+@check shop-bought-2
+@expect %-11.10sGP:%-6u
+@expect %s is shopping
+@expect Armory
+@expect Bank
+@expect CLOTHING
+@expect Cash ->
+@expect DAGGER
+@expect Exit
+@expect Guild
+@expect Inn
+@expect KNIFE
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PTS:%d
+@expect SM SHIELD
+Esc
+@check shop-esc-1
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect WHO WILL SHOP?
+Esc
+@check shop-esc-2
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Left
+Left
+Return
+@check bank-menu-2
+@expect Armory
+@expect Bank
+@expect Deposit
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Withdraw
+Down
+@check bank-sel-deposit
+@expect Armory
+@expect Bank
+@expect Deposit
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Withdraw
+Return
+@check deposit-shares
+@expect %7ld XP
+@expect %7u gold
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Shares for:
+@expect You have:
+Return
+@check deposit-done
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+Right
+Right
+Right
+Return
+@check inn-window
+@expect %-10s IS RESTING
+@expect Armory
+@expect Bank
+@expect Distribute
+@expect Exit
+@expect Exit Inn
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect THE INN
+Left
+@check inn-sel-distribute
+@expect %-10s IS RESTING
+@expect Armory
+@expect Bank
+@expect Distribute
+@expect Exit
+@expect Exit Inn
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect THE INN
+Right
+Return
+@check inn-left
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Right
+Right
+Return
+@check opt-open
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+Up
+Return
+@check use-who
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect WHO WILL USE?
+@known-untranslated ----------
+Return
+@check use-items
+@expect Armory
+@expect Bank
+@expect CLOTHING
+@expect CLUB
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect ROBES
+@expect SM SHIELD
+@known-untranslated ----------
+Esc
+@check use-back
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Up
+Return
+@check cast-who
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect Save game
+@expect Show party
+@expect THIEF
+@expect Use item
+@expect WHO WILL CAST A SPELL?
+@known-untranslated ----------
+Esc
+@check cast-back
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Esc
+@check opt-closed
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+Right
+Right
+Return
+@snap mystic-msg-a 70000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+@snap mystic-msg-b 15000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+@snap mystic-msg-c 15000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect The wise old mystic peers
+@known-untranslated ----------
+@snap mystic-msg-d 15000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect The wise old mystic peers
+@expect into his crystal ball and speaks:
+@known-untranslated ----------
+@check mystic-after
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+Return
+@snap mystic2-msg-a 70000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+@snap mystic2-msg-b 15000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+@snap mystic2-msg-c 15000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect The wise old mystic peers
+@known-untranslated ----------
+@snap mystic2-msg-d 15000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect The wise old mystic peers
+@expect into his crystal ball and speaks:
+@known-untranslated ----------
+@check mystic-after-2
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+Right
+Right
+Return
+@check shop-who-poor
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect WHO WILL SHOP?
+@known-untranslated ----------
+Return
+@check shop-window-poor
+@expect %-11.10sGP:%-6u
+@expect %s is shopping
+@expect Armory
+@expect Bank
+@expect CLOTHING
+@expect Cash ->
+@expect DAGGER
+@expect Exit
+@expect Guild
+@expect Inn
+@expect KNIFE
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect PTS:%d
+@expect SM SHIELD
+@known-untranslated ----------
+Return
+@snap poor-msg-a 100000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+@snap poor-msg-b 200000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+@snap poor-msg-c 400000
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+@check shop-poor-after
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
