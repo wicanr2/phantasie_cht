@@ -2,6 +2,8 @@
 
 日期：2026-10-03。來源：`docs/re/003`、`005`、`007` 之後的靜態讀碼（`workplace/ida/out/*.asm`）、`textlog -args -ops -sprintf -int10 -pages` 動態記錄、隨機按鍵路線收集（約 4000 鍵 × 多條）與兩份獨立審查。IDA 位址 = 載入映像位移 + `1100h`；`ds:word_XXXXX` 的 DGROUP 偏移 = `XXXXX - 0DAF0h`。證據等級：已證實、強推論、假說、未知。本檔不含原版文字，只記位址、函式與統計。
 
+正常死亡組句的四語全文、玩家指標與同狀態驗收已補於 [020](020-combat-death-messages.md)，原始定位為 dosgolem 映像返回 `A1E2`、`DGROUP:638E`。本檔早期組句機制證據保持有效。
+
 ## 1. 繪字事件的形態與組句
 
 | 項目 | 內容 | 等級 |
