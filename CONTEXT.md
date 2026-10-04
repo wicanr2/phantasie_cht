@@ -28,6 +28,7 @@
 
 - 證據：`docs/re/001` 至 `027`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續、寶箱短訊息、第四地牢入口與戰鬥事件、死亡全文與四語切換、正常勝利及數值結算、九選項、神殿與戰鬥直接全滅、第二頁獨立還原、零魔力法術清單與精確變暗稽核、完整選項字元流、恢復訊息的四語資料）。索引在 `docs/re/README.md`。
 - 規格（`docs/spec/`）：001 至 012 皆 CONFORMED。002 限 §14 的正常畫面操作抽樣；005 限 §21 的十類必備路線抽樣；011 限資料列舉工具；012 限完整資料契約及列明的 UI 代表樣本。未量到的個別鍵、原版參數與地城備份仍是驗證限制，不計 UI PASS。狀態表在 [規格索引](docs/spec/README.md)。
+- 第三期打包：[013](docs/spec/013-cross-platform-packaging.md) 為 DRAFT，已定義包內手冊標題轉換、三平台路徑、原版原子匯入與存檔隔離。乾淨引擎匯出的五份前端、四份無頭收據原型已試編譯；Linux 五語各擷取標題與公會選單。兩輪唯讀複查阻擋與應改均為零；這些是契約、工具鏈及 GUI 原型證據，不是正式封包驗收。研究與封存入口為 `workplace/package-prototype/prototype-verification-manifest.json`。
 - dosgolem 分支 `phantasie-cht-overlay`（worktree `workplace/dosgolem-fw`，追蹤 `origin/phantasie-cht-overlay`）：規格 197（`int 27h`）、250（CGA 捲動及色盤）與 251（指令前 guard）已 CONFORMED。`apps/phantasie/` 有格式引擎、catalog、擷取鉤子、解析、版面、疊字核心、畫面操作與影子、語言切換及稽核；互動前端在 `apps/phantasie/cmd/phantasie-play`，無頭收據工具在 `apps/phantasie/cmd/phantasie-receipt`。收據路線支援 `@check`、`@snap`、`@lang`、`@assert-*`，診斷旗標 `-dump-keys`、`-dump-stamps`、`-audit-debug`，測試故障注入 `-fault`；可選 `-state` 提供各語言獨立存檔與摘要清冊。
 - 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1044 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），每語合計 1722 筆，語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
 - 本機手冊提示：`text/manual.<語言>.tsv` 各 156 筆，100 個物品、54 個法術與兩個標題；由 `tools/build_manual_catalog.py` 產生。版控只保存不含答案的 `manual-labels.<語言>.tsv`、工具與合成測試。手冊在 `workplace/manual/`，核對表及收據在 `workplace/manual-derived/`。
@@ -57,5 +58,5 @@
 
 ## 下一步
 
-1. 第三期：選定字型散布條款後，由乾淨輸入重建本機交付包，核對權利邊界、外洩掃描與五語發行包冒煙。
+1. 第三期：013 完成契約審查後仍待字型條款、完整版號與固定 AppImage runtime 的附庫來源核對。前兩項由使用者定案。READY 後才實作啟動器及封包工具，由乾淨輸入重建交付包，核對權利邊界、外洩掃描與五語發行包冒煙。
 2. 轉公開、公開 Release 與推廣影片另由使用者決定。未取得授權前維持 private，不上傳原版、手冊或答案。

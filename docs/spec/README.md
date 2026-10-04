@@ -1,6 +1,6 @@
 # 規格索引
 
-狀態依 `AGENTS.md` §4：DRAFT、READY、CONFORMED。規格未 READY 不寫實作。審查報告在 `workplace/review/`（不進版控）。
+狀態依 `AGENTS.md` §4：DRAFT、READY、CONFORMED。規格未 READY 不寫實作。審查報告依各規格列出的 `workplace/` 路徑保存，不進版控；013 的報告在 `workplace/package-prototype/`。
 
 | 編號 | 檔案 | 內容 | 狀態 |
 |---|---|---|---|
@@ -16,6 +16,7 @@
 | 010 | [010-dim-mask-audit.md](010-dim-mask-audit.md) | 已知變暗格的精確遮罩稽核，保留其他像素檢查 | CONFORMED（正常零魔力樣本） |
 | 011 | [011-option-stream-parsing.md](011-option-stream-parsing.md) | MESS 正文後的完整選項字元流及索引消費 | CONFORMED（限資料列舉工具） |
 | 012 | [012-recovered-prose-catalog.md](012-recovered-prose-catalog.md) | 16 個已確認缺譯鍵的四語資料與正常畫面驗收 | CONFORMED（完整資料契約及按類別抽樣；15 新鍵未逐鍵量到） |
+| 013 | [013-cross-platform-packaging.md](013-cross-platform-packaging.md) | 三平台封包、授權、啟動與實際封包驗證 | DRAFT（工具鏈已試編譯，字型條款與版號待決） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 
