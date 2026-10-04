@@ -79,6 +79,7 @@ h:12de1b806907	一只绿色的布利布说：	mess7:38#0
 h:13203059d450	地面覆盖着浓雾	out:OUT19.DAT#795
 h:13967ca70529	\c----- 1 号房间 -----	mess4:34#0
 h:13abe179829e	\c--- 挤满臭烘烘动物的房间 ---	mess5:29#0
+h:13b949c013bf	ILFIN ROCS	mess2:90/opt2
 h:13ed972014c8	一位老侏儒正在这里煮东西，他说：	mess2:90#0
 h:1467381f4eb2	能从城堡回来。	scroll12#9
 h:14f57266d01a	接着他便消失了。	mess8:60#3
@@ -89,6 +90,7 @@ h:155aae0d988a	<blank>	scroll0#13
 h:155ab5ceb718	这里有一座小神殿	out:OUT2.DAT#835
 h:156c5aa1915d	\c----- 泥土地面的房间 -----	mess10:24#0
 h:15dac1cca9d6	\c「按错数字你们就会死。」	mess4:45#1
+h:16086c1f8953	SULP ELPA	mess8:40/opt3
 h:1686b808000a	「你们通过了战斗试炼。」	mess10:62#0
 h:16e9ab175dc1	势力强大，因为格尔诺	scroll16#7
 h:1732ef2228a0	离开	mess2:80/opt2
@@ -169,7 +171,9 @@ h:28cf9b9b9a2a	队伍成员察觉到邪恶的存在，	mess9:80#0
 h:2934ea97de9b	恐怖统治的据点。	scroll15#5
 h:2970fec16adb	要先去神殿，按下 23。」	mess4:105#0
 h:2a4079d1ee67	这里有一道大门，	mess1:101#0
+h:2ac718b01b32	释放他	mess8:64/opt1
 h:2ad629e3e6e8	\c----- 火焰之室 -----	mess10:23#0
+h:2afe74e1ae84	FLINI SCRO	mess2:90/opt5
 h:2b78274687f2	是大巫师，他们原本打算	scroll6#5
 h:2b8c5498ffc1	救她	mess8:71/opt1
 h:2c28397f03c5	\c这里有一座大型石造城堡	out:OUT15.DAT#635
@@ -190,6 +194,7 @@ h:303a0d302f93	西北边的桌子旁有几个吵闹的丘陵巨人，	mess4:40#1
 h:308378822ac9	\c---- 脏乱不堪的厨房 ----	mess3:27#0
 h:30981be27cac	\c---- 主神殿 ----	mess8:24#0
 h:30ced6d47091	\c---- 小牢房 ----	mess4:26#0
+h:30df21cff124	蓝色水池。	mess7:60#0
 h:312198fd31e8	据传神殿的大牧师	scroll8#11
 h:314117b5b30d	黑暗领主站在通道尽头，	mess9:45#0
 h:317143668c8e	从王座上站起来，	mess9:37#3
@@ -197,6 +202,7 @@ h:317d5e780160	待在堡垒之中。他持有尼卡迪穆斯	scroll15#7
 h:3203d98e8e57	\c恭喜你们，我的朋友们，	scroll16#1
 h:33006f0793fb	按蓝色	mess7:63/opt0
 h:33153f09478a	与野兽争取权利。	scroll16#14
+h:3321e0cd9007	不管他	mess8:64/opt0
 h:3344a32cab81	<blank>	scroll4#7
 h:3354f3dfd36d	别管它们	mess1:91/opt1
 h:336e4af98a6c	「NIFLE SCRO」	mess1:52#1
@@ -342,6 +348,7 @@ h:583a30753a41	\c--- 摆着粗糙餐具的厨房 ---	mess1:23#0
 h:584a24290d6b	这是一座雕饰华美的大理石城堡，	scroll11#5
 h:585e95cdffc8	\c---- 潮湿泥泞的洞穴 ----	mess3:12#0
 h:58770b59eaaf	他们放声大笑，	mess4:91#0
+h:58891e2e553a	红／绿	mess7:74/opt3
 h:589ac6bae886	离开	mess2:43/opt2
 h:58bbf507451e	\c大地再度震动。	mess9:60#0
 h:590574989832	一只哥布林感激地向你道谢，	mess5:43#0
@@ -359,6 +366,7 @@ h:5abb2d857d99	是用你看得懂的语言写成的。	mess1:86#1
 h:5ae26025fd10	一股奇怪的	mess6:50/opt0
 h:5b2fe4e74217	说：「你现在有资格获得土之符文了。」	mess2:46#1
 h:5b43c16396b2	\c---- 又大又暗的储物间 ----	mess5:36#0
+h:5b442f18b657	FINLE CORS	mess2:90/opt4
 h:5b4b7c47a769	精良。不请自来的访客，很少有人	scroll12#8
 h:5b9bb1eae901	一群穿长袍的人说：「你们走错	mess5:70#0
 h:5bc2273e0eaa	\c「银星」	out:OUT15.DAT#595
@@ -409,6 +417,7 @@ h:68f1ee667f97	<blank>	scroll17#12
 h:68f867a8dcce	拿走它	mess9:30/opt0
 h:6921ca9a8634	\c这里有一口棺材。	mess2:66#0
 h:6923994e2238	房间了。」	mess5:70#1
+h:69337aef9988	绿色水池。	mess7:62#0
 h:69c205cd2343	多年来，许多疲惫的旅人	scroll8#9
 h:69c22fc3fff8	8	mess4:60/opt7
 h:69c5d3bd7170	作为这番举动的奖赏，	scroll5#9
@@ -443,7 +452,9 @@ h:70c369dc5196	来自智者菲尔蒙	scroll17#2
 h:70edfc0de908	从墙上的一道裂缝，你可以看见	mess3:36#0
 h:7104a00e8726	\c特罗尔金城堡将装设魔法门	scroll3#1
 h:71eccdc06d2a	东边的小房间里有两个	mess10:43#0
+h:72169384c0cb	\c这里有一个大木箱。	mess5:72#0
 h:724192e98011	的西边。」	mess5:40#2
+h:731104ce924c	KILMON	mess8:40/opt4
 h:731268991bb7	其他地方的所有人类	scroll16#13
 h:73189c1b96ce	他会帮助你们。	mess4:72#4
 h:7331728e4011	「谢谢你们，勇敢的冒险者。我是	mess5:78#1
@@ -533,6 +544,7 @@ h:876dba972e71	你身处奥林帕斯界的一角	out:OUT19.DAT#755
 h:8783c06b4da4	并掳走俘虏。	scroll9#10
 h:87e7385c95b3	并把他带到伍德维尔的神殿。	mess2:101#3
 h:88333d8b4761	6	mess4:60/opt5
+h:88501d6df633	他说：「谢谢。我是基尔摩。」他	mess8:66#0
 h:888bd779ae34	关于阀门的事。	mess1:73#1
 h:889a24d2ea96	才能得到戒指。」	mess7:66#4
 h:88fec8193456	这片土地上最伟大的巫师们	scroll1#3
@@ -593,6 +605,7 @@ h:93b14a703c5e	这个聚落并击败矮人，至今	scroll7#9
 h:93e195c3fdf1	\c『STRATICON UBLE AND 48』」	mess3:52#2
 h:93eac5c88ca0	\c到处都是卷轴的凌乱图书室	mess5:27#0
 h:943d8f1f163f	\c这里有一座大型白色城堡	out:OUT19.DAT#675
+h:94439c234774	奇怪的气体弥漫空气，所有人都	mess6:52#0
 h:9477a94d974f	<blank>	scroll11#18
 h:94ac7a27fd00	一扇绿色的门。	mess7:29#0
 h:94c45cf22c48	\c「红色布利布们有时说谎」	mess7:36#1
@@ -759,6 +772,7 @@ h:bdd8381bd223	就不应该摧毁它。	scroll17#11
 h:be07de6413d9	坐在这里的牧师说：	mess2:50#0
 h:be4726ae5ae2	8	mess4:63/opt7
 h:be9e072195fa	\c----- 客房 -----	mess5:35#0
+h:beaa158665dc	蓝色	mess7:78/opt4
 h:beb36b6e2743	地板上铺着数块大地砖。	mess5:101#1
 h:becf7600c0f3	那些胆敢反抗他的人。他对	scroll2#6
 h:bf586e373d12	格尔诺牧师的神殿。如果你愿意，	mess2:59#1
@@ -813,6 +827,8 @@ h:c8e1eee04955	<blank>	mess5:104#2
 h:c91a66551ee2	\c毒镖从箱子里飞了出来。	mess5:7#0
 h:c929db148d7e	\c一尊大型的神像。	mess8:49#0
 h:c92dcb6275f1	可以用瞬间移动设备四处看看。」	mess2:59#2
+h:c936941a1f0e	红色水池。	mess7:61#0
+h:c95f3370249f	NIFLE SCRO	mess2:90/opt3
 h:c9f1e42a1b65	「你们没有通过水之试炼。」	mess10:58#0
 h:ca3fe0464b66	\c---- 朴素的石室 ----	mess7:26#0
 h:ca7609b68094	<blank>	scroll13#11

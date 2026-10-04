@@ -74,6 +74,6 @@ IDA Pro 9.4 使用 `ida-pro-9.4-idapython:locked-v1`，image ID `sha256:6f6d59af
 | 測試與負對照 | 10 項解析及 5 項既有匯出測試 PASS；舊解析器有 8 項預期失敗 |
 | 保護範圍 | 原版 70 檔、受保護檔案 32 個、公開路線 23 條及正式 IDA 不變 |
 
-修正後 13 個正文或選項鍵在四語 prose 缺譯，另有 MESS7:60 至 62 的三個水池正文缺譯。來源 id、摘要鍵及長度見本機 `option-parser-missing-keys.json`；未補譯或宣稱 UI 完成。
+011 驗收時有 13 個正文或選項鍵及 MESS7:60 至 62 的三個水池正文在四語缺譯。現已依 [026](026-recovered-prose-catalog.md)、[012](../spec/012-recovered-prose-catalog.md) 納入四語資料並重建字型，這 16 個鍵的來源覆蓋缺口為零；正常 UI 仍未量到。`option-parser-missing-keys.json` 保留當時來源 id、摘要鍵及長度。
 
 獨立核對、測試及匯出入口為 `verify_option_parser.py`、`option-parser-verification-summary.json`、`option-parser-tests.log`、`option-prose-regression.log`、`option-parser-negative.log` 與 `option-export-after/`。均位於 `workplace/explore-dungeon/`。正式封存清冊為 `option-parser-verification-manifest.json`；原始資料及全文匯出只留本機。

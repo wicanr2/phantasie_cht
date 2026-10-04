@@ -15,6 +15,7 @@
 | 009 | [009-short-message-catalog.md](009-short-message-catalog.md) | 已正常到達的短訊息正文、明示匯出及四語驗收 | CONFORMED（MESS5 索引 61 抽樣） |
 | 010 | [010-dim-mask-audit.md](010-dim-mask-audit.md) | 已知變暗格的精確遮罩稽核，保留其他像素檢查 | CONFORMED（正常零魔力樣本） |
 | 011 | [011-option-stream-parsing.md](011-option-stream-parsing.md) | MESS 正文後的完整選項字元流及索引消費 | CONFORMED（限資料列舉工具） |
+| 012 | [012-recovered-prose-catalog.md](012-recovered-prose-catalog.md) | 16 個已確認缺譯鍵的四語資料與正常畫面驗收 | READY（資料／字型驗證與正常 UI 分開記錄） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 

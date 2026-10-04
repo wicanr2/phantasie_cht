@@ -114,3 +114,7 @@
 | 4 負對照 | 突變驗證：語言切換重建改回 `Layer.Replace`（D1a、D1b）、`Hidden` 換算關掉（D2）、`Hidden` 改由透明格換算（D3、D3shared），全部被既有測試抓到；測試名稱含 `TestOverlaySwitchKeepsTransparentCellsAndStackOrder`、`TestOverlaySwitchSameOriginKeepsOtherEvent`、`TestOverlaySwitchHiddenIsNotRevivedByTransparentFlags` | 通過 |
 
 語言範圍：zh-TW（基準）、zh-CN（OpenCC 1.4.2 `tw2sp` 加 `text/phrases.zh-CN.tsv` 與逐鍵覆寫產生）、ja、ko（機器輔助，未經母語者校對）、en（關閉覆繪）。互動前端實機冒煙見 `005` §8。
+
+## 10. 恢復訊息資料的字型重建
+
+[012](012-recovered-prose-catalog.md) 的四語各 16 列資料納入後，按本規格從同一來源重建正式本機字型。繁中、簡中、日文各新增兩個字模，韓文不變；所有舊字模 bytes 相同。四語 lint 錯誤零，既有 UI 警告不變。既有正常寶箱回歸四語畫面與原版狀態相同，詳見 [026](../re/026-recovered-prose-catalog.md)。本規格原有字型契約與發行條款待決保持不變，不能由這次資料測試宣稱新訊息的正常 UI 已完成。

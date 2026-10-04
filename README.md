@@ -30,7 +30,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 pr
 
 ## 驗收
 
-- 規格在 `docs/spec/`（001 至 011），證據在 `docs/re/`，分期目標在 `docs/goals/`。
+- 規格在 `docs/spec/`（001 至 012），證據在 `docs/re/`，分期目標在 `docs/goals/`。
 - 路線與收據：`tools/run_receipt.sh tests/routes/<路線>.route [-lang ja]`；同狀態 A/B：`tools/ab_receipt.sh tests/routes/<路線>.route`。收據的 PNG 與 TSV 在 `workplace/receipts/`。
 - 存檔後冷啟動讀回：[tools/save_roundtrip.py](tools/save_roundtrip.py) 在 Docker 內呼叫已建置的 `phantasie-receipt`，以 `--receipt`、`--root`、`--routes`、`--text`、`--font`、`--out` 指定容器內路徑。原版、路線、譯文與字型唯讀掛載，輸出目錄可寫且須空白。契約與輸入隔離見 [005 §10](docs/spec/005-play-frontend-and-receipts.md#10-存檔層收據擴充)。
 - 譯文是 `text/ui.<語言>.tsv` 與 `text/prose.<語言>.tsv`；檢查用 `tools/lint_catalog.py`（Docker 內）。
