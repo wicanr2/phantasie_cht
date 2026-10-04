@@ -1,0 +1,81 @@
+# 正常離城後向西移一格，擷取道路描述兩行與清除返回。
+# 固定停止點在原版繪字返回後；不修改座標、資料或記憶體。
+Return
+Return
+Return
+Return
+Down
+Down
+Down
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Return
+Return
+Down
+Down
+Return
+Return
+B
+o
+b
+Return
+Return
+Return
+Up
+Return
+Return
+C
+a
+r
+o
+l
+Return
+Return
+Return
+Up
+Return
+Return
+D
+a
+v
+e
+Return
+Up
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Esc
+Left
+Left
+Left
+Return
+Return
+@check map-top
+@expect Exit
+@expect Options
+@expect Speed
+Esc
+Left
+@snap out-start 5000
+@snap out-mid 40000
+@snap out-description 72286
+@expect h:44a7f3d335d4
+@expect h:4832331d8418
+@snap out-after 2000
+@snap out-restored 50000
+Return
+@check out-menu
+@expect Exit
+@expect Options
+@expect Speed

@@ -6,6 +6,7 @@
 
 | 本輪範圍 | 目前程式與資料 | 最近驗證 | 交付狀態 |
 |---|---|---|---|
+| 道路描述與公會重名 | 收據工具及前端基底引擎 `277bb98`；HEAD `7b18f5c` 僅修註解；既有四語 catalog，新增兩條正常路線 | 四語 256 點同狀態；全文、置中、原生與兩倍像素範圍、清除、重試及兩項漏譯負對照通過 | 顯示已驗證；`37A0` 等鍵未接通，互動停留待修復，見 005 §13 |
 | 卷軸閱讀與返回 | 引擎 `277bb98`；已重建前端與收據工具，正常路線 `scroll-read` | 四語 480 點同狀態、切換 33 點、13 行全文及原生／2 倍像素範圍、兩項負對照通過 | 007 CONFORMED；卷軸 8 正常抽樣，其他卷未逐頁驗收 |
 | 地牢兩行訊息與還原 | 引擎 `f046ec4`；正常路線 `dungeon-message` | 四語、none/off/on/on-f2 共 320 點；完整原版狀態相同，兩種節奏的 Layer 相同，段落顯示與清除通過 | 收據與觸發資料流見 `docs/re/014`；005 保持 READY，其餘未量到分支見 §9.2 |
 | 存檔與冷啟動讀回 | dosgolem `phantasie-cht-overlay`，引擎提交 `277bb98`；`workplace/bin/phantasie-receipt`，`-state` 與存檔清冊 | 四語、none/off/on/on-f2 共 240 點；原版狀態與存檔相同，重啟後角色畫面相同；存檔負對照及無存檔層回歸通過 | 規格 005 §10 CONFORMED；整份 005 仍 READY，其餘未量到分支見 §9.2 |
@@ -19,6 +20,7 @@
 - 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1027 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
 - 本機手冊提示：`text/manual.<語言>.tsv` 各 156 筆，100 個物品、54 個法術與兩個標題；由 `tools/build_manual_catalog.py` 產生。版控只保存不含答案的 `manual-labels.<語言>.tsv`、工具與合成測試。手冊在 `workplace/manual/`，核對表及收據在 `workplace/manual-derived/`。
 - 路線（`tests/routes/`，20 條）：既有 `title`、`title-items`、`town`、`town-timed`、`guild`、`shops`、`messages`、`inn-distribute`、`save-load`、`map`、`dungeon`、`combat`（含整個戰鬥回合）、`weapon-list-scroll`、`lang-switch`、`lang-name`、`lang-options`，zh-TW 全部 PASS，非語言切換路線在 zh-CN、ja、ko 也全部 PASS，同狀態 A/B 全部通過。新增 `save-roundtrip-write`、`save-roundtrip-read` 必須依序使用同一 `-state`，四語與三模式及節奏驗收通過；收據在 `workplace/receipts/save-roundtrip/`。新增 `dungeon-message` 的四語 320 點同狀態通過，收據在 `workplace/explore-dungeon/ab-message-v2/`。新增 `scroll-read` 的四語 480 點與正常返回，收據在 `workplace/explore-main/ab-scroll/`；引擎 277bb98 的四語存讀檔回歸在 `workplace/explore-main/scroll-save-regression/`。
+- 新增 `map-description`、`guild-duplicate` 的四語 256 點顯示收據在 `workplace/explore-main/ab-ui-windows/`；獨立全文與像素驗證及兩項漏譯負對照通過。這兩條路線以固定步數擷取，不證明互動等鍵已接通；限制見 005 §13。
 - 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/save_roundtrip.py`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項）。
 
 ## 已知事實（摘要，等級與證據見 `docs/re/`）
@@ -32,7 +34,8 @@
 
 ## 阻擋與待決
 
-- 未量到：MESS 訊息內選項與其他事件型別；大地圖位置描述（`OUT*.DAT`）的觸發格；地城存檔及備份還原；公會重名輸入訊息；`load2`、`invert2`、INT 10h `AH=0Bh`。
+- 已定位且待修復：`37A0` 是另一條等鍵路徑，現有按鍵閘門只涵蓋 `37C2`；道路描述及重名提示會立即返回。這兩條路線的顯示與清除已驗證，互動停留未完成。
+- 未量到：MESS 訊息內選項與其他事件型別；其他地圖描述格；地城存檔及備份還原；`load2`、`invert2`、INT 10h `AH=0Bh`。
 - 已知限制：被原版逐格重畫的數字是粗體，其餘疊字數字是細體，字重不一致；ja、ko 的數字欄位右緣有少數 lint 警告。
 - 發行字型授權文字（OFL 1.1 或 GPLv2+ 字型例外）待核對。
 - 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文：見規格未決段。
@@ -40,6 +43,7 @@
 
 ## 下一步
 
-1. 抽樣 MESS 訊息內選項及大地圖描述；002 的未量到操作與 005 其餘分支沿原規格驗收。
-2. 發行階段：打包、外洩掃描、發行前實機冒煙、Release 說明。
-3. 轉公開前做公開稽核；影片與推廣視使用者決定。
+1. 先補 `37A0` 等鍵的證據與規格，讓訊息停留直到玩家確認，再回歸前端、收據工具與既有正常路線。
+2. 抽樣 MESS 訊息內選項及其他地圖描述；002 的未量到操作與 005 其餘分支沿原規格驗收。
+3. 發行階段：打包、外洩掃描、發行前實機冒煙、Release 說明。
+4. 轉公開前做公開稽核；影片與推廣視使用者決定。
