@@ -23,8 +23,9 @@
 | 016 | [016 第二條等鍵路徑](016-discarded-key-wait.md) | 清空鍵盤後的確認停點、120 幀停留與原版返回驗證 |
 | 017 | [017 地牢訊息選項](017-dungeon-message-options.md) | 拉桿的兩個選項、正常重訪與後續訊息、四語同狀態、調色盤觀察 |
 | 018 | [018 短訊息可達性](018-short-message-reachability.md) | 正常旅行至第 5 座地牢、短訊息實際欄位、正文 catalog 缺口及四語同狀態驗收 |
-| 019 | [019 第四地牢入口與戰鬥事件](019-dungeon-four-reachability.md) | 正常入口、九選項候選與途中死亡輸出；尚未到達目標，不新增 UI 完成聲明 |
+| 019 | [019 第四地牢入口與戰鬥事件](019-dungeon-four-reachability.md) | 正常入口、九選項候選與途中死亡輸出；後續正常到達及驗收見 022 |
 | 020 | [020 戰鬥死亡訊息](020-combat-death-messages.md) | 兩個死亡場景的四語全文、語言往返、原版同狀態、回合返回及負對照 |
 | 021 | [021 戰鬥勝利與獎勵](021-combat-victory.md) | 正常敵人全滅、獎勵組句及返回；四語全文、516 點同狀態、取樣完成點及負對照 |
+| 022 | [022 九選項與全滅訊息](022-nine-options-and-defeat.md) | 正常九選項、數字原版字模、神殿全滅及戰鬥直接全滅的分開驗證 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。

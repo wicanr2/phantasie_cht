@@ -10,6 +10,7 @@ zh-CN、ja、ko 的非語言切換路線也全部通過。物品與法術的手�
 寶箱短訊息已由正常路線驗證四語正文、兩個選項、反白、返回及重訪，詳見 [009 短訊息正文](docs/spec/009-short-message-catalog.md)。
 兩個正常戰鬥死亡畫面已驗證四語切換、完整角色名、死亡文字及回合返回，詳見 [005 §16](docs/spec/005-play-frontend-and-receipts.md#16-戰鬥死亡訊息)。
 正常戰鬥勝利與獎勵已驗證四語全文、原版數值、語言往返及返回地牢，詳見 [005 §17](docs/spec/005-play-frontend-and-receipts.md#17-正常戰鬥勝利與獎勵)。
+兩個九選項視窗、神殿與戰鬥直接全滅已驗證四語顯示、原版數字與姓名、語言往返及返回清除，詳見 [005 §18](docs/spec/005-play-frontend-and-receipts.md#18-九選項與全滅訊息)。
 ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 private。
 
 不含原版遊戲：原版與任何掃描檔都是使用者本機輸入，不進版控。專案規則見 [AGENTS.md](AGENTS.md)。
