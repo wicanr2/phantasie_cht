@@ -86,3 +86,7 @@ OV2 入口所在的函式（IDA `sub_C7C4`，由 `sub_A801` 呼叫）在一個�
 工具為 IDA Pro 9.4、Go 1.24.13、引擎 `277bb98`。IDA OV1 輸入 `ov1_composed.bin` 的 SHA-256 為 `a2f1e2160e030d5688d8d41cb07177b92c4fba00fa8338c87458f9210709fa6f`，正式資料庫唯讀。容器副本輸出 `workplace/explore-main/ida-windows-ov1.json` 核對 261 個函式與雜湊。IDA 線性位址減 `1100h` 為 dosgolem 映像偏移。
 
 四語共 144 點：108 個覆繪 UI PASS，36 個 none UI SKIP 只作原版狀態基準。全文、原生與兩倍像素矩形、返回、漏譯負對照皆通過，原版記憶體未變。收據在 `workplace/explore-main/ab-ui-windows/guild-duplicate/`。本批只證明顯示，現行引擎 `60b76b3` 的停留與確認另由 [RE016](016-discarded-key-wait.md)、[008 規格](../spec/008-discarded-key-wait.md)及 [005 §13](../spec/005-play-frontend-and-receipts.md#13-道路描述與公會重名提示)驗證。
+
+## 11. 正常戰鬥勝利與第二頁還原
+
+[021](021-combat-victory.md) 補正常勝利、32 位元獎勵數值及返回地牢的來源。原始定位為常駐映像返回 `2EA0`、`2EEE`、`2F10`，靜態引數來自 OV2；數值組句位於 `DGROUP:638E` 的引數 `Piece`。正常返回收據首次量到 `op_load2=1`，對應既有映像 `0D10` 至 `0D2F` 掛點。這是正式路線的操作觀察，第二頁影子還原的獨立驗收仍見 002 的限制。

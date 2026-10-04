@@ -218,11 +218,11 @@ Esc
 @known-untranslated ------------
 @snap round7 20000000
 @known-untranslated ------------
-@snap round8 20000000
+@snap round8 20000034
 @expect %s HITS
 @expect KOBOLD
 @known-untranslated ------------
-@snap round9 20000000
+@snap round9 19999966
 @known-untranslated ------------
 @snap round10 20000000
 @known-untranslated ------------
