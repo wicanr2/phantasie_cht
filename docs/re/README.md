@@ -31,5 +31,6 @@
 | 024 | [024 零魔力法術清單](024-disabled-spell-list.md) | 正常施法到零魔力、原版變暗逐位元組核對、精確稽核修正與四語正負驗收 |
 | 025 | [025 選項字元流解析](025-option-stream-parsing.md) | 原版 DI 消費端、跨記錄及正文尾段選項、工具訂正與獨立資料核對；畫面缺口仍待正常路線 |
 | 026 | [026 恢復訊息的四語缺譯資料](026-recovered-prose-catalog.md) | 16 個完整字元流缺譯鍵、候選與相鄰正文、正常路線全滅限制 |
+| 027 | [027 第六地牢已恢復正文](027-dungeon-six-recovered-message.md) | 正常入口、地形標記及跨區方向、四語正文、3008 點同狀態與獨立雙倍率像素核對 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。
