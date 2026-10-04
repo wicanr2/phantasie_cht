@@ -27,5 +27,6 @@
 | 020 | [020 戰鬥死亡訊息](020-combat-death-messages.md) | 兩個死亡場景的四語全文、語言往返、原版同狀態、回合返回及負對照 |
 | 021 | [021 戰鬥勝利與獎勵](021-combat-victory.md) | 正常敵人全滅、獎勵組句及返回；四語全文、516 點同狀態、取樣完成點及負對照 |
 | 022 | [022 九選項與全滅訊息](022-nine-options-and-defeat.md) | 正常九選項、數字原版字模、神殿全滅及戰鬥直接全滅的分開驗證 |
+| 023 | [023 勝利後第二頁還原](023-second-page-restoration.md) | 原版雙頁逐位元組核對、四語獨立整圖驗證及只停用第二頁影子的負對照 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。

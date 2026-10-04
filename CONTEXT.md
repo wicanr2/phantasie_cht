@@ -17,11 +17,12 @@
 | 戰鬥死亡訊息 | 引擎 `60b76b3`；本機正常死亡路線，程式與 catalog 不變 | 四模式 888 個原版狀態點相同；兩個死亡場景四語切換、20 項全文及倍率檢查、英文視圖、回切、返回及負對照通過 | 005 §16 已驗收；全滅見 022；勝利見 021，死亡見 [020](docs/re/020-combat-death-messages.md) |
 | 戰鬥勝利與獎勵 | 引擎 `60b76b3`；正常 DNG1 戰鬥、本機長路線，公開 `combat` 只修正兩個取樣數字 | 四模式 516 個原版狀態相同、387 個 UI PASS；四語全文、數值、語言往返、返回及負對照通過 | 005 §17 已驗收；全滅另見 022，勝利見 [021](docs/re/021-combat-victory.md) |
 | 戰鬥直接全滅 | 引擎 `60b76b3`，本機正常 DNG4 戰鬥；原版決定消滅及不死處置 | 四模式 1096 個原版狀態相同；129 個目標 UI PASS、70 項全文與倍率；七次英文與回切、正常返回及刪除模板負對照通過 | 005 §18 的本場景已驗收；神殿分支分開記錄，見 [022](docs/re/022-nine-options-and-defeat.md) |
+| 第二頁還原 | 引擎 `60b76b3`；沿用正常勝利路線，正式程式與資料不變 | 正向與只停用第二頁影子的負對照共 258 個原版狀態點相同；16 KiB 雙頁逐位元組核對、32 項獨立像素樣本及 12 項英文核對通過；16 項負對照按預期失敗 | 002 §12 的正常勝利樣本已獨立驗收，整份仍 READY，見 [023](docs/re/023-second-page-restoration.md) |
 
 ## 已有
 
-- 證據：`docs/re/001` 至 `022`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續、寶箱短訊息、第四地牢入口與戰鬥事件、死亡全文與四語切換、正常勝利及數值結算、九選項、神殿與戰鬥直接全滅）。索引在 `docs/re/README.md`。
-- 規格（`docs/spec/`）：001 繪字事件與疊字核心、002 畫面操作與失效、003 catalog 與解析、004 字型與語言、005 前端與驗收、006 手冊答案提示、007 卷軸整行顯示、008 確認等鍵、009 短訊息正文。001、003、004、006、007、008、009 已 CONFORMED。002（`load2` 已觀察，獨立還原未驗收見 §12；`invert2` 及色盤其餘分支未量到，BL=0 見 §11）與 005（兩個訊息選項見 §14，寶箱短訊息見 §15，九選項與全滅見 §18，其餘分支見 §9.2）維持 READY。005 §10 的城鎮存檔與角色冷啟動讀回已 CONFORMED；§11 地牢兩行訊息與還原、§13 提示停留與確認已驗證。狀態表在 `docs/spec/README.md`。
+- 證據：`docs/re/001` 至 `023`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續、寶箱短訊息、第四地牢入口與戰鬥事件、死亡全文與四語切換、正常勝利及數值結算、九選項、神殿與戰鬥直接全滅、第二頁獨立還原）。索引在 `docs/re/README.md`。
+- 規格（`docs/spec/`）：001 繪字事件與疊字核心、002 畫面操作與失效、003 catalog 與解析、004 字型與語言、005 前端與驗收、006 手冊答案提示、007 卷軸整行顯示、008 確認等鍵、009 短訊息正文。001、003、004、006、007、008、009 已 CONFORMED。002（`load2` 正常勝利樣本已獨立驗收，見 §12；`invert2` 及色盤其餘分支未量到，BL=0 見 §11）與 005（兩個訊息選項見 §14，寶箱短訊息見 §15，九選項與全滅見 §18，其餘分支見 §9.2）維持 READY。005 §10 的城鎮存檔與角色冷啟動讀回已 CONFORMED；§11 地牢兩行訊息與還原、§13 提示停留與確認已驗證。狀態表在 `docs/spec/README.md`。
 - dosgolem 分支 `phantasie-cht-overlay`（worktree `workplace/dosgolem-fw`，追蹤 `origin/phantasie-cht-overlay`）：規格 197（`int 27h`）、250（CGA 捲動及色盤）與 251（指令前 guard）已 CONFORMED。`apps/phantasie/` 有格式引擎、catalog、擷取鉤子、解析、版面、疊字核心、畫面操作與影子、語言切換及稽核；互動前端在 `apps/phantasie/cmd/phantasie-play`，無頭收據工具在 `apps/phantasie/cmd/phantasie-receipt`。收據路線支援 `@check`、`@snap`、`@lang`、`@assert-*`，診斷旗標 `-dump-keys`、`-dump-stamps`、`-audit-debug`，測試故障注入 `-fault`；可選 `-state` 提供各語言獨立存檔與摘要清冊。
 - 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1028 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），每語合計 1706 筆，語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
 - 本機手冊提示：`text/manual.<語言>.tsv` 各 156 筆，100 個物品、54 個法術與兩個標題；由 `tools/build_manual_catalog.py` 產生。版控只保存不含答案的 `manual-labels.<語言>.tsv`、工具與合成測試。手冊在 `workplace/manual/`，核對表及收據在 `workplace/manual-derived/`。
@@ -41,7 +42,7 @@
 
 ## 阻擋與待決
 
-- 未量到：MESS5 索引 61 以外的短訊息、其他選項欄寬與事件型別；其他地圖描述格；地城存檔及備份還原；`invert2`。`load2` 的正常呼叫已量到，獨立還原仍待驗收，見 [021](docs/re/021-combat-victory.md) 與 002 §12。INT 10h `AH=0Bh BL=0` 已由 [017](docs/re/017-dungeon-message-options.md) 量到，`BL=1` 及原有文字跨色盤的失效處理仍未量到。
+- 未量到：MESS5 索引 61 以外的短訊息、其他選項欄寬與事件型別；其他地圖描述格；地城存檔及備份還原；`invert2`。`load2` 正常勝利樣本已獨立驗收，其他第二頁狀態不在本樣本內，見 [023](docs/re/023-second-page-restoration.md) 與 002 §12。INT 10h `AH=0Bh BL=0` 已由 [017](docs/re/017-dungeon-message-options.md) 量到，`BL=1` 及原有文字跨色盤的失效處理仍未量到。
 - 已知限制：被原版逐格重畫的數字是粗體，其餘疊字數字是細體，字重不一致；ja、ko 的數字欄位右緣有少數 lint 警告。
 - 發行字型的雙授權條款與作者聲明已核對，來源及雜湊見 `font/README.md`；散布採 OFL 1.1 或 GPLv2+ 含字型例外待使用者選定。
 - 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文：見規格未決段。
