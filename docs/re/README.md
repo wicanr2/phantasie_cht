@@ -21,5 +21,6 @@
 | 014 | [014 地牢事件格與訊息視窗](014-dungeon-message-trigger.md) | DNG 事件格到 MESS 索引的資料流、兩行段落及整頁還原、四語 320 點同狀態驗收 |
 | 015 | [015 卷軸閱讀](015-scroll-reading.md) | 正常購買與閱讀、卷軸逐行消費端與整行安全範圍 |
 | 016 | [016 第二條等鍵路徑](016-discarded-key-wait.md) | 清空鍵盤後的確認停點、120 幀停留與原版返回驗證 |
+| 017 | [017 地牢訊息選項](017-dungeon-message-options.md) | 拉桿的兩個選項、正常重訪與後續訊息、四語同狀態、調色盤觀察 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。

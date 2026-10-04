@@ -1,0 +1,191 @@
+# 地牢訊息選項：正常步行到拉桿，反白往返、離開、重訪、拉動及確認返回。
+# 不修改原版座標、亂數、記憶體或存檔，不含手冊作答。
+# 地牢 MESS：沿正常移動到事件格，以固定步數擷取兩行段落及整頁還原。
+# 路線在手冊題出現前結束，不含作答；原版預設固定時鐘，不修改 seed 或記憶體。
+Return
+Return
+Return
+Return
+Down
+Down
+Down
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Return
+Return
+Down
+Down
+Return
+Return
+B
+o
+b
+Return
+Return
+Return
+Up
+Return
+Return
+C
+a
+r
+o
+l
+Return
+Return
+Return
+Up
+Return
+Return
+D
+a
+v
+e
+Return
+Up
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Esc
+Left
+Left
+Left
+Return
+Left
+# 道路描述先確認，再繼續移動。
+Return
+Left
+Left
+Left
+Left
+Up
+Up
+Up
+Up
+Up
+Up
+# 湖泊描述先確認，再向上走第七步。
+Return
+Up
+@check dungeon-prompt
+@expect A DUNGEON. ENTER?
+@expect NO
+@expect YES
+Return
+Down
+@check dungeon-step1
+@expect h:7752efa11e70
+Down
+Down
+Down
+@check dungeon-step4
+@expect h:5e45a292af35
+Down
+@check move-0
+@expect h:7752efa11e70
+Down
+@check move-1
+@expect h:7752efa11e70
+Down
+@check move-2
+@expect h:7752efa11e70
+Down
+@check move-3
+@expect h:7752efa11e70
+Down
+@check move-4
+@expect h:7752efa11e70
+Left
+@check move-5
+@expect h:7752efa11e70
+Left
+@check move-6
+@expect h:9d0421748f99
+Left
+@check move-7
+@expect h:9d0421748f99
+Left
+@check move-8
+@expect h:9d0421748f99
+Left
+@check west-0
+@expect h:9d0421748f99
+Left
+@check west-1
+@expect h:9d0421748f99
+Left
+@check west-2
+@expect h:9d0421748f99
+Left
+@check west-3
+@expect h:9d0421748f99
+Left
+@check west-4
+@expect h:9d0421748f99
+Left
+@check west-5
+@expect h:9d0421748f99
+Down
+@check west-6
+@expect h:9d0421748f99
+Down
+@check west-7
+@expect h:9d0421748f99
+Down
+@check west-8
+@expect h:9d0421748f99
+Right
+@check west-9
+@expect h:9d0421748f99
+Right
+@check west-10
+@expect h:5e45a292af35
+Right
+@check west-11
+@expect h:5e45a292af35
+Right
+@check lever-options
+@expect h:349160b59961
+@expect h:7bba95d73fd4
+@expect h:e369bbc4094f
+Down
+@check lever-leave-selected
+@expect h:349160b59961
+@expect h:7bba95d73fd4
+@expect h:e369bbc4094f
+Up
+@check lever-pull-selected
+@expect h:349160b59961
+@expect h:7bba95d73fd4
+@expect h:e369bbc4094f
+Down
+Return
+@check lever-return
+@expect h:5e45a292af35
+Left
+@check lever-step-back
+@expect h:5e45a292af35
+Right
+@check lever-options-revisit
+@expect h:349160b59961
+@expect h:7bba95d73fd4
+@expect h:e369bbc4094f
+Return
+@check lever-pull-result
+@expect h:a9d8a3e04b5d
+@expect h:af3e625aae3b
+Return
+@check lever-pull-battle
+@expect PARTY OPTIONS
+@expect SPEED
