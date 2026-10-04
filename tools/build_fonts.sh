@@ -4,7 +4,8 @@
 #   tools/build_fonts.sh <unifont-17.0.05.tar.gz> <輸出目錄>
 #
 # 輸出 <輸出目錄>/<lang>.golemfnt。字元來源是該語言的 text/ui.<lang>.tsv、text/prose.<lang>.tsv，
-# 加上存在時的 font/<lang>.extra.txt。缺任何一個要求的字就以非零離開（docs/spec/004 §3）。
+# 加上存在時的 manual-labels、manual catalog 與 font/<lang>.extra.txt。
+# 缺任何一個要求的字就以非零離開（docs/spec/004 §3）。
 # 字型檔不進版控（docs/spec/004 §3、AGENTS.md §7）。
 set -euo pipefail
 
@@ -28,6 +29,8 @@ for spec in "${SPECS[@]}"; do
   lang="${spec%%:*}"
   hex="${spec##*:}"
   chars=(--chars "text/ui.$lang.tsv" --chars "text/prose.$lang.tsv")
+  [[ -f "$ROOT/text/manual-labels.$lang.tsv" ]] && chars+=(--chars "text/manual-labels.$lang.tsv")
+  [[ -f "$ROOT/text/manual.$lang.tsv" ]] && chars+=(--chars "text/manual.$lang.tsv")
   [[ -f "$ROOT/font/$lang.extra.txt" ]] && chars+=(--chars "font/$lang.extra.txt")
   docker run --rm -u "$(id -u):$(id -g)" --network none --memory 1g --cpus 1 --pids-limit 64 \
     --log-opt max-size=10m --log-opt max-file=3 \

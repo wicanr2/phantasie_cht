@@ -4,8 +4,9 @@
 並可切回英文原版。原版程式與資料不修改。
 
 狀態：zh-TW 的城鎮、公會、商店、銀行、旅店、大地圖、地城入口與位置列、戰鬥（含整個戰鬥回合的訊息）、選項與存檔選單已由同狀態收據覆蓋；
-zh-CN、ja、ko 的非語言切換路線也全部通過。尚未量到的畫面與限制列在 [CONTEXT.md](CONTEXT.md) 與各規格結尾的「驗收收據」。
-ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 private，commit 尚未推送。
+zh-CN、ja、ko 的非語言切換路線也全部通過。物品與法術的手冊題已可顯示答案，保留原版三個選項，由玩家選答。
+尚未量到的畫面與限制列在 [CONTEXT.md](CONTEXT.md) 與各規格結尾的「驗收收據」。
+ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 private。
 
 不含原版遊戲：原版與任何掃描檔都是使用者本機輸入，不進版控。專案規則見 [AGENTS.md](AGENTS.md)。
 
@@ -18,9 +19,13 @@ ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 pr
 3. 啟動：`workplace/bin/phantasie-play -root <原版目錄> -text text -font workplace/fonts -zoom 2`；`F11` 全螢幕、`F12` 切換語言；存檔放在 `$XDG_DATA_HOME/phantasie-cht`，不寫原版目錄
 4. 實機冒煙：`tools/smoke_play.sh` 在虛擬顯示器內對五種語言各截一張標題畫面（`workplace/play-shots/`）
 
+手冊提示需要本機的 `text/manual.<語言>.tsv`。此工作區已備妥四語答案表並重建字型。
+重建時先在 Docker 內執行 `python -B tools/build_manual_catalog.py --reference workplace/manual-derived/answers.tsv --text text`，再建字型。
+來源與規格見 [手冊來源](docs/re/012-manual-prompts.md)及[手冊答案提示](docs/spec/006-manual-answer-hints.md)。手冊與答案表不進版控；缺少答案表時保留原文題目。
+
 ## 驗收
 
-- 規格在 `docs/spec/`（001 至 005），證據在 `docs/re/`，分期目標在 `docs/goals/`。
+- 規格在 `docs/spec/`（001 至 006），證據在 `docs/re/`，分期目標在 `docs/goals/`。
 - 路線與收據：`tools/run_receipt.sh tests/routes/<路線>.route [-lang ja]`；同狀態 A/B：`tools/ab_receipt.sh tests/routes/<路線>.route`。收據的 PNG 與 TSV 在 `workplace/receipts/`。
 - 譯文是 `text/ui.<語言>.tsv` 與 `text/prose.<語言>.tsv`；檢查用 `tools/lint_catalog.py`（Docker 內）。
 

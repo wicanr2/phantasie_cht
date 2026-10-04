@@ -1,0 +1,4 @@
+key	translation	source
+prompt:item	설명서: 물품 번호	spec:006
+prompt:spell	설명서: 주문 이름	spec:006
+answer	정답: %s	spec:006

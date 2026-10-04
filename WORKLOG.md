@@ -77,3 +77,24 @@
 未解或未量到：地牢訊息視窗（MESS）與大地圖位置描述（`OUT*.DAT`）的觸發格未知，動態未量到；卷軸閱讀拿不到卷軸物品；存檔後讀回受限於收據工具沒有 `SetScratch`；公會重名輸入的訊息未走到；`load2`、`invert2`、INT 10h `AH=0Bh` 沒有觸發。
 
 規則違反：再一次在主機執行 `python3 -`（空腳本）；`perl` 多次以雙引號字串處理含 `@` 的文字造成插值錯誤或檔案重複，已改用單引號 here-doc 與 Edit 工具（沒有造成遺失，重複的檔案從 HEAD 還原）。
+
+## 2026-10-04：接手手冊答案提示
+
+- 使用者明確授權上網下載 Phantasie 手冊，並在提示畫面直接顯示答案。更新 `AGENTS.md` 舊有「沒有手冊、不作答」契約；保留原版三個選項、玩家送鍵與原版判定，不改遊戲記憶體。手冊、答案與作答路線只留本機。
+- 路由命中中文化、dosgolem 驗收、IDA 與文件職責；載入復古逆向技能、規格閘門與驗收參考、IDA 9.4 工具入口、文件職責及 README 標準。沿用現有 `phantasie-cht-overlay` 工作樹與 Docker image，沒有建立重複工具鏈。
+- 從 Museum of Computer Adventure Game History 下載三份手冊。遊戲題目引用的頁 15、16 與封底符合 Phantasie I & II 合訂手冊；人工核對 100 個物品與 54 個法術。完整來源、雜湊與 IDA 原始定位見 `docs/re/012-manual-prompts.md`。
+- 規格 006 先完成契約對程式、資料對證據兩輪唯讀審查，再升 READY 與實作。審查補上 Font 檢查的三個入口、缺少語言表時的既有限制、1 MiB 完整記憶體雜湊、專用 builder 與精確 `ov2` 判斷。曾誤寫一項手冊表格勘誤及實際答案，經核對移除；未提交或推送。實作審查再補空法術譯文與錯誤 placeholder 的拒絕條件。
+- 新增 `manual-labels.<lang>.tsv` 與 `tools/build_manual_catalog.py`。本機 `manual.<lang>.tsv` 各 156 筆；四語字型及互動前端已重建。執行期只在四個已證實事件上查表，缺檔、錯表、缺字或過長時保留原文。檔案錯誤不會停用一般中文化。
+- 正常玩家路線重現物品題、答錯後的法術題及答對返回。`workplace/manual-derived/ab/` 的 none、off、on、on-f2 各 68 個檢查點，steps、reads、VRAM、映像雜湊與完整 1 MiB 記憶體 SHA-256 全部一致；20,000 與 40,000 步取樣的 layer_hash 全部相同，所有掛鉤模式 UI 判定 PASS。none 僅提供原版雜湊，不以它的 SKIP 當 UI 驗收。
+- 四語及英文切換、返回後清除、原生與兩倍的像素邊界通過。真實事件重播的兩倍產物與正常路線 PNG 逐像素相同；圖片預覽曾讓字首看似消失，直接比對像素與字首墨點後排除，沒有更動定色核心。
+- 驗證：`go test ./apps/phantasie ./apps/phantasie/cmd/phantasie-receipt`、`TestManual*`、實際資料 catalog 與 `TestSession*`；手冊資料反例 5 項、含字型的 lint 反例 24 項；城鎮路線 36 點；乾淨匯出停用查表後，兩個提示驗收測試確實失敗。互動前端在 Xvfb 可啟動，截圖為 `gui-title.png`。
+- 環境處置：7,777 步密集取樣在 1,100 秒逾時，不算完整驗收，改用 40,000 步完成相同路線。核對腳本初次缺 `/out` 掛載、Session 測試初次缺 `/phantasie-data` 掛載，補正後以 `go test -count=1` 排除先前 SKIP 快取並乾淨重跑；未把環境錯誤列成產品缺陷。原生像素測試的合成疊字初次未進 Shown 狀態，修正夾具後通過。
+- 規格 006 升 CONFORMED，範圍是本輪物品與法術抽樣。154 題完整性屬手冊靜態核對，未宣稱每題皆已動態執行。精確來源與產物雜湊見 `workplace/manual-derived/verification-manifest.json`。本輪未打包、未提交、未推送，也未修改 GitHub Issue。
+- 收尾：兩個工作樹的 `git diff --check` 通過；手冊與四語答案表皆受忽略規則保護。專案內未發現 root 擁有檔案或誤建的 `.md` 目錄，沒有本輪殘留容器。
+
+## 2026-10-04：授權提交與推送
+
+- 使用者授權 commit 與 push，範圍為本輪中文化專案與 dosgolem 的 `phantasie-cht-overlay` 分支。核對作者信箱為 `wicanr2@gmail.com`，中文化尚有 56 個既有未推送提交，引擎分支尚有 34 個既有提交並無遠端分支。
+- 掃描待推送檔案與完整差異：未包含原版檔案、掃描手冊、答案表或含答案畫面。公開差異的舊合成測試與文件曾出現三個原版檔名，已改成合成名稱或用途描述；位址與輸入雜湊保留，執行邏輯不變。Docker 內重跑 `go test -count=1 ./apps/phantasie ./apps/phantasie/cmd/phantasie-receipt` 通過。
+- dosgolem 提交 `e90336d`，已推送至 `origin/phantasie-cht-overlay` 並設定上游。中文化本輪提交同步工具、標籤、規格與現況文件，遠端入口為 `origin/main`。推送不改 dosgolem main、不改 repository visibility、不建立 Release。
+- 手冊、本機答案表與驗收輸入仍由忽略規則排除。提交前兩個工作樹的差異檢查通過，本輪容器均以 `--rm` 收尾。

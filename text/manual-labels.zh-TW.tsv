@@ -1,0 +1,4 @@
+key	translation	source
+prompt:item	手冊提示：物品編號	spec:006
+prompt:spell	手冊提示：法術名稱	spec:006
+answer	答案：%s	spec:006

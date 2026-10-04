@@ -1,5 +1,5 @@
 key	note
-What is the item number of a%c	手冊對照提示：維持原文，不翻譯、不作答
-%s? (page 15,16)	手冊對照提示：維持原文，不翻譯、不作答
-What is the name	手冊對照提示：維持原文，不翻譯、不作答
-of spell %d? (back cover)	手冊對照提示：維持原文，不翻譯、不作答
+What is the item number of a%c	手冊提示：規格 006 的本機表與事件均核對後才覆繪，否則保留原文
+%s? (page 15,16)	手冊提示：規格 006 的本機表與事件均核對後才覆繪，否則保留原文
+What is the name	手冊提示：規格 006 的本機表與事件均核對後才覆繪，否則保留原文
+of spell %d? (back cover)	手冊提示：規格 006 的本機表與事件均核對後才覆繪，否則保留原文

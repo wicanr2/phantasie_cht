@@ -1,4 +1,6 @@
 | 011 | `011-dungeon-location-line.md` | 地城位置列的格式字串指標 `OV2:C400`：區間表的 `buffer@ov2` 列、`-dump-keys` 診斷 |
+
+手冊提示新增證據：[012 手冊來源與提示事件](012-manual-prompts.md)。
 # docs/re 索引
 
 原版證據、位址、雜湊、實驗與推論等級。保留原始位址與 operand，不以推測名稱覆蓋定位資訊。

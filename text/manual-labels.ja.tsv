@@ -1,0 +1,4 @@
+key	translation	source
+prompt:item	手引き：品物番号	spec:006
+prompt:spell	手引き：呪文名	spec:006
+answer	答え：%s	spec:006

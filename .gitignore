@@ -2,6 +2,7 @@
 *.zip
 *.rar
 workplace/
+text/manual.*.tsv
 
 # 本機 Go workspace 與編譯產物。
 go.work
