@@ -11,17 +11,19 @@
 | 地牢兩行訊息與還原 | 引擎 `60b76b3`；正常路線 `dungeon-message` 加確認停點 | zh-TW 21 點回歸 PASS；先前四語 320 點的顯示與還原證據仍有效 | 收據與觸發資料流見 `docs/re/014`、008；005 保持 READY，其餘未量到分支見 §9.2 |
 | 存檔與冷啟動讀回 | 引擎 `60b76b3`；`workplace/bin/phantasie-receipt`，`-state` 與存檔清冊 | 四語、四模式 240 點回歸，原版狀態與存檔相同，重啟後角色畫面相同；既有負對照有效 | 規格 005 §10 CONFORMED；整份 005 仍 READY |
 | 手冊答案提示 | 引擎 `60b76b3`；四語本機答案表與字型 | 確認等鍵後，物品、法術、四語及英文、返回，三模式各 72 點，共 216 點；完整原版狀態相同 | 006 CONFORMED；手冊與答案只留本機 |
-| 地牢訊息選項 | 引擎 `60b76b3`；新增 `dungeon-options` 正常路線，譯文與字型未變 | 四語四模式 512 點同狀態；全文、反白、兩個選擇、重訪、後續段落、戰鬥及色盤後顏色、兩種倍率與負對照通過 | 兩個 11 字元選項已驗證；其餘欄寬與短訊息仍未量到，見 RE017、005 §14 |
+| 地牢訊息選項 | 引擎 `60b76b3`；`dungeon-options` 正常路線 | 四語四模式 512 點同狀態；全文、反白、兩個選擇、重訪、後續段落、戰鬥及色盤後顏色、兩種倍率與負對照通過 | 兩個 11 字元選項已驗證；其餘欄寬仍未量到，見 RE017、005 §14 |
+| 寶箱短訊息 | 引擎 `60b76b3`；匯出工具明示納入 `mess5:61`，四語各新增一列正文 | 16 組 2496 個原版狀態點相同；八個短訊息停點共 96 個 UI PASS，40 項全文及倍率檢查、刪除正文負對照與 32 點拉桿回歸通過 | 009 CONFORMED；其他短訊息、3 字元選項仍未量到，見 RE018、005 §15 |
 
 ## 已有
 
-- 證據：`docs/re/001` 至 `017`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續）。索引在 `docs/re/README.md`。
-- 規格（`docs/spec/`）：001 繪字事件與疊字核心、002 畫面操作與失效、003 catalog 與解析、004 字型與語言、005 前端與驗收、006 手冊答案提示、007 卷軸整行顯示、008 確認等鍵。001、003、004、006、007、008 已 CONFORMED。002（`load2`、`invert2` 及色盤其餘分支未量到，BL=0 見 §11）與 005（兩個訊息選項見 §14，其餘分支見 §9.2）維持 READY。005 §10 的城鎮存檔與角色冷啟動讀回已 CONFORMED；§11 地牢兩行訊息與還原、§13 提示停留與確認已驗證。狀態表在 `docs/spec/README.md`。
+- 證據：`docs/re/001` 至 `018`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續、寶箱短訊息）。索引在 `docs/re/README.md`。
+- 規格（`docs/spec/`）：001 繪字事件與疊字核心、002 畫面操作與失效、003 catalog 與解析、004 字型與語言、005 前端與驗收、006 手冊答案提示、007 卷軸整行顯示、008 確認等鍵、009 短訊息正文。001、003、004、006、007、008、009 已 CONFORMED。002（`load2`、`invert2` 及色盤其餘分支未量到，BL=0 見 §11）與 005（兩個訊息選項見 §14，寶箱短訊息見 §15，其餘分支見 §9.2）維持 READY。005 §10 的城鎮存檔與角色冷啟動讀回已 CONFORMED；§11 地牢兩行訊息與還原、§13 提示停留與確認已驗證。狀態表在 `docs/spec/README.md`。
 - dosgolem 分支 `phantasie-cht-overlay`（worktree `workplace/dosgolem-fw`，追蹤 `origin/phantasie-cht-overlay`）：規格 197（`int 27h`）、250（CGA 捲動及色盤）與 251（指令前 guard）已 CONFORMED。`apps/phantasie/` 有格式引擎、catalog、擷取鉤子、解析、版面、疊字核心、畫面操作與影子、語言切換及稽核；互動前端在 `apps/phantasie/cmd/phantasie-play`，無頭收據工具在 `apps/phantasie/cmd/phantasie-receipt`。收據路線支援 `@check`、`@snap`、`@lang`、`@assert-*`，診斷旗標 `-dump-keys`、`-dump-stamps`、`-audit-debug`，測試故障注入 `-fault`；可選 `-state` 提供各語言獨立存檔與摘要清冊。
-- 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1027 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
+- 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1028 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），每語合計 1706 筆，語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
 - 本機手冊提示：`text/manual.<語言>.tsv` 各 156 筆，100 個物品、54 個法術與兩個標題；由 `tools/build_manual_catalog.py` 產生。版控只保存不含答案的 `manual-labels.<語言>.tsv`、工具與合成測試。手冊在 `workplace/manual/`，核對表及收據在 `workplace/manual-derived/`。
 - 路線（`tests/routes/`，23 條）：確認等鍵後既有 20 條一般路線共 438 點 zh-TW PASS，收據在 `workplace/explore-main/wait-regression/`。新增 `dungeon-options` 32 點，四語四模式共 512 點通過，收據在 `workplace/explore-dungeon/ab-dungeon-options/`。另外 `save-roundtrip-write`、`save-roundtrip-read` 依序使用同一 `-state`，四語四模式 240 點回歸通過，收據在 `wait-save-regression/`。四語卷軸 31 點、四模式共 496 點同狀態與節奏回歸在 `wait-scroll-regression/`。其他非語言切換路線的四語 A/B 為既有版本證據，未宣稱本輪重跑全部語言。
 - `map-description`、`guild-duplicate` 改在正常確認點停下，各四語四模式共 192 點，收據在 `workplace/explore-main/ab-wait-windows/`；全文、像素範圍、停留、語言切換、確認返回及 guard 負對照通過。契約與完整回歸入口見 008。
+- 寶箱短訊息的正常長路線只留本機，收據在 `workplace/explore-dungeon/ab-dungeon-short-v2/`。156 點中 85 個無文字旅行點只作原版狀態診斷；UI 完成聲明限八個 `short-*` 停點。正式清冊見 `short-verification-manifest.json`，範圍及工具處置見 009。
 - 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/save_roundtrip.py`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項）。
 
 ## 已知事實（摘要，等級與證據見 `docs/re/`）
@@ -35,7 +37,7 @@
 
 ## 阻擋與待決
 
-- 未量到：MESS 短訊息、其他選項欄寬與事件型別；其他地圖描述格；地城存檔及備份還原；`load2`、`invert2`。INT 10h `AH=0Bh BL=0` 已由 [017](docs/re/017-dungeon-message-options.md) 量到，`BL=1` 及原有文字跨色盤的失效處理仍未量到。
+- 未量到：MESS5 索引 61 以外的短訊息、其他選項欄寬與事件型別；其他地圖描述格；地城存檔及備份還原；`load2`、`invert2`。INT 10h `AH=0Bh BL=0` 已由 [017](docs/re/017-dungeon-message-options.md) 量到，`BL=1` 及原有文字跨色盤的失效處理仍未量到。
 - 已知限制：被原版逐格重畫的數字是粗體，其餘疊字數字是細體，字重不一致；ja、ko 的數字欄位右緣有少數 lint 警告。
 - 發行字型授權文字（OFL 1.1 或 GPLv2+ 字型例外）待核對。
 - 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文：見規格未決段。
@@ -43,6 +45,6 @@
 
 ## 下一步
 
-1. 抽樣 MESS 短訊息、其他選項欄寬與地圖描述；002 的未量到操作與 005 其餘分支沿原規格驗收。
+1. 抽樣其他 MESS 短訊息、3 字元選項欄寬與地圖描述；002 的未量到操作與 005 其餘分支沿原規格驗收。
 2. 發行階段：核對字型授權、打包、外洩掃描、發行前實機冒煙、Release 說明。
 3. 轉公開前做公開稽核；影片與推廣視使用者決定。

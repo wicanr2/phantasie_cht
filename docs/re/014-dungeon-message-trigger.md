@@ -50,6 +50,6 @@ IDA Pro 9.4，image `ida-pro-9.4-idapython:locked-v1`，image ID `sha256:6f6d59a
 
 ## 限制
 
-- 這是兩行 MESS 段落及還原的一個正常樣本。兩個 11 字元訊息選項已由 [017](017-dungeon-message-options.md) 正常驗收；短訊息、其他欄寬與事件型別仍待抽樣。
+- 這是兩行 MESS 段落及還原的一個正常樣本。兩個 11 字元訊息選項已由 [017](017-dungeon-message-options.md) 正常驗收，MESS5 索引 61 短訊息見 [018](018-short-message-reachability.md)、[009](../spec/009-short-message-catalog.md)；其他短訊息、其他欄寬與事件型別仍待抽樣。
 - 卷軸閱讀與道路描述已由 RE015、RE016 及對應規格驗收。規格 005 仍因其他未量到分支保持 READY。
 - 初次 `@check` 已錯過段落，後續無期望鍵的黑畫面 PASS 不作訊息證據。用原版 printf 呼叫時序選定固定擷取步數；沒有改程式或判定以讓驗收通過。

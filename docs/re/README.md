@@ -22,5 +22,6 @@
 | 015 | [015 卷軸閱讀](015-scroll-reading.md) | 正常購買與閱讀、卷軸逐行消費端與整行安全範圍 |
 | 016 | [016 第二條等鍵路徑](016-discarded-key-wait.md) | 清空鍵盤後的確認停點、120 幀停留與原版返回驗證 |
 | 017 | [017 地牢訊息選項](017-dungeon-message-options.md) | 拉桿的兩個選項、正常重訪與後續訊息、四語同狀態、調色盤觀察 |
+| 018 | [018 短訊息可達性](018-short-message-reachability.md) | 正常旅行至第 5 座地牢、短訊息實際欄位、正文 catalog 缺口及四語同狀態驗收 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。

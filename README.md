@@ -7,6 +7,7 @@
 zh-CN、ja、ko 的非語言切換路線也全部通過。物品與法術的手冊題已可顯示答案，保留原版三個選項，由玩家選答。
 尚未量到的畫面與限制列在 [CONTEXT.md](CONTEXT.md) 與各規格結尾的「驗收收據」。
 道路兩行描述與公會重名提示已驗證四語顯示、停留、確認及清除；等待期間可切換語言，詳見 [008 確認等鍵](docs/spec/008-discarded-key-wait.md)。
+寶箱短訊息已由正常路線驗證四語正文、兩個選項、反白、返回及重訪，詳見 [009 短訊息正文](docs/spec/009-short-message-catalog.md)。
 ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 private。
 
 不含原版遊戲：原版與任何掃描檔都是使用者本機輸入，不進版控。專案規則見 [AGENTS.md](AGENTS.md)。
@@ -26,7 +27,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 pr
 
 ## 驗收
 
-- 規格在 `docs/spec/`（001 至 008），證據在 `docs/re/`，分期目標在 `docs/goals/`。
+- 規格在 `docs/spec/`（001 至 009），證據在 `docs/re/`，分期目標在 `docs/goals/`。
 - 路線與收據：`tools/run_receipt.sh tests/routes/<路線>.route [-lang ja]`；同狀態 A/B：`tools/ab_receipt.sh tests/routes/<路線>.route`。收據的 PNG 與 TSV 在 `workplace/receipts/`。
 - 存檔後冷啟動讀回：[tools/save_roundtrip.py](tools/save_roundtrip.py) 在 Docker 內呼叫已建置的 `phantasie-receipt`，以 `--receipt`、`--root`、`--routes`、`--text`、`--font`、`--out` 指定容器內路徑。原版、路線、譯文與字型唯讀掛載，輸出目錄可寫且須空白。契約與輸入隔離見 [005 §10](docs/spec/005-play-frontend-and-receipts.md#10-存檔層收據擴充)。
 - 譯文是 `text/ui.<語言>.tsv` 與 `text/prose.<語言>.tsv`；檢查用 `tools/lint_catalog.py`（Docker 內）。

@@ -12,6 +12,7 @@
 | 006 | [006-manual-answer-hints.md](006-manual-answer-hints.md) | 依本機手冊表顯示答案，保留原版選項與輸入 | CONFORMED（物品、法術正常路線抽樣） |
 | 007 | [007-scroll-row-layout.md](007-scroll-row-layout.md) | 卷軸整行寬度、空行標記與標題置中 | CONFORMED（正常卷軸 8 抽樣） |
 | 008 | [008-discarded-key-wait.md](008-discarded-key-wait.md) | 第二條讀鍵路徑、提示停留與確認返回 | CONFORMED（正常提示與既有路線回歸） |
+| 009 | [009-short-message-catalog.md](009-short-message-catalog.md) | 已正常到達的短訊息正文、明示匯出及四語驗收 | CONFORMED（MESS5 索引 61 抽樣） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 

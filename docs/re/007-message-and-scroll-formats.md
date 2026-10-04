@@ -50,11 +50,11 @@
 ## 5. 未決事項
 
 1. 偏移表統計（`tools/gamedata.py` 的 `parse_mess`，Docker 內執行）：10 個檔的 `table[0..110]` 單調不減，相鄰差只有 0 與 41（已證實）；`table[111]` 恆為 0，所以第 111 則（最後一個記錄，內容是結束序列標記）的記錄長度不由表決定，檔尾比 `230 + 41 × 記錄數` 短（例：`MESS1` 少 22 bytes），尾端被讀入的是舊緩衝區內容。
-2. 選項欄位的繪製位置與寬度（`sub_8F71` 的 `90C0` 之後、`sub_2300` 的選單選取），以及短訊息（`L < 40`）內嵌選項的切法，兩個 11 字元選項已由 [017](017-dungeon-message-options.md) 正常量測；短訊息及 3 字元欄位仍待抽樣。
+2. 選項欄位的繪製位置與寬度（`sub_8F71` 的 `90C0` 之後、`sub_2300` 的選單選取），以及短訊息（`L < 40`）內嵌選項的切法，兩個 11 字元選項已由 [017](017-dungeon-message-options.md) 正常量測；MESS5 索引 61 的 10 字元正文與內嵌兩選項已由 [018](018-short-message-reachability.md)、[009](../spec/009-short-message-catalog.md) 正常驗收。其他短訊息及 3 字元欄位仍待抽樣。
 3. 訊息索引的事件格來源已由 [014](014-dungeon-message-trigger.md) 查明：格值大於 220 時進入五位元組事件記錄，首 byte 的低七位為 MESS 索引。正常路線已核對一個兩行訊息及整頁還原；其他事件型別仍待抽樣。
 4. 標記記錄（長度 32、1、`ENDING SEQUENCE`）的語意。
 5. 其他資料檔（`TWNS.INT`、`GUILD.DAT`、`PHM`、`PAT`、`OUT*.DAT`、`DNG*`）的內容：`OUT*.DAT` 與 `DNG*` 預期是地圖與事件資料，名稱與訊息可能不在其中，需另行確認。
-6. 執行期對照：[014](014-dungeon-message-trigger.md) 的兩行事件已與解碼行核對，四語同狀態通過。兩個 11 字元選項及後續兩行已由 [017](017-dungeon-message-options.md) 正常驗收；其他欄寬、段落與短訊息仍待抽樣。
+6. 執行期對照：[014](014-dungeon-message-trigger.md) 的兩行事件已與解碼行核對，四語同狀態通過。兩個 11 字元選項及後續兩行已由 [017](017-dungeon-message-options.md) 正常驗收；MESS5 索引 61 短訊息見 [018](018-short-message-reachability.md)、[009](../spec/009-short-message-catalog.md)。其他欄寬、段落與短訊息仍待抽樣。
 
 ## 6. 對中文化的影響
 
