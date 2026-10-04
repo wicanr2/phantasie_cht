@@ -29,5 +29,6 @@
 | 022 | [022 九選項與全滅訊息](022-nine-options-and-defeat.md) | 正常九選項、數字原版字模、神殿全滅及戰鬥直接全滅的分開驗證 |
 | 023 | [023 勝利後第二頁還原](023-second-page-restoration.md) | 原版雙頁逐位元組核對、四語獨立整圖驗證及只停用第二頁影子的負對照 |
 | 024 | [024 零魔力法術清單](024-disabled-spell-list.md) | 正常施法到零魔力、原版變暗逐位元組核對、精確稽核修正與四語正負驗收 |
+| 025 | [025 選項字元流解析](025-option-stream-parsing.md) | 原版 DI 消費端、跨記錄及正文尾段選項、工具訂正與獨立資料核對；畫面缺口仍待正常路線 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。

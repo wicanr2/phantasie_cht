@@ -14,6 +14,7 @@
 | 008 | [008-discarded-key-wait.md](008-discarded-key-wait.md) | 第二條讀鍵路徑、提示停留與確認返回 | CONFORMED（正常提示與既有路線回歸） |
 | 009 | [009-short-message-catalog.md](009-short-message-catalog.md) | 已正常到達的短訊息正文、明示匯出及四語驗收 | CONFORMED（MESS5 索引 61 抽樣） |
 | 010 | [010-dim-mask-audit.md](010-dim-mask-audit.md) | 已知變暗格的精確遮罩稽核，保留其他像素檢查 | CONFORMED（正常零魔力樣本） |
+| 011 | [011-option-stream-parsing.md](011-option-stream-parsing.md) | MESS 正文後的完整選項字元流及索引消費 | CONFORMED（限資料列舉工具） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 

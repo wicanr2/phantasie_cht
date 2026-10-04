@@ -52,7 +52,8 @@ def parse_mess(dec: bytes):
     """依 OV2 sub_8F71 的規則切成訊息。
 
     訊息從第一個 chunk 開始，其第 1 byte 是整則長度 L，ceil(L / 40) 個連續索引各給一行。
-    選項數是索引 idx+1 那個 chunk 的第 1 byte（2 至 20 才算），選項文字在最後一行之後的 chunk。
+    選項數是索引 idx+1 那個 chunk 的第 1 byte（2 至 20 才算）。
+    選項文字沿用正文的字元游標 L，可接在正文尾段或跨下一個 chunk（規格 011）。
     L 小於 40 的 chunk 是短訊息（文字在前 L 個字元，其後是選項欄位，見 sub_8F71 的 var_45 強制為 3）。
     第 1 byte 為 0、1、32 的 chunk 是續頁與標記。沒有被任何訊息取用的 chunk 列為 orphan，不補規則。
     回傳 [(kind, idx, L, 行 list, 選項數, 選項文字)]。
@@ -83,15 +84,28 @@ def parse_mess(dec: bytes):
             used.add(idx + k)
         opt_n, opt_cells = None, None
         if kind == "short":
-            # L < 40：選項數強制為 3（兩個選項、欄寬 11），選項欄位在同一個 chunk 的 L 之後
-            opt_n, opt_cells = 3, cells(chunks[idx][1][length:], 3)
+            opt_n = 3
         else:
             nxt = chunks.get(idx + 1)
             if nxt is not None and 2 <= nxt[0] <= 20:
-                oc = chunks.get(idx + n)
-                if oc is not None:
-                    opt_n, opt_cells = nxt[0], cells(oc[1], nxt[0])
-                    used.add(idx + n)
+                opt_n = nxt[0]
+        if opt_n is not None:
+            # 原版 DI 以正文長度接續消費選項，以 mod40 尋址並跨記錄讀取。
+            width = 11 if opt_n <= 7 else 3
+            remaining = (opt_n - 1) * width
+            pos = length
+            option_bytes = bytearray()
+            while remaining:
+                ci, offset = idx + pos // 40, pos % 40
+                ck = chunks.get(ci)
+                if ci >= 111 or ck is None:
+                    raise ValueError(f"訊息 {idx} 的選項缺少文字記錄 {ci}")
+                take = min(remaining, 40 - offset)
+                option_bytes.extend(ck[1][offset:offset + take])
+                used.add(ci)
+                pos += take
+                remaining -= take
+            opt_cells = cells(bytes(option_bytes), opt_n)
         msgs.append((kind, idx, length, lines, opt_n, opt_cells))
     for idx in range(1, TABLE_WORDS):
         c = chunks[idx]
