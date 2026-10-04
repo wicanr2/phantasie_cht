@@ -1,0 +1,199 @@
+# 正常存檔與檢視角色。使用 -state，結束後以同一目錄執行 save-roundtrip-read。
+Return
+@check load-town
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Return
+Return
+Return
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Up
+Return
+Return
+Esc
+@check town-with-member
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Left
+Left
+Left
+Left
+Left
+Left
+Return
+@check opt-open
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check after-save
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Return
+@check after-save-2
+@expect +Sound
+@expect -Auto save
+@expect Armory
+@expect Bank
+@expect Cast spell
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Printout
+@expect Save game
+@expect Show party
+@expect Use item
+@known-untranslated ----------
+Esc
+@check opt-closed
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+Right
+Return
+@check bank-menu
+@expect Armory
+@expect Bank
+@expect Deposit
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@expect Withdraw
+@known-untranslated ----------
+Esc
+@check bank-closed
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+@known-untranslated ----------
+Left
+Left
+Return
+@check saved-guild
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+@known-untranslated ----------
+Down
+Down
+Down
+Down
+Return
+@check saved-inspect-list
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect UNDEAD
+@expect WHOM DO YOU WANT TO INSPECT?
+@known-untranslated ----------
+Return
+@check saved-inspect-stats
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect THIEF
+@known-untranslated ----------

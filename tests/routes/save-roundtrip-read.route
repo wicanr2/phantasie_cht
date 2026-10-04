@@ -1,0 +1,73 @@
+# 冷啟動讀回上一條正常路線的存檔，再進公會檢視角色。必須先執行 save-roundtrip-write。
+Return
+@check reloaded-town
+@expect Armory
+@expect Bank
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Mystic
+@expect Option
+@expect PELNOR
+Return
+@check reloaded-guild
+@expect Add member
+@expect Armory
+@expect Bank
+@expect Drop member
+@expect Exit
+@expect Guild
+@expect Inn
+@expect Inspect
+@expect Mystic
+@expect New member
+@expect Option
+@expect PELNOR
+@expect Purge
+@expect Rename
+@expect Spells
+@expect Training
+Down
+Down
+Down
+Return
+@check reloaded-inspect-list
+@expect %-10.9s%-9.8s%-9.8s%-5s
+@expect Armory
+@expect Bank
+@expect Exit
+@expect FIGHTER
+@expect Guild
+@expect HUMAN
+@expect Inn
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect THIEF
+@expect UNDEAD
+@expect WHOM DO YOU WANT TO INSPECT?
+Return
+@check reloaded-inspect-stats
+@expect Armory
+@expect Bank
+@expect CHARISMA%8u EX. PTS%11ld
+@expect CONSTITUTION%4u GOLD IN BANK%6u
+@expect DEXTERITY%7u MAGIC%9u/%-3u
+@expect EQUIPMENT
+@expect Exit
+@expect Guild
+@expect HUMAN
+@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
+@expect Inn
+@expect LEVEL%3u %s %s %s
+@expect LUCK%12u SCORE%13u
+@expect Mystic
+@expect OK
+@expect Option
+@expect PELNOR
+@expect POTIONS
+@expect SKILLS
+@expect SPELLS
+@expect STRENGTH%8u AGE%15u
+@expect THIEF

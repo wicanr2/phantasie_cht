@@ -98,3 +98,16 @@
 - 掃描待推送檔案與完整差異：未包含原版檔案、掃描手冊、答案表或含答案畫面。公開差異的舊合成測試與文件曾出現三個原版檔名，已改成合成名稱或用途描述；位址與輸入雜湊保留，執行邏輯不變。Docker 內重跑 `go test -count=1 ./apps/phantasie ./apps/phantasie/cmd/phantasie-receipt` 通過。
 - dosgolem 提交 `e90336d`，已推送至 `origin/phantasie-cht-overlay` 並設定上游。中文化本輪提交同步工具、標籤、規格與現況文件，遠端入口為 `origin/main`。推送不改 dosgolem main、不改 repository visibility、不建立 Release。
 - 手冊、本機答案表與驗收輸入仍由忽略規則排除。提交前兩個工作樹的差異檢查通過，本輪容器均以 `--rm` 收尾。
+
+## 2026-10-04：存檔後冷啟動讀回
+
+- 前一輪的提交與推送核對只確認既有外部狀態，沒有推進未完成玩家路徑。本輪依完整目標，補存檔落地與重啟讀回。
+- 路由命中復古遊戲驗收，沿用逆向技能與驗收參考，載入規格閘門及文件職責。唯讀 GitHub Issue 已確認 1 至 4 的內容落後於目前程式，未修改遠端 Issue。分期目標的舊手冊禁答條款同步為使用者已授權的規格 006。
+- 先以獨立探針走 `save-load` 正常路線，再從公會檢視角色、關閉執行器、重啟原版批次鏈、繼續遊戲及檢視同一角色。六組各 15 點的原版記憶體、VRAM、存檔一致。第一版探針誤選「離開」，有效證據只使用 v2。證據與來源雜湊見 `docs/re/013-save-roundtrip.md`，已掛入 `docs/re/README.md`。
+- 勘誤：先前「存檔後讀回受阻」是收據工具缺少 `SetScratch`，互動前端已有該 API。正常城鎮存檔落地並冷啟動讀回角色已證實；地城存檔與備份還原仍未量到。`FileOps` 不列成功寫入，不能用空的 write 清單判定沒有存檔。
+- 規格 005 §10 經契約對程式、資料對證據兩輪唯讀審查與確認後升 READY。補入硬連結拒絕、全部語言預檢、有效 UTF-8、模式清冊名稱、收據目錄污染防護與跨重啟的內容比對。實作審查發現空 `-state` 跳過語言驗證，修正並補反例。
+- 引擎提交 `f046ec4`：無頭工具新增 `-state`、兩個存檔摘要欄、實際檔案清冊及隔離檢查。沒有修改互動前端、通用 DOS 層、原版記憶體或存檔格式。
+- 新增 `save-roundtrip-write`、`save-roundtrip-read` 正常路線與 Docker 內的 `tools/save_roundtrip.py`。正式四語 × none/off/on/on-f2 共 240 點通過，三個狀態檔位元組一致，重啟前後角色 VRAM、content_hash 與 PNG 相同。none 的 UI SKIP 不算驗收，只用於狀態基準。
+- 乾淨來源副本恰好停用唯一的 `SetScratch`，正式驗收以「沒有落地存檔」失敗。`title` 1 點及 `save-load` 8 點各跑四模式，無存檔層的行為與 Layer 一致，新欄為 `-`。單元測試通過；Linux 建置及 Windows amd64、macOS arm64 交叉編譯通過，後兩者未實機執行。
+- 規格 005 §10 升 CONFORMED，整份 005 保持 READY，尚缺地牢 MESS 與卷軸。原版 70 檔雜湊不變。精確來源及正式產物雜湊在 `workplace/receipts/save-roundtrip-verification.json`，不加入版控。
+- 待推送差異掃描未包含原版素材或手冊答案。沿用使用者 commit 與 push 授權，僅推送中文化 `main` 及 dosgolem `phantasie-cht-overlay`。本輪一次性容器皆以 `--rm` 清理；收尾另核對容器及檔案擁有權。
