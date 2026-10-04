@@ -13,10 +13,11 @@
 | 手冊答案提示 | 引擎 `60b76b3`；四語本機答案表與字型 | 確認等鍵後，物品、法術、四語及英文、返回，三模式各 72 點，共 216 點；完整原版狀態相同 | 006 CONFORMED；手冊與答案只留本機 |
 | 地牢訊息選項 | 引擎 `60b76b3`；`dungeon-options` 正常路線 | 四語四模式 512 點同狀態；全文、反白、兩個選擇、重訪、後續段落、戰鬥及色盤後顏色、兩種倍率與負對照通過 | 兩個 11 字元選項已驗證；其餘欄寬仍未量到，見 RE017、005 §14 |
 | 寶箱短訊息 | 引擎 `60b76b3`；匯出工具明示納入 `mess5:61`，四語各新增一列正文 | 16 組 2496 個原版狀態點相同；八個短訊息停點共 96 個 UI PASS，40 項全文及倍率檢查、刪除正文負對照與 32 點拉桿回歸通過 | 009 CONFORMED；其他短訊息、3 字元選項仍未量到，見 RE018、005 §15 |
+| 第四地牢探索 | 引擎 `60b76b3`；本機正常旅行路線與只讀探針 | 原版入口到 `(14,21)`、三名隊員死亡輸出已觀察；九選項目標未到達，沒有新增 A/B | 研究見 [019](docs/re/019-dungeon-four-reachability.md)；002、005 維持 READY |
 
 ## 已有
 
-- 證據：`docs/re/001` 至 `018`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續、寶箱短訊息）。索引在 `docs/re/README.md`。
+- 證據：`docs/re/001` 至 `019`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續、寶箱短訊息、第四地牢入口與戰鬥事件）。索引在 `docs/re/README.md`。
 - 規格（`docs/spec/`）：001 繪字事件與疊字核心、002 畫面操作與失效、003 catalog 與解析、004 字型與語言、005 前端與驗收、006 手冊答案提示、007 卷軸整行顯示、008 確認等鍵、009 短訊息正文。001、003、004、006、007、008、009 已 CONFORMED。002（`load2`、`invert2` 及色盤其餘分支未量到，BL=0 見 §11）與 005（兩個訊息選項見 §14，寶箱短訊息見 §15，其餘分支見 §9.2）維持 READY。005 §10 的城鎮存檔與角色冷啟動讀回已 CONFORMED；§11 地牢兩行訊息與還原、§13 提示停留與確認已驗證。狀態表在 `docs/spec/README.md`。
 - dosgolem 分支 `phantasie-cht-overlay`（worktree `workplace/dosgolem-fw`，追蹤 `origin/phantasie-cht-overlay`）：規格 197（`int 27h`）、250（CGA 捲動及色盤）與 251（指令前 guard）已 CONFORMED。`apps/phantasie/` 有格式引擎、catalog、擷取鉤子、解析、版面、疊字核心、畫面操作與影子、語言切換及稽核；互動前端在 `apps/phantasie/cmd/phantasie-play`，無頭收據工具在 `apps/phantasie/cmd/phantasie-receipt`。收據路線支援 `@check`、`@snap`、`@lang`、`@assert-*`，診斷旗標 `-dump-keys`、`-dump-stamps`、`-audit-debug`，測試故障注入 `-fault`；可選 `-state` 提供各語言獨立存檔與摘要清冊。
 - 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1028 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），每語合計 1706 筆，語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
@@ -39,7 +40,7 @@
 
 - 未量到：MESS5 索引 61 以外的短訊息、其他選項欄寬與事件型別；其他地圖描述格；地城存檔及備份還原；`load2`、`invert2`。INT 10h `AH=0Bh BL=0` 已由 [017](docs/re/017-dungeon-message-options.md) 量到，`BL=1` 及原有文字跨色盤的失效處理仍未量到。
 - 已知限制：被原版逐格重畫的數字是粗體，其餘疊字數字是細體，字重不一致；ja、ko 的數字欄位右緣有少數 lint 警告。
-- 發行字型授權文字（OFL 1.1 或 GPLv2+ 字型例外）待核對。
+- 發行字型的雙授權條款與作者聲明已核對，來源及雜湊見 `font/README.md`；散布採 OFL 1.1 或 GPLv2+ 含字型例外待使用者選定。
 - 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文：見規格未決段。
 - 遠端入口：中文化 `origin/main`；dosgolem `origin/phantasie-cht-overlay`。本輪提交與推送已授權，Issue 寫入、轉公開與 Release 仍逐項授權。
 
