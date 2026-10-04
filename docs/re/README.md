@@ -18,5 +18,6 @@
 | 011 | `011-dungeon-location-line.md` | 地城位置列的格式字串指標 `OV2:C400`：區間表的 `buffer@ov2` 列、`-dump-keys` 診斷 |
 | 012 | [012 手冊來源與提示事件](012-manual-prompts.md) | 掃描手冊來源、物品及法術提示的原始定位與正常玩家路線 |
 | 013 | [013 存檔與冷啟動讀回](013-save-roundtrip.md) | 正常城鎮存檔、冷啟動讀回角色、四語與三種覆繪模式的記憶體及存檔核對 |
+| 014 | [014 地牢事件格與訊息視窗](014-dungeon-message-trigger.md) | DNG 事件格到 MESS 索引的資料流、兩行段落及整頁還原、四語 320 點同狀態驗收 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。

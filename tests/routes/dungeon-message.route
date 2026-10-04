@@ -1,0 +1,138 @@
+# 地牢 MESS：沿正常移動到事件格，以固定步數擷取兩行段落及整頁還原。
+# 路線在手冊題出現前結束，不含作答；原版預設固定時鐘，不修改 seed 或記憶體。
+Return
+Return
+Return
+Return
+Down
+Down
+Down
+Return
+Return
+A
+l
+i
+c
+e
+Return
+Return
+Return
+Down
+Down
+Return
+Return
+B
+o
+b
+Return
+Return
+Return
+Up
+Return
+Return
+C
+a
+r
+o
+l
+Return
+Return
+Return
+Up
+Return
+Return
+D
+a
+v
+e
+Return
+Up
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Return
+Esc
+Left
+Left
+Left
+Return
+Left
+Left
+Left
+Left
+Left
+Up
+Up
+Up
+Up
+Up
+Up
+Up
+@check dungeon-prompt
+@expect A DUNGEON. ENTER?
+@expect NO
+@expect YES
+Return
+Down
+@check dungeon-step1
+@expect h:7752efa11e70
+Down
+Down
+Down
+@check dungeon-step4
+@expect h:5e45a292af35
+Down
+@check move-0
+@expect h:7752efa11e70
+Down
+@check move-1
+@expect h:7752efa11e70
+Down
+@check move-2
+@expect h:7752efa11e70
+Down
+@check move-3
+@expect h:7752efa11e70
+Down
+@check move-4
+@expect h:7752efa11e70
+Left
+@check move-5
+@expect h:7752efa11e70
+Left
+@check move-6
+@expect h:9d0421748f99
+Left
+@check move-7
+@expect h:9d0421748f99
+Left
+@check move-8
+@expect h:9d0421748f99
+Up
+@check move-9
+@expect h:9d0421748f99
+Up
+@check move-10
+@expect h:9d0421748f99
+Up
+@check move-11
+@expect h:9d0421748f99
+Up
+@check move-12
+@expect h:9d0421748f99
+Left
+@check move-13
+@expect h:9d0421748f99
+Left
+@check move-14
+@expect h:9d0421748f99
+Left
+@snap gate-visible 120000
+@expect h:2a4079d1ee67
+@expect h:5c119d163b05
+@expect h:9d0421748f99
+@snap gate-cleared 60000
