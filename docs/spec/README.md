@@ -8,8 +8,9 @@
 | 002 | `002-screen-op-invalidation.md` | 反白、整頁存取（內容定址、語言無關的影子）、視窗清除與捲動、調色盤 | READY（`load2`、`invert2`、`AH=0Bh` 動態未量到） |
 | 003 | `003-catalog-and-resolve.md` | 譯文檔格式與鍵、`%s` 引數種類、字串解析、格式引擎、lint、靜態列舉、驗收 | CONFORMED |
 | 004 | `004-fonts-and-languages.md` | 字型與寬度表、語言通道、即時切換語言的重建流程 | CONFORMED |
-| 005 | `005-play-frontend-and-receipts.md` | 互動前端、無頭收據工具、路線檔、稽核與驗收路線 | READY（尚缺卷軸；§10 城鎮存讀檔 CONFORMED，§11 地牢兩行訊息及還原已驗收） |
+| 005 | `005-play-frontend-and-receipts.md` | 互動前端、無頭收據工具、路線檔、稽核與驗收路線 | READY（卷軸已由 007 驗收；其餘未量到分支見 §9.2） |
 | 006 | [006-manual-answer-hints.md](006-manual-answer-hints.md) | 依本機手冊表顯示答案，保留原版選項與輸入 | CONFORMED（物品、法術正常路線抽樣） |
+| 007 | [007-scroll-row-layout.md](007-scroll-row-layout.md) | 卷軸整行寬度、空行標記與標題置中 | CONFORMED（正常卷軸 8 抽樣） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 

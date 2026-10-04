@@ -3,7 +3,7 @@
 以 [dosgolem](https://github.com/wicanr2/dosgolem) 執行期輸出攔截與覆繪，為 DOS 版 Phantasie 加上繁體中文、簡體中文、日文與韓文顯示，
 並可切回英文原版。原版程式與資料不修改。
 
-狀態：zh-TW 的城鎮、公會、商店、銀行、旅店、大地圖、地城入口與位置列、地牢兩行訊息及還原、戰鬥（含整個戰鬥回合的訊息）、選項、城鎮存檔與冷啟動角色讀回已由同狀態收據覆蓋；
+狀態：zh-TW 的城鎮、公會、商店、銀行、旅店、大地圖、地城入口與位置列、地牢兩行訊息及還原、卷軸閱讀與返回、戰鬥（含整個戰鬥回合的訊息）、選項、城鎮存檔與冷啟動角色讀回已由同狀態收據覆蓋；
 zh-CN、ja、ko 的非語言切換路線也全部通過。物品與法術的手冊題已可顯示答案，保留原版三個選項，由玩家選答。
 尚未量到的畫面與限制列在 [CONTEXT.md](CONTEXT.md) 與各規格結尾的「驗收收據」。
 ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 private。
@@ -25,7 +25,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。這個 repo 目前是 pr
 
 ## 驗收
 
-- 規格在 `docs/spec/`（001 至 006），證據在 `docs/re/`，分期目標在 `docs/goals/`。
+- 規格在 `docs/spec/`（001 至 007），證據在 `docs/re/`，分期目標在 `docs/goals/`。
 - 路線與收據：`tools/run_receipt.sh tests/routes/<路線>.route [-lang ja]`；同狀態 A/B：`tools/ab_receipt.sh tests/routes/<路線>.route`。收據的 PNG 與 TSV 在 `workplace/receipts/`。
 - 存檔後冷啟動讀回：[tools/save_roundtrip.py](tools/save_roundtrip.py) 在 Docker 內呼叫已建置的 `phantasie-receipt`，以 `--receipt`、`--root`、`--routes`、`--text`、`--font`、`--out` 指定容器內路徑。原版、路線、譯文與字型唯讀掛載，輸出目錄可寫且須空白。契約與輸入隔離見 [005 §10](docs/spec/005-play-frontend-and-receipts.md#10-存檔層收據擴充)。
 - 譯文是 `text/ui.<語言>.tsv` 與 `text/prose.<語言>.tsv`；檢查用 `tools/lint_catalog.py`（Docker 內）。
