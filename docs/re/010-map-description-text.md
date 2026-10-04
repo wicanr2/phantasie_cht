@@ -34,4 +34,4 @@ IDA OV2 輸入為 `ov2_composed.bin`，SHA-256 `f461da5fb4e02634ab47dcbd8af3f5b7
 
 四語、none/off/on/on-f2 共 112 點：84 個覆繪 UI PASS，28 個 none UI SKIP 只作原版狀態基準。完整記憶體、VRAM、步數、讀鍵次數相同；兩種 Frame 節奏的 Layer 相同。獨立排版核對兩行全文與置中，原生與兩倍像素差異只落在原版文字矩形，沒有缺字。刪除第二行譯文的本機副本使目標點 FAIL。
 
-收據在 `workplace/explore-main/ab-ui-windows/map-description/`，清冊在同批 `summary.json`，排版與像素結果在 `ui-window-visual.log`。這些證明顯示與清除；互動等鍵尚未接通，見 [005 §13](../spec/005-play-frontend-and-receipts.md#13-道路描述與公會重名提示)。不能把此收據稱為互動停留驗收，也不以此宣稱所有地圖描述已驗收。
+收據在 `workplace/explore-main/ab-ui-windows/map-description/`，清冊在同批 `summary.json`，排版與像素結果在 `ui-window-visual.log`。本批只證明顯示與清除。現行引擎 `60b76b3` 的停留與確認由 [RE016](016-discarded-key-wait.md)、[008 規格](../spec/008-discarded-key-wait.md)及 [005 §13](../spec/005-play-frontend-and-receipts.md#13-道路描述與公會重名提示)另行驗證，不以道路格抽樣宣稱所有地圖描述已驗收。

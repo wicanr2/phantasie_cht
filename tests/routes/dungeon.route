@@ -63,6 +63,8 @@ Left
 Left
 Return
 Left
+# 道路描述先確認，再繼續移動。
+Return
 Left
 Left
 Left
@@ -73,6 +75,8 @@ Up
 Up
 Up
 Up
+# 湖泊描述先確認，再向上走第七步。
+Return
 Up
 @check dungeon-prompt
 @expect A DUNGEON. ENTER?

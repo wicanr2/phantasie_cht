@@ -192,6 +192,8 @@ Return
 Esc
 Esc
 Left
+# 道路描述需要確認，後續 Left 才是移動。
+Return
 Left
 Left
 Left
@@ -205,6 +207,8 @@ Up
 @expect NO
 @expect YES
 Return
+# 旅店事件文字先確認，之後才繼續移動。
+Return
 Down
 Down
 Right
@@ -213,6 +217,8 @@ Right
 Right
 Right
 Right
+# 回程道路描述先確認，最後一個 Right 才走進城鎮。
+Return
 Right
 @check map-town-prompt
 @expect A TOWN. ENTER?

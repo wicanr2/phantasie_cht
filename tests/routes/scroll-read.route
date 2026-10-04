@@ -209,6 +209,9 @@ Down
 @expect PTS:%d
 @expect SCROLL 8
 Return
+@check shop-done
+@expect DONE
+Return
 @check shop-purchased
 @expect %-11.10sGP:%-6u
 @expect %s is shopping

@@ -1,5 +1,5 @@
 # 正常建立 Alice，再輸入相同名字；擷取重名提示、重試為 Bob 與返回。
-# 提示沒有獨立讀鍵入口，以固定步數擷取；不改原版判定。
+# 提示使用第二條等鍵路徑，按確認後才重試；不改原版判定。
 Return
 Return
 Return
@@ -79,67 +79,7 @@ i
 c
 e
 Return
-@snap duplicate-start 5000
-@expect Armory
-@expect Bank
-@expect CHARISMA%8u EX. PTS%11ld
-@expect CONSTITUTION%4u GOLD IN BANK%6u
-@expect DEXTERITY%7u MAGIC%9u/%-3u
-@expect Exit
-@expect Guild
-@expect HUMAN
-@expect INPUT NAME:
-@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
-@expect Inn
-@expect LEVEL%3u %s %s %s
-@expect LUCK%12u SCORE%13u
-@expect Mystic
-@expect OK
-@expect Option
-@expect PELNOR
-@expect STRENGTH%8u AGE%15u
-@expect WIZARD
-@snap duplicate-visible 20000
-@expect Armory
-@expect Bank
-@expect CHARISMA%8u EX. PTS%11ld
-@expect CONSTITUTION%4u GOLD IN BANK%6u
-@expect DEXTERITY%7u MAGIC%9u/%-3u
-@expect Exit
-@expect Guild
-@expect HUMAN
-@expect INPUT NAME:
-@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
-@expect Inn
-@expect LEVEL%3u %s %s %s
-@expect LUCK%12u SCORE%13u
-@expect Mystic
-@expect OK
-@expect Option
-@expect PELNOR
-@expect STRENGTH%8u AGE%15u
-@expect WIZARD
-@snap duplicate-mid 500000
-@expect Armory
-@expect Bank
-@expect CHARISMA%8u EX. PTS%11ld
-@expect CONSTITUTION%4u GOLD IN BANK%6u
-@expect DEXTERITY%7u MAGIC%9u/%-3u
-@expect Exit
-@expect Guild
-@expect HUMAN
-@expect INPUT NAME:
-@expect INTELLIGENCE%4u HIT POINTS%4u/%-3u
-@expect Inn
-@expect LEVEL%3u %s %s %s
-@expect LUCK%12u SCORE%13u
-@expect Mystic
-@expect OK
-@expect Option
-@expect PELNOR
-@expect STRENGTH%8u AGE%15u
-@expect WIZARD
-@snap duplicate-text 494332
+@check duplicate-text
 @expect Armory
 @expect Bank
 @expect CHARISMA%8u EX. PTS%11ld
@@ -160,6 +100,7 @@ Return
 @expect PELNOR
 @expect STRENGTH%8u AGE%15u
 @expect WIZARD
+Return
 @check retry-prompt
 @expect Armory
 @expect Bank

@@ -224,6 +224,9 @@ Return
 @expect PTS:%d
 @expect SM SHIELD
 Return
+@check shop-done-1
+@expect DONE
+Return
 @check shop-bought-1
 @expect %-11.10sGP:%-6u
 @expect %s is shopping
@@ -241,6 +244,8 @@ Return
 @expect PTS:%d
 @expect SM SHIELD
 Down
+Return
+# 購物結果先確認，再回到物品選單。
 Return
 @check shop-bought-2
 @expect %-11.10sGP:%-6u
@@ -325,6 +330,9 @@ Return
 @expect PELNOR
 @expect Shares for:
 @expect You have:
+Return
+@check deposit-summary
+@expect Each share is:
 Return
 @check deposit-done
 @expect Armory
@@ -502,6 +510,10 @@ Esc
 Right
 Right
 Return
+@check mystic-first-wait
+@expect The wise old mystic peers
+@known-untranslated ----------
+Return
 @check mystic-after
 @expect Armory
 @expect Bank
@@ -511,6 +523,10 @@ Return
 @expect Mystic
 @expect Option
 @expect PELNOR
+@known-untranslated ----------
+Return
+@check mystic-second-wait
+@expect The wise old mystic peers
 @known-untranslated ----------
 Return
 @check mystic-after-2

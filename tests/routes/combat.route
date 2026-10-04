@@ -66,6 +66,8 @@ Left
 Left
 Return
 Left
+# 移動後的道路描述先確認，下一個 Left 才是下一步。
+Return
 Left
 Left
 Left
@@ -76,6 +78,8 @@ Up
 Up
 Up
 Up
+# 湖泊描述需要確認，再向上走第七步。
+Return
 Up
 @check combat-prompt
 @expect A DUNGEON. ENTER?

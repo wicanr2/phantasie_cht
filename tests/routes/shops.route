@@ -256,6 +256,9 @@ Return
 @expect Shares for:
 @expect You have:
 Return
+@check bank-deposit-summary
+@expect Each share is:
+Return
 @check bank-after-deposit
 @expect Armory
 @expect Bank
@@ -382,6 +385,9 @@ Right
 @expect Option
 @expect PELNOR
 Return
+@check mystic-message
+@expect The wise old mystic peers
+Return
 @check mystic-return
 @expect Armory
 @expect Bank
@@ -445,6 +451,9 @@ Return
 @expect PTS:%d
 @expect SM SHIELD
 Return
+@check weapon-done1
+@expect DONE
+Return
 @check weapon-buy1
 @expect %-11.10sGP:%-6u
 @expect %s is shopping
@@ -479,6 +488,9 @@ Down
 @expect PELNOR
 @expect PTS:%d
 @expect SM SHIELD
+Return
+@check weapon-done2
+@expect DONE
 Return
 @check weapon-buy2
 @expect %-11.10sGP:%-6u

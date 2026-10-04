@@ -795,6 +795,9 @@ Return
 @expect The cost is %d GP.
 @expect You can learn %d more spells.
 Return
+@check spells-cannot-afford
+@expect You can't afford it!
+Return
 @check spells-learn-alice
 @expect %-10.9s%-9.8s%-9.8s%-5s
 @expect Armory
@@ -827,6 +830,9 @@ Return
 @expect The cost is %d GP.
 @expect VISION
 @expect You can learn %d more spells.
+Return
+@check spells-bob-cannot-afford
+@expect You can't afford it!
 Return
 @check spells-learn-bob
 @expect %-10.9s%-9.8s%-9.8s%-5s
@@ -880,6 +886,10 @@ Return
 @expect PRIEST
 @expect WHO IS GOING TO BE TRAINED?
 @expect WIZARD
+Return
+@check train-alice-needs-xp
+@expect GO AND LEARN
+@expect You need
 Return
 @check train-alice
 @expect %-10.9s%-9.8s%-9.8s%-5s

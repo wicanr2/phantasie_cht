@@ -79,8 +79,8 @@ OV2 入口所在的函式（IDA `sub_C7C4`，由 `sub_A801` 呼叫）在一個�
 | IDA 線性 `7518: B8 EB BB`、`7524: E8 9D B4` | 推入提示指標 `BBEB`，欄 11、列 18，呼叫 `sub_29C4`。後者以 `%s` 繪字，再呼叫 `sub_48A0` | 已證實，IDA bytes 與正常事件 |
 | dosgolem 映像偏移 `18D7`，格式指標 `0D09`，引數 `BBEB` | 靜態引數命中既有四語 `Name is not unique!` 譯文；原始 Text、Cells、引數皆相同 | 已證實，唯讀事件探針 |
 | 3,486,834 步繪字完成，3,486,835 步擷取 | 四語完整譯文為 Shown，清除後不殘留；重新命名後公會畫面與建立第一位角色後相同 | 已證實，固定輸入與同狀態收據 |
-| IDA 線性 `sub_48A0`；dosgolem 映像偏移 `37A0` 至 `37C1` | 清鍵後設 AX=0，以 `INT 16h` 讀一鍵，丟棄回傳值。`KeyGate` 目前只掛 `37C2`、`37FA`，沒有涵蓋此路徑。dosgolem 的空佇列 `AH=00h` 不阻塞，因此提示立即返回 | 已證實，IDA、目前程式與正常動態流程 |
+| IDA 線性 `sub_48A0`；dosgolem 映像偏移 `37A0` 至 `37C1` | 清鍵後設 AX=0，以 `INT 16h` 讀一鍵，丟棄回傳值。引擎 `277bb98` 的 `KeyGate` 只掛 `37C2`、`37FA`，空佇列直接返回；現行確認閘門見 RE016 | 已證實，IDA、對應版本程式與正常動態流程 |
 
 工具為 IDA Pro 9.4、Go 1.24.13、引擎 `277bb98`。IDA OV1 輸入 `ov1_composed.bin` 的 SHA-256 為 `a2f1e2160e030d5688d8d41cb07177b92c4fba00fa8338c87458f9210709fa6f`，正式資料庫唯讀。容器副本輸出 `workplace/explore-main/ida-windows-ov1.json` 核對 261 個函式與雜湊。IDA 線性位址減 `1100h` 為 dosgolem 映像偏移。
 
-四語共 144 點：108 個覆繪 UI PASS，36 個 none UI SKIP 只作原版狀態基準。全文、原生與兩倍像素矩形、返回、漏譯負對照皆通過，原版記憶體未變。收據在 `workplace/explore-main/ab-ui-windows/guild-duplicate/`。顯示驗證與互動停留分開，後者尚未完成；契約缺口與下一步見 [005 §13](../spec/005-play-frontend-and-receipts.md#13-道路描述與公會重名提示)。
+四語共 144 點：108 個覆繪 UI PASS，36 個 none UI SKIP 只作原版狀態基準。全文、原生與兩倍像素矩形、返回、漏譯負對照皆通過，原版記憶體未變。收據在 `workplace/explore-main/ab-ui-windows/guild-duplicate/`。本批只證明顯示，現行引擎 `60b76b3` 的停留與確認另由 [RE016](016-discarded-key-wait.md)、[008 規格](../spec/008-discarded-key-wait.md)及 [005 §13](../spec/005-play-frontend-and-receipts.md#13-道路描述與公會重名提示)驗證。

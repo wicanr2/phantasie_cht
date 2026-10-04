@@ -61,6 +61,8 @@ Left
 Left
 Return
 Left
+# 道路描述先確認，再繼續移動。
+Return
 Left
 Left
 Left
@@ -71,6 +73,8 @@ Up
 Up
 Up
 Up
+# 湖泊描述先確認，再向上走第七步。
+Return
 Up
 @check dungeon-prompt
 @expect A DUNGEON. ENTER?
@@ -135,4 +139,8 @@ Left
 @expect h:2a4079d1ee67
 @expect h:5c119d163b05
 @expect h:9d0421748f99
+@check gate-wait
+@expect h:2a4079d1ee67
+@expect h:5c119d163b05
+Return
 @snap gate-cleared 60000

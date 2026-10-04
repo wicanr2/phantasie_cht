@@ -1,5 +1,5 @@
 # 正常離城後向西移一格，擷取道路描述兩行與清除返回。
-# 固定停止點在原版繪字返回後；不修改座標、資料或記憶體。
+# 提示在原版清空鍵盤後等玩家確認；不修改座標、資料或記憶體。
 Return
 Return
 Return
@@ -69,11 +69,12 @@ Esc
 Left
 @snap out-start 5000
 @snap out-mid 40000
-@snap out-description 72286
+@check out-description
 @expect h:44a7f3d335d4
 @expect h:4832331d8418
-@snap out-after 2000
-@snap out-restored 50000
+Return
+# 最後送鍵後 292 步，原版已還原純地圖；沒有文字可覆繪。
+@snap out-restored 292
 Return
 @check out-menu
 @expect Exit
