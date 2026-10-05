@@ -37,7 +37,8 @@
 - 寶箱短訊息的正常長路線只留本機，收據在 `workplace/explore-dungeon/ab-dungeon-short-v2/`。156 點中 85 個無文字旅行點只作原版狀態診斷；UI 完成聲明限八個 `short-*` 停點。正式清冊見 `short-verification-manifest.json`，範圍及工具處置見 009。
 - 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/save_roundtrip.py`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`、[package_text.py](tools/package_text.py)、[package_scan.py](tools/package_scan.py)、[package_files.py](tools/package_files.py)；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項、封包譯文 8 項、封包掃描 11 項、資產清冊與 ZIP 10 項）。
 - 封包外洩掃描：原版掃描來源缺席或錯版直接失敗。實際無答案布局 14 檔及本機布局 84 檔通過，改名原版及偽裝答案表拒絕，SHA-256 單一突變的兩個期望按預期失敗；70 個原版檔案保持不變。契約及資料兩輪審查無阻擋或應改，較早報告保留。最新收據入口為 `workplace/package-prototype/package-scan-phase-verification-manifest.json`，契約見 [013 §13](docs/spec/013-cross-platform-packaging.md#13-封包外洩掃描工具)。這項掃描不代替權利、必要資產、字型或 GUI 驗收。
-- 資產清冊與 ZIP：三平台加本機 Windows 的四組命令、三份 ZIP 往返及實際 Go 清冊介面通過；缺字單一突變的兩個期望按預期失敗，101 個輸入保持不變。研究命令使用正式譯文與既有前端，字模完全自製且全零，不能計為發行字型或 GUI 驗收。入口為 `workplace/package-prototype/package-files-phase-verification-manifest.json`，契約見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。正式封包組裝及編排尚待完成。
+- 資產清冊與 ZIP：三平台加本機 Windows 的四組命令、三份 ZIP 往返及實際 Go 清冊介面通過；缺字單一突變的兩個期望按預期失敗，101 個輸入保持不變。研究命令使用正式譯文與既有前端，字模完全自製且全零，不能計為發行字型或 GUI 驗收。入口為 `workplace/package-prototype/package-files-phase-verification-manifest.json`，契約見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。
+- 授權材料與平台組裝：[package_rights.py](tools/package_rights.py) 已核對 35 份實際條款／來源檔及 1,027 則模組檔首聲明，不複製字型或選散布條款；最終 7 項合成測試通過。[package_stage.py](tools/package_stage.py) 的三平台布局、自製字模重建、本機變體、標頭反例、參數轉送及失敗清理有 8 項合成測試通過。實際材料另經外洩掃描，雜湊 guard 負對照有效，原版 70 檔、受保護檔案 32 份及路線 23 條不變。入口為 `workplace/package-prototype/package-stage-verification.json`，契約見 [013 §15、§16](docs/spec/013-cross-platform-packaging.md#15-授權材料整理)。未實作正式包的編排或平台冒煙；字型條款仍待回覆，沒有正式字型散布包或 tag。
 
 ## 已知事實（摘要，等級與證據見 `docs/re/`）
 
@@ -60,5 +61,5 @@
 
 ## 下一步
 
-1. 第三期：依 READY 的 013 完成封包組裝與編排工具。譯文整理、固定 runtime、原生啟動器、外洩掃描、必要資產清冊及 ZIP 已接通；啟動器有 Linux 合成測試、正常繁中畫面及 Wine 路徑證據，入口見 [013 §12](docs/spec/013-cross-platform-packaging.md#12-原生啟動器與研究抽測)。這些不是正式封包驗收。完整版號已定案；正式字型散布包仍待使用者選定條款，不能代選。其後由乾淨輸入重建交付包，核對權利邊界、必要檔案及五語發行包冒煙。
+1. 第三期：依 READY 的 013 完成封包編排工具。譯文整理、固定 runtime、原生啟動器、外洩掃描、必要資產清冊、ZIP、授權材料及平台組裝已接通；這些不是正式封包驗收。完整版號已定案；正式字型散布包仍待使用者選定條款，不能代選。其後由乾淨輸入重建交付包，核對權利邊界、必要檔案及五語發行包冒煙。
 2. 轉公開、公開 Release 與推廣影片另由使用者決定。未取得授權前維持 private，不上傳原版、手冊或答案。

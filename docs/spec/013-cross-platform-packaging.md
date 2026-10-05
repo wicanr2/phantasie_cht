@@ -237,3 +237,33 @@ ZIP 包含 stage 根目錄，項目依名稱排序，時間固定為版號日期
 乾淨複本只移除一處覆蓋判斷，合法長度的缺字夾具及意外建立清冊兩項期望按預期失敗。實際 Go 啟動器的 readBundle 另讀取四組生成清冊通過，只驗介面及資產雜湊，不啟動 GUI 或原版。101 個輸入雜湊保持不變。
 
 命令、測試、突變與 Go 介面收據分別為 `workplace/package-prototype/package-files-verification.json`、`package-files-tests.log`、`package-files-mutation.log`、`package-files-native-compatibility.log`。唯讀契約及資料報告為 `package-files-contract-review.txt`、`package-files-evidence-review.txt`；本輪封存入口為 `package-files-phase-verification-manifest.json`。較早清冊保留。封包外洩仍另由 §13 掃描；權利、實際字型、架構、平台依賴及 GUI 依其他閘門驗證，013 維持 READY。
+
+## 15. 授權材料整理
+
+[package_rights.py](../../tools/package_rights.py) 在 Docker 內接收 `--out`、`--project`、`--engine`、`--modules`、`--go-license`、`--unifont`。Linux 所需的 `--runtime`、`--runtime-source` 須成對明示。來源唯讀，輸出為尚不存在的中間目錄；不是正式包，也不選字型條款。
+
+[package_licenses.json](../../tools/package_licenses.json) 保存 §9 既有核對輸入的固定大小與 SHA-256：20 份共用條款／聲明、13 份 runtime 條款／啟動物件來源及一份配套來源壓縮檔。工具重新讀取實際來源逐一核對，不從網址或記憶推定內容。Unifont 只抽出 COPYING、OFL 全文及固定 Makefile 中的完整 COPYRIGHT 宣告，不複製 hex、字模或整份字型壓縮檔。
+
+六個固定 Go 模組另收錄來源檔首的連續註解及來源 SHA-256，保留作者與內嵌元件聲明。全文條款仍另附，不以檔首註解代替。此範圍涵蓋固定模組的來源檔，包含沒有編入執行檔的檔案；不是對全部程式作法律分類。Ebitengine 內嵌 GLFW 的 Apache 2.0 全文由同模組 LICENSE 提供。
+
+`rights-inputs.json` 記錄實際輸出雜湊、固定 profile 雜湊與檔首聲明數量；字型選項明確維持 pending。共用輸出有 21 檔，含 runtime 時有 35 檔，清冊本身另計。任何來源不符或寫入失敗都失敗，只移除本次建立的輸出。
+
+合成測試入口為 [package_rights_cases.py](../../tools/tests/package_rights_cases.py)，最終 7 項通過，收據為 `workplace/package-prototype/package-rights-tests-r2.log`。實際材料整理收據為同目錄的 `package-rights-real.log`，35 檔、1,027 則檔首聲明；最終註解截取修正後，全部實際聲明 bytes 不變。材料已另由 §13 實際掃描通過；單一雜湊 guard 突變使同長度損毀的獨立期望按預期失敗，原碼不變。這只證明固定材料整理，不代選字型條款或宣稱正式包的完整權利驗收。
+
+## 16. 平台組裝
+
+[package_stage.py](../../tools/package_stage.py) 於 Docker 內接收以下必要參數：
+
+- `--out`、`--platform`、`--version`、`--project-commit`、`--engine-commit`。
+- `--font-license` 必須是使用者已選定的 OFL-1.1 或 GPL-2.0-or-later-with-font-exception，沒有預設。
+- `--text-source`、`--unifont`、`--rights`、`--original`、`--launcher`、`--backend`、`--receipt-amd64`；macOS 另須 `--receipt-arm64`。
+
+工具核對固定原版 70 檔作掃描依據，但預設不複製；`--local` 才複製原版及完整提示表，權利分類為 local-only。先核對 §15 材料及固定 GNU tar／hex 雜湊，再按平台布局寫入選定 catalog、原生啟動器、後端及命令列收據工具。四語字型由該布局的 ui、prose、manual 實際譯文重新建立，接著生成 §14 的 18 項清冊並執行 §13 掃描。來源與輸出不得重疊，輸出須排他建立；失敗只清理本次新目錄。
+
+Linux 加入 AppRun、桌面入口及自製 P 圖示，連同 runtime 的全文條款及完整配套來源；AppRun 保留 argv。Windows 讀我使用 BOM／CRLF。macOS 加入 Info.plist，CFBundleVersion／CFBundleShortVersionString 採 `1.0.0`，依 [Apple 的三段整數格式](https://developer.apple.com/documentation/bundleresources/information-property-list/cfbundleshortversionstring)；自訂 PhantasieReleaseVersion、啟動器、清冊、tag 及封包仍使用完整定案版號。未簽章 App 的讀我連到 [Apple 官方開啟步驟](https://support.apple.com/zh-tw/102445)，不提供全域停用安全檢查的命令。
+
+專案 LICENSE、第三方全文、模組作者聲明與 `LICENSES.json` 同時加入。GPL 字型選項另附精確固定的完整 GNU 來源包；OFL 選項不帶該壓縮檔，仍附全文及作者聲明。`package-stage.json` 記錄版本、兩 repo commit、選定條款、平台、權利分類及布局內全部一般檔案的大小／雜湊／權限；項目含 stage 根目錄名稱，不包含清冊自己。
+
+標頭檢查只證明 ELF x86-64、PE32+ AMD64 的 GUI／console 子系統或 Mach-O 的兩種架構及 universal 邊界，不代表 ABI 或可啟動性。合成測試入口為 [package_stage_cases.py](../../tools/tests/package_stage_cases.py)，最終 8 項通過，字模完全自製且全零，原版、條款及來源包也為合成資料。字型 bytes 用獨立字面期望核對；AppRun 用獨立 shell 助手核對參數，不當作遊戲啟動。收據為 `workplace/package-prototype/package-stage-tests-r3.log`。
+
+根層核對入口為同目錄的 `package-stage-verification.json`，唯讀契約及資料報告為 `package-stage-contract-review.txt`、`package-stage-evidence-review.txt`，封存入口為 `package-stage-phase-verification-manifest.json`。原版 70 檔、受保護檔案 32 份、公開路線 23 條及五份較早封存的研究檔案不變。正式編排、已選條款下的字型、乾淨建置及平台冒煙仍待完成，013 維持 READY。

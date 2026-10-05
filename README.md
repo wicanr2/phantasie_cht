@@ -32,6 +32,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。尚未建立正式交付
 - 封包用的 [原生啟動器](apps/phantasie/launcher/main.go) 負責版本、原版匯入與存檔隔離，使用方式及 `bundle.json` 格式見 [013 §12](docs/spec/013-cross-platform-packaging.md#12-原生啟動器與研究抽測)。已做 Linux／Wine 抽測，正式封包與 macOS 真機驗證仍待完成。
 - 封包的 [外洩掃描工具](tools/package_scan.py) 在 Docker 內以 `--scan` 及 `--original` 核對實際內容；掃描來源缺席會失敗。它可檢查目錄、ZIP 與 tar，不能代替授權及可啟動性驗收，契約見 [013 §13](docs/spec/013-cross-platform-packaging.md#13-封包外洩掃描工具)。
 - 封包的 [資產清冊與 ZIP 工具](tools/package_files.py) 核對必要譯文、字型覆蓋、包內路徑及 ZIP 實際內容，Docker 內的命令參數見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。正式封裝仍須權利及平台驗證。
+- [授權材料工具](tools/package_rights.py) 核對固定條款及來源，[平台組裝工具](tools/package_stage.py) 整理三平台布局並重建字型。都在 Docker 內執行，必要參數見 [013 §15、§16](docs/spec/013-cross-platform-packaging.md#15-授權材料整理)。組裝必須明示使用者已選定的字型條款；目前僅有合成組裝測試，尚未產生正式交付包。
 
 ## 畫面
 
