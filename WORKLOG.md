@@ -325,4 +325,12 @@
 - 固定 SDK 以 Go 1.24.13、CGO_ENABLED=0、唯讀模組 cache、network none 試編譯 Linux、Windows、macOS 兩種架構及 universal。來源清單 70 列與正式清冊完全相同，x/sys v0.36.0 的兩筆 go.sum 與固定引擎相同。這些是啟動器原型，不是正式交付；macOS 未做真機驗證。
 - 最終 guard 的兩項 Windows 測試及 GUI 子系統原型的版本／說明通過；同磁碟機的小寫 c: 配置按預期拒絕，不把其餘 15 項代表測試稱作最終測試檔重跑。資料複核採納清理訊號與正常遊戲退出的聲明區分。
 - 契約及資料複核的新報告、失敗日誌、最終測試、二進位及研究畫面保存在 `workplace/package-prototype/`，封存入口為 `launcher-phase-verification-manifest.json`。較早 prototype、runtime 及抽樣清冊不覆寫。同步 README、013 與目前狀態入口；正式字型條款及封包工具仍待完成，不建立 tag 或 Release。
-- 兩轮最終報告的阻擋、應改及建議皆為零。收尾核對原版 70 檔、研究匯入副本 70 檔、正式受保護檔案 32 項、公開路線 23 條及較早 runtime 封存保持不變，檢查全工作區擁有權及相關容器清理。依既有授權只提交及推送專案 main；引擎保持已推送 8d9807d，整體目標保持進行。
+- 兩輪最終報告的阻擋、應改及建議皆為零。收尾核對原版 70 檔、研究匯入副本 70 檔、正式受保護檔案 32 項、公開路線 23 條及較早 runtime 封存保持不變，檢查全工作區擁有權及相關容器清理。依既有授權只提交及推送專案 main；引擎保持已推送 8d9807d，整體目標保持進行。
+
+## 2026-10-05 封包外洩掃描
+
+- 上輪 da4da51 已推送且工作樹乾淨，分類為實質進度。路由命中三平台打包，重讀 dist-all、文件職責、Windows ZIP 及版號契約，依 READY 的 013 §7 接通外洩掃描。字型條款待決仍只阻擋正式封包及 tag。
+- 新工具放既有 tools，合成反例放 tools/tests，同輪掛入 README 與 013 §13。只掃描實際目錄及壓縮檔，不發行、不刪除輸入，也不把安全掃描稱作授權或可啟動性驗收。
+- 契約審查先指出 ZIP 的 FIFO、socket、裝置等特殊型態未完整拒絕；補反例及型態限制，另拒絕帶資料的目錄。再發現合法改名 Zstandard frame 可放行，查回驗收入口與固定 zstd 1.5.6 來源的 `doc/zstd_compression_format.md`，補標準 magic、全部 16 種 skippable magic 及副檔名拒絕。合法合成 frame 由 libzstd 1.5.4 level 1 產生，沒有原版 bytes。gzip 解出內容逐層掃描；單一 AppImage 必須先解出目錄。沒有新增通用解碼依賴。
+- r5 全套 11 項合成測試通過。實際無答案布局 14 檔、本機布局 84 檔及固定 runtime 來源通過；改名原版 EXE、偽裝手冊答案表各以 exit 1 拒絕。原版來源缺席的拒絕已在前一版 CLI 驗證，沒有冒稱 r5 重跑該項。r5 乾淨暫存複本只停用一處 SHA-256 判斷，兩項獨立期望按預期失敗，正式程式未改。
+- r5 實際收據、測試及突變紀錄分別為 `package-scan-r5-verification.json`、`package-scan-tests-r5.log`、`package-scan-mutation-r5.log`。兩輪最終唯讀補審入口為 `package-scan-contract-review-r3.txt`、`package-scan-evidence-review-r3.txt`；早期報告及原型封存保留。新封存入口為 `package-scan-phase-verification-manifest.json`。013 維持 READY；封包布局、編排、正式字型與平台冒煙仍待完成。

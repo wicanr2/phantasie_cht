@@ -146,7 +146,7 @@ gzip／zstd 的合成 AppImage 已確認 offset、解出內容、執行權限、
 
 ## 10. 實作位置與審查
 
-擬新增 `tools/package.sh`、`tools/` 內封裝、掃描及驗證工具，以及專案 `apps/phantasie/` 的原生啟動器。啟動器不連結 GUI，以子程序執行固定引擎後端；引擎保持既有前端與收據工具，不改 main、DOS 核心或其他遊戲。文件沿用本規格、CONTEXT、WORKLOG、README 及字型說明。
+實作位於 `tools/` 的譯文整理、掃描及後續封裝驗證工具，以及專案 `apps/phantasie/` 的原生啟動器；封裝編排入口 `tools/package.sh` 尚待完成。啟動器不連結 GUI，以子程序執行固定引擎後端；引擎保持既有前端與收據工具，不改 main、DOS 核心或其他遊戲。文件沿用本規格、CONTEXT、WORKLOG、README 及字型說明。
 
 無頭收據工具隨各平台包放在 tools 子目錄，是命令列工具；版本、架構、模組及授權也納入封包清單，驗證資料缺席時仍依既有契約 SKIP，不附私人作答路線。其正常 GUI 對拍用途與既有規格不變。
 
@@ -201,3 +201,19 @@ Unix 前端繼承兩份 flock 描述，啟動器異常結束而前端仍在時�
 | macOS | 兩種架構及 universal 原型只核對標頭與內容，未做 macOS 真機啟動 |
 
 契約及資料審查報告為 `launcher-contract-review-r3.txt`、`launcher-evidence-review-r3.txt`；較早報告及失敗紀錄保留。封存入口為 `workplace/package-prototype/launcher-phase-verification-manifest.json`。這些是啟動器及研究布局的證據，沒有新增遊戲同狀態 A/B，也不代替正式 AppImage／ZIP、發行字型、五語冒煙及封包存檔驗收。013 維持 READY。
+
+## 13. 封包外洩掃描工具
+
+[package_scan.py](../../tools/package_scan.py) 處理 §7 的外洩邊界。Docker 內指定 `--scan` 與 `--original`，掃描來源須完整符合 001 的 70 檔大小及 SHA-256；缺席或錯版直接失敗。掃描已解出的目錄、ZIP 或 tar，不建立交付包或刪除輸入。封裝編排工具仍須在掃描失敗時清理本次失敗產物。
+
+預設拒絕原版檔名與雜湊、original 目錄、手冊 PDF、作答路線、研究目錄、答案資料列與答案模板來源。無答案 manual 表只接受兩個合法標題。清冊包含一個空檔，SHA-256 也照常比對，因此沒有識別力的空檔同樣不能出現在未核對的封包內容中。
+
+ZIP／tar 逐項檢查名稱、重複項目、符號／硬連結、特殊檔案及路徑跳脫；ZIP 非 ASCII 名稱須有 UTF-8 旗標，加密項目及帶資料的目錄拒絕。改名的壓縮檔按實際格式辨識，未列為固定來源的巢狀 ZIP／tar／gzip 繼續掃描；已辨識而未支援的 7z、RAR、XZ、bzip2、lzip、Zstandard 格式失敗。Zstandard 包含標準 frame 及全部 16 種 skippable frame，不能藉改名放行。本工具不宣稱能辨識任意編碼。AppImage 必須先解出目錄，不能只掃外檔。上限為單檔 128 MiB、累計讀取 512 MiB、50,000 項及五層壓縮檔，超過即失敗，不略過剩餘內容。
+
+兩份固定公開來源壓縮檔以精確 SHA-256 對應既有核對證據：§9.1 的 `runtime-source-r1.tar.gz` 與 [font](../../font/README.md) 的 `unifont-17.0.05.tar.gz`。它們逐位元組符合已核對來源時記入來源清單，不把附帶上游來源中的一般空檔或連結當成原版素材。沒有呼叫者可追加的跳過清單；未知 bytes 仍逐層掃描。這項來源辨識不代選字型條款。
+
+本機模式須同時明示 `--local-original <包內相對目錄>` 及 `--local-manual <正式本機提示來源>`。原版只允許在該目錄逐檔對應清冊，四語完整提示表只允許在 text 目錄與指定來源 bytes 完全相同。缺檔、重複、內容不符或提示來源與掃描範圍重疊均失敗；結果分類為 local-only，不用它證明可散布包安全。
+
+合成反例入口為 [package_scan_cases.py](../../tools/tests/package_scan_cases.py)，11 項測試通過。實際無答案布局 14 檔及本機布局 84 檔通過；改名原版與偽裝答案表皆以 exit 1 拒絕。乾淨複本只移除一處 SHA-256 判斷，兩個獨立字面期望按預期失敗。70 個原版檔案未變。
+
+收據為 `workplace/package-prototype/package-scan-r5-verification.json`、`package-scan-tests-r5.log`、`package-scan-mutation-r5.log`；最終契約及資料報告為 `package-scan-contract-review-r3.txt`、`package-scan-evidence-review-r3.txt`。封存入口為同目錄的 `package-scan-phase-verification-manifest.json`，較早報告與收據保留。掃描結果只證明本工具覆蓋的外洩邊界，不證明授權、必要檔案、字型覆蓋、可啟動性或正式封包完成，013 維持 READY。
