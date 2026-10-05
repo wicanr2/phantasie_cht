@@ -127,9 +127,8 @@ def plan(captures, score, output, version, project):
         concat.append("option framerate 60")
         (output/(prefix+".ffconcat")).write_text("\n".join(concat)+"\n")
         for a,b,h in runs:
-            if (b-a)*factor/60>=.75:
-                pauses.append(dict(start=timeline+(a-s["start"])*factor/60,end=timeline+(b-s["start"])*factor/60,
-                    reason="原版連續相同畫格或明示選單停留",capture_sha256=s["capture_sha256"],frame_sha256=h))
+            pauses.append(dict(start=timeline+(a-s["start"])*factor/60,end=timeline+(b-s["start"])*factor/60,
+                reason="原版連續相同畫格或明示選單停留",capture_sha256=s["capture_sha256"],frame_sha256=h))
         s.update(output_start=timeline,output_end=timeline+s["seconds"],virtual_time_scale=factor,unique_frames=len({f["sha256"] for f in fs}))
         timeline=frame_boundary/30
         video_filter=(f"setpts={factor:.12f}*(PTS-STARTPTS),fps=30,scale=1024:640:flags=neighbor,"
@@ -138,12 +137,19 @@ def plan(captures, score, output, version, project):
             f"drawtext=fontfile={FONT}:textfile={output}/{prefix}-caption.txt:fontsize=20:fontcolor=white:x=(w-text_w)/2:y=689")
         cmd=["ffmpeg","-nostdin","-v","error","-threads","2","-filter_threads","1","-safe","0","-f","concat","-i",str(output/(prefix+".ffconcat")),
              "-vf",video_filter,"-frames:v",str(s["output_frames"]),"-an","-c:v","libx264","-threads","2","-preset","medium","-crf","19","-pix_fmt","yuv420p",str(output/(prefix+".mp4"))]
-        commands.append(shlex.join(cmd));movie_concat.append("file '"+str(output/(prefix+".mp4"))+"'")
+        commands.append(shlex.join(cmd));movie_concat.extend(["file '"+str(output/(prefix+".mp4"))+"'",f"duration {s['output_frames']/30:.9f}"])
     (output/"movie.ffconcat").write_text("\n".join(movie_concat)+"\n")
     movie=output/f"phantasie-cht-{version}-local-promo.mp4"
     commands.append(shlex.join(["ffmpeg","-nostdin","-v","error","-threads","2","-filter_threads","1","-safe","0","-f","concat","-i",str(output/"movie.ffconcat"),
         "-i",str(score),"-map","0:v:0","-map","1:a:0","-c:v","copy","-c:a","aac","-b:a","192k","-ar","48000","-ac","2","-t","72","-movflags","+faststart",str(movie)]))
     (output/"render.sh").write_text("\n".join(commands)+"\n")
+    merged=[]
+    for p in pauses:
+        if merged and merged[-1]["frame_sha256"]==p["frame_sha256"] and merged[-1]["capture_sha256"]==p["capture_sha256"] and abs(merged[-1]["end"]-p["start"])<1e-6:
+            merged[-1]["end"]=p["end"]
+        else:
+            merged.append(p.copy())
+    pauses=[p for p in merged if p["end"]-p["start"]>=.75]
     manifest=dict(schema=1,version=version,seconds=72,fps=30,width=1280,height=720,engine_commit=engines.pop(),score_sha256=SCORE_SHA,
         bundle_sha256=sources["town"]["data"]["bundle"]["sha256"],
         rights="local-only game imagery, Eten glyphs and original-derived hand-painted art; approved original score r2",

@@ -1,6 +1,6 @@
 # 016 實際遊玩逐格擷取
 
-狀態：READY。兩輪唯讀審查無阻擋或應改。前置 005 CONFORMED、015 READY。使用者要求本機推廣影片包含實際遊玩與主題切換；不建立公開影片或 Release。聲音來源另記本機收據；使用者已授權製作原創配樂，並要求先查其他平台版本的音樂。
+狀態：CONFORMED（正式本機交付抽樣，平台限制見末節）。兩輪唯讀審查無阻擋或應改。前置 005 CONFORMED、015 CONFORMED。使用者要求本機推廣影片包含實際遊玩與主題切換；不建立公開影片或 Release。聲音來源另記本機收據；使用者已授權製作原創配樂，並要求先查其他平台版本的音樂。
 
 ## 擷取契約
 
@@ -61,3 +61,9 @@ ffmpeg 在既有影片容器以兩核、threads 2、filter_threads 1、有界執
 固定本機映像為 `phantasie-promo:audit-r1`，manifest SHA-256 `26debd16e86d3d8aa6b2420c2a7e7462b479cbba0458a3726d901989ee7f7c87`，含 Python 3.13 與 FFmpeg／ffprobe 5.1.9。建置只使用 Dockerfile 指定的兩份本機基底，執行一律無網路、UID/GID 1000、有限 CPU／記憶體／程序數；影片輸入唯讀，只有本次輸出可寫。
 
 成片編排的契約與資料審查入口為 `workplace/package-prototype/promo-music-prototype-r1/video-contract-review.txt` 與 `video-evidence-review.txt`。報告只驗編排及必要合成反例，正式成片另依本規格的實際錄影、工具解碼與人工抽看閘門驗收。
+
+## 正式本機交付抽樣驗收
+
+正式 Linux 完整版後端以本機倚天、完整圖像組及已驗證 bundle 擷取城鎮、公會、地圖與戰鬥。城鎮 36、公會 81、戰鬥 33 個原版狀態點與既有原版收據一致；地圖使用正常玩家路線，但未另宣稱原版同狀態對拍。15 段各抽看前、首、中、末、後共 75 個來源樣本，選定範圍沒有手冊題或答案。成片另抽看 17 格，完整遊戲區與字幕可見，30 份字幕使用 FFmpeg 實際 drawtext 字框核對無裁切。72.000 秒、2160 格、1280×720、H.264／30 fps，AAC／48 kHz／雙聲道，-18.01 LUFS、-2.41 dBTP。直接重新解碼最終檔案，黑幀為零；偵測到的靜止皆由相同來源 bitmap 的已宣告區間覆蓋，不放寬既有門檻。成片 SHA-256 `060a84c74845b1c1c37f121df55a3fe04ca76cd855287a06856e1ab8353e4a31`。已採用第二版原創配樂，完整音色庫條款及來源封存於 promo。影片僅本機保留。60 秒抽樣含原版戰鬥的中途英文訊息，不宣稱所有執行期瞬間逐格中文化。
+
+正式收據入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`；交付入口為 `dist-all/v.1.0.0-20261005/`。`smoke/acceptance.json` 與根層 `SHA256SUMS.json` 列出平台範圍；字型獨立遮罩為 `font-mask/verification.json`，冷讀檔為 `save-r2/verification.json`，影片與字幕抽樣為 `visual-verification.json`。較早研究段落中的待驗狀態只描述當時收據，現況以本節為準。

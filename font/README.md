@@ -12,11 +12,11 @@
 | `OFL-1.1.txt` SHA-256 | `869692af094c57fb7258c57fe26820c759319603321d0ffeb278de3651763ded` |
 | 作者聲明來源 | 壓縮檔的 `font/Makefile`，SHA-256 `57d63f76a91dda451ae1592e6ba0f4222f4cf2bf2719504b52bf4ce49957e332`；`COPYRIGHT` 變數列完整作者及雙授權聲明 |
 
-核對以固定壓縮檔為準；[上游授權說明](https://unifoundry.com/unifont/index.html)也列明雙授權。非字型工具程式的 GPL 條款與字型條款分開，不將字型子集改成專案的 RRSAL-1.0。發行包須保留 OFL 1.1 全文及作者聲明；目前尚未建立發行包。
+核對以固定壓縮檔為準；[上游授權說明](https://unifoundry.com/unifont/index.html)也列明雙授權。非字型工具程式的 GPL 條款與字型條款分開，不將字型子集改成專案的 RRSAL-1.0。三平台正式補丁包已保留 OFL 1.1 全文及作者聲明，沒有建立公開 Release。
 
 ## 本機倚天字形
 
-使用者要求三平台本機完整版包含遊戲並使用倚天字形。此變體及倚天字模只留本機，不加入 Git 或可散布包；已接入封包流程，正式交付包與 GUI 驗收尚未完成。
+使用者要求三平台本機完整版包含遊戲並使用倚天字形。此變體及倚天字模只留本機，不加入 Git 或可散布包。正式交付版 `v.1.0.0-20261005` 已打包，字型、正常文字區及 Linux／Wine GUI 抽樣通過，macOS 僅完成靜態核對；範圍見 [014](../docs/spec/014-local-eten-font.md) 末節。
 
 已找到唯讀來源 `/home/anr2/cht/etan_font/ET353S/FILES/`：
 
@@ -28,7 +28,7 @@
 
 研究入口為 `workplace/package-prototype/eten-source-coverage-r1.json` 及同名前綴的 `.py`。索引依 Codex 路由的 `sources/claude/retro-cht/eten-bitmap-font.md`，16×15 點陣的每列兩 bytes，符號與漢字分檔；「一、中、猴」及標點已抽看。首次將「一條橫線」誤判為只有一列亮點，實際明體多一點襯線，修正研究假設後通過。
 
-四語正式譯文加本機提示的字元覆蓋只記統計，不匯出原文或答案：zh-TW 全形 1269 字均可對應；zh-CN 缺 417 字、ja 缺 261 字、ko 缺 677 字。這項統計不證明字形或正常畫面已驗收；其他語言仍需補字來源。字模整合須保留既有 16×16 畫布及 8／16 像素排版寬度，不因原始字模高度 15 改變換行或輸出矩形。
+倚天對四語正式譯文加本機提示的字元覆蓋只記統計，不匯出原文或答案：zh-TW 全形 1269 字均可對應；zh-CN 缺 417 字、ja 缺 261 字、ko 缺 677 字。這項統計不證明字形或正常畫面已驗收；其他語言保留 GNU 字型，不用倚天取代。字模整合保留既有 16×16 畫布及 8／16 像素排版寬度，不因原始字模高度 15 改變換行或輸出矩形。
 
 可丟棄的實際字型與正常標題、城鎮畫面在 `workplace/package-prototype/eten-font-prototype-r1/`。`font-prototype.json` 記錄 95 個 GNU ASCII 與 1269 個倚天全形字，倚天來源旗標為 `0x82`。`prototype-state-comparison.json` 的六筆比較含五個不同狀態，步數、顯示記憶體、記憶體摘要及完整記憶體摘要均與關閉覆繪相同；未做嚴格像素遮罩驗收。正式封包整合契約見 [014](../docs/spec/014-local-eten-font.md)。
 

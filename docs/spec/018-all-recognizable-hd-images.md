@@ -1,6 +1,6 @@
 # 018 可辨識場景與怪物 HD 圖像
 
-狀態：READY。使用者已選「完成可辨識的場景與怪物圖像」，風格為彩色手繪、保留原版構圖。前置為 015 的純顯示合成及 [RE029](../re/029-all-image-formats.md)。不新增輸入鍵、遊戲規則、存檔欄位或音樂。
+狀態：CONFORMED（正式本機交付抽樣，平台限制見末節）。使用者已選「完成可辨識的場景與怪物圖像」，風格為彩色手繪、保留原版構圖。前置為 015 的純顯示合成及 [RE029](../re/029-all-image-formats.md)。不新增輸入鍵、遊戲規則、存檔欄位或音樂。
 
 ## 範圍與資產
 
@@ -54,3 +54,9 @@ package_files、package.sh、stage、finish、launcher 與 016 bundle 驗證同�
 實作資產組為 `workplace/package-prototype/hd-all-assets-r1/`，批准 metadata 為 `tools/package_art_assets.json`，profile SHA-256 `66bcad5436723cd49aa64478ba8d0feab4fcd84377bce8879b5b9d1eb17d8d7a`。12 PNG、四頁及 160 變體已完整真解碼、指紋及裁切核對；158 非全白來源逐 bitmap 辨識通過。所有裁切均在對應格內，保留可見門檻 RGB>30 的主體，最大比例誤差 0.00484155；較暗背景雜點不宣稱逐像素全保留。
 
 兩輪實作唯讀審查報告為 `implementation-contract-review.txt`、`implementation-evidence-review.txt`，最終皆 0／0／0。已補跨來源同名指紋檢查、完整 JSON null 拒絕、必要欄位與矩形長度、Python 型別保留的批准比較，以及無色盤 index0 樣本時怪物回退。原版正常 draw consumer 的只讀矩形作為獨立允許域，`normal-r3/tests.log`、`normal-r3/normal-route-receipts.json` 記錄正常城鎮、公會、戰鬥共 750 組五語抽樣；完整 memory、VRAM、steps、reads 不變，original 等於既有合成，HD 像素差異在批准域內。早期僅四隻怪物的固定座標不能涵蓋九隻排列，前兩次驗證脚本失敗不計 PASS。正式封包、GUI 與影片依 013、016 完成前維持 READY。
+
+## 正式本機交付抽樣驗收
+
+三平台實際完整包核對完整 13 份圖像資產及固定 profile SHA-256 `66bcad5436723cd49aa64478ba8d0feab4fcd84377bce8879b5b9d1eb17d8d7a`，四場景與 160 變體完整打包。原有五語 750 組正常路線與唯讀合成證據仍有效。正式包另以正常城鎮、公會、戰鬥擷取核對 150 個原版狀態點，Linux 前端切換與 Wine 手繪城鎮可見；正式影片含手繪城鎮與正常怪物戰鬥，README 已替換正式包截圖。兩個全白變體、無法確認或遭原版視窗遮擋的部分保留原版，隊員與地圖仍按原版顯示。未正常到達的個別場景與怪物保留資產核對證據，不宣稱全數正常玩家路線都已觀察。平台操作限制見 013。
+
+正式收據入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`；交付入口為 `dist-all/v.1.0.0-20261005/`。`smoke/acceptance.json` 與根層 `SHA256SUMS.json` 列出平台範圍；字型獨立遮罩為 `font-mask/verification.json`，冷讀檔為 `save-r2/verification.json`，影片與字幕抽樣為 `visual-verification.json`。較早研究段落中的待驗狀態只描述當時收據，現況以本節為準。

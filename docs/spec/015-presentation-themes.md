@@ -1,6 +1,6 @@
 # 015 顯示主題與手繪城鎮
 
-狀態：READY。兩輪唯讀審查最終阻擋、應改、建議皆為零。前置：001、002、004、005 CONFORMED；013、014 READY。使用者已確認新增色盤主題切換，HD 圖像選彩色手繪、保留原版構圖。此規格只改顯示端，不改原版程式、輸入語意、規則、記憶體、顯示記憶體或存檔。
+狀態：CONFORMED（正式本機交付抽樣，平台限制見末節）。兩輪唯讀審查最終阻擋、應改、建議皆為零。前置：001、002、004、005 CONFORMED；013、014 CONFORMED。使用者已確認新增色盤主題切換，HD 圖像選彩色手繪、保留原版構圖。此規格只改顯示端，不改原版程式、輸入語意、規則、記憶體、顯示記憶體或存檔。
 
 ## 1. 圖像證據與資產
 
@@ -71,3 +71,9 @@ package.sh／stage 新增可選 `--hd-dir`，明示時只可與 --local 並用�
 Linux 真實按鍵證據在 `workplace/package-prototype/hd-gui-r2/`：Shift+F12 依序切原版、琥珀、手繪，語言保持 zh-TW；F12 五語循環保持手繪，公會選單邊界失配時回退 CGA，返回恢復手繪。titles.txt 與 PNG 已核對。早期 gui-r1 短暫 Shift 的自動操作失敗不計驗收；以持續按住 Shift 乾淨重跑通過。早期 scene-probe 廣泛分析外層逾時不計 PASS，資料審查使用另行終端 exit 0 的獨立窄 probe。
 
 實作複核入口：`workplace/package-prototype/hd-implementation-contract-r1.txt`、`hd-implementation-evidence-r1.txt`。本規格仍 READY；正式三平台包及影片驗收尚待完成。
+
+## 正式本機交付抽樣驗收
+
+正式 Linux 完整版經真實前端按鍵切換原版、琥珀與手繪主題，五語城鎮、公會開啟及返回抽樣通過。正式包的圖像身份已核對，手繪城鎮與怪物出現在實際遊玩影片，README 使用正式包截圖。其他場景及怪物的完整資產契約見 018；正常玩家路線未到達的個別場景不宣稱已實機觀察。平台限制見 013。
+
+正式收據入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`；交付入口為 `dist-all/v.1.0.0-20261005/`。`smoke/acceptance.json` 與根層 `SHA256SUMS.json` 列出平台範圍；字型獨立遮罩為 `font-mask/verification.json`，冷讀檔為 `save-r2/verification.json`，影片與字幕抽樣為 `visual-verification.json`。較早研究段落中的待驗狀態只描述當時收據，現況以本節為準。

@@ -1,6 +1,6 @@
 # 014 本機倚天字形
 
-狀態：READY。前置規格：004、006 CONFORMED，013 READY。使用者已要求三平台本機倚天完整版含遊戲；可散布發行字型採 OFL 1.1。此規格只增加字型建置與封包隔離，不改原版程式、語言資料或寬度契約。
+狀態：CONFORMED（正式本機交付抽樣，平台限制見末節）。前置規格：004、006 CONFORMED，013 CONFORMED。使用者已要求三平台本機倚天完整版含遊戲；可散布發行字型採 OFL 1.1。此規格只增加字型建置與封包隔離，不改原版程式、語言資料或寬度契約。
 
 ## 1. 來源與證據
 
@@ -76,3 +76,9 @@
 實作複核的入口為 `workplace/package-prototype/eten-contract-implementation-review-r1.txt` 與 `eten-evidence-implementation-review-r1.txt`。獨立像素差異遮罩及正式封包／GUI 還未驗證，014 保持 READY。
 
 本輪來源、研究產物與審查報告的封存入口為 `workplace/package-prototype/eten-phase-verification-manifest.json`；不覆寫較早封存。提交後核對保存在同目錄的 `eten-postcommit-verification.json`，只記提交與遠端狀態，不將提交當作封包驗收。
+
+## 正式本機交付抽樣驗收
+
+正式包繁中字型 SHA-256 為 `94106e338da70ca5bc793413bbb10d21a3ee58ef8070eab35462969541bc8c86`，與前述正式建置結果一致。以實際完整版收據工具及文字，比較 GNU 與倚天的四條正常路線，共 139 點的 steps、reads、VRAM、記憶體與完整記憶體相同。獨立以 ImageMagick 解碼 RGBA，在標題、城鎮、角色清單、大門訊息四個停點檢查字形差異；分別 3027、1659、3329、2112 個差異像素，全部在字面指定的原版文字區內。此檢查不呼叫引擎遮罩。四個實際解碼畫面各在區外注入一個像素後，同一掃描確實拒絕。三平台正式字型／資產核對、Linux 語言往返與冷讀檔，以及 Wine 五語標題完成。平台操作限制沿用 013。此結論限四個文字區抽樣，不宣稱每個字與每個畫面均已人工驗收。
+
+正式收據入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`；交付入口為 `dist-all/v.1.0.0-20261005/`。`smoke/acceptance.json` 與根層 `SHA256SUMS.json` 列出平台範圍；字型獨立遮罩為 `font-mask/verification.json`，冷讀檔為 `save-r2/verification.json`，影片與字幕抽樣為 `visual-verification.json`。較早研究段落中的待驗狀態只描述當時收據，現況以本節為準。

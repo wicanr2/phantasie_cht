@@ -2,69 +2,36 @@
 
 日期：2026-10-05
 
-總目標：用 dosgolem 完成《幽靈戰士》繁體中文化（使用者 2026-10-03 設定）。語言範圍：zh-TW（基準）、zh-CN、英文原版（關閉覆繪）、ja、ko。使用者 2026-10-04 授權下載手冊並直接顯示答案，已取得與題目頁碼相符的合訂手冊。專案規則在 `AGENTS.md`，分期目標在 `docs/goals/001-phases.md`。
+《幽靈戰士》以 dosgolem 執行期輸出攔截與覆繪中文化，原版程式、資料與存檔規則不修改。語言為繁中、簡中、英文原版、日文與韓文。日韓為機器輔助，未經母語者校對。使用者已授權下載手冊、顯示本機答案、commit／push，並指定抽樣驗收。
 
-目前引擎為 `8467682`，已提交並推送完整場景／怪物手繪合成與正常遊玩逐格擷取。研究候選的 150 個停點與既有原版收據相同；新增 HD 正常路線 750 組五語畫面抽樣通過，正式程式尚待以乾淨提交重建。四語各 16 個資料缺口已補齊。使用者 2026-10-05 定案「抽樣驗收即可」，兩輪唯讀審查無阻擋或應改。001 至 012 皆 CONFORMED，限各規格列明的資料契約及正常 UI 代表樣本；011 限資料列舉工具。15 個新增鍵未逐鍵量到，保留為抽樣限制。矩陣見 [分期目標](docs/goals/001-phases.md#抽樣驗收範圍)。發行字型條款已選 OFL 1.1，倚天字型已接入本機三平台組裝流程；正式封包及發行包冒煙尚未完成。
+目前引擎 `84676827fea98078d2aad184407703f9648654a2` 已提交並推送至 `phantasie-cht-overlay`。本機正式包固定於專案 `ee22b5fbb1416d663d180cbe0364e1f89bb4bcfd`，本機 tag 為 `v.1.0.0-20261005`。影片工具的後續修正與文件另行提交；封包、tag 及六包雜湊保持不變。影片工具的實際版本與雜湊記於本機 `promo/provenance.json`。
 
-最新交付要求：三平台本機完整版含遊戲並採倚天字形，另有實際遊玩與主題切換的推廣影片，README 更新最新截圖。使用者已確認新增色盤主題切換，並選定 HD 範圍為可辨識場景與怪物，採彩色手繪、保留原版構圖。主機 GitHub 查到的 [Psychic War #34](https://github.com/wicanr2/psychic_war_cht/issues/34) 屬另一專案，本次已確認新增 Phantasie HD 工作。完整組已建四場景、12 PNG 及 160 變體，全部真解碼與身份核對通過；兩個全白變體保留原版，158 個無歧義候選逐 bitmap 核對通過。正常城鎮、公會及戰鬥共 750 組五語抽樣，完整 memory、VRAM、steps、reads 不變。契約及本機收據入口見 [018](docs/spec/018-all-recognizable-hd-images.md)。正式包及影片待驗證。
+| 項目 | 現況 | 證據入口 |
+|---|---|---|
+| 中文化 | 001 至 012 CONFORMED，限資料契約與正常 UI 代表樣本 | [分期驗收矩陣](docs/goals/001-phases.md#抽樣驗收範圍)、[規格索引](docs/spec/README.md) |
+| 三平台交付 | 六包乾淨重建，包含三個本機完整版與三個 OFL 補丁包，版號一致 | [013](docs/spec/013-cross-platform-packaging.md)、交付根層 `SHA256SUMS.json` |
+| 倚天字形 | 1269 全形與 95 GNU ASCII；四場景獨立像素遮罩通過，139 個原版狀態點一致 | [014](docs/spec/014-local-eten-font.md)、正式收據 `font-mask/verification.json` |
+| 主題與 HD | Shift+F12 切原版、琥珀、手繪；四場景、160 怪物變體已打包，正常城鎮與戰鬥抽驗 | [015](docs/spec/015-presentation-themes.md)、[018](docs/spec/018-all-recognizable-hd-images.md) |
+| 推廣影片 | 72 秒實際遊玩與主題／五語展示，2160 格、30 fps，第二版原創配樂 | [016](docs/spec/016-gameplay-video-capture.md)、[017](docs/spec/017-original-promo-score.md)、`promo/verification.json` |
+| README 截圖 | 六張主要圖取正式包實際遊玩，無手冊答案 | 正式收據 `readme-formal-screenshots.json` |
 
-逐格擷取及主題／五語展示已通過兩輪實作審查，契約與本機收據入口見 [016](docs/spec/016-gameplay-video-capture.md)。城鎮 36、公會 81、戰鬥 33 點的原版狀態、PNG 間隔、重跑及末格核對通過；錯誤路線只印固定分類，未知鍵不寫成功收據。正式包錄製與成片尚未完成。原創配樂第二版已通過技術核對，使用者試聽後選擇「採用第二版」，017 CONFORMED。母帶長72秒、48kHz雙聲道，WAV -18.00 LUFS／-2.50 dBTP，OGG -17.96／-2.43，無削波。來源、權利與重建入口見 [017](docs/spec/017-original-promo-score.md)。另查到第一代 Atari 8-bit、Atari ST、Amiga 的音樂錄音，來源與版本區別記於 016，本次沒有下載或整合其他平台音訊。
+唯一現行交付根目錄為 `dist-all/v.1.0.0-20261005/`。`full-local/` 含 Linux x86_64 AppImage、Windows amd64 ZIP、macOS universal ZIP，附遊戲、手冊提示、繁中倚天與完整圖像。`patch/` 不含遊戲、答案、倚天或 HD，採 GNU Unifont 17.0.05 的 OFL 1.1。`promo/` 保存成片、第二版母帶、產製工具及完整音色庫條款；`smoke/` 保存抽樣驗收與重播腳本。全部產物留本機，沒有公開 Release。repo 維持 private。專案程式授權為 RRSAL-1.0，不涵蓋原版素材。
 
-| 範圍 | 程式與證據基準 | 最近驗證 | 交付狀態 |
-|---|---|---|---|
-| 道路描述與公會重名 | 引擎 `60b76b3`，前置 guard `dcc1b9d`；已重建前端與收據工具 | 四語 192 點同狀態、每組 120 次停留、全文及兩種倍率範圍、切換、確認、清除、重試與負對照通過；GUI 真實按鍵通過 | 008 CONFORMED |
-| 卷軸閱讀與返回 | 引擎 `60b76b3`；正常路線 `scroll-read` 加明示購買確認 | 四語 496 點同狀態；既有切換 33 點、13 行全文、兩種倍率及負對照有效 | 007 CONFORMED；卷軸 8 正常抽樣，其他卷未逐頁驗收 |
-| 地牢兩行訊息與還原 | 引擎 `60b76b3`；正常路線 `dungeon-message` 加確認停點 | zh-TW 21 點回歸 PASS；先前四語 320 點的顯示與還原證據仍有效 | 收據與觸發資料流見 `docs/re/014`、008；005 依 §21 抽樣 CONFORMED，其餘未量到分支見 §9.2 |
-| 存檔與冷啟動讀回 | 引擎 `60b76b3`；`workplace/bin/phantasie-receipt`，`-state` 與存檔清冊 | 四語、四模式 240 點回歸，原版狀態與存檔相同，重啟後角色畫面相同；既有負對照有效 | 規格 005 §10 CONFORMED；整份 005 依 §21 抽樣 CONFORMED |
-| 手冊答案提示 | 引擎 `60b76b3`；四語本機答案表與字型 | 確認等鍵後，物品、法術、四語及英文、返回，三模式各 72 點，共 216 點；完整原版狀態相同 | 006 CONFORMED；手冊與答案只留本機 |
-| 地牢訊息選項 | 引擎 `60b76b3`；`dungeon-options` 正常路線 | 四語四模式 512 點同狀態；全文、反白、兩個選擇、重訪、後續段落、戰鬥及色盤後顏色、兩種倍率與負對照通過 | 兩個 11 字元選項已驗證；其餘欄寬仍未量到，見 RE017、005 §14 |
-| 寶箱短訊息 | 引擎 `60b76b3`；匯出工具明示納入 `mess5:61`，四語各新增一列正文 | 16 組 2496 個原版狀態點相同；八個短訊息停點共 96 個 UI PASS，40 項全文及倍率檢查、刪除正文負對照與 32 點拉桿回歸通過 | 009 CONFORMED；其他短訊息仍未量到；3 字元選項的後續驗收見 RE022、005 §18 |
-| 九選項與神殿全滅 | 引擎 `60b76b3`，本機正常路線；程式、catalog、字型不變 | 四模式 1348 個原版狀態相同；264 個目標 UI PASS、146 項全文與倍率、56 項原版數字字模檢查；語言往返、返回與負對照通過 | 005 §18 的本場景已驗收；入口見 019，正常到達及收據見 [022](docs/re/022-nine-options-and-defeat.md) |
-| 戰鬥死亡訊息 | 引擎 `60b76b3`；本機正常死亡路線，程式與 catalog 不變 | 四模式 888 個原版狀態點相同；兩個死亡場景四語切換、20 項全文及倍率檢查、英文視圖、回切、返回及負對照通過 | 005 §16 已驗收；全滅見 022；勝利見 021，死亡見 [020](docs/re/020-combat-death-messages.md) |
-| 戰鬥勝利與獎勵 | 引擎 `60b76b3`；正常 DNG1 戰鬥、本機長路線，公開 `combat` 只修正兩個取樣數字 | 四模式 516 個原版狀態相同、387 個 UI PASS；四語全文、數值、語言往返、返回及負對照通過 | 005 §17 已驗收；全滅另見 022，勝利見 [021](docs/re/021-combat-victory.md) |
-| 戰鬥直接全滅 | 引擎 `60b76b3`，本機正常 DNG4 戰鬥；原版決定消滅及不死處置 | 四模式 1096 個原版狀態相同；129 個目標 UI PASS、70 項全文與倍率；七次英文與回切、正常返回及刪除模板負對照通過 | 005 §18 的本場景已驗收；神殿分支分開記錄，見 [022](docs/re/022-nine-options-and-defeat.md) |
-| 第二頁還原 | 引擎 `60b76b3`；沿用正常勝利路線，正式程式與資料不變 | 正向與只停用第二頁影子的負對照共 258 個原版狀態點相同；16 KiB 雙頁逐位元組核對、32 項獨立像素樣本及 12 項英文核對通過；16 項負對照按預期失敗 | 002 §12 的正常勝利樣本已獨立驗收，整份依 §14 抽樣 CONFORMED，見 [023](docs/re/023-second-page-restoration.md) |
-| 零魔力法術清單 | 引擎 `8d9807d`，前一基準 `60b76b3`；只修精確嚴格遮罩稽核 | 四語四模式 672 個原版狀態相同、504 個 UI PASS；32 項完整像素、20 項英文核對；負對照 12 個預期失敗；清單、切換及第二頁共 139 點回歸相同 | 010 CONFORMED；002 §13、005 §19 的正常零魔力樣本已驗收，見 [024](docs/re/024-disabled-spell-list.md)；中文變暗外觀仍是已知限制 |
-| MESS 選項資料列舉 | 專案基準 `5fe2e82`，引擎維持 `8d9807d`；原版 IDA 的 DI 字元流 | 10 項解析、5 項匯出 PASS，舊程式 8 項預期失敗；獨立核對 55 個普通選項及 4 個短訊息；原版、受保護檔及路線不變 | 011 CONFORMED，限工具契約；9 個原始欄位訂正、3 個訊息恢復。當時的 13 個正文或選項與 3 個水池正文缺鍵已由 012 補齊資料，新增鍵的正常 UI 按 012 抽樣，未逐鍵量到仍列限制；工具證據見 [025](docs/re/025-option-stream-parsing.md) |
-| 已恢復訊息的四語資料 | 專案基準 `3066e2d`，引擎 `8d9807d`；原版獨立解碼與 012 資料契約 | 四語各新增 16 列，舊 1028 列及舊字模不變，lint 零錯誤，8 個拒絕負對照有效；既有寶箱 780 個原版狀態及 PNG 相同、32 個 UI PASS | 16 個來源資料缺口為零；MESS6:52 正常四語正文、3008 點同狀態及 32 項獨立畫面已驗收，其他 15 鍵未量到，012 依抽樣契約 CONFORMED，見 [026](docs/re/026-recovered-prose-catalog.md)、[027](docs/re/027-dungeon-six-recovered-message.md) |
+正式驗收工作區為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`。Linux 實際完整版已抽測五語標題與城鎮、三主題、公會返回、繁中 15 點存檔／冷讀檔。Windows 實際包已在 Wine 抽測五語標題與手繪城鎮；輸入擷取程序 exit 0，Wine 擁有程序清理達 timeout 124，正常關閉及 Windows 真機未驗證。macOS 核對兩種架構、plist、全部資產，未真機操作。補丁包完成內容與資產核對，沒有另行 GUI 抽測。
 
-## 已有
+正式擷取的城鎮 36、公會 81、戰鬥 33 點與既有原版狀態相同。影片直接解碼審核通過，-18.01 LUFS、-2.41 dBTP，沒有黑幀；靜止區間由相同來源畫面核對。15 段共 75 個來源樣本、17 格成片與 30 份字幕字框抽驗通過。配樂第二版已獲使用者試聽確認，不使用其他版本原版音樂。成片含中途原版英文戰鬥訊息，不宣稱每個執行期瞬間已逐格中文化。
 
-- 證據：`docs/re/001` 至 `027`（輸入清冊、probe 收據、IDA 靜態盤點、overlay 格式、視訊與文字路徑、動態收據、MESS 與 SCROLLS 格式、補充證據、`%s` 引數指標種類、位置描述文字 `OUT*.DAT`、地城位置列 `OV2:C400`、手冊來源與提示事件、存檔與冷啟動讀回、地牢事件格與訊息視窗、卷軸正常閱讀與整行安全範圍、第二條等鍵、訊息選項及拉桿後續、寶箱短訊息、第四地牢入口與戰鬥事件、死亡全文與四語切換、正常勝利及數值結算、九選項、神殿與戰鬥直接全滅、第二頁獨立還原、零魔力法術清單與精確變暗稽核、完整選項字元流、恢復訊息的四語資料）。索引在 `docs/re/README.md`。
-- 規格（`docs/spec/`）：001 至 012 皆 CONFORMED。002 限 §14 的正常畫面操作抽樣；005 限 §21 的十類必備路線抽樣；011 限資料列舉工具；012 限完整資料契約及列明的 UI 代表樣本。未量到的個別鍵、原版參數與地城備份仍是驗證限制，不計 UI PASS。狀態表在 [規格索引](docs/spec/README.md)。
-- 第三期打包：[013](docs/spec/013-cross-platform-packaging.md) 已 READY，定義包內手冊標題轉換、三平台路徑、原版原子匯入與存檔隔離。使用者已定版 `v.1.0.0-20261005`，不建立公開 Release。五份前端、四份無頭收據原型及 Linux 五語標題／公會畫面已有證據，入口為 `workplace/package-prototype/prototype-verification-manifest.json`。新的來源可回查 runtime 兩次乾淨重建相同，gzip／zstd 合成抽測、20 項附庫來源、13 項授權輸入及 56 檔來源包通過獨立核對；兩輪新版複核阻擋與應改皆為零。譯文整理工具已實作，兩種實際中間輸出及答案模板負對照通過。新封存入口為 `workplace/package-prototype/runtime-phase-verification-manifest.json`。這些不算正式封包驗收。
-- dosgolem 分支 `phantasie-cht-overlay`（worktree `workplace/dosgolem-fw`，追蹤 `origin/phantasie-cht-overlay`）：規格 197（`int 27h`）、250（CGA 捲動及色盤）與 251（指令前 guard）已 CONFORMED。`apps/phantasie/` 有格式引擎、catalog、擷取鉤子、解析、版面、疊字核心、畫面操作與影子、語言切換及稽核；互動前端在 `apps/phantasie/cmd/phantasie-play`，無頭收據工具在 `apps/phantasie/cmd/phantasie-receipt`。收據路線支援 `@check`、`@snap`、`@lang`、`@assert-*`，診斷旗標 `-dump-keys`、`-dump-stamps`、`-audit-debug`，測試故障注入 `-fault`；可選 `-state` 提供各語言獨立存檔與摘要清冊。
-- 譯文：`text/ui.<語言>.tsv` 678 筆、`text/prose.<語言>.tsv` 1044 筆（MESS、SCROLLS 與 `OUT*.DAT` 的地圖描述），每語合計 1722 筆，語言 zh-TW、zh-CN、ja、ko，四個語言 lint 0 錯誤；`text/glossary*.tsv`、`text/phrases.zh-CN.tsv`、`text/STYLE.md`、`text/protected.tsv`。ja、ko 為機器輔助，未經母語者校對；zh-CN 由 OpenCC 加詞組取代產生。
-- 本機手冊提示：`text/manual.<語言>.tsv` 各 156 筆，100 個物品、54 個法術與兩個標題；由 `tools/build_manual_catalog.py` 產生。版控只保存不含答案的 `manual-labels.<語言>.tsv`、工具與合成測試。手冊在 `workplace/manual/`，核對表及收據在 `workplace/manual-derived/`。
-- 路線（`tests/routes/`，23 條）：確認等鍵後既有 20 條一般路線共 438 點 zh-TW PASS，收據在 `workplace/explore-main/wait-regression/`。新增 `dungeon-options` 32 點，四語四模式共 512 點通過，收據在 `workplace/explore-dungeon/ab-dungeon-options/`。另外 `save-roundtrip-write`、`save-roundtrip-read` 依序使用同一 `-state`，四語四模式 240 點回歸通過，收據在 `wait-save-regression/`。四語卷軸 31 點、四模式共 496 點同狀態與節奏回歸在 `wait-scroll-regression/`。其他非語言切換路線的四語 A/B 為既有版本證據，未宣稱本輪重跑全部語言。
-- `map-description`、`guild-duplicate` 改在正常確認點停下，各四語四模式共 192 點，收據在 `workplace/explore-main/ab-wait-windows/`；全文、像素範圍、停留、語言切換、確認返回及 guard 負對照通過。契約與完整回歸入口見 008。
-- 寶箱短訊息的正常長路線只留本機，收據在 `workplace/explore-dungeon/ab-dungeon-short-v2/`。156 點中 85 個無文字旅行點只作原版狀態診斷；UI 完成聲明限八個 `short-*` 停點。正式清冊見 `short-verification-manifest.json`，範圍及工具處置見 009。
-- 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/save_roundtrip.py`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`、[package_text.py](tools/package_text.py)、[package_scan.py](tools/package_scan.py)、[package_files.py](tools/package_files.py)；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項、封包譯文 8 項、封包掃描 11 項、資產清冊與 ZIP 10 項）。
-- 封包外洩掃描：原版掃描來源缺席或錯版直接失敗。實際無答案布局 14 檔及本機布局 84 檔通過，改名原版及偽裝答案表拒絕，SHA-256 單一突變的兩個期望按預期失敗；70 個原版檔案保持不變。契約及資料兩輪審查無阻擋或應改，較早報告保留。最新收據入口為 `workplace/package-prototype/package-scan-phase-verification-manifest.json`，契約見 [013 §13](docs/spec/013-cross-platform-packaging.md#13-封包外洩掃描工具)。這項掃描不代替權利、必要資產、字型或 GUI 驗收。
-- 資產清冊與 ZIP：三平台加本機 Windows 的四組命令、三份 ZIP 往返及實際 Go 清冊介面通過；缺字單一突變的兩個期望按預期失敗，101 個輸入保持不變。研究命令使用正式譯文與既有前端，字模完全自製且全零，不能計為發行字型或 GUI 驗收。入口為 `workplace/package-prototype/package-files-phase-verification-manifest.json`，契約見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。
-- 授權材料與平台組裝：[package_rights.py](tools/package_rights.py) 已核對 35 份實際條款／來源檔及 1,027 則模組檔首聲明，不複製字型或選散布條款；最終 7 項合成測試通過。[package_stage.py](tools/package_stage.py) 的三平台布局、自製字模重建、本機變體、標頭反例、參數轉送及失敗清理有 8 項合成測試通過。實際材料另經外洩掃描，雜湊 guard 負對照有效，原版 70 檔、受保護檔案 32 份及路線 23 條不變。入口為 `workplace/package-prototype/package-stage-verification.json`，契約見 [013 §15、§16](docs/spec/013-cross-platform-packaging.md#15-授權材料整理)。正式包及平台冒煙尚未驗證；發行字型條款已選 OFL 1.1，本機倚天變體已通過三平台研究布局，正式封包與 tag 尚待建立。
-- 封包編排：[package.sh](tools/package.sh) 已接上固定 Git 匯出、離線編譯及封裝後交付步驟。7 項合成測試與角色限制負對照通過，兩輪唯讀審查無阻擋或應改。專案 808f32b、引擎 8d9807d 的三平台實際乾淨編譯完成，共 14 份程式；Linux 實際版號輸出及自製資料 AppImage 的封裝／解出通過。正式包、GUI 或存檔冒煙未計完成。根層入口為 `workplace/package-prototype/package-work-verification.json`，封存為 `package-work-phase-verification-manifest.json`；契約見 [013 §17](docs/spec/013-cross-platform-packaging.md#17-封包編排與乾淨建置)，沒有建立正式包、tag 或 Release。
+## 文字、資料與證據
 
-## 已知事實（摘要，等級與證據見 `docs/re/`）
+- 四語各有 `ui` 678 筆、`prose` 1044 筆，合計 1722 筆，lint 零錯誤。四語的 16 個來源資料缺口已補齊；MESS6:52 已正常抽驗，其餘 15 新鍵未逐鍵量到，見 [026](docs/re/026-recovered-prose-catalog.md)、[027](docs/re/027-dungeon-six-recovered-message.md)。
+- 本機 `manual` 各 156 筆。物品及法術提示保留原版選項，由玩家作答。手冊、答案與作答路線只留本機；版控只有無答案標題、工具與合成測試。入口見 [006](docs/spec/006-manual-answer-hints.md)、[手冊來源](docs/re/012-manual-prompts.md)。
+- 原始文字掛點、操作、完整記憶體及正常玩家路線證據見 [研究索引](docs/re/README.md)，不以 GUI 圖片取代原版對拍。最新 HD 實作基準見 [029](docs/re/029-all-image-formats.md)。
 
-- 文字全經 `0110:25A5`（`printf` 風格）；視窗框線是單字元事件；組句先走 `sprintf`（`3E35`）進 `DS:638E`，可再以 `strcat`（`4DEF`）追加。
-- 字模 `FONT` 是粗體，`xlate.Colors` 的多數色規則會判反，顏色由字模遮罩與逐格反白狀態決定（規格 001 §8）。反白矩形可以只涵蓋事件的一部分。
-- 畫面操作：反白（`0672`）、頁面緩衝區（`0D30`、`0CF0`、`0D10`、`0D50`）、視窗清除與捲動（BIOS `AH=06h`、`07h`）、`AH=0Bh`。
-- 城鎮名來自 `TWNS.DAT`／`TWNS.INT`（12 個）；怪物記錄 3 筆；大地圖位置描述來自 `OUT*.DAT`（`DS:C6FA`）；地城位置列的格式字串指標是 `OV2:C400`。
-- 戰鬥回合結算沒有讀鍵入口，用 `@snap` 擷取；沒有隊員時進店只有約 101 萬步的停頓，沒有訊息文字；神祕客有逐行打出的訊息。
-- 遊戲含物品與法術兩種手冊題，共 4 個提示事件。物品題與重試時的法術題已從正常玩家路線觀察到。提示顯示手冊答案，保留原版三個選項與判定，不自動送鍵。來源與位址見 `docs/re/012-manual-prompts.md`，顯示契約見 `docs/spec/006-manual-answer-hints.md`。手冊、答案表與作答路線只留本機。
+## 已知限制
 
-## 抽樣限制與待決
+- 未逐項驗證：其他地圖描述格、部分 MESS 欄寬與事件、地城備份還原、INT 10h `AH=0Bh BL=1` 與原有文字跨色盤。具體範圍見 002、005、012，抽樣以外不計 UI PASS。
+- 中文停用項目不重現原版變暗；數字有原版粗體與疊字細體混用；日韓數字欄位仍有少量 lint 警告。
+- HD 的兩個全白變體、未知或遮擋部分保留原版。隊員與地圖保留原版。全部資產已核對，個別未正常到達的場景與怪物不宣稱已實機觀察。
+- 玩家名音譯、repo 轉公開、公開 Release 與影片公開方式尚未定案。沒有新增 Issue 寫入授權。
 
-- 未量到：MESS5 索引 61 以外的短訊息、其他選項欄寬與事件型別；其他地圖描述格；地城存檔及備份還原。`invert2` 正常零魔力樣本已驗收，見 [024](docs/re/024-disabled-spell-list.md)；其他變暗來源未逐一抽樣。`load2` 正常勝利樣本已獨立驗收，其他第二頁狀態不在本樣本內，見 [023](docs/re/023-second-page-restoration.md) 與 002 §12。INT 10h `AH=0Bh BL=0` 已由 [017](docs/re/017-dungeon-message-options.md) 量到，`BL=1` 及原有文字跨色盤的失效處理仍未量到。
-- 已知限制：中文停用項目不重現原版變暗外觀；被原版逐格重畫的數字是粗體，其餘疊字數字是細體，字重不一致；ja、ko 的數字欄位右緣有少數 lint 警告。
-- 發行字型採使用者已選定的 OFL 1.1，來源及雜湊見 [font/README.md](font/README.md)。繁中倚天正式工具已建出 1269 全形加 95 GNU ASCII，碼點、寬度不變，其他語言保留 GNU。三平台實際研究布局及清冊通過，109 組正常狀態相同，精確事件稽核為零；34 項合成測試及來源許可負對照通過。入口為 `workplace/package-prototype/eten-stage-r1/` 及 [014](docs/spec/014-local-eten-font.md)。014 仍 READY，獨立像素遮罩及正式封包／GUI 未計完成。README 已更新倚天字形、主題切換與正常手繪怪物戰鬥圖；目前截圖來自研究布局，正式包截圖待替換。
-- 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文：見規格未決段。
-- 遠端入口：中文化 `origin/main`；dosgolem `origin/phantasie-cht-overlay`。本輪提交與推送已授權，Issue 寫入、轉公開與 Release 仍逐項授權。
-
-完整字元流修正後，真正短訊息只剩已驗收的寶箱與 MESS7 索引 60 至 62 的三個水池。舊工具多列的五個短片段是已消費的長選項續段，不能各自翻譯。當時的 13 個正文或選項及三個水池正文已補齊四語資料，這 16 鍵的來源缺口為零。現況入口為 [026](docs/re/026-recovered-prose-catalog.md)、012；原始診斷仍保留在本機。MESS6:52 的新首行及既有後行已由 [027](docs/re/027-dungeon-six-recovered-message.md) 正常驗收；未逐鍵量到的 15 鍵包含三個水池正文，保留為抽樣限制。
-
-## 下一步
-
-1. 第三期：四場景與怪物手繪已接入，正常路線抽樣通過，入口見 [018](docs/spec/018-all-recognizable-hd-images.md)。本機倚天變體契約見 [014](docs/spec/014-local-eten-font.md)，已採用的第二版原創配樂見 [017](docs/spec/017-original-promo-score.md)。依 013 從乾淨提交重建三平台正式包，核對必要檔案與五語冒煙；影片與 README 截圖取正式包的實際遊玩畫面。
-2. 轉公開、公開 Release 與推廣影片另由使用者決定。未取得授權前維持 private，不上傳原版、手冊或答案。
+目前授權範圍的本機交付已完成。日後若要轉公開或公開散布，另作權利與發行決策。
