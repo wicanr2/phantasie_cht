@@ -187,7 +187,7 @@ func readBundle(base, manifestName, version, engine string) (bundle, error) {
 	}
 	needed := []string{b.Backend, b.Text + "/protected.tsv"}
 	if b.Art != "" {
-		needed = append(needed, b.Art+"/profile.json", b.Art+"/town-painted.png")
+		needed = append(needed, b.Art+"/profile.json")
 	}
 	for _, lang := range languages {
 		needed = append(needed, b.Font+"/"+lang+".golemfnt")
@@ -202,6 +202,42 @@ func readBundle(base, manifestName, version, engine string) (bundle, error) {
 	}
 	if err := verifyFiles(base, b.Assets); err != nil {
 		return b, err
+	}
+	if b.Art != "" {
+		var profile struct {
+			Schema int    `json:"schema"`
+			Image  string `json:"image"`
+			Images []struct {
+				File string `json:"file"`
+			} `json:"images"`
+		}
+		data, err := os.ReadFile(filepath.Join(base, filepath.FromSlash(b.Art), "profile.json"))
+		if err != nil || len(data) > 65536 {
+			return b, errors.New("手繪素材清冊不可讀")
+		}
+		if err := json.Unmarshal(data, &profile); err != nil {
+			return b, err
+		}
+		names := []string{}
+		if profile.Schema == 1 {
+			names = append(names, profile.Image)
+		} else if profile.Schema == 2 {
+			if len(profile.Images) < 1 || len(profile.Images) > 32 {
+				return b, errors.New("手繪素材數量無效")
+			}
+			for _, img := range profile.Images {
+				names = append(names, img.File)
+			}
+		} else {
+			return b, errors.New("手繪素材清冊版本無效")
+		}
+		seen := map[string]bool{"profile.json": true}
+		for _, name := range names {
+			if !safeRelative(name) || strings.Contains(name, "/") || seen[name] || !assets[b.Art+"/"+name] {
+				return b, errors.New("手繪素材清單不完整")
+			}
+			seen[name] = true
+		}
 	}
 	return b, nil
 }

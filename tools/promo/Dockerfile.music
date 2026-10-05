@@ -1,0 +1,16 @@
+FROM phantasie-promo:video-base-78e0c88b@sha256:78e0c88b07ee659bec32611ad16a49b01f5a6d75c67ba524b8258de1339d2ab3
+# 建置前須將 sha256:78e0c88b07ee659bec32611ad16a49b01f5a6d75c67ba524b8258de1339d2ab3
+# 設為上述本機 tag 並核對 image ID；不接受從 registry 下載同名映像。
+# 017：既有影片工具的最小 revision，離線 Debian bookworm amd64 套件。
+COPY fluidsynth_2.3.1-2_amd64.deb libfluidsynth3_2.3.1-2_amd64.deb libinstpatch-1.0-2_1.1.6-1_amd64.deb libreadline8_8.2-1.3_amd64.deb /tmp/music-debs/
+RUN cd /tmp/music-debs && \
+    printf '%s\n' \
+    '3a5caae4bfe002c58947960f9f47d3b6dff07f63e9647cdfeb3d3df30bf9d85f  fluidsynth_2.3.1-2_amd64.deb' \
+    'e6fd48a7b2d61c0f9ceb8964f1d4039def209ae9c24b4f27bcc4f6a6f33885ed  libfluidsynth3_2.3.1-2_amd64.deb' \
+    '47741d5f3efd902515dcf2adfb006c74698d14a91691e16527632299e810208a  libinstpatch-1.0-2_1.1.6-1_amd64.deb' \
+    'e02ebbd3701cf468dbf98d6d917fbe0325e881f07fe8b316150c8d2a64486e66  libreadline8_8.2-1.3_amd64.deb' | sha256sum -c - && \
+    for package in fluidsynth_2.3.1-2_amd64.deb libfluidsynth3_2.3.1-2_amd64.deb libinstpatch-1.0-2_1.1.6-1_amd64.deb libreadline8_8.2-1.3_amd64.deb; do dpkg-deb -x "$package" /opt/fluidsynth; done && \
+    rm -r /tmp/music-debs
+ENV LD_LIBRARY_PATH=/opt/fluidsynth/usr/lib/x86_64-linux-gnu:/opt/fluidsynth/lib/x86_64-linux-gnu
+ENV PATH=/opt/fluidsynth/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN fluidsynth --version && ldd /opt/fluidsynth/usr/bin/fluidsynth

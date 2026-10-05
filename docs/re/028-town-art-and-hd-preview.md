@@ -50,3 +50,7 @@
 獨立城鎮資產入口為 `workplace/package-prototype/hd-town-assets-r1/asset-proof.json`，同目錄保存 `town-painted.png`、`profile.json` 與 `prompt.txt`。新圖移除遊戲 UI 並恢復原版招牌；尺寸與指紋見 [015 顯示主題與手繪城鎮](../spec/015-presentation-themes.md)。已接入前端的手繪主題。
 
 所有原版解出圖、樣圖及來源只留本機。兩輪審查通過後依 015 實作，正常路線 145 個停點確認原版記憶體與讀鍵不變，90 個停點使用 HD，其餘回退。收據在 `workplace/package-prototype/hd-normal-r1/normal-route-verification.json`；Linux 實際按鍵與五語主題畫面在 `hd-gui-r2/`，README 採該次實際遊玩截圖。這些不證明其餘八份素材已 HD 化，也不代替正式完整版或影片驗收。
+
+## 全部可辨識圖像的後續入口
+
+使用者已將 HD 範圍定為可辨識的場景與怪物圖像。候選解碼輸出位於 `workplace/package-prototype/hd-all-prototype-r1/`，清冊為 `candidate-scenes.json`。獨立 IDA／資料審查位於 `workplace/package-prototype/hd-all-image-review-r1/`。候選的零值游程解碼不等於原版使用路徑已證實，須待消費端及正常畫面核對後才能接入前端。

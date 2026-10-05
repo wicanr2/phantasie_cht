@@ -465,9 +465,24 @@ func TestHDRequiresLocalBundleAndCompleteVerifiedGroup(t *testing.T) {
 	check(false) // Both group members must appear in the necessary manifest.
 	for _, name := range []string{"art/profile.json", "art/town-painted.png"} {
 		data := []byte("synthetic:" + name)
+		if name == "art/profile.json" {
+			data = []byte(`{"schema":1,"image":"town-painted.png"}`)
+		}
 		writeTestFile(t, filepath.Join(base, filepath.FromSlash(name)), data, 0600)
 		b.Assets = append(b.Assets, testRecord(name, data))
 	}
+	check(true)
+	collection := []byte(`{"schema":2,"images":[{"file":"town-painted.png"},{"file":"monsters.png"}]}`)
+	writeTestFile(t, filepath.Join(base, "art/profile.json"), collection, 0600)
+	for i := range b.Assets {
+		if b.Assets[i].Name == "art/profile.json" {
+			b.Assets[i] = testRecord("art/profile.json", collection)
+		}
+	}
+	check(false) // Every image declared by the collection is necessary.
+	monster := []byte("synthetic monster image")
+	writeTestFile(t, filepath.Join(base, "art/monsters.png"), monster, 0600)
+	b.Assets = append(b.Assets, testRecord("art/monsters.png", monster))
 	check(true)
 	file := filepath.Join(base, "art", "town-painted.png")
 	original, err := os.ReadFile(file)

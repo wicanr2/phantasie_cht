@@ -20,6 +20,8 @@
 | 014 | [014-local-eten-font.md](014-local-eten-font.md) | 本機繁中倚天字形、OFL 字型與三平台封包隔離 | READY（實際三平台布局、109 組正常狀態及 34 項測試通過；獨立像素遮罩與正式交付待驗） |
 | 015 | [015-presentation-themes.md](015-presentation-themes.md) | 色盤主題、手繪城鎮圖像、原版視窗遮蔽與本機資產隔離 | READY（兩輪唯讀審查通過，實作與正式交付待驗） |
 | 016 | [016-gameplay-video-capture.md](016-gameplay-video-capture.md) | 實際遊玩逐格擷取、主題與語言展示及本機推廣影片 | READY（兩輪審查通過，錄影與影片待驗） |
+| 017 | [017-original-promo-score.md](017-original-promo-score.md) | 原創影片配樂、MIDI／音色庫來源與音訊驗收 | CONFORMED（第二版技術審查與使用者試聽確認；影片待驗） |
+| 018 | [018-all-recognizable-hd-images.md](018-all-recognizable-hd-images.md) | 可辨識場景、80×2 怪物圖像及本機封包資產身份 | READY（契約與證據兩輪複核閉合；完整組整合中） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 

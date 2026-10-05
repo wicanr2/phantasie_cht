@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "generaluser_commit": "684543d5e5efaef08d02be50dcda8d552478fa60",
+  "sources": [
+    {
+      "file": "generaluser-source.tar.gz",
+      "url": "https://codeload.github.com/mrbumpy409/GeneralUser-GS/tar.gz/684543d5e5efaef08d02be50dcda8d552478fa60",
+      "bytes": 65391930,
+      "sha256": "aef2e2901ab399061ac3765e259ab4c3409bdcb24b7cf814b4b54aaad549dbff"
+    },
+    {
+      "file": "fluidsynth_2.3.1-2_amd64.deb",
+      "url": "https://deb.debian.org/debian/pool/main/f/fluidsynth/fluidsynth_2.3.1-2_amd64.deb",
+      "bytes": 51580,
+      "sha256": "3a5caae4bfe002c58947960f9f47d3b6dff07f63e9647cdfeb3d3df30bf9d85f"
+    },
+    {
+      "file": "libfluidsynth3_2.3.1-2_amd64.deb",
+      "url": "https://deb.debian.org/debian/pool/main/f/fluidsynth/libfluidsynth3_2.3.1-2_amd64.deb",
+      "bytes": 241444,
+      "sha256": "e6fd48a7b2d61c0f9ceb8964f1d4039def209ae9c24b4f27bcc4f6a6f33885ed"
+    },
+    {
+      "file": "libinstpatch-1.0-2_1.1.6-1_amd64.deb",
+      "url": "https://deb.debian.org/debian/pool/main/libi/libinstpatch/libinstpatch-1.0-2_1.1.6-1_amd64.deb",
+      "bytes": 258876,
+      "sha256": "47741d5f3efd902515dcf2adfb006c74698d14a91691e16527632299e810208a"
+    },
+    {
+      "file": "libreadline8_8.2-1.3_amd64.deb",
+      "url": "https://deb.debian.org/debian/pool/main/r/readline/libreadline8_8.2-1.3_amd64.deb",
+      "bytes": 165760,
+      "sha256": "e02ebbd3701cf468dbf98d6d917fbe0325e881f07fe8b316150c8d2a64486e66"
+    }
+  ]
+}

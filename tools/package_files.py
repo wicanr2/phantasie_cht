@@ -62,6 +62,22 @@ def art_files(path, original):
             result[key] = value
         return result
     p = json.loads(data, object_pairs_hook=unique)
+    if isinstance(p, dict) and p.get("schema") == 2:
+        canonical = json.loads(file_bytes(Path(__file__).with_name("package_art_assets.json")), object_pairs_hook=unique)
+        if json.dumps(p, sort_keys=True, separators=(",", ":")) != json.dumps(canonical, sort_keys=True, separators=(",", ":")):
+            raise ValueError("HD 組不是018已批准完整資產")
+        files = {"profile.json": data}
+        for source in p["sources"]:
+            raw = file_bytes(original / source["file"])
+            if len(raw) != source["bytes"] or digest(raw) != source["sha256"]:
+                raise ValueError("HD 原版來源指紋不符")
+        for image in p["images"]:
+            raw = file_bytes(path / image["file"])
+            if len(raw) != image["bytes"] or digest(raw) != image["sha256"]:
+                raise ValueError("HD 圖像指紋不符")
+            files[image["file"]] = raw
+        return files, {"rights": "local-only original-derived art", "profile_sha256": digest(data),
+                       "sources": p["sources"], "images": p["images"], "pages": len(p["pages"]), "sprites": len(p["sprites"])}
     expected = {"schema", "source_file", "source_bytes", "source_sha256", "source_rect", "image", "image_bytes", "image_sha256"}
     if not isinstance(p, dict) or set(p) != expected or type(p["schema"]) is not int or p["schema"] != 1:
         raise ValueError("HD profile 欄位不符")

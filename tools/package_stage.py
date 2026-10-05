@@ -179,7 +179,7 @@ tools 內的收據工具需另備原版及重播路線；缺驗證資料時的 S
     if eten:
         text += "\n繁體中文全形採本機倚天；ASCII 與其他語言採 GNU Unifont。倚天只供本機使用，所選 GNU 字型條款及專案 LICENSE 不涵蓋倚天或原版。\n"
     if hd:
-        text += "\n手繪主題目前替換已驗證的城鎮圖像；其他圖像仍採原版。手繪圖像只供本機使用。\n"
+        text += "\n手繪主題涵蓋城鎮、標題、已辨識場景及怪物。有遮擋或無法確認的畫面保留原版；手繪圖像只供本機使用。\n"
     if platform == "linux":
         text += "\nLinux 需 X11、OpenGL 及 glibc；正式封包的最低 ABI 與實際冒煙結果見交付清冊。未驗證的發行版未宣稱支援。\n"
     elif platform == "macos":
@@ -317,7 +317,7 @@ def main():
     for name in ("version", "project-commit", "engine-commit"): parser.add_argument("--" + name, required=True)
     parser.add_argument("--local", action="store_true")
     parser.add_argument("--eten-dir", type=Path, help="僅本機繁中變體的固定倚天來源")
-    parser.add_argument("--hd-dir", type=Path, help="僅本機完整版的已驗證手繪城鎮圖像")
+    parser.add_argument("--hd-dir", type=Path, help="僅本機完整版的已驗證完整手繪圖像組")
     args = parser.parse_args()
     try:
         result = prepare(args.out, args.platform, args.version, args.project_commit, args.engine_commit, args.font_license,

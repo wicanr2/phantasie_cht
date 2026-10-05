@@ -48,7 +48,7 @@ fi
 if [[ -n "$hd_dir" ]]; then
   [[ "$local" == 1 && "$build_only" == 0 ]] || die 'HD 來源只用於正式本機完整版'
   [[ "$hd_dir" == /* && -d "$hd_dir" && ! -L "$hd_dir" ]] || die 'HD 來源須為實際絕對目錄'
-  for name in profile.json town-painted.png; do
+  for name in profile.json; do
     [[ -f "$hd_dir/$name" && ! -L "$hd_dir/$name" ]] || die 'HD 來源檔案缺席或為符號連結'
   done
 fi

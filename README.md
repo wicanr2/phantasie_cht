@@ -7,7 +7,7 @@
 抽樣範圍見 [分期目標](docs/goals/001-phases.md#抽樣驗收範圍)。15 個新增鍵未逐鍵量到，地城備份還原及部分畫面操作參數仍未驗證。中文停用項目不重現原版變暗外觀。完整限制見 [CONTEXT.md](CONTEXT.md)。
 ja、ko 為機器輔助翻譯，未經母語者校對。尚未建立正式交付包；這個 repo 目前是 private。
 
-本機封包流程已接入繁中倚天字形，可散布補丁包採 GNU Unifont 的 OFL 1.1。前端可切換原版、琥珀與手繪主題；手繪圖像目前涵蓋城鎮，其他圖像仍採原版。正式封包與推廣影片尚未完成。
+本機封包流程已接入繁中倚天字形，可散布補丁包採 GNU Unifont 的 OFL 1.1。前端可切換原版、琥珀與手繪主題；手繪組含四個場景及 160 個怪物圖像變體，正常城鎮與戰鬥已抽驗。全白、遮擋及無法確認的圖像保留原版。正式封包與推廣影片尚未完成。
 
 不含原版遊戲：原版與任何掃描檔都是使用者本機輸入，不進版控。專案規則見 [AGENTS.md](AGENTS.md)。
 
@@ -36,19 +36,20 @@ ja、ko 為機器輔助翻譯，未經母語者校對。尚未建立正式交付
 - 封包的 [資產清冊與 ZIP 工具](tools/package_files.py) 核對必要譯文、字型覆蓋、包內路徑及 ZIP 實際內容，Docker 內的命令參數見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。正式封裝仍須權利及平台驗證。
 - [授權材料工具](tools/package_rights.py) 核對固定條款及來源，[平台組裝工具](tools/package_stage.py) 整理三平台布局並重建字型。都在 Docker 內執行，必要參數見 [013 §15、§16](docs/spec/013-cross-platform-packaging.md#15-授權材料整理)。組裝必須明示 OFL 1.1；實際三平台倚天布局已核對，尚未產生正式交付包。
 - 本機倚天字型用 [build_eten_font.py](tools/build_eten_font.py) 在 Docker 內指定 `--eten-dir`、`--base-font`、`--out`，以 GNU 繁中字型為基準替換全形字。來源與固定指紋見 [字型說明](font/README.md)，契約見 [014](docs/spec/014-local-eten-font.md)。正式完整版用 `package.sh --local --eten-dir <來源目錄>`；倚天字模不加入 Git 或可散布包。
-- 手繪主題用後端 `-art <圖像目錄>` 載入，`-theme` 選 auto、original、amber、hd；沒有有效圖像時可切原版與琥珀。本機封包加 `--hd-dir <圖像目錄>`，只收已驗證的城鎮資產，契約與本機入口見 [015](docs/spec/015-presentation-themes.md)。
+- 手繪主題用後端 `-art <圖像目錄>` 載入，`-theme` 選 auto、original、amber、hd；沒有有效圖像時可切原版與琥珀。本機封包加 `--hd-dir <圖像目錄>`，完整圖像組的固定身份及抽樣限制見 [018](docs/spec/018-all-recognizable-hd-images.md)。
 - [封包編排入口](tools/package.sh) 從乾淨 Git 提交建置；`--build-only` 只產生研究編譯，不讀字型或原版、不建立 tag。正式包須明示字型條款及已有精確 tag，仍須平台冒煙。固定工具鏈、輸入及 Docker 內步驟見 [013 §17](docs/spec/013-cross-platform-packaging.md#17-封包編排與乾淨建置)。
 
 ## 畫面
 
 覆繪後的展示截圖在 `docs/screenshots/`：標題、城鎮與琥珀主題、公會選單與角色屬性、銀行、旅店分配、大地圖提示、地城位置列、戰鬥訊息，另有日文與韓文的角色屬性畫面。
 
-以下為實際遊玩的繁中倚天字形畫面。城鎮截圖採手繪與琥珀主題；標題、公會及地牢保留原版圖像。其餘畫廊畫面仍為 GNU 字型。
+以下為實際遊玩的繁中倚天字形畫面。城鎮與怪物採手繪主題，另展示琥珀主題；隊員圖保留原版。其餘畫廊畫面仍為 GNU 字型。
 
 ![標題畫面](docs/screenshots/01-title-zh-TW.png)
 ![手繪城鎮與倚天字形](docs/screenshots/02-town-zh-TW.png)
 ![琥珀主題](docs/screenshots/03-town-amber-zh-TW.png)
 ![公會角色屬性](docs/screenshots/04-guild-inspect-zh-TW.png)
 ![地牢訊息與位置列](docs/screenshots/08-dungeon-location-zh-TW.png)
+![手繪怪物與倚天字形戰鬥畫面](docs/screenshots/09-combat-message-zh-TW.png)
 
 授權：採 RRSAL-1.0（復古重製 source-available 授權條款，非商業免費），不涵蓋原版素材；條款全文見 [LICENSE](LICENSE)。

@@ -1,0 +1,2600 @@
+{
+  "schema": 2,
+  "sources": [
+    {
+      "id": "town",
+      "file": "PELNOR.IBM",
+      "bytes": 16384,
+      "sha256": "68833b5ae2ef2c77317b7a30998aacca1a7edf942c20dd0316df833e4394036c",
+      "encoding": "cga-page",
+      "decoded_bytes": 16384
+    },
+    {
+      "id": "title",
+      "file": "IBMCOVER",
+      "bytes": 5273,
+      "sha256": "0112b997902c65f70c6ae00616230fdc3aa1eff3a0e93aa26223ed6cbaeca37a",
+      "encoding": "zero-rle-page",
+      "decoded_bytes": 16384
+    },
+    {
+      "id": "cemen",
+      "file": "CEMEN.IBM",
+      "bytes": 10030,
+      "sha256": "ca875b6612c05ae5ee16b659f76a5a9d4951df886731238b36b83cef8d7e0122",
+      "encoding": "zero-rle-page",
+      "decoded_bytes": 16384
+    },
+    {
+      "id": "zeus",
+      "file": "ZEUS.IBM",
+      "bytes": 5763,
+      "sha256": "87c982d8dbe82053e32d682a2b3c431b5c88c7d90ac4ceefa32ac11d4ab9c113",
+      "encoding": "zero-rle-page",
+      "decoded_bytes": 16384
+    },
+    {
+      "id": "bank1",
+      "file": "MSTR1IBM.PAT",
+      "bytes": 20270,
+      "sha256": "f8c074fe22e0385540047bae702fb2947e3e41e0ff877812fa0abe7b762e5320",
+      "encoding": "zero-rle-linear",
+      "decoded_bytes": 34008
+    },
+    {
+      "id": "bank2",
+      "file": "MSTR2IBM.PAT",
+      "bytes": 22171,
+      "sha256": "9f14246c202659f9791016968b51aab1df596af1b18c10dbc8a6bc5a0a5c1f70",
+      "encoding": "zero-rle-linear",
+      "decoded_bytes": 34008
+    }
+  ],
+  "images": [
+    {
+      "file": "cemen-painted.png",
+      "bytes": 1867717,
+      "sha256": "288141f37e19b2a652e86d759021cef9af54105780b5683f3bdf8c81065336ab"
+    },
+    {
+      "file": "monsters-00-painted.png",
+      "bytes": 605746,
+      "sha256": "16909b7298c844fd4c935e5f9f6cd3d0d3701eb3ad3fd3134ebef78f8fd855af"
+    },
+    {
+      "file": "monsters-01-painted.png",
+      "bytes": 667093,
+      "sha256": "4ffaef2242056a67f4625855c043116f36d658b21acb570cb15c042469cdb42a"
+    },
+    {
+      "file": "monsters-02-painted.png",
+      "bytes": 640053,
+      "sha256": "1aa142de11cb2267dedb1e3bcb73ff1958a56d29e475a22f820389793c4af2a8"
+    },
+    {
+      "file": "monsters-03-painted.png",
+      "bytes": 736905,
+      "sha256": "98db694c04c1ccb598c05b54a508bbd709c47dce2367b822cca0966a79d27fa5"
+    },
+    {
+      "file": "monsters-04-painted.png",
+      "bytes": 928317,
+      "sha256": "1e68442da8e60c1d70eb28a0df9632d273e4c16b04e93c7c9db12b6c3a6982c6"
+    },
+    {
+      "file": "monsters-05-painted.png",
+      "bytes": 804892,
+      "sha256": "ea57ace79b0df71567f9b66870aa345011ccbe8904f690a267e2968bc6721812"
+    },
+    {
+      "file": "monsters-06-painted.png",
+      "bytes": 1238633,
+      "sha256": "b163b1f2f3268aea093a646254bcfb2a29bfed3ec8a608b4eeab554419371476"
+    },
+    {
+      "file": "monsters-07-painted.png",
+      "bytes": 1032866,
+      "sha256": "a797c855b1ecc83cb3c70c5d14b8481f538b7f9f87b72123376e67e2dab06d3c"
+    },
+    {
+      "file": "title-painted.png",
+      "bytes": 814917,
+      "sha256": "580e17566974e6fa89c57690da11559fd6ff117c88accde26eb3d1f8e4732a6e"
+    },
+    {
+      "file": "zeus-painted.png",
+      "bytes": 1299306,
+      "sha256": "e1e31c26ab8720d37b6ae1ff888370643a4fa39ca5377cd66d67448793369fb1"
+    },
+    {
+      "file": "town-painted.png",
+      "bytes": 2524255,
+      "sha256": "f520bd1e2fdb112e630ac05c5ac6006f0ae23607d95f1c7c4deaf5a0e03cec06"
+    }
+  ],
+  "pages": [
+    {
+      "source": "town",
+      "source_rect": [
+        0,
+        8,
+        320,
+        184
+      ],
+      "image": "town-painted.png",
+      "image_rect": [
+        0,
+        0,
+        1653,
+        952
+      ],
+      "preserve": []
+    },
+    {
+      "source": "title",
+      "source_rect": [
+        0,
+        0,
+        320,
+        200
+      ],
+      "image": "title-painted.png",
+      "image_rect": [
+        0,
+        0,
+        1586,
+        992
+      ],
+      "preserve": [
+        [
+          52,
+          0,
+          216,
+          8
+        ],
+        [
+          52,
+          80,
+          216,
+          120
+        ]
+      ]
+    },
+    {
+      "source": "cemen",
+      "source_rect": [
+        0,
+        0,
+        320,
+        200
+      ],
+      "image": "cemen-painted.png",
+      "image_rect": [
+        0,
+        0,
+        1586,
+        992
+      ],
+      "preserve": []
+    },
+    {
+      "source": "zeus",
+      "source_rect": [
+        0,
+        0,
+        320,
+        200
+      ],
+      "image": "zeus-painted.png",
+      "image_rect": [
+        0,
+        0,
+        1586,
+        992
+      ],
+      "preserve": []
+    }
+  ],
+  "sprites": [
+    {
+      "source": "bank1",
+      "source_offset": 0,
+      "width": 32,
+      "height": 34,
+      "index": 0,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        84,
+        82,
+        113,
+        120
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 0,
+      "width": 32,
+      "height": 34,
+      "index": 0,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        361,
+        79,
+        118,
+        125
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 272,
+      "width": 32,
+      "height": 30,
+      "index": 1,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        644,
+        87,
+        113,
+        106
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 272,
+      "width": 32,
+      "height": 30,
+      "index": 1,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        924,
+        87,
+        113,
+        106
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 512,
+      "width": 32,
+      "height": 27,
+      "index": 2,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        1205,
+        106,
+        113,
+        95
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 512,
+      "width": 32,
+      "height": 27,
+      "index": 2,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        76,
+        362,
+        127,
+        107
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 728,
+      "width": 32,
+      "height": 26,
+      "index": 3,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        364,
+        374,
+        113,
+        92
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 728,
+      "width": 32,
+      "height": 26,
+      "index": 3,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        644,
+        374,
+        113,
+        92
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 936,
+      "width": 32,
+      "height": 25,
+      "index": 4,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        924,
+        376,
+        113,
+        88
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 936,
+      "width": 32,
+      "height": 25,
+      "index": 4,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        1198,
+        368,
+        128,
+        100
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 1136,
+      "width": 32,
+      "height": 26,
+      "index": 5,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        84,
+        655,
+        113,
+        92
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 1136,
+      "width": 32,
+      "height": 26,
+      "index": 5,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        362,
+        652,
+        119,
+        97
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 1344,
+      "width": 32,
+      "height": 22,
+      "index": 6,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        644,
+        662,
+        113,
+        78
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 1344,
+      "width": 32,
+      "height": 22,
+      "index": 6,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        918,
+        660,
+        119,
+        82
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 1520,
+      "width": 32,
+      "height": 24,
+      "index": 7,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        1205,
+        658,
+        113,
+        85
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 1520,
+      "width": 32,
+      "height": 24,
+      "index": 7,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        84,
+        937,
+        113,
+        85
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 1712,
+      "width": 32,
+      "height": 32,
+      "index": 8,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        363,
+        922,
+        114,
+        114
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 1712,
+      "width": 32,
+      "height": 32,
+      "index": 8,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        638,
+        914,
+        125,
+        125
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 1968,
+      "width": 32,
+      "height": 33,
+      "index": 9,
+      "state": 1,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        920,
+        926,
+        113,
+        116
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 1968,
+      "width": 32,
+      "height": 33,
+      "index": 9,
+      "state": 2,
+      "image": "monsters-00-painted.png",
+      "image_rect": [
+        1196,
+        909,
+        130,
+        134
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 2232,
+      "width": 32,
+      "height": 36,
+      "index": 10,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        79,
+        84,
+        113,
+        127
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 2232,
+      "width": 32,
+      "height": 36,
+      "index": 10,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        356,
+        67,
+        128,
+        144
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 2520,
+      "width": 32,
+      "height": 34,
+      "index": 11,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        644,
+        90,
+        113,
+        120
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 2520,
+      "width": 32,
+      "height": 34,
+      "index": 11,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        914,
+        67,
+        133,
+        142
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 2792,
+      "width": 32,
+      "height": 37,
+      "index": 12,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        1205,
+        78,
+        113,
+        131
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 2792,
+      "width": 32,
+      "height": 37,
+      "index": 12,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        78,
+        345,
+        123,
+        142
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 3088,
+      "width": 32,
+      "height": 31,
+      "index": 13,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        359,
+        373,
+        118,
+        114
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 3088,
+      "width": 32,
+      "height": 31,
+      "index": 13,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        633,
+        356,
+        135,
+        131
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 3336,
+      "width": 32,
+      "height": 32,
+      "index": 14,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        924,
+        374,
+        113,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 3336,
+      "width": 32,
+      "height": 32,
+      "index": 14,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        1198,
+        360,
+        128,
+        128
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 3592,
+      "width": 32,
+      "height": 21,
+      "index": 15,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        78,
+        658,
+        125,
+        82
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 3592,
+      "width": 32,
+      "height": 21,
+      "index": 15,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        364,
+        658,
+        113,
+        74
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 3760,
+      "width": 32,
+      "height": 26,
+      "index": 16,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        640,
+        652,
+        121,
+        98
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 3760,
+      "width": 32,
+      "height": 26,
+      "index": 16,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        920,
+        650,
+        126,
+        102
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 3968,
+      "width": 32,
+      "height": 32,
+      "index": 17,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        1206,
+        644,
+        113,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 3968,
+      "width": 32,
+      "height": 32,
+      "index": 17,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        80,
+        922,
+        115,
+        115
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 4224,
+      "width": 32,
+      "height": 37,
+      "index": 18,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        354,
+        910,
+        124,
+        143
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 4224,
+      "width": 32,
+      "height": 37,
+      "index": 18,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        638,
+        909,
+        126,
+        145
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 4520,
+      "width": 32,
+      "height": 28,
+      "index": 19,
+      "state": 1,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        924,
+        932,
+        113,
+        99
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 4520,
+      "width": 32,
+      "height": 28,
+      "index": 19,
+      "state": 2,
+      "image": "monsters-01-painted.png",
+      "image_rect": [
+        1200,
+        922,
+        124,
+        109
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 4744,
+      "width": 32,
+      "height": 32,
+      "index": 20,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        84,
+        89,
+        113,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 4744,
+      "width": 32,
+      "height": 32,
+      "index": 20,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        358,
+        80,
+        124,
+        124
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 5000,
+      "width": 32,
+      "height": 32,
+      "index": 21,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        639,
+        91,
+        113,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 5000,
+      "width": 32,
+      "height": 32,
+      "index": 21,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        920,
+        82,
+        122,
+        122
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 5256,
+      "width": 32,
+      "height": 37,
+      "index": 22,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        1205,
+        78,
+        113,
+        131
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 5256,
+      "width": 32,
+      "height": 37,
+      "index": 22,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        75,
+        338,
+        130,
+        151
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 5552,
+      "width": 32,
+      "height": 38,
+      "index": 23,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        364,
+        359,
+        113,
+        134
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 5552,
+      "width": 32,
+      "height": 38,
+      "index": 23,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        636,
+        339,
+        130,
+        154
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 5856,
+      "width": 32,
+      "height": 38,
+      "index": 24,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        924,
+        358,
+        113,
+        134
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 5856,
+      "width": 32,
+      "height": 38,
+      "index": 24,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        1202,
+        351,
+        119,
+        142
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 6160,
+      "width": 32,
+      "height": 33,
+      "index": 25,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        80,
+        641,
+        120,
+        124
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 6160,
+      "width": 32,
+      "height": 33,
+      "index": 25,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        355,
+        633,
+        130,
+        134
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 6424,
+      "width": 32,
+      "height": 37,
+      "index": 26,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        644,
+        636,
+        113,
+        131
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 6424,
+      "width": 32,
+      "height": 37,
+      "index": 26,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        924,
+        636,
+        113,
+        131
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 6720,
+      "width": 32,
+      "height": 34,
+      "index": 27,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        1202,
+        641,
+        113,
+        120
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 6720,
+      "width": 32,
+      "height": 34,
+      "index": 27,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        84,
+        921,
+        113,
+        120
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 6992,
+      "width": 32,
+      "height": 25,
+      "index": 28,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        364,
+        929,
+        113,
+        88
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 6992,
+      "width": 32,
+      "height": 25,
+      "index": 28,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        644,
+        938,
+        113,
+        88
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 7192,
+      "width": 32,
+      "height": 31,
+      "index": 29,
+      "state": 1,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        924,
+        927,
+        113,
+        109
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 7192,
+      "width": 32,
+      "height": 31,
+      "index": 29,
+      "state": 2,
+      "image": "monsters-02-painted.png",
+      "image_rect": [
+        1205,
+        927,
+        113,
+        109
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 7440,
+      "width": 64,
+      "height": 39,
+      "index": 30,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        24,
+        69,
+        232,
+        142
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 7440,
+      "width": 64,
+      "height": 39,
+      "index": 30,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        306,
+        70,
+        229,
+        140
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 8064,
+      "width": 32,
+      "height": 30,
+      "index": 31,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        644,
+        87,
+        113,
+        106
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 8064,
+      "width": 32,
+      "height": 30,
+      "index": 31,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        914,
+        84,
+        117,
+        110
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 8304,
+      "width": 32,
+      "height": 35,
+      "index": 32,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        1205,
+        85,
+        113,
+        123
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 8304,
+      "width": 32,
+      "height": 35,
+      "index": 32,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        73,
+        361,
+        119,
+        130
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 8584,
+      "width": 32,
+      "height": 37,
+      "index": 33,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        364,
+        361,
+        113,
+        131
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 8584,
+      "width": 32,
+      "height": 37,
+      "index": 33,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        638,
+        346,
+        126,
+        146
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 8880,
+      "width": 32,
+      "height": 32,
+      "index": 34,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        924,
+        375,
+        113,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 8880,
+      "width": 32,
+      "height": 32,
+      "index": 34,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        1196,
+        359,
+        132,
+        132
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 9136,
+      "width": 32,
+      "height": 35,
+      "index": 35,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        84,
+        644,
+        113,
+        123
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 9136,
+      "width": 32,
+      "height": 35,
+      "index": 35,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        362,
+        639,
+        117,
+        128
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 9416,
+      "width": 32,
+      "height": 39,
+      "index": 36,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        644,
+        635,
+        113,
+        138
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 9416,
+      "width": 32,
+      "height": 39,
+      "index": 36,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        921,
+        627,
+        120,
+        146
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 9728,
+      "width": 32,
+      "height": 34,
+      "index": 37,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        1202,
+        641,
+        118,
+        125
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 9728,
+      "width": 32,
+      "height": 34,
+      "index": 37,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        80,
+        914,
+        126,
+        134
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 10000,
+      "width": 48,
+      "height": 30,
+      "index": 38,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        328,
+        923,
+        185,
+        116
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 10000,
+      "width": 48,
+      "height": 30,
+      "index": 38,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        616,
+        932,
+        169,
+        106
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 10360,
+      "width": 32,
+      "height": 32,
+      "index": 39,
+      "state": 1,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        924,
+        925,
+        113,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 10360,
+      "width": 32,
+      "height": 32,
+      "index": 39,
+      "state": 2,
+      "image": "monsters-03-painted.png",
+      "image_rect": [
+        1203,
+        920,
+        123,
+        123
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 10616,
+      "width": 32,
+      "height": 26,
+      "index": 40,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        84,
+        94,
+        113,
+        92
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 10616,
+      "width": 32,
+      "height": 26,
+      "index": 40,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        364,
+        94,
+        113,
+        92
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 10824,
+      "width": 48,
+      "height": 32,
+      "index": 41,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        616,
+        84,
+        169,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 10824,
+      "width": 48,
+      "height": 32,
+      "index": 41,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        896,
+        84,
+        169,
+        113
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 11208,
+      "width": 80,
+      "height": 80,
+      "index": 42,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        1121,
+        0,
+        281,
+        280
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 11208,
+      "width": 80,
+      "height": 80,
+      "index": 42,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        0,
+        280,
+        280,
+        281
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 12808,
+      "width": 32,
+      "height": 32,
+      "index": 43,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        328,
+        377,
+        184,
+        184
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 12808,
+      "width": 32,
+      "height": 32,
+      "index": 43,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        642,
+        363,
+        118,
+        118
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 13064,
+      "width": 32,
+      "height": 33,
+      "index": 44,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        924,
+        368,
+        113,
+        116
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 13064,
+      "width": 32,
+      "height": 33,
+      "index": 44,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        1204,
+        365,
+        114,
+        118
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 13328,
+      "width": 80,
+      "height": 80,
+      "index": 45,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        0,
+        561,
+        280,
+        280
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 13328,
+      "width": 80,
+      "height": 80,
+      "index": 45,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        280,
+        561,
+        280,
+        280
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 14928,
+      "width": 32,
+      "height": 36,
+      "index": 46,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        644,
+        642,
+        113,
+        127
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 14928,
+      "width": 32,
+      "height": 36,
+      "index": 46,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        923,
+        640,
+        116,
+        131
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 15216,
+      "width": 32,
+      "height": 37,
+      "index": 47,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        1205,
+        640,
+        113,
+        131
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 15216,
+      "width": 32,
+      "height": 37,
+      "index": 47,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        82,
+        914,
+        117,
+        135
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 15512,
+      "width": 32,
+      "height": 30,
+      "index": 48,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        358,
+        941,
+        123,
+        115
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 15512,
+      "width": 32,
+      "height": 30,
+      "index": 48,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        632,
+        924,
+        138,
+        130
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 15752,
+      "width": 64,
+      "height": 39,
+      "index": 49,
+      "state": 1,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        868,
+        913,
+        225,
+        137
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 15752,
+      "width": 64,
+      "height": 39,
+      "index": 49,
+      "state": 2,
+      "image": "monsters-04-painted.png",
+      "image_rect": [
+        1149,
+        918,
+        225,
+        137
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 16376,
+      "width": 32,
+      "height": 39,
+      "index": 50,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        84,
+        71,
+        113,
+        138
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 16376,
+      "width": 32,
+      "height": 39,
+      "index": 50,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        360,
+        60,
+        120,
+        146
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 16688,
+      "width": 32,
+      "height": 26,
+      "index": 51,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        643,
+        92,
+        113,
+        92
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 16688,
+      "width": 32,
+      "height": 26,
+      "index": 51,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        922,
+        91,
+        117,
+        95
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 16896,
+      "width": 32,
+      "height": 29,
+      "index": 52,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        1201,
+        89,
+        113,
+        102
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 16896,
+      "width": 32,
+      "height": 29,
+      "index": 52,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        81,
+        366,
+        113,
+        102
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 17128,
+      "width": 32,
+      "height": 38,
+      "index": 53,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        359,
+        350,
+        120,
+        142
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 17128,
+      "width": 32,
+      "height": 38,
+      "index": 53,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        636,
+        348,
+        122,
+        145
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 17432,
+      "width": 80,
+      "height": 73,
+      "index": 54,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        841,
+        292,
+        280,
+        256
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 17432,
+      "width": 80,
+      "height": 73,
+      "index": 54,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        1121,
+        292,
+        281,
+        256
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 18892,
+      "width": 32,
+      "height": 29,
+      "index": 55,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        80,
+        644,
+        120,
+        109
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 18892,
+      "width": 32,
+      "height": 29,
+      "index": 55,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        357,
+        639,
+        126,
+        114
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 19124,
+      "width": 32,
+      "height": 32,
+      "index": 56,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        644,
+        647,
+        113,
+        113
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 19124,
+      "width": 32,
+      "height": 32,
+      "index": 56,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        913,
+        625,
+        136,
+        136
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 19380,
+      "width": 48,
+      "height": 39,
+      "index": 57,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        1177,
+        633,
+        169,
+        137
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 19380,
+      "width": 48,
+      "height": 39,
+      "index": 57,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        56,
+        913,
+        169,
+        137
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 19848,
+      "width": 32,
+      "height": 38,
+      "index": 58,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        364,
+        914,
+        113,
+        134
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 19848,
+      "width": 32,
+      "height": 38,
+      "index": 58,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        640,
+        904,
+        120,
+        143
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 20152,
+      "width": 32,
+      "height": 33,
+      "index": 59,
+      "state": 1,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        922,
+        915,
+        119,
+        123
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 20152,
+      "width": 32,
+      "height": 33,
+      "index": 59,
+      "state": 2,
+      "image": "monsters-05-painted.png",
+      "image_rect": [
+        1198,
+        912,
+        127,
+        131
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 20416,
+      "width": 32,
+      "height": 38,
+      "index": 60,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        79,
+        71,
+        127,
+        151
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 20416,
+      "width": 32,
+      "height": 38,
+      "index": 60,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        352,
+        61,
+        133,
+        158
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 20720,
+      "width": 32,
+      "height": 39,
+      "index": 61,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        641,
+        71,
+        121,
+        147
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 20720,
+      "width": 32,
+      "height": 39,
+      "index": 61,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        915,
+        60,
+        131,
+        159
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 21032,
+      "width": 32,
+      "height": 27,
+      "index": 62,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        1189,
+        84,
+        132,
+        111
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 21032,
+      "width": 32,
+      "height": 27,
+      "index": 62,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        86,
+        380,
+        113,
+        95
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 21248,
+      "width": 32,
+      "height": 24,
+      "index": 63,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        365,
+        372,
+        115,
+        86
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 21248,
+      "width": 32,
+      "height": 24,
+      "index": 63,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        584,
+        386,
+        233,
+        175
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 21440,
+      "width": 32,
+      "height": 36,
+      "index": 64,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        918,
+        356,
+        127,
+        143
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 21440,
+      "width": 32,
+      "height": 36,
+      "index": 64,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        1198,
+        356,
+        126,
+        142
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 21728,
+      "width": 32,
+      "height": 34,
+      "index": 65,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        42,
+        631,
+        197,
+        210
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 21728,
+      "width": 32,
+      "height": 34,
+      "index": 65,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        319,
+        626,
+        202,
+        215
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 22000,
+      "width": 80,
+      "height": 79,
+      "index": 66,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        560,
+        561,
+        281,
+        277
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 22000,
+      "width": 80,
+      "height": 79,
+      "index": 66,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        841,
+        562,
+        280,
+        277
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 23580,
+      "width": 80,
+      "height": 77,
+      "index": 67,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        1121,
+        566,
+        281,
+        270
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 23580,
+      "width": 80,
+      "height": 77,
+      "index": 67,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        0,
+        841,
+        280,
+        270
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 25120,
+      "width": 80,
+      "height": 80,
+      "index": 68,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        280,
+        841,
+        280,
+        281
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 25120,
+      "width": 80,
+      "height": 80,
+      "index": 68,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        560,
+        841,
+        281,
+        281
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 26720,
+      "width": 32,
+      "height": 38,
+      "index": 69,
+      "state": 1,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        924,
+        914,
+        113,
+        134
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 26720,
+      "width": 32,
+      "height": 38,
+      "index": 69,
+      "state": 2,
+      "image": "monsters-06-painted.png",
+      "image_rect": [
+        1202,
+        901,
+        119,
+        142
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 27024,
+      "width": 32,
+      "height": 39,
+      "index": 70,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        84,
+        71,
+        113,
+        138
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 27024,
+      "width": 32,
+      "height": 39,
+      "index": 70,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        352,
+        58,
+        135,
+        164
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 27336,
+      "width": 32,
+      "height": 38,
+      "index": 71,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        605,
+        54,
+        191,
+        226
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 27336,
+      "width": 32,
+      "height": 38,
+      "index": 71,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        917,
+        57,
+        128,
+        152
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 27640,
+      "width": 48,
+      "height": 40,
+      "index": 72,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        1138,
+        73,
+        248,
+        207
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 27640,
+      "width": 48,
+      "height": 40,
+      "index": 72,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        51,
+        345,
+        175,
+        146
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 28120,
+      "width": 80,
+      "height": 80,
+      "index": 73,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        280,
+        280,
+        280,
+        281
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 28120,
+      "width": 80,
+      "height": 80,
+      "index": 73,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        560,
+        280,
+        281,
+        281
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 29720,
+      "width": 80,
+      "height": 80,
+      "index": 74,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        841,
+        280,
+        280,
+        281
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 29720,
+      "width": 80,
+      "height": 80,
+      "index": 74,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        1121,
+        280,
+        281,
+        281
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 31320,
+      "width": 32,
+      "height": 38,
+      "index": 75,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        84,
+        634,
+        113,
+        134
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 31320,
+      "width": 32,
+      "height": 38,
+      "index": 75,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        367,
+        629,
+        114,
+        136
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 31624,
+      "width": 32,
+      "height": 40,
+      "index": 76,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        644,
+        631,
+        113,
+        141
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 31624,
+      "width": 32,
+      "height": 40,
+      "index": 76,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        896,
+        627,
+        171,
+        214
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 31944,
+      "width": 32,
+      "height": 31,
+      "index": 77,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        1205,
+        646,
+        113,
+        109
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 31944,
+      "width": 32,
+      "height": 31,
+      "index": 77,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        84,
+        922,
+        113,
+        109
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 32192,
+      "width": 32,
+      "height": 27,
+      "index": 78,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        364,
+        934,
+        113,
+        95
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 32192,
+      "width": 32,
+      "height": 27,
+      "index": 78,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        644,
+        931,
+        113,
+        95
+      ]
+    },
+    {
+      "source": "bank1",
+      "source_offset": 32408,
+      "width": 80,
+      "height": 80,
+      "index": 79,
+      "state": 1,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        841,
+        841,
+        280,
+        281
+      ]
+    },
+    {
+      "source": "bank2",
+      "source_offset": 32408,
+      "width": 80,
+      "height": 80,
+      "index": 79,
+      "state": 2,
+      "image": "monsters-07-painted.png",
+      "image_rect": [
+        1121,
+        841,
+        281,
+        281
+      ]
+    }
+  ]
+}

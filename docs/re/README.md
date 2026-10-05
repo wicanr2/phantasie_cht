@@ -33,5 +33,6 @@
 | 026 | [026 恢復訊息的四語缺譯資料](026-recovered-prose-catalog.md) | 16 個完整字元流缺譯鍵、候選與相鄰正文、正常路線全滅限制 |
 | 027 | [027 第六地牢已恢復正文](027-dungeon-six-recovered-message.md) | 正常入口、地形標記及跨區方向、四語正文、3008 點同狀態與獨立雙倍率像素核對 |
 | 028 | [028 城鎮圖像與 HD 樣圖](028-town-art-and-hd-preview.md) | 原始 PELNOR CGA 格式、正常城鎮圖像矩形、235520 像素比對及待選美術提案 |
+| 029 | [029 場景與怪物圖像格式](029-all-image-formats.md) | 原版游程、80×2 怪物圖、隊員圖、正常抽樣與手繪候選入口 |
 
 產生清冊的工具是 `tools/inventory.py`，IDA 盤點與 overlay 疊合是 `tools/ida/`，都在 Docker 內執行。研究工作區 `workplace/` 不進版控。

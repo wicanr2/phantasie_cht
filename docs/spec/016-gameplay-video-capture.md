@@ -52,3 +52,5 @@ ffmpeg 在既有影片容器以兩核、threads 2、filter_threads 1、有界執
 - 封包與影片路徑沿用 dist-all/<版本>/full-local、promo、smoke；所有原版、倚天、衍生圖與錄音只留本機。影片存在不等於上述檢查完成。
 
 本規格的擷取完成不代表三平台真機均已驗證，也不代表全部圖像已 HD 化。
+
+正式成片編排為 [tools/promo_video.py](../../tools/promo_video.py)，在 Docker 指定 `--captures`、`--score`、`--out`、`--version`、`--project`。以四條固定公開路線、正式 bundle 與已確認第二版母帶 SHA 建 72 秒白名單、逐段 concat、字幕及 `render.sh`；FFmpeg 腳本仍在既有影片容器執行。字幕在 1024×640 遊戲區外，成片 1280×720／30fps。虛擬格索引保留來源時長，剪輯另明示時間伸縮比例；手冊／答案／標題／prompt 區段拒絕，未知非 transition 格不能入片。`plan.json` 固定 capture.json 指紋，記錄重複原版畫格及明示選單停留，凍結檢測須與這些區段核對。`--audit` 讀 FFprobe、loudnorm 及黑格／凍結檢測，符合契約才寫 `verification.json`；人工畫面與字幕抽看另記本機收據。
