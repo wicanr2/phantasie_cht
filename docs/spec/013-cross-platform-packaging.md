@@ -11,7 +11,7 @@
 
 ## 2. 待決與執行閘門
 
-1. 字型散布條款：雙授權及作者聲明已核對，見 [font](../../font/README.md)。OFL 1.1 或 GPLv2+ 含字型例外待使用者選定。沒有答覆時不得代選、採預設或建立正式字型散布包。兩種選項共用的工具與啟動器可以在規格 READY 後實作；合成測試不代表散布條款已定案。
+1. 字型散布條款：雙授權及作者聲明已核對，見 [font](../../font/README.md)。使用者已選定發行字型採 OFL 1.1；正式工具仍須明示 `--font-license OFL-1.1`，不改成隱性預設。另要求本機完整版採倚天字形並包含遊戲，三平台及推廣影片只留本機。現有 §16 的 Unifont 組裝尚未接上倚天；此新增變體需補契約、唯讀審查及驗收後才進正式交付。
 2. 完整版號與本機 tag：使用者 2026-10-05 定案 `v.1.0.0-20261005`，作首個正式本機交付。格式為 `v.<主版>.<次版>.<修訂版>-YYYYMMDD`，日期採 Asia/Taipei。不以原型名代替版號，不移動已發布 tag。版號由封包工具的必要參數輸入，實作與合成測試不建立 tag。
 3. AppImage runtime 附帶程式庫的來源與條款須對應固定二進位核對，不只附 runtime 自身 MIT 文件。正式包採 §9.1 的自行重建輸入，原型預編譯 runtime 僅作歷史對照。缺必要授權、來源或精確雜湊，正式打包失敗。
 
@@ -120,7 +120,7 @@ Windows 用既有 Wine 測實際 ZIP 內容與路徑，記明 Wine 驗證。macO
 
 無頭收據工具另以 CGO_ENABLED=0 試編譯 Linux、Windows、macOS x86-64 及 arm64。五語 Linux 前端原型各冷啟動，以正常按鍵擷取標題及城鎮／公會選單共十張畫面，日誌沒有語言停用。原型使用建置映像及現有本機資料，未驗證正式包、匯入啟動器或存檔生命週期。
 
-runtime 的 MIT 與附帶程式庫清單見 [固定 commit 授權](https://github.com/AppImage/type2-runtime/blob/75849dce7cc37e4319b633df1f116ca895c71a12/LICENSE)。同 commit 的[來源壓縮檔](https://codeload.github.com/AppImage/type2-runtime/tar.gz/75849dce7cc37e4319b633df1f116ca895c71a12)已留存研究目錄，31068 bytes，SHA-256 `b7af4960da4b90364e935a3281d04fad6560da4813c012414fa2f738291ad443`。來源 `src/runtime/Makefile` 還列有 mimalloc，但 LICENSE 的附帶清單沒有列；Docker recipe 只固定 Alpine 3.21，未鎖定 APK 版本。舊預編譯輸入的附庫版本仍未補齊，正式包改用 §9.1 的自行重建版本；字型條款仍待使用者選定。
+runtime 的 MIT 與附帶程式庫清單見 [固定 commit 授權](https://github.com/AppImage/type2-runtime/blob/75849dce7cc37e4319b633df1f116ca895c71a12/LICENSE)。同 commit 的[來源壓縮檔](https://codeload.github.com/AppImage/type2-runtime/tar.gz/75849dce7cc37e4319b633df1f116ca895c71a12)已留存研究目錄，31068 bytes，SHA-256 `b7af4960da4b90364e935a3281d04fad6560da4813c012414fa2f738291ad443`。來源 `src/runtime/Makefile` 還列有 mimalloc，但 LICENSE 的附帶清單沒有列；Docker recipe 只固定 Alpine 3.21，未鎖定 APK 版本。舊預編譯輸入的附庫版本仍未補齊，正式包改用 §9.1 的自行重建版本；發行字型採已定案的 OFL 1.1。
 
 ### 9.1 來源可回查的 runtime 重建
 
@@ -150,7 +150,7 @@ gzip／zstd 的合成 AppImage 已確認 offset、解出內容、執行權限、
 
 無頭收據工具隨各平台包放在 tools 子目錄，是命令列工具；版本、架構、模組及授權也納入封包清單，驗證資料缺席時仍依既有契約 SKIP，不附私人作答路線。其正常 GUI 對拍用途與既有規格不變。
 
-兩輪唯讀審查分契約對程式、資料對證據；只寫 workplace 報告。主代理處理阻擋及應改後才能升 READY。版號已定案；字型條款待決只阻擋正式打包與 tag，不阻擋已授權且兩種選項共用的工具實作；不建立 Release。
+兩輪唯讀審查分契約對程式、資料對證據；只寫 workplace 報告。主代理處理阻擋及應改後才能升 READY。版號及 OFL 1.1 已定案；新增本機倚天、色盤主題與影片契約須另經相同閘門，不因舊工具 READY 直接算新要求完成；不建立公開 Release。
 
 本輪契約複查已確認 §4 的執行期資料、§5 的 Linux 依賴、§6 的路徑及匯入生命週期，以及無頭工具交付範圍，阻擋與應改均為零。報告在 `workplace/package-prototype/contract-review.txt`；這只確認草案契約補全，不是實作或正式包 PASS。
 
@@ -292,10 +292,10 @@ Docker 內步驟：
 4. 接上 §15 的材料與 §16 的布局；本機提示僅由 package_work 的 local-text 動作加入，正式 ui／prose／protected 均取乾淨專案匯出。其後 [package_appimage.sh](../../tools/package_appimage.sh) 核對固定 runtime，使用 gzip、固定版號日期建 SquashFS，讀實際 offset 及解出內容；其餘平台由 §14 建 ZIP。
 5. [package_finish.py](../../tools/package_finish.py) 重讀實際 AppImage runtime／SquashFS／解出內容或 ZIP，核對全部布局、18 項清冊、編譯程式 bytes、來源版本、權利及封包集合。掃描通過後排他複製至 dist-all/<版本>/patch 或 full-local，寫 SHA256SUMS.json；複製失敗只清理本次新版本。
 
-交付清冊明示 built and inspected; platform smoke pending。編排不將靜態封裝當作 §8 的 GUI、存檔或原版同狀態證據。正式字型條款仍待選定，因此目前只驗證兩種條款共用的程式及合成資料；合成反例入口為 [package_work_cases.py](../../tools/tests/package_work_cases.py)，7 項通過。精確程式路徑、GOOS 與 GOARCH 的後綴反例均拒絕；乾淨複本只移除一處角色限制，錯誤角色的獨立期望按預期失敗。
+交付清冊明示 built and inspected; platform smoke pending。編排不將靜態封裝當作 §8 的 GUI、存檔或原版同狀態證據。以下收據是在字型條款定案前完成的共用程式及合成資料驗證；發行字型現已選定 OFL 1.1，新增倚天變體尚未納入。合成反例入口為 [package_work_cases.py](../../tools/tests/package_work_cases.py)，7 項通過。精確程式路徑、GOOS 與 GOARCH 的後綴反例均拒絕；乾淨複本只移除一處角色限制，錯誤角色的獨立期望按預期失敗。
 
 實際 `all --build-only` 已通過：專案 `808f32bdc15cddea990b28aeee34c3fb8c80ea8e` 與引擎 `8d9807df4f191c02eef46a22b6f7bbecb426ef5b` 的固定 Git 匯出，離線編譯 Linux 3 份、Windows 3 份、macOS 6 份 thin 及 2 份 universal，共 14 份程式。已核對實際 bytes、標頭、Go 模組、兩片 universal 與來源清冊；Linux 啟動器實際 stdout 符合定案版號與引擎提交。Linux 後端直接依賴 libX11.so.6、libm.so.6、libc.so.6，最高 glibc 符號為 2.34；沒有據此宣稱完整 ABI 或實機相容。
 
 AppImage worker 另用兩個自製檔案抽驗：固定 runtime 的前綴、實際 SquashFS 尾段、944632 offset、版號日期及解出內容／權限均相同。這個研究樣本不含遊戲、譯文或字型，不能算正式 AppImage。核對腳本曾因迴圈變數覆蓋封包名稱而失敗，修正後在同一容器乾淨重跑通過；產品及來源沒有因此修改。
 
-根層收據為 `workplace/package-prototype/package-work-verification.json`，測試及角色突變為 `package-work-tests-r4.log`、`package-work-role-mutation-r1/mutation.log`。唯讀契約及資料報告為 `package-work-contract-review.txt`、`package-work-evidence-review.txt`，實際編譯補充報告為 `package-work-build-evidence-review.txt`；本輪封存入口為 `package-work-phase-verification-manifest.json`。70 個原版檔案、32 份受保護檔案、23 條公開路線及六份較早封存保持不變。正式字型選項、正式包乾淨建置及平台冒煙仍待完成，013 維持 READY。
+根層收據為 `workplace/package-prototype/package-work-verification.json`，測試及角色突變為 `package-work-tests-r4.log`、`package-work-role-mutation-r1/mutation.log`。唯讀契約及資料報告為 `package-work-contract-review.txt`、`package-work-evidence-review.txt`，實際編譯補充報告為 `package-work-build-evidence-review.txt`；本輪封存入口為 `package-work-phase-verification-manifest.json`。70 個原版檔案、32 份受保護檔案、23 條公開路線及六份較早封存保持不變。新增倚天變體、正式包乾淨建置及平台冒煙仍待完成，013 維持 READY。

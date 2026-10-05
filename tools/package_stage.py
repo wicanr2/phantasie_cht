@@ -19,6 +19,7 @@ import package_files as pf
 import package_rights as pr
 import package_scan as ps
 import package_text as pt
+import build_eten_font as eten_font
 
 FONT_MEMBERS = {
     "zh-TW": ("unifont_t-17.0.05.hex", "169634258e4037b507beaafad5d72edc2e44b3faeaa856d9669e4657d1eee454"),
@@ -112,7 +113,41 @@ def font_sources(path):
                 raise ValueError("字型 hex 成員與固定來源不符")
 
 
-def readme(version, platform, local):
+def validate_fonts(base, font_dir, fonts, local, font_license):
+    """字型來源紀錄須與實際字模一致；來源2只許本機繁中。"""
+    if set(fonts) != set(pt.LANGUAGES):
+        raise ValueError("字型來源紀錄語言集合不符")
+    for language, row in fonts.items():
+        data = pf.file_bytes(base / font_dir / (language + ".golemfnt"))
+        actual_hash = pf.digest(data)
+        count = pf.font_coverage(data, set(range(32, 127)), local and language == "zh-TW")
+        if row.get("sha256") != actual_hash:
+            raise ValueError("字型來源紀錄與產物 SHA-256 不符")
+        if row.get("source") == "GNU Unifont 17.0.05":
+            if row != {"source": "GNU Unifont 17.0.05", "terms": font_license, "sha256": actual_hash}:
+                raise ValueError("GNU 字型來源紀錄不符")
+            pf.font_coverage(data, set())  # 本機 GNU 也不能誤帶來源2。
+        elif row.get("source") == "ETEN local fullwidth with GNU ASCII":
+            if not local or language != "zh-TW" or row.get("rights") != "local-only" or row.get("terms_gnu_ascii") != font_license:
+                raise ValueError("倚天來源紀錄只許本機繁中")
+            provenance = row.get("eten", {})
+            expected_sources = {name: {"bytes": size, "sha256": sha} for name, (size, sha) in eten_font.SOURCES.items()}
+            expected = {"schema": 1, "scope": "local-only ETEN fullwidth; GNU ASCII retains selected terms",
+                        "glyphs": count, "eten_fullwidth": count - 95, "gnu_ascii": 95,
+                        "source_height": 15, "canvas": [16, 16], "sources": expected_sources, "sha256": actual_hash}
+            if {key: value for key, value in provenance.items() if key != "base_font_sha256"} != expected or not re.fullmatch(r"[0-9a-f]{64}", provenance.get("base_font_sha256", "")):
+                raise ValueError("倚天字模來源、尺寸或字數紀錄不符")
+            if set(row) != {"source", "rights", "terms_gnu_ascii", "sha256", "eten"}:
+                raise ValueError("倚天來源紀錄含未知欄位")
+            for offset in range(16, len(data), 37):
+                cp, flag = struct.unpack_from("<IB", data, offset)
+                if not ((32 <= cp <= 126 and flag == 1) or (cp >= 128 and flag == 0x82)):
+                    raise ValueError("本機繁中倚天來源旗標不符")
+        else:
+            raise ValueError("未知字型來源紀錄")
+
+
+def readme(version, platform, local, eten=False):
     source = ("已附本機原版及手冊提示資料，只供本機使用，不得上傳。" if local else
               "未附原版、手冊或答案。請自行準備支援版本的原版資料。")
     launch = {"linux": "將 original 目錄放在 AppImage 旁，賦予 AppImage 執行權限後開啟。",
@@ -140,6 +175,8 @@ F11 全螢幕；F12 切換繁體中文、簡體中文、英文原版、日文、
 專案條款見 LICENSE；第三方全文、作者聲明及所選字型條款見 licenses 與 LICENSES.json。
 tools 內的收據工具需另備原版及重播路線；缺驗證資料時的 SKIP 不代表驗收通過。
 """
+    if eten:
+        text += "\n繁體中文全形採本機倚天；ASCII 與其他語言採 GNU Unifont。倚天只供本機使用，所選 GNU 字型條款及專案 LICENSE 不涵蓋倚天或原版。\n"
     if platform == "linux":
         text += "\nLinux 需 X11、OpenGL 及 glibc；正式封包的最低 ABI 與實際冒煙結果見交付清冊。未驗證的發行版未宣稱支援。\n"
     elif platform == "macos":
@@ -150,10 +187,12 @@ tools 內的收據工具需另備原版及重播路線；缺驗證資料時的 S
 
 
 def prepare(output, platform, version, project_commit, engine_commit, font_license, text_source, unifont,
-            rights, original, launcher, backend, receipt_amd64, receipt_arm64=None, local=False):
+            rights, original, launcher, backend, receipt_amd64, receipt_arm64=None, local=False, eten_dir=None):
     version = pt.version(version)
     if platform not in ("linux", "windows", "macos") or font_license not in FONT_TERMS:
         raise ValueError("平台或字型條款須明示，不採預設")
+    if eten_dir and not local:
+        raise ValueError("倚天來源僅接受本機變體")
     if not all(re.fullmatch(r"[0-9a-f]{40}", value) for value in (project_commit, engine_commit)):
         raise ValueError("兩個 repo 須為完整 commit")
     if (platform == "macos") != bool(receipt_arm64):
@@ -164,6 +203,7 @@ def prepare(output, platform, version, project_commit, engine_commit, font_licen
     source_dirs = [pf.directory(path) for path in (text_source, rights, original)]
     sources = source_dirs + [pf.no_links(path) for path in (unifont, launcher, backend, receipt_amd64)]
     if receipt_arm64: sources.append(pf.no_links(receipt_arm64))
+    if eten_dir: sources.append(pf.directory(eten_dir))
     if any(output == path or output in path.parents or path in output.parents for path in sources):
         raise ValueError("來源與 stage 不得重疊")
     fingerprint = ps.originals(original, Path(__file__).resolve().parents[1] / "docs/re/001-input-inventory.tsv")
@@ -214,10 +254,22 @@ def prepare(output, platform, version, project_commit, engine_commit, font_licen
             for family in ("ui", "prose", "manual"): args += ["--chars", str(base / text_dir / f"{family}.{language}.tsv")]
             if subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False).returncode:
                 raise ValueError("字型重建失敗：" + language)
+        fonts = {language: {"source": "GNU Unifont 17.0.05", "terms": font_license,
+                           "sha256": pf.digest(pf.file_bytes(base / font_dir / (language + ".golemfnt")))}
+                 for language in pt.LANGUAGES}
+        if eten_dir:
+            destination = base / font_dir / "zh-TW.golemfnt"
+            converted = destination.with_suffix(".eten")
+            provenance = eten_font.build(eten_dir, destination, converted)
+            converted.replace(destination)
+            fonts["zh-TW"] = {"source": "ETEN local fullwidth with GNU ASCII", "rights": "local-only",
+                              "terms_gnu_ascii": font_license, "sha256": provenance["sha256"], "eten": provenance}
+        validate_fonts(base, font_dir, fonts, local, font_license)
         pf.bundle(output, platform, version, engine_commit, text_source if local else None)
-        write(output / "README.txt", readme(version, platform, local))
+        write(output / "README.txt", readme(version, platform, local, bool(eten_dir)))
         notice = {"font_license": font_license, "scope": "selected font terms; other components retain their own terms",
-                  "source_profile_sha256": rights_index["profile_sha256"], "module_header_notices": rights_index["module_header_notices"]}
+                  "source_profile_sha256": rights_index["profile_sha256"], "module_header_notices": rights_index["module_header_notices"],
+                  "fonts": fonts}
         write(output / "LICENSES.json", (json.dumps(notice, ensure_ascii=False, indent=2) + "\n").encode())
         if platform == "linux":
             write(output / "AppRun", APPRUN, 0o755); write(output / "phantasie.svg", ICON); write(output / ".DirIcon", ICON)
@@ -232,6 +284,7 @@ def prepare(output, platform, version, project_commit, engine_commit, font_licen
         scope = {"schema": 1, "scope": "platform staging only; not formal package acceptance", "version": version,
                  "project_commit": project_commit, "engine_commit": engine_commit, "platform": platform,
                  "rights": "local-only" if local else "no-original-or-manual-answers", "font_license": font_license,
+                 "fonts": fonts,
                  "files": {name: row for name, row in pf.snapshot(output).items() if not row["directory"]}}
         write(output / "package-stage.json", (json.dumps(scope, ensure_ascii=False, indent=2) + "\n").encode())
         if platform == "windows": pf.windows_text(output)
@@ -252,11 +305,12 @@ def main():
     parser.add_argument("--receipt-arm64", type=Path)
     for name in ("version", "project-commit", "engine-commit"): parser.add_argument("--" + name, required=True)
     parser.add_argument("--local", action="store_true")
+    parser.add_argument("--eten-dir", type=Path, help="僅本機繁中變體的固定倚天來源")
     args = parser.parse_args()
     try:
         result = prepare(args.out, args.platform, args.version, args.project_commit, args.engine_commit, args.font_license,
                          args.text_source, args.unifont, args.rights, args.original, args.launcher, args.backend,
-                         args.receipt_amd64, args.receipt_arm64, args.local)
+                         args.receipt_amd64, args.receipt_arm64, args.local, args.eten_dir)
     except (OSError, UnicodeError, ValueError, KeyError, struct.error, tarfile.TarError) as error:
         parser.exit(1, f"平台組裝失敗：{error}\n")
     print(json.dumps({"result": "PASS platform staging only", "platform": result["platform"], "rights": result["rights"],

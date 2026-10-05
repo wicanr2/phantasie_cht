@@ -4,7 +4,9 @@
 
 總目標：用 dosgolem 完成《幽靈戰士》繁體中文化（使用者 2026-10-03 設定）。語言範圍：zh-TW（基準）、zh-CN、英文原版（關閉覆繪）、ja、ko。使用者 2026-10-04 授權下載手冊並直接顯示答案，已取得與題目頁碼相符的合訂手冊。專案規則在 `AGENTS.md`，分期目標在 `docs/goals/001-phases.md`。
 
-目前引擎為 `8d9807d`，本機前端與收據工具已重建。四語各 16 個資料缺口已補齊。使用者 2026-10-05 定案「抽樣驗收即可」，兩輪唯讀審查無阻擋或應改。001 至 012 皆 CONFORMED，限各規格列明的資料契約及正常 UI 代表樣本；011 限資料列舉工具。15 個新增鍵未逐鍵量到，保留為抽樣限制。矩陣見 [分期目標](docs/goals/001-phases.md#抽樣驗收範圍)。打包、字型散布條款及發行包冒煙尚未完成。
+目前引擎為 `8d9807d`，本機前端與收據工具已重建。四語各 16 個資料缺口已補齊。使用者 2026-10-05 定案「抽樣驗收即可」，兩輪唯讀審查無阻擋或應改。001 至 012 皆 CONFORMED，限各規格列明的資料契約及正常 UI 代表樣本；011 限資料列舉工具。15 個新增鍵未逐鍵量到，保留為抽樣限制。矩陣見 [分期目標](docs/goals/001-phases.md#抽樣驗收範圍)。發行字型條款已選 OFL 1.1，倚天字型已接入本機三平台組裝流程；正式封包及發行包冒煙尚未完成。
+
+最新交付要求：三平台本機完整版含遊戲並採倚天字形，另有實際遊玩與主題切換的推廣影片，README 更新最新截圖。使用者已確認新增色盤主題切換；目前前端尚未實作。主機 GitHub 查到的 [Psychic War #34](https://github.com/wicanr2/psychic_war_cht/issues/34) 屬另一專案；使用者已確認繼續 Phantasie 並新增 HD 圖像工作。Phantasie 城鎮的 CGA 像素與彩色手繪樣圖已產生，美術方向待選定；它們是研究樣圖，未接入遊戲。
 
 | 範圍 | 程式與證據基準 | 最近驗證 | 交付狀態 |
 |---|---|---|---|
@@ -38,7 +40,7 @@
 - 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/save_roundtrip.py`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`、[package_text.py](tools/package_text.py)、[package_scan.py](tools/package_scan.py)、[package_files.py](tools/package_files.py)；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項、封包譯文 8 項、封包掃描 11 項、資產清冊與 ZIP 10 項）。
 - 封包外洩掃描：原版掃描來源缺席或錯版直接失敗。實際無答案布局 14 檔及本機布局 84 檔通過，改名原版及偽裝答案表拒絕，SHA-256 單一突變的兩個期望按預期失敗；70 個原版檔案保持不變。契約及資料兩輪審查無阻擋或應改，較早報告保留。最新收據入口為 `workplace/package-prototype/package-scan-phase-verification-manifest.json`，契約見 [013 §13](docs/spec/013-cross-platform-packaging.md#13-封包外洩掃描工具)。這項掃描不代替權利、必要資產、字型或 GUI 驗收。
 - 資產清冊與 ZIP：三平台加本機 Windows 的四組命令、三份 ZIP 往返及實際 Go 清冊介面通過；缺字單一突變的兩個期望按預期失敗，101 個輸入保持不變。研究命令使用正式譯文與既有前端，字模完全自製且全零，不能計為發行字型或 GUI 驗收。入口為 `workplace/package-prototype/package-files-phase-verification-manifest.json`，契約見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。
-- 授權材料與平台組裝：[package_rights.py](tools/package_rights.py) 已核對 35 份實際條款／來源檔及 1,027 則模組檔首聲明，不複製字型或選散布條款；最終 7 項合成測試通過。[package_stage.py](tools/package_stage.py) 的三平台布局、自製字模重建、本機變體、標頭反例、參數轉送及失敗清理有 8 項合成測試通過。實際材料另經外洩掃描，雜湊 guard 負對照有效，原版 70 檔、受保護檔案 32 份及路線 23 條不變。入口為 `workplace/package-prototype/package-stage-verification.json`，契約見 [013 §15、§16](docs/spec/013-cross-platform-packaging.md#15-授權材料整理)。正式包及平台冒煙尚未驗證；字型條款仍待回覆，沒有正式字型散布包或 tag。
+- 授權材料與平台組裝：[package_rights.py](tools/package_rights.py) 已核對 35 份實際條款／來源檔及 1,027 則模組檔首聲明，不複製字型或選散布條款；最終 7 項合成測試通過。[package_stage.py](tools/package_stage.py) 的三平台布局、自製字模重建、本機變體、標頭反例、參數轉送及失敗清理有 8 項合成測試通過。實際材料另經外洩掃描，雜湊 guard 負對照有效，原版 70 檔、受保護檔案 32 份及路線 23 條不變。入口為 `workplace/package-prototype/package-stage-verification.json`，契約見 [013 §15、§16](docs/spec/013-cross-platform-packaging.md#15-授權材料整理)。正式包及平台冒煙尚未驗證；發行字型條款已選 OFL 1.1，新增本機倚天變體待整合，沒有正式字型散布包或 tag。
 - 封包編排：[package.sh](tools/package.sh) 已接上固定 Git 匯出、離線編譯及封裝後交付步驟。7 項合成測試與角色限制負對照通過，兩輪唯讀審查無阻擋或應改。專案 808f32b、引擎 8d9807d 的三平台實際乾淨編譯完成，共 14 份程式；Linux 實際版號輸出及自製資料 AppImage 的封裝／解出通過。正式包、GUI 或存檔冒煙未計完成。根層入口為 `workplace/package-prototype/package-work-verification.json`，封存為 `package-work-phase-verification-manifest.json`；契約見 [013 §17](docs/spec/013-cross-platform-packaging.md#17-封包編排與乾淨建置)，沒有建立正式包、tag 或 Release。
 
 ## 已知事實（摘要，等級與證據見 `docs/re/`）
@@ -54,7 +56,7 @@
 
 - 未量到：MESS5 索引 61 以外的短訊息、其他選項欄寬與事件型別；其他地圖描述格；地城存檔及備份還原。`invert2` 正常零魔力樣本已驗收，見 [024](docs/re/024-disabled-spell-list.md)；其他變暗來源未逐一抽樣。`load2` 正常勝利樣本已獨立驗收，其他第二頁狀態不在本樣本內，見 [023](docs/re/023-second-page-restoration.md) 與 002 §12。INT 10h `AH=0Bh BL=0` 已由 [017](docs/re/017-dungeon-message-options.md) 量到，`BL=1` 及原有文字跨色盤的失效處理仍未量到。
 - 已知限制：中文停用項目不重現原版變暗外觀；被原版逐格重畫的數字是粗體，其餘疊字數字是細體，字重不一致；ja、ko 的數字欄位右緣有少數 lint 警告。
-- 發行字型的雙授權條款與作者聲明已核對，來源及雜湊見 `font/README.md`；散布採 OFL 1.1 或 GPLv2+ 含字型例外待使用者選定。
+- 發行字型採使用者已選定的 OFL 1.1，來源及雜湊見 [font/README.md](font/README.md)。繁中倚天正式工具已建出 1269 全形加 95 GNU ASCII，碼點、寬度不變，其他語言保留 GNU。三平台實際研究布局及清冊通過，109 組正常狀態相同，精確事件稽核為零；34 項合成測試及來源許可負對照通過。入口為 `workplace/package-prototype/eten-stage-r1/` 及 [014](docs/spec/014-local-eten-font.md)。014 仍 READY，獨立像素遮罩及正式封包／GUI 未計完成。README 的五張繁中畫面已更新，均未使用 HD 提案。
 - 玩家名音譯（ja、ko）、同一英文在不同畫面需不同譯文：見規格未決段。
 - 遠端入口：中文化 `origin/main`；dosgolem `origin/phantasie-cht-overlay`。本輪提交與推送已授權，Issue 寫入、轉公開與 Release 仍逐項授權。
 
@@ -62,5 +64,5 @@
 
 ## 下一步
 
-1. 第三期：依 READY 的 013 完成正式包與平台冒煙。譯文整理、固定 runtime、原生啟動器、外洩掃描、必要資產清冊、ZIP、授權材料、平台組裝及編排已接通，實際三平台乾淨研究編譯通過；這些不是正式封包驗收。完整版號已定案；正式字型散布包仍待使用者選定條款，不能代選。其後由乾淨輸入重建交付包，核對權利邊界、必要檔案及五語發行包冒煙。
+1. 第三期：發行字型 OFL 1.1 已定案，依 013 接續三平台交付。本機倚天變體契約見 [014](docs/spec/014-local-eten-font.md)；色盤主題、HD 圖像及實際遊玩影片待接入。HD 工作已確認屬 Phantasie，城鎮樣圖入口為 `workplace/package-prototype/hd-town-preview-r1/manifest.json`，美術方向待選定。既有三平台乾淨研究編譯不算正式封包驗收；整合後由乾淨輸入重建交付包，核對權利邊界、必要檔案及五語冒煙，影片與 README 截圖取最新實際遊玩畫面。
 2. 轉公開、公開 Release 與推廣影片另由使用者決定。未取得授權前維持 private，不上傳原版、手冊或答案。

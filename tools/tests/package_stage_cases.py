@@ -94,10 +94,10 @@ class PackageStageCases(unittest.TestCase):
             self.launcher.write_bytes(self.header(platform)); self.backend.write_bytes(self.header(platform))
             self.receipt.write_bytes(self.header(platform, console=True))
 
-    def prepare(self, platform="windows", local=False, font_license="OFL-1.1", output=None):
+    def prepare(self, platform="windows", local=False, font_license="OFL-1.1", output=None, eten_dir=None):
         return stage.prepare(output or self.output, platform, "v.1.0.0-20261005", "a" * 40, "b" * 40,
                              font_license, self.text, self.fixture.tar, self.fixture.output, self.original,
-                             self.launcher, self.backend, self.receipt, self.arm if platform == "macos" else None, local)
+                             self.launcher, self.backend, self.receipt, self.arm if platform == "macos" else None, local, eten_dir)
 
     def test_three_platform_layouts_and_actual_fonts(self):
         for platform in ("linux", "windows", "macos"):

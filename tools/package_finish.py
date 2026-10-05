@@ -49,7 +49,11 @@ def verify(work, original, version, project_commit, engine_commit, font_license)
         if meta["files"] != expected_files: raise ValueError("封裝前布局已變更")
         reference = work / "local-text" if local else None
         pf.bundle(folder, platform, version, engine_commit, reference, verify=True)
-        base, _, _, _, _, original_dir = pf.profile(folder, platform)
+        base, _, _, _, font_dir, original_dir = pf.profile(folder, platform)
+        fonts = meta["fonts"]
+        stage.validate_fonts(base, font_dir, fonts, local, font_license)
+        if json.loads(pf.file_bytes(folder / "LICENSES.json"))["fonts"] != fonts:
+            raise ValueError("條款與布局的字型來源紀錄不同")
         prefix = (base / original_dir).relative_to(folder).as_posix() if local else None
         artifact = work / "artifacts" / (folder.name + (".AppImage" if platform == "linux" else ".zip"))
         expected_artifacts.add(artifact.name)
@@ -85,7 +89,7 @@ def verify(work, original, version, project_commit, engine_commit, font_license)
             if pf.file_bytes(folder / "tools" / name) != pf.file_bytes(work / "build" / platform / f"receipt-{receipt_arch}{suffix}"):
                 raise ValueError("包內收據工具與本次編譯不符")
         record = {**pf.record(artifact.name, pf.file_bytes(artifact)), "platform": platform, "architecture": architecture,
-                  "rights": meta["rights"], "directory": variant, "scan": scan, "build": build,
+                  "rights": meta["rights"], "directory": variant, "scan": scan, "build": build, "fonts": fonts,
                   "stage_manifest_sha256": pf.digest(pf.file_bytes(folder / "package-stage.json")),
                   "smoke": "pending; not CONFORMED"}
         records.append(record)

@@ -60,7 +60,7 @@ def profile(stage, platform):
     raise ValueError("平台須為 linux、windows 或 macos")
 
 
-def font_coverage(data, needed):
+def font_coverage(data, needed, local_eten=False):
     if len(data) < 16 or data[:8] != b"GOLEMFNT":
         raise ValueError("字型標頭無效")
     width, height, count = struct.unpack_from("<HHI", data, 8)
@@ -70,7 +70,8 @@ def font_coverage(data, needed):
     previous = -1
     for offset in range(16, len(data), 37):
         cp, source = struct.unpack_from("<IB", data, offset)
-        if cp <= previous or cp > 0x10FFFF or 0xD800 <= cp <= 0xDFFF or source not in (1, 0x81):
+        allowed_source = source in (1, 0x81) or (local_eten and source == 0x82 and cp >= 128)
+        if cp <= previous or cp > 0x10FFFF or 0xD800 <= cp <= 0xDFFF or not allowed_source:
             raise ValueError("字型碼點、順序或來源旗標不符")
         codes.add(cp)
         previous = cp
@@ -121,7 +122,7 @@ def bundle_data(stage, platform, version, engine, local_manual=None):
             files[name] = data
         name = f"{font}/{language}.golemfnt"
         data = file_bytes(base / name)
-        font_coverage(data, needed)
+        font_coverage(data, needed, bool(local_manual) and language == "zh-TW")
         files[name] = data
     name = f"{text}/protected.tsv"
     file_bytes(base / name)

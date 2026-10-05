@@ -16,7 +16,8 @@
 | 010 | [010-dim-mask-audit.md](010-dim-mask-audit.md) | 已知變暗格的精確遮罩稽核，保留其他像素檢查 | CONFORMED（正常零魔力樣本） |
 | 011 | [011-option-stream-parsing.md](011-option-stream-parsing.md) | MESS 正文後的完整選項字元流及索引消費 | CONFORMED（限資料列舉工具） |
 | 012 | [012-recovered-prose-catalog.md](012-recovered-prose-catalog.md) | 16 個已確認缺譯鍵的四語資料與正常畫面驗收 | CONFORMED（完整資料契約及按類別抽樣；15 新鍵未逐鍵量到） |
-| 013 | [013-cross-platform-packaging.md](013-cross-platform-packaging.md) | 三平台封包、授權、啟動與實際封包驗證 | READY（版號已定，兩輪複核通過；正式字型條款及封包驗證待完成） |
+| 013 | [013-cross-platform-packaging.md](013-cross-platform-packaging.md) | 三平台封包、授權、啟動與實際封包驗證 | READY（版號及 OFL 1.1 已定；原契約兩輪複核通過，新增本機倚天變體及正式封包待驗） |
+| 014 | [014-local-eten-font.md](014-local-eten-font.md) | 本機繁中倚天字形、OFL 字型與三平台封包隔離 | READY（實際三平台布局、109 組正常狀態及 34 項測試通過；獨立像素遮罩與正式交付待驗） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 
