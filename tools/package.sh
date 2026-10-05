@@ -90,6 +90,7 @@ job="$ROOT/workplace/package-prototype/$job_name"
 base=(--rm --network none --user "$(id -u):$(id -g)" --cpus 2 --pids-limit 128 --log-opt max-size=10m --log-opt max-file=3)
 counter=0
 run() {
+  local name
   counter=$((counter + 1))
   frozen=()
   for name in source rights local-text; do

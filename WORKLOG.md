@@ -412,3 +412,4 @@
 
 - 成片審查指出五個1.08秒語言片段各自取整會少兩格。改按累積30fps邊界分配，共2160格。舊audit只看container時長，會被72秒音軌遮住短視訊；改直接重跑實際成片的ffprobe計格及FFmpeg解碼，獨立驗各軌時長、有限音量值與遊戲區黑幀／凍結，舊sidecar不作通過依據。50bytes偽媒體負對照由實際工具拒絕。新增固定audit映像，Python與影片工具皆來自容器基底，未使用主機runtime。
 - 契約審查補三個窄反例：陌生segment不能自行成為白名單，同引擎的不同bundle不能混錄；PNG concat各輸入明示framerate 60，避免FFmpeg預設25fps合併來源時間點。每鏡的區段順序比對固定公開路線，四路bundle指紋必須相同；逐格索引以1/60秒保存。
+- 專案20cf20f建立未推送的本機tag後，首輪正式三平台編譯及格式／模組核對通過。Linux patch staging後的AppDir檢查失敗，真因為run()掛載迴圈未宣告區域name，蓋掉呼叫端封包名；與遊戲或素材無關。窄修local name，真函式負對照重現舊錯誤，54項封包回歸通過。初次測試harness漏設job_name的環境失敗不計PASS，補fixture後同容器同命令乾淨重跑通過。未建dist-all、未推tag、未發布Release；依版本契約更新尚未發布的本機tag後重新從乾淨輸入打包，舊提交及首輪研究收據保留。

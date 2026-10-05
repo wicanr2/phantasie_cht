@@ -299,3 +299,8 @@ Docker 內步驟：
 AppImage worker 另用兩個自製檔案抽驗：固定 runtime 的前綴、實際 SquashFS 尾段、944632 offset、版號日期及解出內容／權限均相同。這個研究樣本不含遊戲、譯文或字型，不能算正式 AppImage。核對腳本曾因迴圈變數覆蓋封包名稱而失敗，修正後在同一容器乾淨重跑通過；產品及來源沒有因此修改。
 
 根層收據為 `workplace/package-prototype/package-work-verification.json`，測試及角色突變為 `package-work-tests-r4.log`、`package-work-role-mutation-r1/mutation.log`。唯讀契約及資料報告為 `package-work-contract-review.txt`、`package-work-evidence-review.txt`，實際編譯補充報告為 `package-work-build-evidence-review.txt`；本輪封存入口為 `package-work-phase-verification-manifest.json`。70 個原版檔案、32 份受保護檔案、23 條公開路線及六份較早封存保持不變。新增倚天變體、正式包乾淨建置及平台冒煙仍待完成，013 維持 READY。
+## 正式封裝前的變數污染修正
+
+首輪正式建置的三平台編譯與格式檢查通過，但 Linux patch 組裝後，容器編排函式的掛載迴圈污染呼叫端 `name`，後續 AppDir 檢查誤用 `source-inputs.json`。`run()` 將 `name` 改為函式區域變數。直接擷取真函式的正對照保存封包名，移除區域宣告的負對照重現失敗，封包回歸共54項通過。未產生正式交付包，原輸入皆唯讀。
+
+窄契約與證據複核入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/package-variable-contract-review.txt` 及 `package-variable-evidence-review.txt`。首輪編譯與失敗現場保存在 `workplace/package-prototype/package-run-v.1.0.0-20261005-all-2508495/`，不計封裝驗收完成。

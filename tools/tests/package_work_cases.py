@@ -105,6 +105,18 @@ class PackageWorkCases(unittest.TestCase):
             self.assertIn(expected, result.stderr.decode())
             self.assertNotIn("docker", result.stderr.decode().lower())
 
+    def test_container_mount_loop_preserves_package_name(self):
+        script = Path(work.__file__).with_name("package.sh").read_text()
+        function = script[script.index("run() {"):script.index("# 先由容器")]
+        harness = 'set -eu\nname=fixture-package\njob_name=fixture-job\ncounter=0\njob=/tmp/nonexistent-fixture\nbase=()\ntimeout() { :; }\n'
+        tail = '\nrun fixture-image\ntest "$counter" = 1\ntest "$name" = fixture-package\n'
+        result = subprocess.run(["bash", "-c", harness + function + tail], capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(function.count("  local name\n"), 1)
+        old = function.replace("  local name\n", "", 1)
+        result = subprocess.run(["bash", "-c", harness + old + tail], capture_output=True)
+        self.assertNotEqual(result.returncode, 0)
+
     def test_actual_synthetic_zip_and_delivery_manifest(self):
         fixture = stage_cases.PackageStageCases(); fixture.setUp(); self.addCleanup(fixture.doCleanups)
         job = fixture.root / "job"; job.mkdir(); (job / "stage").mkdir(); (job / "artifacts").mkdir()
