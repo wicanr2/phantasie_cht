@@ -1,0 +1,307 @@
+#!/usr/bin/env python3
+"""013 §4／§5／§12：必要資產清冊及 ZIP。只在 Docker 內執行。
+
+輸入是已整理的研究／封裝布局；本工具不建置、選授權或宣稱正式包完成。
+原版外洩、二進位架構、第三方條款及 GUI 另依 013 驗證。
+"""
+import argparse
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import re
+import stat
+import struct
+import zipfile
+
+import catalog_lib as cl
+import package_scan
+import package_text
+
+
+def no_links(path):
+    path = Path(path).absolute()
+    if any(p.is_symlink() for p in (path, *path.parents)):
+        raise ValueError("路徑含符號連結")
+    return path
+
+
+def directory(path):
+    path = no_links(path)
+    if not path.is_dir():
+        raise ValueError("布局來源須為實際目錄")
+    return path
+
+
+def file_bytes(path):
+    path = package_scan.regular(path)
+    if path.stat().st_size > package_scan.MAX_FILE:
+        raise ValueError("布局檔案超過大小上限")
+    return path.read_bytes()
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def record(name, data):
+    return {"name": name, "bytes": len(data), "sha256": digest(data)}
+
+
+def profile(stage, platform):
+    stage = directory(stage)
+    if platform == "linux":
+        return directory(stage / "usr/bin"), "bundle.json", "phantasie-play", "text", "font", "original"
+    if platform == "windows":
+        return stage, "bundle.json", "phantasie-play.exe", "text", "font", "original"
+    if platform == "macos":
+        base = directory(stage / "Phantasie.app/Contents")
+        return base, "Resources/bundle.json", "MacOS/phantasie-play", "Resources/text", "Resources/font", "Resources/original"
+    raise ValueError("平台須為 linux、windows 或 macos")
+
+
+def font_coverage(data, needed):
+    if len(data) < 16 or data[:8] != b"GOLEMFNT":
+        raise ValueError("字型標頭無效")
+    width, height, count = struct.unpack_from("<HHI", data, 8)
+    if (width, height) != (16, 16) or count == 0 or len(data) != 16 + count * 37:
+        raise ValueError("字型尺寸或記錄長度不符")
+    codes = set()
+    previous = -1
+    for offset in range(16, len(data), 37):
+        cp, source = struct.unpack_from("<IB", data, offset)
+        if cp <= previous or cp > 0x10FFFF or 0xD800 <= cp <= 0xDFFF or source not in (1, 0x81):
+            raise ValueError("字型碼點、順序或來源旗標不符")
+        codes.add(cp)
+        previous = cp
+    if not needed <= codes:
+        raise ValueError("字型缺必要譯文字元")
+    return count
+
+
+def bundle_data(stage, platform, version, engine, local_manual=None):
+    version = package_text.version(version)
+    if not re.fullmatch(r"[0-9a-f]{40}", engine):
+        raise ValueError("引擎須為完整 commit")
+    base, manifest, backend, text, font, original = profile(stage, platform)
+    if local_manual:
+        reference = directory(local_manual)
+        if reference == Path(stage).absolute() or Path(stage).absolute() in reference.parents or reference in Path(stage).absolute().parents:
+            raise ValueError("本機提示來源與布局不得重疊")
+        inputs = package_scan.originals(base / original, Path(__file__).resolve().parents[1] / "docs/re/001-input-inventory.tsv")
+        if len(inputs) != 70 or {p.name.casefold() for p in (base / original).iterdir()} != inputs.keys():
+            raise ValueError("本機原版目錄須恰含固定 70 檔")
+    elif (base / original).exists():
+        raise ValueError("無答案布局不得帶入原版目錄")
+    files = {backend: file_bytes(base / backend)}
+    if not files[backend]:
+        raise ValueError("後端不得為空檔")
+    if platform != "windows" and not (base / backend).stat().st_mode & 0o111:
+        raise ValueError("後端缺執行權限")
+    expected_keys = {}
+    for language in package_text.LANGUAGES:
+        needed = set(range(0x20, 0x7F))
+        for family in ("ui", "prose", "manual"):
+            name = f"{text}/{family}.{language}.tsv"
+            path = base / name
+            data = file_bytes(path)
+            _, rows = package_text.catalog(path)
+            keys = frozenset(key for _, key, _, _ in rows)
+            if family != "manual":
+                if family in expected_keys and keys != expected_keys[family]:
+                    raise ValueError("四語 catalog 鍵集合不同")
+                expected_keys[family] = keys
+            elif local_manual:
+                if package_text.local_manual(path)[0] != package_text.local_manual(reference / path.name)[0]:
+                    raise ValueError("本機提示表與指定來源不符")
+            elif keys != package_text.TITLES or len(rows) != 2:
+                raise ValueError("無答案 manual 必須僅有兩個標題")
+            for _, _, translation, _ in rows:
+                needed.update(ord(c) for c in translation if c not in cl.CENTER + "\n\r\t")
+            files[name] = data
+        name = f"{font}/{language}.golemfnt"
+        data = file_bytes(base / name)
+        font_coverage(data, needed)
+        files[name] = data
+    name = f"{text}/protected.tsv"
+    file_bytes(base / name)
+    files[name] = package_text.protected(base / name)[0]
+    result = {"schema": 1, "version": version, "engine_commit": engine, "backend": backend,
+              "text": text, "font": font, "assets": [record(name, data) for name, data in sorted(files.items())]}
+    if local_manual:
+        result["local_original"] = original
+    return base / manifest, result
+
+
+def bundle(stage, platform, version, engine, local_manual=None, verify=False):
+    path, expected = bundle_data(stage, platform, version, engine, local_manual)
+    if verify:
+        canonical = (json.dumps(expected, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+        if file_bytes(path) != canonical:
+            raise ValueError("bundle.json 與實際必要資產不符")
+    else:
+        no_links(path)
+        # 排他建立，失敗只移除本次建立的清冊。
+        stream = path.open("x", encoding="utf-8", newline="\n")
+        try:
+            with stream:
+                json.dump(expected, stream, ensure_ascii=False, indent=2)
+                stream.write("\n")
+        except BaseException:
+            path.unlink()
+            raise
+    return expected
+
+
+def snapshot(stage):
+    stage = directory(stage)
+    result = {}
+    seen = set()
+    total = 0
+    for path in [stage, *sorted(stage.rglob("*"))]:
+        name = stage.name if path == stage else stage.name + "/" + path.relative_to(stage).as_posix()
+        package_scan.path_parts(name)
+        key = name.casefold()
+        if key in seen:
+            raise ValueError("布局含不分大小寫的重複名稱")
+        seen.add(key)
+        mode = path.lstat().st_mode
+        if stat.S_ISDIR(mode):
+            result[name + "/"] = {"directory": True, "bytes": 0, "sha256": digest(b""), "mode": stat.S_IFDIR | 0o755}
+        elif stat.S_ISREG(mode):
+            data = file_bytes(path)
+            total += len(data)
+            if total > package_scan.MAX_BYTES:
+                raise ValueError("布局總大小超過上限")
+            result[name] = {"directory": False, "bytes": len(data), "sha256": digest(data),
+                            "mode": stat.S_IFREG | (0o755 if mode & 0o111 else 0o644)}
+        else:
+            raise ValueError("布局含符號連結或特殊檔案")
+        if len(result) > package_scan.MAX_ENTRIES:
+            raise ValueError("布局項目數超過上限")
+    if not any(not row["directory"] for row in result.values()):
+        raise ValueError("布局沒有檔案")
+    return result
+
+
+def windows_text(stage):
+    data = file_bytes(Path(stage) / "README.txt")
+    if not data.startswith(b"\xef\xbb\xbf") or not data.endswith(b"\r\n"):
+        raise ValueError("Windows README.txt 須為 UTF-8 BOM 及 CRLF")
+    data.decode("utf-8-sig")
+    if b"\n" in data.replace(b"\r\n", b"") or b"\r" in data.replace(b"\r\n", b""):
+        raise ValueError("Windows README.txt 換行不符")
+    for path in Path(stage).rglob("*"):
+        if path.suffix.casefold() == ".bat":
+            data = file_bytes(path)
+            data.decode("ascii")
+            if not data.endswith(b"\r\n") or b"\n" in data.replace(b"\r\n", b"") or b"\r" in data.replace(b"\r\n", b""):
+                raise ValueError("批次檔須為 ASCII 及 CRLF，不含 BOM")
+
+
+def zip_date(version):
+    date = datetime.strptime(package_text.version(version)[-8:], "%Y%m%d")
+    if not 1980 <= date.year <= 2107:
+        raise ValueError("版號日期超過 ZIP 時間範圍")
+    return date.year, date.month, date.day, 0, 0, 0
+
+
+def verify_zip(stage, archive, version, platform):
+    if platform not in ("windows", "macos"):
+        raise ValueError("ZIP 平台須為 windows 或 macos")
+    expected = snapshot(stage)
+    stamp = zip_date(version)
+    if platform == "windows":
+        windows_text(stage)
+    archive = package_scan.regular(archive)
+    seen = set()
+    with zipfile.ZipFile(archive) as source:
+        if source.comment:
+            raise ValueError("ZIP 不得帶額外註解")
+        for member in source.infolist():
+            name = member.filename
+            package_scan.path_parts(name)
+            if name not in expected or name in seen:
+                raise ValueError("ZIP 含額外或重複項目")
+            seen.add(name)
+            row = expected[name]
+            if member.is_dir() != row["directory"] or member.file_size != row["bytes"] or member.external_attr >> 16 != row["mode"]:
+                raise ValueError("ZIP 項目型態、大小或執行權限不符")
+            if member.flag_bits & 1 or any(ord(c) > 127 for c in name) and not member.flag_bits & 0x800:
+                raise ValueError("ZIP 加密或非 ASCII 名稱缺 UTF-8 旗標")
+            if member.date_time != stamp or member.extra or member.comment:
+                raise ValueError("ZIP 時間或附加資料不符")
+            if digest(source.read(member)) != row["sha256"]:
+                raise ValueError("ZIP 內容與布局雜湊不同")
+    if seen != expected.keys():
+        raise ValueError("ZIP 缺布局項目")
+    return {"files": sum(not row["directory"] for row in expected.values()), "entries": len(expected),
+            "bytes": archive.stat().st_size, "sha256": digest(archive.read_bytes())}
+
+
+def make_zip(stage, archive, version, platform):
+    stage = directory(stage)
+    archive = no_links(archive)
+    if stage == archive or stage in archive.parents or archive in stage.parents:
+        raise ValueError("ZIP 輸出與布局不得重疊")
+    if not archive.parent.is_dir():
+        raise ValueError("ZIP 輸出父目錄缺席")
+    if platform not in ("windows", "macos"):
+        raise ValueError("ZIP 平台須為 windows 或 macos")
+    if platform == "windows":
+        windows_text(stage)
+    expected = snapshot(stage)
+    stamp = zip_date(version)
+    # 用檔案物件及排他模式，不能覆寫任何既有封包。
+    destination = archive.open("xb")
+    try:
+        with destination:
+            with zipfile.ZipFile(destination, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as output:
+                for name, row in sorted(expected.items()):
+                    info = zipfile.ZipInfo(name, stamp)
+                    info.create_system = 3
+                    info.external_attr = row["mode"] << 16 | (0x10 if row["directory"] else 0)
+                    info.compress_type = zipfile.ZIP_DEFLATED
+                    path = stage.parent / name
+                    data = b"" if row["directory"] else file_bytes(path)
+                    if digest(data) != row["sha256"]:
+                        raise ValueError("封裝期間輸入改變")
+                    output.writestr(info, data, compresslevel=9)
+            destination.flush()
+            if snapshot(stage) != expected:
+                raise ValueError("封裝期間布局改變")
+            result = verify_zip(stage, archive, version, platform)
+    except BaseException:
+        archive.unlink()
+        raise
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("action", choices=("bundle", "verify-bundle", "zip", "verify-zip"))
+    parser.add_argument("--stage", required=True, type=Path)
+    parser.add_argument("--platform", required=True, choices=("linux", "windows", "macos"))
+    parser.add_argument("--version", required=True)
+    parser.add_argument("--engine", help="bundle 操作必要的完整引擎 commit")
+    parser.add_argument("--local-manual", type=Path, help="明示本機答案來源；不自動尋找")
+    parser.add_argument("--archive", type=Path, help="ZIP 操作必要的輸出／核對檔案")
+    args = parser.parse_args()
+    try:
+        if args.action in ("bundle", "verify-bundle"):
+            if not args.engine or args.archive:
+                raise ValueError("bundle 操作須明示 engine，不接受 archive")
+            result = bundle(args.stage, args.platform, args.version, args.engine, args.local_manual, args.action == "verify-bundle")
+            summary = {"assets": len(result["assets"])}
+        else:
+            if not args.archive or args.engine or args.local_manual or args.platform == "linux":
+                raise ValueError("ZIP 操作須明示 archive 與 windows／macos，不接受 engine／local-manual")
+            function = make_zip if args.action == "zip" else verify_zip
+            summary = function(args.stage, args.archive, args.version, args.platform)
+    except (OSError, UnicodeError, ValueError, struct.error, zipfile.BadZipFile) as error:
+        parser.exit(1, f"封包檔案處理失敗：{error}\n")
+    print(json.dumps({"result": "PASS package files only", "action": args.action, **summary}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

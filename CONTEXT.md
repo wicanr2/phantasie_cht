@@ -35,8 +35,9 @@
 - 路線（`tests/routes/`，23 條）：確認等鍵後既有 20 條一般路線共 438 點 zh-TW PASS，收據在 `workplace/explore-main/wait-regression/`。新增 `dungeon-options` 32 點，四語四模式共 512 點通過，收據在 `workplace/explore-dungeon/ab-dungeon-options/`。另外 `save-roundtrip-write`、`save-roundtrip-read` 依序使用同一 `-state`，四語四模式 240 點回歸通過，收據在 `wait-save-regression/`。四語卷軸 31 點、四模式共 496 點同狀態與節奏回歸在 `wait-scroll-regression/`。其他非語言切換路線的四語 A/B 為既有版本證據，未宣稱本輪重跑全部語言。
 - `map-description`、`guild-duplicate` 改在正常確認點停下，各四語四模式共 192 點，收據在 `workplace/explore-main/ab-wait-windows/`；全文、像素範圍、停留、語言切換、確認返回及 guard 負對照通過。契約與完整回歸入口見 008。
 - 寶箱短訊息的正常長路線只留本機，收據在 `workplace/explore-dungeon/ab-dungeon-short-v2/`。156 點中 85 個無文字旅行點只作原版狀態診斷；UI 完成聲明限八個 `short-*` 停點。正式清冊見 `short-verification-manifest.json`，範圍及工具處置見 009。
-- 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/save_roundtrip.py`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`、[package_text.py](tools/package_text.py)、[package_scan.py](tools/package_scan.py)；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項、封包譯文 8 項、封包掃描 11 項）。
+- 工具（Docker 內執行）：`tools/run_receipt.sh`、`tools/ab_receipt.sh`、`tools/save_roundtrip.py`、`tools/build_fonts.sh`、`tools/build_play.sh`、`tools/smoke_play.sh`、[package_text.py](tools/package_text.py)、[package_scan.py](tools/package_scan.py)、[package_files.py](tools/package_files.py)；譯文工具 `gamedata.py`、`enumerate_text.py`、`harvest_events.py`、`ui_*.py`、`prose_*.py`、`out_text*.py`、`lint_catalog.py`、`catalog_lib.py`、`build_font.py`、`derive_zhcn.py`、`ida/`；測試 `tools/tests/`（lint 反例 24 項、共用格式向量 61 項、封包譯文 8 項、封包掃描 11 項、資產清冊與 ZIP 10 項）。
 - 封包外洩掃描：原版掃描來源缺席或錯版直接失敗。實際無答案布局 14 檔及本機布局 84 檔通過，改名原版及偽裝答案表拒絕，SHA-256 單一突變的兩個期望按預期失敗；70 個原版檔案保持不變。契約及資料兩輪審查無阻擋或應改，較早報告保留。最新收據入口為 `workplace/package-prototype/package-scan-phase-verification-manifest.json`，契約見 [013 §13](docs/spec/013-cross-platform-packaging.md#13-封包外洩掃描工具)。這項掃描不代替權利、必要資產、字型或 GUI 驗收。
+- 資產清冊與 ZIP：三平台加本機 Windows 的四組命令、三份 ZIP 往返及實際 Go 清冊介面通過；缺字單一突變的兩個期望按預期失敗，101 個輸入保持不變。研究命令使用正式譯文與既有前端，字模完全自製且全零，不能計為發行字型或 GUI 驗收。入口為 `workplace/package-prototype/package-files-phase-verification-manifest.json`，契約見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。正式封包組裝及編排尚待完成。
 
 ## 已知事實（摘要，等級與證據見 `docs/re/`）
 
@@ -59,5 +60,5 @@
 
 ## 下一步
 
-1. 第三期：依 READY 的 013 完成封包布局、壓縮及編排工具。譯文整理、固定 runtime、原生啟動器與外洩掃描已接通；啟動器有 Linux 合成測試、正常繁中畫面及 Wine 路徑證據，入口見 [013 §12](docs/spec/013-cross-platform-packaging.md#12-原生啟動器與研究抽測)。這些不是正式封包驗收。完整版號已定案；正式字型散布包仍待使用者選定條款，不能代選。其後由乾淨輸入重建交付包，核對權利邊界、必要檔案及五語發行包冒煙。
+1. 第三期：依 READY 的 013 完成封包組裝與編排工具。譯文整理、固定 runtime、原生啟動器、外洩掃描、必要資產清冊及 ZIP 已接通；啟動器有 Linux 合成測試、正常繁中畫面及 Wine 路徑證據，入口見 [013 §12](docs/spec/013-cross-platform-packaging.md#12-原生啟動器與研究抽測)。這些不是正式封包驗收。完整版號已定案；正式字型散布包仍待使用者選定條款，不能代選。其後由乾淨輸入重建交付包，核對權利邊界、必要檔案及五語發行包冒煙。
 2. 轉公開、公開 Release 與推廣影片另由使用者決定。未取得授權前維持 private，不上傳原版、手冊或答案。

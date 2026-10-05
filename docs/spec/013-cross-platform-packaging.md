@@ -217,3 +217,23 @@ ZIP／tar 逐項檢查名稱、重複項目、符號／硬連結、特殊檔案�
 合成反例入口為 [package_scan_cases.py](../../tools/tests/package_scan_cases.py)，11 項測試通過。實際無答案布局 14 檔及本機布局 84 檔通過；改名原版與偽裝答案表皆以 exit 1 拒絕。乾淨複本只移除一處 SHA-256 判斷，兩個獨立字面期望按預期失敗。70 個原版檔案未變。
 
 收據為 `workplace/package-prototype/package-scan-r5-verification.json`、`package-scan-tests-r5.log`、`package-scan-mutation-r5.log`；最終契約及資料報告為 `package-scan-contract-review-r3.txt`、`package-scan-evidence-review-r3.txt`。封存入口為同目錄的 `package-scan-phase-verification-manifest.json`，較早報告與收據保留。掃描結果只證明本工具覆蓋的外洩邊界，不證明授權、必要檔案、字型覆蓋、可啟動性或正式封包完成，013 維持 READY。
+
+## 14. 必要資產清冊與 ZIP 工具
+
+[package_files.py](../../tools/package_files.py) 於 Docker 內接收 `--stage`、`--platform`、`--version`。`bundle`／`verify-bundle` 另需完整 `--engine`；`zip`／`verify-zip` 另需 `--archive`，只處理 Windows／macOS。這些是封裝編排可呼叫的共用步驟，不建置、不選字型條款，也不建立 tag。
+
+| 平台 | 輸入布局及清冊 |
+|---|---|
+| Linux | stage 的 `usr/bin/` 為相對基準，清冊 `usr/bin/bundle.json` |
+| Windows | stage 為相對基準，清冊 `bundle.json`；後端 `phantasie-play.exe` |
+| macOS | `Phantasie.app/Contents/` 為相對基準，清冊 `Resources/bundle.json`；後端 `MacOS/phantasie-play`，譯文及字型在 Resources |
+
+清冊逐檔核對 §12 的 18 份必要資產；四語 ui／prose 的鍵集合須相同，無答案 manual 僅允許兩個標題。GOLEMFNT 核對 16×16 標頭、記錄長度、合法且遞增的碼點、來源旗標及 ASCII／實際譯文的字元覆蓋。Unix 後端須有執行權限。這項工具只檢查格式與覆蓋，不證明字形或二進位架構。`--local-manual` 明示本機變體，提示 bytes 須符合該來源，固定 70 檔原版須在平台指定的包內目錄；未明示時不得帶入該目錄。verify-bundle 核對本工具生成的精確 UTF-8／LF 清冊。
+
+ZIP 包含 stage 根目錄，項目依名稱排序，時間固定為版號日期零時，權限整理為一般檔案 0644／可執行檔 0755／目錄 0755。核對實際 ZIP 的項目集合、bytes、SHA-256、權限、UTF-8 旗標及時間；不解出寫入主機。Windows 讀我須 UTF-8 BOM／CRLF，若有批次檔則須 ASCII／CRLF 且不含 BOM。來源與輸出重疊、符號連結、特殊檔案、大小寫重名及超限均拒絕。硬連結來源按一般檔案讀取及雜湊，ZIP 不保留硬連結身分；存檔硬連結的拒絕是 §12 的另一項契約。輸出排他建立，失敗只刪除本次建立的清冊或 ZIP，不刪既有檔或來源。
+
+合成驗證入口為 [package_files_cases.py](../../tools/tests/package_files_cases.py)，10 項測試通過。三平台加本機 Windows 的四組命令均產生及核對 18 項清冊；Windows、macOS 及本機 Windows 的三份 ZIP 往返及 §13 掃描通過。本機提示來源不符反例以 exit 1 拒絕。這些命令使用既有前端與正式譯文，字模是自製 BMP 碼點與全零位元圖，不讀 Unifont，不能作正式字型或可讀畫面證據。
+
+乾淨複本只移除一處覆蓋判斷，合法長度的缺字夾具及意外建立清冊兩項期望按預期失敗。實際 Go 啟動器的 readBundle 另讀取四組生成清冊通過，只驗介面及資產雜湊，不啟動 GUI 或原版。101 個輸入雜湊保持不變。
+
+命令、測試、突變與 Go 介面收據分別為 `workplace/package-prototype/package-files-verification.json`、`package-files-tests.log`、`package-files-mutation.log`、`package-files-native-compatibility.log`。唯讀契約及資料報告為 `package-files-contract-review.txt`、`package-files-evidence-review.txt`；本輪封存入口為 `package-files-phase-verification-manifest.json`。較早清冊保留。封包外洩仍另由 §13 掃描；權利、實際字型、架構、平台依賴及 GUI 依其他閘門驗證，013 維持 READY。

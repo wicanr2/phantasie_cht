@@ -334,3 +334,12 @@
 - 契約審查先指出 ZIP 的 FIFO、socket、裝置等特殊型態未完整拒絕；補反例及型態限制，另拒絕帶資料的目錄。再發現合法改名 Zstandard frame 可放行，查回驗收入口與固定 zstd 1.5.6 來源的 `doc/zstd_compression_format.md`，補標準 magic、全部 16 種 skippable magic 及副檔名拒絕。合法合成 frame 由 libzstd 1.5.4 level 1 產生，沒有原版 bytes。gzip 解出內容逐層掃描；單一 AppImage 必須先解出目錄。沒有新增通用解碼依賴。
 - r5 全套 11 項合成測試通過。實際無答案布局 14 檔、本機布局 84 檔及固定 runtime 來源通過；改名原版 EXE、偽裝手冊答案表各以 exit 1 拒絕。原版來源缺席的拒絕已在前一版 CLI 驗證，沒有冒稱 r5 重跑該項。r5 乾淨暫存複本只停用一處 SHA-256 判斷，兩項獨立期望按預期失敗，正式程式未改。
 - r5 實際收據、測試及突變紀錄分別為 `package-scan-r5-verification.json`、`package-scan-tests-r5.log`、`package-scan-mutation-r5.log`。兩輪最終唯讀補審入口為 `package-scan-contract-review-r3.txt`、`package-scan-evidence-review-r3.txt`；早期報告及原型封存保留。新封存入口為 `package-scan-phase-verification-manifest.json`。013 維持 READY；封包布局、編排、正式字型與平台冒煙仍待完成。
+
+## 2026-10-05 必要資產清冊與 ZIP
+
+- 上輪 2f9949a 已提交、推送並核對遠端，分類為實質進度。本輪路由命中三平台打包，重讀統一交付目錄、Windows ZIP、文件職責與 READY 013。依原有契約補共用清冊及 ZIP 工具，沒有改原版、引擎、語言範圍或散布決策。
+- 新 `tools/package_files.py` 與既有原生啟動器對接，核對 18 個必要資產及 GOLEMFNT 的格式與譯文字元覆蓋。ZIP 依版號日期、固定權限與排序生成，再讀實際檔案核對集合、內容、UTF-8 及權限。失敗只清理本次新建清冊或 ZIP，既有來源及產物保留。同輪掛入 README、013 §14 與 CONTEXT。
+- 10 項合成測試通過，包含逐一移除 18 個資產、同長度內容破壞、合法長度缺字、清冊損毀、ZIP 集合／內容／UTF-8 旗標、讀我與批次檔編碼、兩次 mtime 不同而 ZIP bytes 相同、排他輸出及失敗清理。缺字突變只移除一處覆蓋 guard，缺字夾具及意外清冊兩個獨立期望按預期失敗。
+- 四個實際 CLI 布局使用既有三平台前端、啟動器及正式譯文，字模由固定 BMP 碼點與全零圖案自製，不讀 Unifont，不代選授權，不作正式包或 GUI 完成證據。三份 ZIP 往返及 stage／ZIP 的獨立外洩掃描通過，本機提示來源不符以 exit 1 拒絕。含原版及答案的研究副本只留 workplace；101 個來源雜湊不變。
+- 固定 Go 1.24.13 容器只跑新的 TestPackageManifestCompatibility，實際啟動器 readBundle 讀四組 Python 清冊通過，不開 GUI 或原版。首個 image inspect 格式直接存取缺席的 Entrypoint 欄位失敗，改用 index 讀出 null／bash；既有 SDK 本身可執行，沒有重建工具鏈。
+- 契約及資料兩輪唯讀報告為 `package-files-contract-review.txt`、`package-files-evidence-review.txt`。資料審查提醒「連結」措辭不能把硬連結算成已拒絕；正文明確改為符號連結，硬連結來源唯讀逐檔讀取，ZIP 不保留 inode 關係，存檔硬連結仍依啟動器另一項契約拒絕。原型、runtime、啟動器及掃描的舊封存不覆寫。本輪入口為 `package-files-phase-verification-manifest.json`，013 維持 READY；正式字型條款、封包組裝／編排及平台冒煙仍待完成。
