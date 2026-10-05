@@ -164,4 +164,40 @@ gzip／zstd 的合成 AppImage 已確認 offset、解出內容、執行權限、
 
 [合成測試](../../tools/tests/package_text_cases.py) 8 項通過。兩種實際中間輸出各 13 檔，由獨立 CSV 讀取及 bytes 比對核對：每語 ui 678、prose 1044；無答案 manual 僅 2 列，本機版 156 列。乾淨合成匯出僅把答案模板加入篩選清單，突變目標恰好一次，獨立字面期望按預期失敗。輸入與既有輸出保留反例也通過。
 
-收據為 `workplace/package-prototype/package-text-verification.json`、`package-text-tests.log`、`package-text-mutation.log`；本輪封存入口為 `runtime-phase-verification-manifest.json`。原生啟動器、完整封包、發行字型及正式平台冒煙尚未完成，013 維持 READY。
+收據為 `workplace/package-prototype/package-text-verification.json`、`package-text-tests.log`、`package-text-mutation.log`；該輪封存入口為 `runtime-phase-verification-manifest.json`。原生啟動器的後續實作見 §12；完整封包、發行字型及正式平台冒煙尚未完成，013 維持 READY。
+
+## 12. 原生啟動器與研究抽測
+
+實作入口為 [main.go](../../apps/phantasie/launcher/main.go)，獨立 Go 模組在 [go.mod](../../apps/phantasie/launcher/go.mod)。不連結 GUI，先核對包內檔案、支援原版、匯入及存檔隔離，再以子程序啟動固定引擎前端。70 筆 [來源清單](../../apps/phantasie/launcher/original.tsv) 與 001 清冊逐列相符，只含檔名、大小及 SHA-256，沒有原版 bytes 或答案。
+
+在固定 SDK 容器內以 `GOPROXY=off GOSUMDB=off`、唯讀模組快取與 `go build -mod=readonly -trimpath` 建置。必要注入參數為 `-ldflags '-X main.releaseVersion=<完整版號> -X main.engineCommit=<40字元commit>'`；Windows 另加 `-H=windowsgui`。模組只依賴固定的 `golang.org/x/sys v0.36.0`，其兩筆 go.sum 與固定引擎相同。
+
+封裝工具須產生 `bundle.json`。Linux／Windows 放啟動器旁；macOS 放 `Contents/Resources/bundle.json`，路徑以 `Contents` 為基準。格式如下，省略的資產須由工具按實際 bytes 填齊，不能直接使用這個示意：
+
+```json
+{
+  "schema": 1,
+  "version": "v.1.0.0-20261005",
+  "engine_commit": "8d9807df4f191c02eef46a22b6f7bbecb426ef5b",
+  "backend": "phantasie-play",
+  "text": "text",
+  "font": "font",
+  "assets": [{"name": "phantasie-play", "bytes": 0, "sha256": "由實際檔案計算"}]
+}
+```
+
+必要資產為後端、13 份執行期譯文與四份字型，共 18 份。每份都有相對路徑、大小及 SHA-256；錯版、缺檔、雜湊不符、未知欄位、路徑跳脫或重複名稱均拒絕。本機變體可增加 `local_original`，指定包內相對原版目錄；原版仍先經 70 檔核對及複製，不直接作存檔根。
+
+匯入使用本次獨占暫存目錄、逐檔重驗及同資料根的原子 rename。清冊在 `data/import.json`，存檔在 `data/saves` 或明示 `-state`。合法匯入不要求來源內容仍有效，不重置存檔。拒絕存檔／資料根的符號連結、特殊檔案及連結數大於 1 的檔案，也比對實際檔案身分。Windows 的目錄列舉可能沒有檔案 ID，因此重新 `Lstat` 取得身分；沒有 Wine 特判。
+
+Unix 前端繼承兩份 flock 描述，啟動器異常結束而前端仍在時繼續持鎖。Windows 前端先以 CREATE_SUSPENDED 建立，加入設有 KILL_ON_JOB_CLOSE 的 job，再恢復執行。這項 OS 契約見 [Job Objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects)及[程序建立旗標](https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags)。版本、說明及參數檢查均在前端初始化之前完成。
+
+| 驗證 | 結果與範圍 |
+|---|---|
+| Linux 合成測試 | 16 個頂層測試通過，包含匯入失敗、已匯入讀回、存檔保留、舊目錄、必要資產、硬連結、重複啟動與父程序終止後持鎖；含一個子程序助手入口，不作玩家功能數量 |
+| 負對照 | 同長度資料損毀、逐一移除 18 份必要資產均拒絕；乾淨複本只移除一處連結數限制，獨立存檔期望按預期失敗 |
+| Windows／Wine | 15 個代表測試通過，含 C:/E: 跨磁碟機讀回、中文／空白 argv、硬連結、冷啟動及 job 終止；最終測試輸入 guard 另核對，版本與說明模式另以 GUI 子系統原型執行 |
+| Linux 正常畫面 | 從不同工作目錄、中文／空白資料根冷啟動，以正常按鍵到繁中標題及公會選單，沒有語言停用；腳本最後送 SIGTERM，確認後端被終止及無遺留，不算遊戲正常 exit 0 |
+| macOS | 兩種架構及 universal 原型只核對標頭與內容，未做 macOS 真機啟動 |
+
+契約及資料審查報告為 `launcher-contract-review-r3.txt`、`launcher-evidence-review-r3.txt`；較早報告及失敗紀錄保留。封存入口為 `workplace/package-prototype/launcher-phase-verification-manifest.json`。這些是啟動器及研究布局的證據，沒有新增遊戲同狀態 A/B，也不代替正式 AppImage／ZIP、發行字型、五語冒煙及封包存檔驗收。013 維持 READY。

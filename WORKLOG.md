@@ -311,3 +311,18 @@
 - 實際中間輸出命令的自動權限審查一度逾時，工具明示可重試一次；相同操作重試後成功。這不是產品失敗，也沒有改用主機執行分析或要求額外授權。
 - 本輪封存入口為 `workplace/package-prototype/runtime-phase-verification-manifest.json`。舊原型清冊與受保護輸入均保留；只提交版本定案、READY 契約、共用譯文工具及文件，依既有授權推送專案 main。引擎維持 8d9807d；原生啟動器、剩餘封包工具與正式平台驗證尚未完成，整體目標保持進行。
 - 專案相關容器及兩個 legacy build 容器已核對沒有遺留。固定 builder image 保留供重建；依專案禁止 rmi 的規則，未刪除兩個失敗原型的工具層或其他 image。新輸出與報告的擁有權、全工作區 root-owned 檔案及誤建目錄納入新封存核對，沒有建立 tag 或 Release。
+
+## 2026-10-05 原生啟動器
+
+- 上輪 ed175f0 已推送。核對專案與引擎工作樹乾淨，013 為 READY；字型條款待決不阻擋共用程式。路由命中三平台打包，重讀 dist-all 及文件職責契約。
+- 依 013 §10 新增 `apps/phantasie/launcher/`。這是專案專屬的 Go 原生啟動器；現有 tools 放 Python／Docker 工具，不能承載原生執行入口，既有引擎則維持固定 commit。因此依 AGENTS §7 的 apps 職責建立根層 apps，沒有另建研究或交付根目錄。
+- 在 READY 契約下實作版本／說明預檢、18 份必要資產清單、70 檔固定版本匯入、原子提交、已有存檔保留及 OS 資料／狀態鎖。Unix 前端繼承持鎖描述，Windows 先暫停建立前端、加入 kill-on-close job 後恢復。沒有改引擎、原版規則、鍵盤流程或作答判定。
+- 契約審查指出狀態內彼此硬連結或連到其他目錄仍可能被接受。補 Unix Nlink／Windows NumberOfLinks 檢查及兩種反例，原 same-file 與路徑檢查保留；已有合法匯入時也不再掃未使用來源內容。Linux 新全套 16 個頂層測試通過，其中一項是子程序助手入口。只在乾淨暫存複本移除一處連結數限制，獨立存檔期望按預期失敗，正式原碼不變。
+- 初次測試的唯讀夾具在建立子目錄前就鎖住父目錄，另一次把 Go 關閉父程序輸出管線誤當成子程序終止。修正夾具與退出事件等待，以同 SDK 重跑通過；不算產品缺陷。Linux 異常終止測試以 pidfd 的退出事件確認前端結束及鎖釋放。
+- GUI 首次等待使用 image 沒有的 xdpyinfo，逾時且沒有取得遊戲畫面。沿驗收入口改用現有 xdotool，新的 r2／r3 布局均從不同工作目錄、中文及空白資料根，正常按鍵到繁中標題與公會選單。腳本最後送 SIGTERM，確認後端被終止及無遺留；launcher.log 的 signal:killed 是該清理結果，不算遊戲正常 exit 0。截圖由主代理逐張查看，只留研究目錄；沒有新增同狀態 A/B 或正式包聲明。
+- Wine 映像未設定 UTF-8 語系，初次中文目錄夾具建立失敗。C.UTF-8 的獨立標準庫 probe 可建立中文目錄；同一套測試再顯示冷啟動的檔案身分誤判。查回驗收入口及 SDK 的 Go 1.24.13 `src/os/dir_windows.go`、`types_windows.go`，確認目錄列舉不提供 object IDs 時可能留下零 ID。獨立 probe 對兩個不同檔案實測 DirEntry.Info 的 SameFile 為 true，Lstat 為 false。改為重新 Lstat，不加 Wine 特判或停用硬連結拒絕。
+- 修正後 Wine 15 個代表測試通過，包含跨 C:/E: 存檔讀回、中文／空白 argv、已匯入而來源缺席、鎖衝突及父程序終止後 job 停止前端。新增測試的磁碟機輸入 guard 再補絕對路徑與不分大小寫比對，避免同一磁碟機的無效配置計 PASS；最終 guard 與 GUI 子系統啟動器的版本、說明另有收據。
+- 固定 SDK 以 Go 1.24.13、CGO_ENABLED=0、唯讀模組 cache、network none 試編譯 Linux、Windows、macOS 兩種架構及 universal。來源清單 70 列與正式清冊完全相同，x/sys v0.36.0 的兩筆 go.sum 與固定引擎相同。這些是啟動器原型，不是正式交付；macOS 未做真機驗證。
+- 最終 guard 的兩項 Windows 測試及 GUI 子系統原型的版本／說明通過；同磁碟機的小寫 c: 配置按預期拒絕，不把其餘 15 項代表測試稱作最終測試檔重跑。資料複核採納清理訊號與正常遊戲退出的聲明區分。
+- 契約及資料複核的新報告、失敗日誌、最終測試、二進位及研究畫面保存在 `workplace/package-prototype/`，封存入口為 `launcher-phase-verification-manifest.json`。較早 prototype、runtime 及抽樣清冊不覆寫。同步 README、013 與目前狀態入口；正式字型條款及封包工具仍待完成，不建立 tag 或 Release。
+- 兩轮最終報告的阻擋、應改及建議皆為零。收尾核對原版 70 檔、研究匯入副本 70 檔、正式受保護檔案 32 項、公開路線 23 條及較早 runtime 封存保持不變，檢查全工作區擁有權及相關容器清理。依既有授權只提交及推送專案 main；引擎保持已推送 8d9807d，整體目標保持進行。

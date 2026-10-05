@@ -29,6 +29,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。尚未建立正式交付
 - 存檔後冷啟動讀回：[tools/save_roundtrip.py](tools/save_roundtrip.py) 在 Docker 內呼叫已建置的 `phantasie-receipt`，以 `--receipt`、`--root`、`--routes`、`--text`、`--font`、`--out` 指定容器內路徑。原版、路線、譯文與字型唯讀掛載，輸出目錄可寫且須空白。契約與輸入隔離見 [005 §10](docs/spec/005-play-frontend-and-receipts.md#10-存檔層收據擴充)。
 - 譯文是 `text/ui.<語言>.tsv` 與 `text/prose.<語言>.tsv`；檢查用 `tools/lint_catalog.py`（Docker 內）。
 - 封包的譯文中間輸入由 [tools/package_text.py](tools/package_text.py) 整理，於 Docker 內指定 `--source`、`--out` 及已定案的 `--version`。預設不讀本機答案，只保留兩個手冊標題；`--local-manual` 明示本機專用變體。這項工具不產生正式封包，契約見 [013](docs/spec/013-cross-platform-packaging.md)。
+- 封包用的 [原生啟動器](apps/phantasie/launcher/main.go) 負責版本、原版匯入與存檔隔離，使用方式及 `bundle.json` 格式見 [013 §12](docs/spec/013-cross-platform-packaging.md#12-原生啟動器與研究抽測)。已做 Linux／Wine 抽測，正式封包與 macOS 真機驗證仍待完成。
 
 ## 畫面
 
