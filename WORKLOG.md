@@ -297,3 +297,17 @@
 - Go 映像沒有 file，改用既有 AppImage 工具及獨立標頭解析；原型已編譯，該驗證命令失敗不算產品失敗。ImageMagick 拼圖兩次中止，查回驗收路由後改逐張查看原始 PNG，未為此調產品或新增 image。
 - 字型條款已向使用者提供具體選項，未收到答覆，不代選；完整版號與本機 tag 也未定案。013 維持 DRAFT，未實作正式封包、建立 tag 或 Release。研究封存入口為 `workplace/package-prototype/prototype-verification-manifest.json`，舊抽樣清冊及原始證據不覆寫。
 - 本輪只新增打包草案與現況紀錄；引擎、正式 catalog、本機答案表、字型、原版、IDA 及 23 條公開路線不變。依既有授權提交及推送專案 main。相關容器均有界且 --rm；收尾核對原型擁有權、原版及受保護檔案、文件入口與 Docker 清理狀態。整體目標保持進行。
+
+## 2026-10-05 本機版號與 runtime 固定來源
+
+- 使用者定案首個正式本機交付為 `v.1.0.0-20261005`，用於本機 tag 與三平台封包，不建立公開 Release。字型條款仍待回覆，沒有代選或產生正式字型散布包。
+- 勘誤：上輪把字型與版號待決擴張為全部打包程式的實作停止線。字型選項只影響正式字型散布包；規格兩輪複核成為 READY 後，共用工具與啟動器仍屬已授權工作。013 §2、§10 及目前狀態已同步此界線。舊歷程及封存證據保留。
+- 固定 runtime 上游 build 的 artifacts 現存為零，匿名取得日誌回傳 403，只分類為該 API 管道未取得附庫版本。改用相同完整 commit 的公開來源自行重建；原預編譯 runtime 保留歷史對照，不再作正式包輸入。
+- 原 AppImage image 缺少可追溯的附庫工具層，新增有明確替代範圍的 `phantasie-runtime-builder:source-r1`。兩次獨立有界容器編譯得到相同 runtime 及三份靜態庫；固定 runtime SHA-256 為 `0341f742081a99f00f6c8654d742e470e85c66dafabd17d851ab5b662dc7f511`。原 AppImage 封裝 image 沿用，以唯讀掛載替換 runtime 輸入。
+- 實際連結 map、20 項上游及 Alpine 來源、13 項授權輸入、56 檔來源包均獨立核對。gzip 與 zstd 合成 AppImage 的 offset、解出內容、權限及中文／含空白參數通過；只證明 runtime 工具，不算正式遊戲包或 GUI 驗收。新入口為 `workplace/package-prototype/runtime-rebuild-verification.json`，不覆寫前輪原型清冊。
+- 初次原型編譯缺 include 搜尋根，第二次 legacy build 受到主機 UID 共用的 RLIMIT_NPROC 限制。查回驗收路由後，改以同一工具層、user 1000、`--pids-limit 128` 的一次性容器乾淨重跑通過。這些是工具環境問題，沒有調整遊戲或原版驗證要求。
+- 契約及資料兩輪新版唯讀複核無阻擋、應改或建議，013 升 READY。報告分存 `runtime-contract-review.txt`、`runtime-evidence-review.txt`，不修改前輪報告。三份自行建庫僅交叉核對兩輪原始雜湊收據；runtime 本體及 SDK 庫另有獨立 bytes／hash 核對，不混用證據等級。
+- READY 後實作 `tools/package_text.py`，只整理指定 runtime catalog。8 項合成測試、兩種實際中間輸出、逐檔 bytes／筆數／雜湊及答案模板夾帶的忠實突變通過；突變恰好一處，按預期有一項失敗。不含答案模式從未讀本機提示表，manual 各 2 列；本機專用模式各 156 列。兩種輸出各 13 檔，均留在忽略版控的研究目錄，未建立正式字型散布包。
+- 實際中間輸出命令的自動權限審查一度逾時，工具明示可重試一次；相同操作重試後成功。這不是產品失敗，也沒有改用主機執行分析或要求額外授權。
+- 本輪封存入口為 `workplace/package-prototype/runtime-phase-verification-manifest.json`。舊原型清冊與受保護輸入均保留；只提交版本定案、READY 契約、共用譯文工具及文件，依既有授權推送專案 main。引擎維持 8d9807d；原生啟動器、剩餘封包工具與正式平台驗證尚未完成，整體目標保持進行。
+- 專案相關容器及兩個 legacy build 容器已核對沒有遺留。固定 builder image 保留供重建；依專案禁止 rmi 的規則，未刪除兩個失敗原型的工具層或其他 image。新輸出與報告的擁有權、全工作區 root-owned 檔案及誤建目錄納入新封存核對，沒有建立 tag 或 Release。

@@ -1,6 +1,6 @@
 # 013 三平台交付與封包驗證
 
-狀態：DRAFT（2026-10-05）。第一、二期已依 [分期目標](../goals/001-phases.md#抽樣驗收範圍)完成抽樣收斂。本規格處理第三期。兩輪唯讀審查成為 READY 前，不將原型接入正式交付。
+狀態：READY（2026-10-05）。第一、二期已依 [分期目標](../goals/001-phases.md#抽樣驗收範圍)完成抽樣收斂。本規格處理第三期。新版契約與資料兩輪唯讀複核無阻擋或應改；正式封包及平台冒煙尚未完成。
 
 ## 1. 依據與邊界
 
@@ -11,9 +11,9 @@
 
 ## 2. 待決與執行閘門
 
-1. 字型散布條款：雙授權及作者聲明已核對，見 [font](../../font/README.md)。OFL 1.1 或 GPLv2+ 含字型例外待使用者選定。沒有答覆時只整理輸入、試編譯及審查，不建立正式字型散布包。
-2. 完整版號與本機 tag：格式為 `v.<主版>.<次版>.<修訂版>-YYYYMMDD`，日期採 Asia/Taipei。須由使用者定案；不以原型名代替版號，不移動已發布 tag。
-3. AppImage runtime 附帶程式庫的來源與條款須對應固定二進位核對，不只附 runtime 自身 MIT 文件。缺必要授權或對應來源，正式打包失敗。
+1. 字型散布條款：雙授權及作者聲明已核對，見 [font](../../font/README.md)。OFL 1.1 或 GPLv2+ 含字型例外待使用者選定。沒有答覆時不得代選、採預設或建立正式字型散布包。兩種選項共用的工具與啟動器可以在規格 READY 後實作；合成測試不代表散布條款已定案。
+2. 完整版號與本機 tag：使用者 2026-10-05 定案 `v.1.0.0-20261005`，作首個正式本機交付。格式為 `v.<主版>.<次版>.<修訂版>-YYYYMMDD`，日期採 Asia/Taipei。不以原型名代替版號，不移動已發布 tag。版號由封包工具的必要參數輸入，實作與合成測試不建立 tag。
+3. AppImage runtime 附帶程式庫的來源與條款須對應固定二進位核對，不只附 runtime 自身 MIT 文件。正式包採 §9.1 的自行重建輸入，原型預編譯 runtime 僅作歷史對照。缺必要授權、來源或精確雜湊，正式打包失敗。
 
 ## 3. 入口與乾淨輸入
 
@@ -36,6 +36,7 @@ Go 離線建置採 `GOPROXY=off`、`GOSUMDB=off`、`-mod=readonly`、固定版�
 - 字型由該變體實際附帶的正式譯文重建。不含答案包不用本機答案表當字元來源；GOLEMFNT 格式及每語字元覆蓋須核對。
 - 本機變體另加入已確認原版資料及四語答案表，存檔另放可寫狀態目錄。手冊掃描影像不隨包。
 - 附專案 RRSAL-1.0、dosgolem 原授權、Go 與第三方全文。依各平台 `go version -m` 取模組聯集，檢查模組頂層及內嵌元件授權。缺文件即失敗。
+- Linux 包另附 §9.1 的 runtime 配套來源：完整上游來源壓縮檔、Alpine 修補檔與 APKBUILD、編譯處置及腳本、工具版本與實際連結清單，以及附庫與 GCC 啟動物件的全文條款。來源只附文字與公開程式碼，不帶 SDK 的預編譯 APK。各元件沿用原條款，不能改成專案 RRSAL-1.0；僅附上游網址不算配套來源。
 - 附選定字型條款、完整作者聲明及來源版本，不將第三方字型改授權為 RRSAL-1.0。
 - 讀我寫明原版放置、F11／F12、五語、存檔目錄、抽樣限制、音訊無輸出、日韓機器輔助未經母語者校對及平台測試邊界。
 
@@ -53,7 +54,7 @@ Linux 原型實查直接依賴 `libX11.so.6`、`libm.so.6`、`libc.so.6`，最�
 
 ## 6. 啟動與存檔
 
-現有前端需明示 `-root`、`-text`、`-font`，見 [005](005-play-frontend-and-receipts.md)。Ebiten 初始化早於旗標解析，無 DISPLAY 時連 `-h` 都會先失敗。因此擬用專案內不連結 GUI 的原生啟動器，完成版本輸出、路徑與匯入預檢後才啟動原有前端。這是 DRAFT 的打包實作方案，不改 DOS 核心、遊戲規則或覆繪。
+現有前端需明示 `-root`、`-text`、`-font`，見 [005](005-play-frontend-and-receipts.md)。Ebiten 初始化早於旗標解析，無 DISPLAY 時連 `-h` 都會先失敗。因此採用專案內不連結 GUI 的原生啟動器，完成版本輸出、路徑與匯入預檢後才啟動原有前端。不改 DOS 核心、遊戲規則或覆繪。
 
 ### 6.1 資料定位
 
@@ -119,7 +120,29 @@ Windows 用既有 Wine 測實際 ZIP 內容與路徑，記明 Wine 驗證。macO
 
 無頭收據工具另以 CGO_ENABLED=0 試編譯 Linux、Windows、macOS x86-64 及 arm64。五語 Linux 前端原型各冷啟動，以正常按鍵擷取標題及城鎮／公會選單共十張畫面，日誌沒有語言停用。原型使用建置映像及現有本機資料，未驗證正式包、匯入啟動器或存檔生命週期。
 
-runtime 的 MIT 與附帶程式庫清單見 [固定 commit 授權](https://github.com/AppImage/type2-runtime/blob/75849dce7cc37e4319b633df1f116ca895c71a12/LICENSE)。同 commit 的[來源壓縮檔](https://codeload.github.com/AppImage/type2-runtime/tar.gz/75849dce7cc37e4319b633df1f116ca895c71a12)已留存研究目錄，31068 bytes，SHA-256 `b7af4960da4b90364e935a3281d04fad6560da4813c012414fa2f738291ad443`。來源 `src/runtime/Makefile` 還列有 mimalloc，但 LICENSE 的附帶清單沒有列；Docker recipe 只固定 Alpine 3.21，未鎖定 APK 版本。不能據此宣稱固定 runtime 的完整附庫來源已核對。其餘條款及來源對應仍待處理；字型兩套條款與作者來源只存研究目錄，未替使用者選定。
+runtime 的 MIT 與附帶程式庫清單見 [固定 commit 授權](https://github.com/AppImage/type2-runtime/blob/75849dce7cc37e4319b633df1f116ca895c71a12/LICENSE)。同 commit 的[來源壓縮檔](https://codeload.github.com/AppImage/type2-runtime/tar.gz/75849dce7cc37e4319b633df1f116ca895c71a12)已留存研究目錄，31068 bytes，SHA-256 `b7af4960da4b90364e935a3281d04fad6560da4813c012414fa2f738291ad443`。來源 `src/runtime/Makefile` 還列有 mimalloc，但 LICENSE 的附帶清單沒有列；Docker recipe 只固定 Alpine 3.21，未鎖定 APK 版本。舊預編譯輸入的附庫版本仍未補齊，正式包改用 §9.1 的自行重建版本；字型條款仍待使用者選定。
+
+### 9.1 來源可回查的 runtime 重建
+
+舊預編譯輸入不再作正式包來源。固定 commit 的官方 build 為 [28063784345](https://github.com/AppImage/type2-runtime/actions/runs/28063784345)；API 現存 artifacts 為零，匿名下載日誌回傳 403。這只證明該管道沒有取得來源版本，不宣稱其他憑證或管道也不可用。
+
+自行重建版本仍使用相同 runtime 原始碼，只調整 include／library 搜尋根、加入連結 map，並以完整 commit 作版本輸出。原始 Makefile、處置 patch、版本、ELF、map、APK 實際安裝清單及兩次乾淨重建輸出留在 `workplace/package-prototype/runtime-rebuilt/` 與 `runtime-rebuilt-replay/`。輸出 944632 bytes，SHA-256 `0341f742081a99f00f6c8654d742e470e85c66dafabd17d851ab5b662dc7f511`；兩次逐位元組相同，三份自行建出的靜態庫雜湊也相同。
+
+| 元件 | 實際版本 | 來源 |
+|---|---|---|
+| runtime | commit `75849dce7cc37e4319b633df1f116ca895c71a12` | 固定上游來源 tar |
+| libfuse | 3.15.0 | 上游 tar、runtime 的 mount.c patch；tar SHA-256 `70589cfd5e1cff7ccd6ac91c86c01be340b227285c5e200baa284e401eea2ca0` |
+| squashfuse | 0.5.2 | 上游 tar，SHA-256 `db0238c5981dabbd80ee09ae15387f390091668ca060a7bc38047912491443d3` |
+| musl | 1.2.5-r11 | 上游 tar、Alpine APKBUILD 及全部修補／附檔 |
+| zlib | 1.3.2-r0 | 上游 tar 與 Alpine APKBUILD |
+| zstd | 1.5.6-r2 | 上游 tar 與 Alpine APKBUILD |
+| mimalloc2 | 2.1.7-r0 | 上游 tar、Alpine APKBUILD 及命名 patch |
+
+Alpine 官方索引已存檔；四個元件共 20 個來源輸入逐一符合不可變 APKBUILD 的 SHA-512，見 `runtime-library-source-inputs.json`、`runtime-rebuild-source-profile.json`。實際連結 map 包含上述六個附庫元件，以及 musl／GCC 的啟動物件；不只依 Makefile 推定。GCC 14.2.0 的 [啟動物件來源](https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-14.2.0/libgcc/crtstuff.c)、GPLv3 與 Runtime Library Exception 3.1 也已存檔。13 項授權／來源輸入在 `runtime-license-inputs.json`。
+
+重建使用既有 Alpine 3.21.7 基底，工具層 image `41af06226661cd56537db9bfaefcbb2d2a88212a30dfa168be98e0b6231de8f8`（`phantasie-runtime-builder:source-r1`），Clang 19.1.4、GCC 14.2.0；程式編譯在 user 1000:1000、network none、3 GiB、2 CPUs、128 程序上限及有界逾時的一次性容器。打包仍沿用既有 AppImage image，將核對後 runtime 唯讀掛到 `/opt/runtime-x86_64`，不另建同功能映像。
+
+gzip／zstd 的合成 AppImage 已確認 offset、解出內容、執行權限、AppRun 及中文／含空白參數。這只驗證 runtime 工具，不算正式遊戲包、GUI 或原版同狀態 PASS。正式 Linux 封包明示使用已抽測的 gzip 壓縮。
 
 ## 10. 實作位置與審查
 
@@ -127,8 +150,18 @@ runtime 的 MIT 與附帶程式庫清單見 [固定 commit 授權](https://githu
 
 無頭收據工具隨各平台包放在 tools 子目錄，是命令列工具；版本、架構、模組及授權也納入封包清單，驗證資料缺席時仍依既有契約 SKIP，不附私人作答路線。其正常 GUI 對拍用途與既有規格不變。
 
-兩輪唯讀審查分契約對程式、資料對證據；只寫 workplace 報告。主代理處理阻擋及應改後才能升 READY。字型及版號未定案，正式打包與 tag 不執行；不建立 Release。
+兩輪唯讀審查分契約對程式、資料對證據；只寫 workplace 報告。主代理處理阻擋及應改後才能升 READY。版號已定案；字型條款待決只阻擋正式打包與 tag，不阻擋已授權且兩種選項共用的工具實作；不建立 Release。
 
 本輪契約複查已確認 §4 的執行期資料、§5 的 Linux 依賴、§6 的路徑及匯入生命週期，以及無頭工具交付範圍，阻擋與應改均為零。報告在 `workplace/package-prototype/contract-review.txt`；這只確認草案契約補全，不是實作或正式包 PASS。
 
 資料複查也確認四份收據原型的架構、Windows 命令列子系統及零外部 Go 模組，以及五語 GUI 擷取與 runtime 來源限制，阻擋與應改均為零。報告在同目錄的 `evidence-review.txt`；封存入口為 `prototype-verification-manifest.json`，不覆寫先前抽樣或工具鏈清冊。
+
+§9.1 新版 runtime 與執行閘門另由 `runtime-contract-review.txt`、`runtime-evidence-review.txt` 兩輪唯讀複核，阻擋、應改及建議均為零。資料角度直接比對二進位、來源／授權成員、SDK 靜態庫及兩份合成 AppImage；三份自行建庫只交叉核對兩輪原始雜湊收據，未第三次重建。據此升 READY，不把原型計為正式封包驗收。
+
+## 11. 共用譯文整理工具的驗證
+
+[tools/package_text.py](../../tools/package_text.py) 依 §4 準備 13 份指定執行期檔案。預設從 manual-labels 選出兩個標題，不讀本機 manual；本機變體才明示讀取完整提示表。兩種輸出皆保留正式 ui、prose 與 protected 的原始 bytes，清冊列版號、筆數、雜湊及權利分類。輸出須為新目錄；缺資料、欄數或鍵集合不符、來源為符號連結、路徑重疊與錯誤版號均拒絕，不修改來源或既有輸出。
+
+[合成測試](../../tools/tests/package_text_cases.py) 8 項通過。兩種實際中間輸出各 13 檔，由獨立 CSV 讀取及 bytes 比對核對：每語 ui 678、prose 1044；無答案 manual 僅 2 列，本機版 156 列。乾淨合成匯出僅把答案模板加入篩選清單，突變目標恰好一次，獨立字面期望按預期失敗。輸入與既有輸出保留反例也通過。
+
+收據為 `workplace/package-prototype/package-text-verification.json`、`package-text-tests.log`、`package-text-mutation.log`；本輪封存入口為 `runtime-phase-verification-manifest.json`。原生啟動器、完整封包、發行字型及正式平台冒煙尚未完成，013 維持 READY。
