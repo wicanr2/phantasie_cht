@@ -435,3 +435,48 @@ func TestBundleHashAndNecessaryAssetGates(t *testing.T) {
 		t.Fatal("path escape accepted")
 	}
 }
+
+func TestHDRequiresLocalBundleAndCompleteVerifiedGroup(t *testing.T) {
+	base := t.TempDir()
+	b := bundle{Schema: 1, Version: "v.1.0.0-20261005", Engine: strings.Repeat("a", 40), Backend: "backend", Text: "text", Font: "font", Art: "art"}
+	names := []string{"backend", "text/protected.tsv"}
+	for _, lang := range languages {
+		names = append(names, "font/"+lang+".golemfnt")
+		for _, family := range []string{"ui", "prose", "manual"} {
+			names = append(names, "text/"+family+"."+lang+".tsv")
+		}
+	}
+	for _, name := range names {
+		data := []byte("fixture:" + name)
+		writeTestFile(t, filepath.Join(base, filepath.FromSlash(name)), data, 0600)
+		b.Assets = append(b.Assets, testRecord(name, data))
+	}
+	check := func(wantOK bool) {
+		t.Helper()
+		data, _ := json.Marshal(b)
+		writeTestFile(t, filepath.Join(base, "bundle.json"), data, 0600)
+		_, err := readBundle(base, "bundle.json", b.Version, b.Engine)
+		if (err == nil) != wantOK {
+			t.Fatalf("want accepted %v: %v", wantOK, err)
+		}
+	}
+	check(false) // Patch cannot declare art.
+	b.LocalOriginal = "original"
+	check(false) // Both group members must appear in the necessary manifest.
+	for _, name := range []string{"art/profile.json", "art/town-painted.png"} {
+		data := []byte("synthetic:" + name)
+		writeTestFile(t, filepath.Join(base, filepath.FromSlash(name)), data, 0600)
+		b.Assets = append(b.Assets, testRecord(name, data))
+	}
+	check(true)
+	file := filepath.Join(base, "art", "town-painted.png")
+	original, err := os.ReadFile(file)
+	if err != nil {
+		t.Fatal(err)
+	}
+	writeTestFile(t, file, bytes.Repeat([]byte{'x'}, len(original)), 0600)
+	check(false) // Same size corruption must reject before starting the backend.
+	writeTestFile(t, file, original, 0600)
+	b.Art = "../art"
+	check(false)
+}

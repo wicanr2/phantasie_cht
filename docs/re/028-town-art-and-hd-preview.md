@@ -41,10 +41,12 @@
 | PRT2IBM.PAT | 4096 | `be4f143ca1541b774733b4e3d91e510ec13f4358ab80c4a91a8a937c62e6b623` |
 | WIZ-MAIN.BSV | 4007 | `a24f456b439b3522981793b6a224eb94a0a7f1ec1663b095f716661b18139744` |
 
-## 美術提案，尚未實作
+## 美術提案與城鎮整合
 
 使用者已確認繼續 Phantasie 並新增 HD 圖像。另一專案 Psychic War #34 的素材與完成度不適用此案。
 
-使用內建 `image_gen`，以正常繁中城鎮畫面為參考，製作 CGA 像素與彩色手繪兩個可丟棄提案。入口為 `workplace/package-prototype/hd-town-preview-r1/manifest.json`，逐張提示保存在 `prompts.json`；兩張 PNG 同目錄。美術方向待使用者選定。樣圖的文字縮放與細節尚未驗證，手繪樣圖未保留全部原版招牌；不直接當作正式資產。
+使用內建 `image_gen`，以正常繁中城鎮畫面為參考，製作 CGA 像素與彩色手繪兩個可丟棄提案。入口為 `workplace/package-prototype/hd-town-preview-r1/manifest.json`，逐張提示保存在 `prompts.json`；兩張 PNG 同目錄。使用者已選定彩色手繪、保留原版構圖。提案的文字縮放與細節尚未驗證，手繪樣圖未保留全部原版招牌；不直接當作正式資產。
 
-所有原版解出圖、樣圖及來源只留本機。沒有接入前端、沒有更新 README 畫廊，也不將樣圖算成實際遊玩、主題切換或完整版交付證據。HD 正式實作仍需獨立 DRAFT 規格、兩輪審查及 READY 閘門。
+獨立城鎮資產入口為 `workplace/package-prototype/hd-town-assets-r1/asset-proof.json`，同目錄保存 `town-painted.png`、`profile.json` 與 `prompt.txt`。新圖移除遊戲 UI 並恢復原版招牌；尺寸與指紋見 [015 顯示主題與手繪城鎮](../spec/015-presentation-themes.md)。已接入前端的手繪主題。
+
+所有原版解出圖、樣圖及來源只留本機。兩輪審查通過後依 015 實作，正常路線 145 個停點確認原版記憶體與讀鍵不變，90 個停點使用 HD，其餘回退。收據在 `workplace/package-prototype/hd-normal-r1/normal-route-verification.json`；Linux 實際按鍵與五語主題畫面在 `hd-gui-r2/`，README 採該次實際遊玩截圖。這些不證明其餘八份素材已 HD 化，也不代替正式完整版或影片驗收。

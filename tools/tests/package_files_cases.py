@@ -77,6 +77,25 @@ class PackageFilesCases(unittest.TestCase):
                     files.bundle(stage, platform, VERSION, ENGINE)
                 self.assertEqual((base / manifest).read_bytes(), original)
 
+    def test_patch_rejects_hd_directory_before_manifest(self):
+        stage, base, _, _, _, manifest = self.fixture("windows")
+        (base / "art").mkdir()
+        with self.assertRaisesRegex(ValueError, "patch 不接受 HD"):
+            files.bundle(stage, "windows", VERSION, ENGINE)
+        self.assertFalse((base / manifest).exists())
+
+    def test_hd_cannot_self_declare_unverified_png(self):
+        art, original = self.root / "art", self.root / "original"
+        art.mkdir(); original.mkdir()
+        profile = {"schema": 1, "source_file": "PELNOR.IBM", "source_bytes": 16384,
+                   "source_sha256": "68833b5ae2ef2c77317b7a30998aacca1a7edf942c20dd0316df833e4394036c",
+                   "source_rect": [0, 8, 320, 184], "image": "town-painted.png",
+                   "image_bytes": 8, "image_sha256": hashlib.sha256(b"not PNG!").hexdigest()}
+        (art / "profile.json").write_text(json.dumps(profile))
+        (art / "town-painted.png").write_bytes(b"not PNG!")
+        with self.assertRaisesRegex(ValueError, "015已驗證資產"):
+            files.art_files(art, original)
+
     def test_each_required_asset_missing_is_rejected(self):
         stage, base, text, font, backend, manifest = self.fixture("windows")
         names = [backend, text + "/protected.tsv"]

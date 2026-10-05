@@ -25,6 +25,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) (int, err
 	state := flags.String("state", "", "既有存檔目錄；預設資料根下 saves")
 	lang := flags.String("lang", "zh-TW", "初始語言：zh-TW、zh-CN、en、ja、ko")
 	zoom := flags.Int("zoom", 1, "視窗倍率：1 或 2")
+	theme := flags.String("theme", "auto", "主題：auto、original、amber、hd；Shift+F12 切換")
 	version := flags.Bool("version", false, "顯示版號與引擎版本")
 	if err := flags.Parse(args); err != nil {
 		if errors.Is(err, flag.ErrHelp) {
@@ -32,7 +33,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) (int, err
 		}
 		return 2, err
 	}
-	if flags.NArg() != 0 || (*zoom != 1 && *zoom != 2) || (*lang != "en" && !slices.Contains(languages, *lang)) {
+	if flags.NArg() != 0 || (*zoom != 1 && *zoom != 2) || (*lang != "en" && !slices.Contains(languages, *lang)) || !slices.Contains([]string{"auto", "original", "amber", "hd"}, *theme) {
 		return 2, errors.New("參數不符；請使用 -h 查看說明")
 	}
 	if !validVersion(releaseVersion) || !commitPattern.MatchString(engineCommit) {
@@ -94,7 +95,10 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) (int, err
 	defer log.Close()
 	backend := filepath.Join(base, filepath.FromSlash(b.Backend))
 	backendArgs := []string{"-root", p.Root, "-state", p.State, "-text", filepath.Join(base, filepath.FromSlash(b.Text)),
-		"-font", filepath.Join(base, filepath.FromSlash(b.Font)), "-bat", "WIZ.BAT", "-lang", *lang, "-zoom", fmt.Sprint(*zoom)}
+		"-font", filepath.Join(base, filepath.FromSlash(b.Font)), "-bat", "WIZ.BAT", "-lang", *lang, "-zoom", fmt.Sprint(*zoom), "-theme", *theme}
+	if b.Art != "" {
+		backendArgs = append(backendArgs, "-art", filepath.Join(base, filepath.FromSlash(b.Art)))
+	}
 	code, err := startBackend(ctx, backend, backendArgs, log, p.Locks)
 	if err != nil || code != 0 {
 		return 1, fmt.Errorf("前端啟動或執行失敗；日誌在 %s：%v", log.Name(), err)

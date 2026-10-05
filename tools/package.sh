@@ -6,13 +6,13 @@ die() { printf '%s\n' "$*" >&2; exit 1; }
 usage() {
   printf '%s\n' 'tools/package.sh [all|linux|windows|macos] --version <完整版號> [--build-only]' \
     '正式包另需 --font-license <OFL-1.1|GPL-2.0-or-later-with-font-exception> --original <目錄> --unifont <tar.gz>' \
-    '本機完整版：--local --eten-dir <固定倚天來源目錄>；可選 --engine、--modules、--runtime-dir、--runtime-source' \
+    '本機完整版：--local --eten-dir <固定倚天來源目錄>；可選 --hd-dir <手繪素材目錄>、--engine、--modules、--runtime-dir、--runtime-source' \
     'build-only 只產生 workplace 研究編譯；正式包需精確 tag，完成後仍須平台冒煙。'
 }
 platform=all version='' font_license='' build_only=0 local=0
 engine="$ROOT/workplace/dosgolem-fw"
 modules=/home/anr2/go/pkg/mod
-original='' unifont='' eten_dir=''
+original='' unifont='' eten_dir='' hd_dir=''
 runtime_dir="$ROOT/workplace/package-prototype/runtime-rebuilt"
 runtime_source="$ROOT/workplace/package-prototype/runtime-source-r1.tar.gz"
 if [[ $# -gt 0 && "$1" != -* ]]; then platform=$1; shift; fi
@@ -21,13 +21,14 @@ while [[ $# -gt 0 ]]; do
     --help|-h) usage; exit 0 ;;
     --build-only) build_only=1; shift ;;
     --local) local=1; shift ;;
-    --version|--font-license|--engine|--modules|--original|--unifont|--runtime-dir|--runtime-source|--eten-dir)
+    --version|--font-license|--engine|--modules|--original|--unifont|--runtime-dir|--runtime-source|--eten-dir|--hd-dir)
       [[ $# -ge 2 && "$2" != --* ]] || die "缺少 $1 的值"
       case "$1" in
         --version) version=$2 ;; --font-license) font_license=$2 ;;
         --engine) engine=$2 ;; --modules) modules=$2 ;; --original) original=$2 ;;
         --unifont) unifont=$2 ;; --runtime-dir) runtime_dir=$2 ;; --runtime-source) runtime_source=$2 ;;
         --eten-dir) eten_dir=$2 ;;
+        --hd-dir) hd_dir=$2 ;;
       esac
       shift 2 ;;
     *) die "未知參數：$1" ;;
@@ -43,6 +44,13 @@ if [[ -n "$eten_dir" ]]; then
   done
 elif [[ "$local" == 1 && "$build_only" == 0 ]]; then
   die '正式本機完整版須明示 --eten-dir'
+fi
+if [[ -n "$hd_dir" ]]; then
+  [[ "$local" == 1 && "$build_only" == 0 ]] || die 'HD 來源只用於正式本機完整版'
+  [[ "$hd_dir" == /* && -d "$hd_dir" && ! -L "$hd_dir" ]] || die 'HD 來源須為實際絕對目錄'
+  for name in profile.json town-painted.png; do
+    [[ -f "$hd_dir/$name" && ! -L "$hd_dir/$name" ]] || die 'HD 來源檔案缺席或為符號連結'
+  done
 fi
 if [[ "$build_only" == 0 ]]; then
   [[ "$font_license" == OFL-1.1 || "$font_license" == GPL-2.0-or-later-with-font-exception ]] || die '字型條款未定案，請明示 --font-license；不採預設'
@@ -149,6 +157,9 @@ for target in "${platforms[@]}"; do
     text_source=/source/project/text
     font_mounts=()
     [[ "$variant" != full-local ]] || { text_source=/work/local-text; extra+=(--local --eten-dir /eten-input); font_mounts+=(-v "$eten_dir:/eten-input:ro"); }
+    if [[ "$variant" == full-local && -n "$hd_dir" ]]; then
+      extra+=(--hd-dir /hd-input); font_mounts+=(-v "$hd_dir:/hd-input:ro")
+    fi
     run -v "$job:/work:rw" -v "$job/source:/source:ro" -v "$original:/original:ro" -v "$unifont:/font-input/unifont.tar.gz:ro" "${font_mounts[@]}" \
       "$PYTHON_IMAGE" python -B /source/project/tools/package_stage.py --out "/work/stage/$name" --platform "$target" \
       --version "$version" --project-commit "$project_commit" --engine-commit "$engine_commit" --font-license "$font_license" \

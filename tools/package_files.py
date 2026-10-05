@@ -13,6 +13,7 @@ import re
 import stat
 import struct
 import zipfile
+import zlib
 
 import catalog_lib as cl
 import package_scan
@@ -46,6 +47,54 @@ def digest(data):
 
 def record(name, data):
     return {"name": name, "bytes": len(data), "sha256": digest(data)}
+
+
+def art_files(path, original):
+    """015：只回傳完整驗證的本機城鎮組，不收研究附件。"""
+    path, original = directory(path), directory(original)
+    data = file_bytes(path / "profile.json")
+    if len(data) > 65536:
+        raise ValueError("HD profile 過大")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result: raise ValueError("HD profile 重複欄位")
+            result[key] = value
+        return result
+    p = json.loads(data, object_pairs_hook=unique)
+    expected = {"schema", "source_file", "source_bytes", "source_sha256", "source_rect", "image", "image_bytes", "image_sha256"}
+    if not isinstance(p, dict) or set(p) != expected or type(p["schema"]) is not int or p["schema"] != 1:
+        raise ValueError("HD profile 欄位不符")
+    if p["source_file"] != "PELNOR.IBM" or p["source_bytes"] != 16384 or p["source_sha256"] != "68833b5ae2ef2c77317b7a30998aacca1a7edf942c20dd0316df833e4394036c" or p["source_rect"] != [0, 8, 320, 184] or any(type(v) is not int for v in p["source_rect"]) or p["image"] != "town-painted.png":
+        raise ValueError("HD 來源或矩形不是已驗證城鎮")
+    # 封包只接受015列明、已由實際前端解碼的這份資產。
+    # 未來替換圖像須更新證據與固定身份，不能以自填profile放行。
+    if p["image_bytes"] != 2524255 or p["image_sha256"] != "f520bd1e2fdb112e630ac05c5ac6006f0ae23607d95f1c7c4deaf5a0e03cec06":
+        raise ValueError("HD 圖像不是015已驗證資產")
+    raw = file_bytes(original / p["source_file"])
+    image = file_bytes(path / p["image"])
+    if len(raw) != p["source_bytes"] or digest(raw) != p["source_sha256"] or type(p["image_bytes"]) is not int or len(image) != p["image_bytes"] or digest(image) != p["image_sha256"]:
+        raise ValueError("HD 資產指紋不符")
+    if len(image) > 16 * 1024 * 1024 or image[:8] != b"\x89PNG\r\n\x1a\n":
+        raise ValueError("HD 圖像須為有界 PNG")
+    offset, chunks = 8, []
+    while offset < len(image):
+        if offset + 12 > len(image): raise ValueError("HD PNG chunk 截斷")
+        n = struct.unpack_from(">I", image, offset)[0]
+        end = offset + 12 + n
+        if end > len(image): raise ValueError("HD PNG chunk 越界")
+        kind = image[offset + 4:offset + 8]
+        payload = image[offset + 8:end - 4]
+        if zlib.crc32(kind + payload) != struct.unpack_from(">I", image, end - 4)[0]: raise ValueError("HD PNG CRC 不符")
+        chunks.append((kind, payload))
+        offset = end
+        if kind == b"IEND": break
+    if offset != len(image) or not chunks or chunks[0][0] != b"IHDR" or len(chunks[0][1]) != 13 or chunks[-1] != (b"IEND", b"") or not any(k == b"IDAT" for k, _ in chunks):
+        raise ValueError("HD PNG 結構不符")
+    w, h = struct.unpack_from(">II", chunks[0][1])
+    if not (0 < w <= 4096 and 0 < h <= 4096 and w * h <= 4_000_000) or abs(w * 184 / (h * 320) - 1) > .005:
+        raise ValueError("HD PNG 尺寸不符")
+    return {"profile.json": data, p["image"]: image}, {"rights": "local-only original-derived art", "profile_sha256": digest(data), "source_sha256": p["source_sha256"], "image_sha256": p["image_sha256"], "dimensions": [w, h]}
 
 
 def profile(stage, platform):
@@ -127,10 +176,19 @@ def bundle_data(stage, platform, version, engine, local_manual=None):
     name = f"{text}/protected.tsv"
     file_bytes(base / name)
     files[name] = package_text.protected(base / name)[0]
+    art = "Resources/art" if platform == "macos" else "art"
+    has_art = (base / art).exists()
+    if has_art:
+        if not local_manual: raise ValueError("patch 不接受 HD 素材")
+        group, _ = art_files(base / art, base / original)
+        if {p.name for p in (base / art).iterdir()} != set(group): raise ValueError("HD 素材目錄含研究附件")
+        files.update({f"{art}/{name}": data for name, data in group.items()})
     result = {"schema": 1, "version": version, "engine_commit": engine, "backend": backend,
               "text": text, "font": font, "assets": [record(name, data) for name, data in sorted(files.items())]}
     if local_manual:
         result["local_original"] = original
+    if has_art:
+        result["art"] = art
     return base / manifest, result
 
 

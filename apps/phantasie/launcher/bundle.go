@@ -36,6 +36,7 @@ type bundle struct {
 	Text          string       `json:"text"`
 	Font          string       `json:"font"`
 	LocalOriginal string       `json:"local_original,omitempty"`
+	Art           string       `json:"art,omitempty"`
 	Assets        []fileRecord `json:"assets"`
 }
 
@@ -174,6 +175,9 @@ func readBundle(base, manifestName, version, engine string) (bundle, error) {
 	if b.LocalOriginal != "" && !safeRelative(b.LocalOriginal) {
 		return b, errors.New("本機原版路徑無效")
 	}
+	if b.Art != "" && (b.LocalOriginal == "" || !safeRelative(b.Art)) {
+		return b, errors.New("手繪素材只接受本機完整封包")
+	}
 	if err := validateRecords(b.Assets); err != nil {
 		return b, err
 	}
@@ -182,6 +186,9 @@ func readBundle(base, manifestName, version, engine string) (bundle, error) {
 		assets[r.Name] = true
 	}
 	needed := []string{b.Backend, b.Text + "/protected.tsv"}
+	if b.Art != "" {
+		needed = append(needed, b.Art+"/profile.json", b.Art+"/town-painted.png")
+	}
 	for _, lang := range languages {
 		needed = append(needed, b.Font+"/"+lang+".golemfnt")
 		for _, family := range []string{"ui", "prose", "manual"} {

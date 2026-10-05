@@ -54,6 +54,13 @@ def verify(work, original, version, project_commit, engine_commit, font_license)
         stage.validate_fonts(base, font_dir, fonts, local, font_license)
         if json.loads(pf.file_bytes(folder / "LICENSES.json"))["fonts"] != fonts:
             raise ValueError("條款與布局的字型來源紀錄不同")
+        art_dir = "Resources/art" if platform == "macos" else "art"
+        art_notice = None
+        if (base / art_dir).exists():
+            if not local: raise ValueError("patch 不得包含 HD")
+            _, art_notice = pf.art_files(base / art_dir, base / original_dir)
+        if meta.get("art") != art_notice or json.loads(pf.file_bytes(folder / "LICENSES.json")).get("art") != art_notice:
+            raise ValueError("HD 來源紀錄與實際資產不符")
         prefix = (base / original_dir).relative_to(folder).as_posix() if local else None
         artifact = work / "artifacts" / (folder.name + (".AppImage" if platform == "linux" else ".zip"))
         expected_artifacts.add(artifact.name)
@@ -93,6 +100,7 @@ def verify(work, original, version, project_commit, engine_commit, font_license)
                   "stage_manifest_sha256": pf.digest(pf.file_bytes(folder / "package-stage.json")),
                   "smoke": "pending; not CONFORMED"}
         records.append(record)
+        if art_notice: record["art"] = art_notice
     if {path.name for path in pf.directory(work / "artifacts").iterdir()} != expected_artifacts:
         raise ValueError("封包集合含額外或缺失項目")
     return {"schema": 1, "version": version, "project_commit": project_commit, "engine_commit": engine_commit,
