@@ -292,4 +292,10 @@ Docker 內步驟：
 4. 接上 §15 的材料與 §16 的布局；本機提示僅由 package_work 的 local-text 動作加入，正式 ui／prose／protected 均取乾淨專案匯出。其後 [package_appimage.sh](../../tools/package_appimage.sh) 核對固定 runtime，使用 gzip、固定版號日期建 SquashFS，讀實際 offset 及解出內容；其餘平台由 §14 建 ZIP。
 5. [package_finish.py](../../tools/package_finish.py) 重讀實際 AppImage runtime／SquashFS／解出內容或 ZIP，核對全部布局、18 項清冊、編譯程式 bytes、來源版本、權利及封包集合。掃描通過後排他複製至 dist-all/<版本>/patch 或 full-local，寫 SHA256SUMS.json；複製失敗只清理本次新版本。
 
-交付清冊明示 built and inspected; platform smoke pending。編排不將靜態封裝當作 §8 的 GUI、存檔或原版同狀態證據。正式字型條款仍待選定，因此目前只驗證兩種條款共用的程式及合成資料；合成反例入口為 [package_work_cases.py](../../tools/tests/package_work_cases.py)，7 項通過。三平台實際乾淨編譯與正式包冒煙仍待驗證，013 維持 READY。
+交付清冊明示 built and inspected; platform smoke pending。編排不將靜態封裝當作 §8 的 GUI、存檔或原版同狀態證據。正式字型條款仍待選定，因此目前只驗證兩種條款共用的程式及合成資料；合成反例入口為 [package_work_cases.py](../../tools/tests/package_work_cases.py)，7 項通過。精確程式路徑、GOOS 與 GOARCH 的後綴反例均拒絕；乾淨複本只移除一處角色限制，錯誤角色的獨立期望按預期失敗。
+
+實際 `all --build-only` 已通過：專案 `808f32bdc15cddea990b28aeee34c3fb8c80ea8e` 與引擎 `8d9807df4f191c02eef46a22b6f7bbecb426ef5b` 的固定 Git 匯出，離線編譯 Linux 3 份、Windows 3 份、macOS 6 份 thin 及 2 份 universal，共 14 份程式。已核對實際 bytes、標頭、Go 模組、兩片 universal 與來源清冊；Linux 啟動器實際 stdout 符合定案版號與引擎提交。Linux 後端直接依賴 libX11.so.6、libm.so.6、libc.so.6，最高 glibc 符號為 2.34；沒有據此宣稱完整 ABI 或實機相容。
+
+AppImage worker 另用兩個自製檔案抽驗：固定 runtime 的前綴、實際 SquashFS 尾段、944632 offset、版號日期及解出內容／權限均相同。這個研究樣本不含遊戲、譯文或字型，不能算正式 AppImage。核對腳本曾因迴圈變數覆蓋封包名稱而失敗，修正後在同一容器乾淨重跑通過；產品及來源沒有因此修改。
+
+根層收據為 `workplace/package-prototype/package-work-verification.json`，測試及角色突變為 `package-work-tests-r4.log`、`package-work-role-mutation-r1/mutation.log`。唯讀契約及資料報告為 `package-work-contract-review.txt`、`package-work-evidence-review.txt`，實際編譯補充報告為 `package-work-build-evidence-review.txt`；本輪封存入口為 `package-work-phase-verification-manifest.json`。70 個原版檔案、32 份受保護檔案、23 條公開路線及六份較早封存保持不變。正式字型選項、正式包乾淨建置及平台冒煙仍待完成，013 維持 READY。
