@@ -17,7 +17,7 @@
 
 ## 3. 入口與乾淨輸入
 
-擬新增 `tools/package.sh [all|linux|windows|macos]`；可另明示本機資料模式，預設只產生不含原版的包。腳本編排 Docker、Git 清潔檢查及固定輸入；分析、建置、資料複製、封裝與掃描全部在容器。
+入口為 `tools/package.sh [all|linux|windows|macos]`；可另明示本機資料模式，預設只產生不含原版的包。腳本編排 Docker、Git 清潔檢查及固定輸入；分析、建置、資料複製、封裝與掃描全部在容器，精確參數見 §17。
 
 前置檢查：
 
@@ -146,7 +146,7 @@ gzip／zstd 的合成 AppImage 已確認 offset、解出內容、執行權限、
 
 ## 10. 實作位置與審查
 
-實作位於 `tools/` 的譯文整理、掃描及後續封裝驗證工具，以及專案 `apps/phantasie/` 的原生啟動器；封裝編排入口 `tools/package.sh` 尚待完成。啟動器不連結 GUI，以子程序執行固定引擎後端；引擎保持既有前端與收據工具，不改 main、DOS 核心或其他遊戲。文件沿用本規格、CONTEXT、WORKLOG、README 及字型說明。
+實作位於 `tools/` 的譯文整理、掃描及封裝驗證工具，以及專案 `apps/phantasie/` 的原生啟動器；封裝編排入口 `tools/package.sh` 見 §17。啟動器不連結 GUI，以子程序執行固定引擎後端；引擎保持既有前端與收據工具，不改 main、DOS 核心或其他遊戲。文件沿用本規格、CONTEXT、WORKLOG、README 及字型說明。
 
 無頭收據工具隨各平台包放在 tools 子目錄，是命令列工具；版本、架構、模組及授權也納入封包清單，驗證資料缺席時仍依既有契約 SKIP，不附私人作答路線。其正常 GUI 對拍用途與既有規格不變。
 
@@ -266,4 +266,30 @@ Linux 加入 AppRun、桌面入口及自製 P 圖示，連同 runtime 的全文�
 
 標頭檢查只證明 ELF x86-64、PE32+ AMD64 的 GUI／console 子系統或 Mach-O 的兩種架構及 universal 邊界，不代表 ABI 或可啟動性。合成測試入口為 [package_stage_cases.py](../../tools/tests/package_stage_cases.py)，最終 8 項通過，字模完全自製且全零，原版、條款及來源包也為合成資料。字型 bytes 用獨立字面期望核對；AppRun 用獨立 shell 助手核對參數，不當作遊戲啟動。收據為 `workplace/package-prototype/package-stage-tests-r3.log`。
 
-根層核對入口為同目錄的 `package-stage-verification.json`，唯讀契約及資料報告為 `package-stage-contract-review.txt`、`package-stage-evidence-review.txt`，封存入口為 `package-stage-phase-verification-manifest.json`。原版 70 檔、受保護檔案 32 份、公開路線 23 條及五份較早封存的研究檔案不變。正式編排、已選條款下的字型、乾淨建置及平台冒煙仍待完成，013 維持 READY。
+根層核對入口為同目錄的 `package-stage-verification.json`，唯讀契約及資料報告為 `package-stage-contract-review.txt`、`package-stage-evidence-review.txt`，封存入口為 `package-stage-phase-verification-manifest.json`。原版 70 檔、受保護檔案 32 份、公開路線 23 條及五份較早封存的研究檔案不變。已選條款下的字型、正式包乾淨建置及平台冒煙仍待完成，013 維持 READY。
+
+## 17. 封包編排與乾淨建置
+
+[package.sh](../../tools/package.sh) 在主機只編排 Git、Docker 與來源形態檢查；實際分析、匯出解開、建置、複製、封裝與驗證都在有界、user 1000:1000、network none 的一次性容器。Git archive 在主機直接產生兩份固定提交匯出，不讀工作樹當程式來源。容器以實際主機 UID/GID 執行；來源匯出、封存 tar、來源清冊、授權材料、本機譯文及模組快取唯讀，stage、建置快取及明確輸出可寫。
+
+必要 `--version` 使用定案完整版號。正式包另須 `--font-license`、`--original`、`--unifont`，以及精確指向專案 HEAD 的既有本機 tag。兩 repo 工作樹須乾淨、作者信箱須符合專案規則；引擎須在 phantasie-cht-overlay 且 HEAD 符合遠端指定分支。工具不建立或推送 tag，不建立 Release。`--local` 在 patch 之外另建 full-local，並保留來源及所有原有交付版本。
+
+| 選項 | 意義或本機預設 |
+|---|---|
+| `--engine` | 引擎工作樹，預設專案 workplace/dosgolem-fw |
+| `--modules` | 唯讀模組快取，預設 /home/anr2/go/pkg/mod |
+| `--runtime-dir` | 預設 workplace/package-prototype/runtime-rebuilt，含 §9.1 固定 runtime 及全文條款 |
+| `--runtime-source` | 預設 workplace/package-prototype/runtime-source-r1.tar.gz |
+| `--build-only` | 只作乾淨來源編譯研究，免正式字型及 tag；不讀原版、字型或提示表，不建立 dist-all |
+
+所有來源位置須為存在且形態正確的絕對路徑；CLI `--help` 提供完整選項。沿用 §9 的 Go、osxcross、AppImage 映像及 python:3.13-bookworm，使用已核對的完整 image ID，缺席時失敗，不下載浮動替代版。研究輸出排他建立在 workplace/package-prototype/package-run-<版本>-<平台>-<程序識別>，不當作現行交付。
+
+Docker 內步驟：
+
+1. [package_work.py](../../tools/package_work.py) 的 export 動作解開兩份 Git archive，保留完整 commit 及壓縮檔雜湊，拒絕跳脫路徑、重複或非一般項目。
+2. [package_build.sh](../../tools/package_build.sh) 以 Go 1.24.13、readonly modules、GOTOOLCHAIN=local、trimpath 離線編譯。Windows GUI 與 console 工具區分，macOS 分別編譯兩個 thin 後由既有 lipo 合成 universal；沒有修改源碼或設定 HOME。
+3. package_work 的 verify-build 核對架構、程式路徑、實際模組版本、啟動器內嵌的版號／引擎字串及 universal 每片原始 bytes。Linux 另記實際啟動器版本輸出、DT_NEEDED 及最高 glibc 符號；最高符號值不是完整平台相容性證明。Go 1.24.13 在 trimpath 下省略 linker flags，不能以 build info 證明注入的版本；固定 SDK `/usr/local/go/src/cmd/go/internal/load/pkg.go:2410` 為依據，SHA-256 `7080541914db2ac8ec9b0a4926d55efde949786d86816efb138c444037484a6e`。後端及收據工具沒有新增版本介面，以乾淨來源提交及實際二進位 SHA-256 定位。
+4. 接上 §15 的材料與 §16 的布局；本機提示僅由 package_work 的 local-text 動作加入，正式 ui／prose／protected 均取乾淨專案匯出。其後 [package_appimage.sh](../../tools/package_appimage.sh) 核對固定 runtime，使用 gzip、固定版號日期建 SquashFS，讀實際 offset 及解出內容；其餘平台由 §14 建 ZIP。
+5. [package_finish.py](../../tools/package_finish.py) 重讀實際 AppImage runtime／SquashFS／解出內容或 ZIP，核對全部布局、18 項清冊、編譯程式 bytes、來源版本、權利及封包集合。掃描通過後排他複製至 dist-all/<版本>/patch 或 full-local，寫 SHA256SUMS.json；複製失敗只清理本次新版本。
+
+交付清冊明示 built and inspected; platform smoke pending。編排不將靜態封裝當作 §8 的 GUI、存檔或原版同狀態證據。正式字型條款仍待選定，因此目前只驗證兩種條款共用的程式及合成資料；合成反例入口為 [package_work_cases.py](../../tools/tests/package_work_cases.py)，7 項通過。三平台實際乾淨編譯與正式包冒煙仍待驗證，013 維持 READY。

@@ -33,6 +33,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。尚未建立正式交付
 - 封包的 [外洩掃描工具](tools/package_scan.py) 在 Docker 內以 `--scan` 及 `--original` 核對實際內容；掃描來源缺席會失敗。它可檢查目錄、ZIP 與 tar，不能代替授權及可啟動性驗收，契約見 [013 §13](docs/spec/013-cross-platform-packaging.md#13-封包外洩掃描工具)。
 - 封包的 [資產清冊與 ZIP 工具](tools/package_files.py) 核對必要譯文、字型覆蓋、包內路徑及 ZIP 實際內容，Docker 內的命令參數見 [013 §14](docs/spec/013-cross-platform-packaging.md#14-必要資產清冊與-zip-工具)。正式封裝仍須權利及平台驗證。
 - [授權材料工具](tools/package_rights.py) 核對固定條款及來源，[平台組裝工具](tools/package_stage.py) 整理三平台布局並重建字型。都在 Docker 內執行，必要參數見 [013 §15、§16](docs/spec/013-cross-platform-packaging.md#15-授權材料整理)。組裝必須明示使用者已選定的字型條款；目前僅有合成組裝測試，尚未產生正式交付包。
+- [封包編排入口](tools/package.sh) 從乾淨 Git 提交建置；`--build-only` 只產生研究編譯，不讀字型或原版、不建立 tag。正式包須明示字型條款及已有精確 tag，仍須平台冒煙。固定工具鏈、輸入及 Docker 內步驟見 [013 §17](docs/spec/013-cross-platform-packaging.md#17-封包編排與乾淨建置)。
 
 ## 畫面
 
