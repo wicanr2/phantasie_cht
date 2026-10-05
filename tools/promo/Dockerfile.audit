@@ -1,0 +1,4 @@
+# 016：在既有影片工具加入固定 Python runtime，供成片獨立解碼驗收。
+FROM phantasie-promo:video-base-78e0c88b@sha256:78e0c88b07ee659bec32611ad16a49b01f5a6d75c67ba524b8258de1339d2ab3
+COPY --from=phantasie-promo:python-base-933b46a0@sha256:933b46a028fd786c9c3d426ebabc237e29a15912231ea8de576e95f0e4f41a4c /usr/local/ /usr/local/
+RUN python3 -c 'import hashlib,json,math,subprocess; subprocess.run(["ffmpeg","-version"],check=True); subprocess.run(["ffprobe","-version"],check=True)'

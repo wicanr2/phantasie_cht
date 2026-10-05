@@ -54,3 +54,10 @@ ffmpeg 在既有影片容器以兩核、threads 2、filter_threads 1、有界執
 本規格的擷取完成不代表三平台真機均已驗證，也不代表全部圖像已 HD 化。
 
 正式成片編排為 [tools/promo_video.py](../../tools/promo_video.py)，在 Docker 指定 `--captures`、`--score`、`--out`、`--version`、`--project`。以四條固定公開路線、正式 bundle 與已確認第二版母帶 SHA 建 72 秒白名單、逐段 concat、字幕及 `render.sh`；FFmpeg 腳本仍在既有影片容器執行。字幕在 1024×640 遊戲區外，成片 1280×720／30fps。虛擬格索引保留來源時長，剪輯另明示時間伸縮比例；手冊／答案／標題／prompt 區段拒絕，未知非 transition 格不能入片。`plan.json` 固定 capture.json 指紋，記錄重複原版畫格及明示選單停留，凍結檢測須與這些區段核對。`--audit` 讀 FFprobe、loudnorm 及黑格／凍結檢測，符合契約才寫 `verification.json`；人工畫面與字幕抽看另記本機收據。
+## 成片工具的固定執行環境
+
+`tools/promo/Dockerfile.audit` 在既有固定影片映像內加入固定 Python runtime。`tools/promo_video.py --audit` 直接對唯一成片重跑 ffprobe 與 FFmpeg，核對 2160 格、兩軌 72 秒、音量及遊戲區黑幀／凍結。舊的檢測檔不作通過依據。各鏡頭依累積時間邊界分配 30 fps 格數，五語展示依序為 32、33、32、33、32 格。
+
+固定本機映像為 `phantasie-promo:audit-r1`，manifest SHA-256 `26debd16e86d3d8aa6b2420c2a7e7462b479cbba0458a3726d901989ee7f7c87`，含 Python 3.13 與 FFmpeg／ffprobe 5.1.9。建置只使用 Dockerfile 指定的兩份本機基底，執行一律無網路、UID/GID 1000、有限 CPU／記憶體／程序數；影片輸入唯讀，只有本次輸出可寫。
+
+成片編排的契約與資料審查入口為 `workplace/package-prototype/promo-music-prototype-r1/video-contract-review.txt` 與 `video-evidence-review.txt`。報告只驗編排及必要合成反例，正式成片另依本規格的實際錄影、工具解碼與人工抽看閘門驗收。

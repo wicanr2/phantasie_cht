@@ -3,9 +3,11 @@
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 import shlex
+import subprocess
 
 SCORE_SHA = "fb958dd7a908c0f8b9266c8989bc81706d91a0f0efdcbbf10134098192f0eeb1"
 FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
@@ -25,6 +27,8 @@ def read_capture(root, name, version, project):
         raise ValueError("影片只接受正式本機包擷取")
     if data["bundle"]["version"] != version or not data["StateInitiallyEmpty"]:
         raise ValueError("擷取版號或初始狀態不符")
+    if not re.fullmatch(r"[0-9a-f]{64}",data["bundle"]["sha256"]) or not re.fullmatch(r"[0-9a-f]{40}",data["bundle"]["engine_commit"]):
+        raise ValueError("封包指紋格式不符")
     frames = data["frames"]
     if not frames or any(type(f["frame"]) is not int for f in frames) or any(a["frame"] >= b["frame"] for a,b in zip(frames,frames[1:])):
         raise ValueError("擷取格索引不符")
@@ -44,8 +48,9 @@ def plan(captures, score, output, version, project):
         raise FileExistsError("影片輸出已存在")
     sources = {name:read_capture(captures,name,version,project) for name in ("town","guild","map","combat")}
     engines = {s["data"]["bundle"]["engine_commit"] for s in sources.values()}
-    if len(engines) != 1:
-        raise ValueError("擷取不是同一引擎")
+    bundles = {json.dumps(s["data"]["bundle"],sort_keys=True) for s in sources.values()}
+    if len(engines) != 1 or len(bundles)!=1:
+        raise ValueError("擷取不是同一封包與引擎")
     def segment(route,name):
         found = [s for s in sources[route]["data"]["segments"] if s["name"]==name]
         if len(found)!=1:
@@ -59,6 +64,13 @@ def plan(captures, score, output, version, project):
         start,end=range_of(route,first,last)
         segs=[s for s in sources[route]["data"]["segments"] if s["Start"]<end and s["End"]>start]
         allowed={s["name"] for s in segs}
+        names=re.findall(r"^@(?:check|snap)\s+(\S+)",(project/"tests/routes"/(route+".route")).read_text(),re.MULTILINE)
+        if first.startswith("show-"):
+            expected=[first]
+        else:
+            expected=names[names.index(first):names.index(last or first)+1]
+        if [s["name"] for s in segs]!=expected:
+            raise ValueError("白名單區段不符固定玩家路線")
         # No title/manual/private checkpoint may be admitted by a broad range.
         if any(any(token in n.lower() for token in ("manual","answer","title","prompt")) for n in allowed):
             raise ValueError("白名單包含未批准區段")
@@ -85,8 +97,17 @@ def plan(captures, score, output, version, project):
     commands=["#!/bin/sh","set -eu"]
     movie_concat=["ffconcat version 1.0"]
     timeline=0
+    requested_time=0
+    frame_boundary=0
     pauses=[]
     for i,s in enumerate(shots):
+        requested_time+=s["seconds"]
+        next_boundary=round(requested_time*30)
+        s["requested_seconds"]=s["seconds"]
+        s["output_frames"]=next_boundary-frame_boundary
+        s["seconds"]=s["output_frames"]/30
+        timeline=frame_boundary/30
+        frame_boundary=next_boundary
         prefix=f"shot-{i:02d}"
         (output/(prefix+"-title.txt")).write_text(s["title"]+"\n")
         (output/(prefix+"-caption.txt")).write_text(s["caption"]+"\n")
@@ -98,24 +119,25 @@ def plan(captures, score, output, version, project):
             if not re.fullmatch(r"/[A-Za-z0-9_./-]+",str(path)):
                 raise ValueError("容器擷取路徑不能放入 concat")
             end=fs[k+1]["frame"] if k+1<len(fs) else s["end"]
-            concat.extend(["file '"+str(path)+"'",f"duration {(end-f['frame'])/60:.9f}"])
+            concat.extend(["file '"+str(path)+"'","option framerate 60",f"duration {(end-f['frame'])/60:.9f}"])
             if f["sha256"]!=last_hash:
                 runs.append((run_start,f["frame"],last_hash));run_start=f["frame"];last_hash=f["sha256"]
         runs.append((run_start,s["end"],last_hash))
         concat.append("file '"+str(sources[s["route"]]["root"]/fs[-1]["file"])+"'")
+        concat.append("option framerate 60")
         (output/(prefix+".ffconcat")).write_text("\n".join(concat)+"\n")
         for a,b,h in runs:
             if (b-a)*factor/60>=.75:
                 pauses.append(dict(start=timeline+(a-s["start"])*factor/60,end=timeline+(b-s["start"])*factor/60,
                     reason="原版連續相同畫格或明示選單停留",capture_sha256=s["capture_sha256"],frame_sha256=h))
         s.update(output_start=timeline,output_end=timeline+s["seconds"],virtual_time_scale=factor,unique_frames=len({f["sha256"] for f in fs}))
-        timeline+=s["seconds"]
+        timeline=frame_boundary/30
         video_filter=(f"setpts={factor:.12f}*(PTS-STARTPTS),fps=30,scale=1024:640:flags=neighbor,"
             "pad=1280:720:128:40:color=0x17191c,"
             f"drawtext=fontfile={FONT}:textfile={output}/{prefix}-title.txt:fontsize=26:fontcolor=0xd1f2ff:x=(w-text_w)/2:y=6,"
             f"drawtext=fontfile={FONT}:textfile={output}/{prefix}-caption.txt:fontsize=20:fontcolor=white:x=(w-text_w)/2:y=689")
         cmd=["ffmpeg","-nostdin","-v","error","-threads","2","-filter_threads","1","-safe","0","-f","concat","-i",str(output/(prefix+".ffconcat")),
-             "-vf",video_filter,"-frames:v",str(round(s["seconds"]*30)),"-an","-c:v","libx264","-threads","2","-preset","medium","-crf","19","-pix_fmt","yuv420p",str(output/(prefix+".mp4"))]
+             "-vf",video_filter,"-frames:v",str(s["output_frames"]),"-an","-c:v","libx264","-threads","2","-preset","medium","-crf","19","-pix_fmt","yuv420p",str(output/(prefix+".mp4"))]
         commands.append(shlex.join(cmd));movie_concat.append("file '"+str(output/(prefix+".mp4"))+"'")
     (output/"movie.ffconcat").write_text("\n".join(movie_concat)+"\n")
     movie=output/f"phantasie-cht-{version}-local-promo.mp4"
@@ -123,6 +145,7 @@ def plan(captures, score, output, version, project):
         "-i",str(score),"-map","0:v:0","-map","1:a:0","-c:v","copy","-c:a","aac","-b:a","192k","-ar","48000","-ac","2","-t","72","-movflags","+faststart",str(movie)]))
     (output/"render.sh").write_text("\n".join(commands)+"\n")
     manifest=dict(schema=1,version=version,seconds=72,fps=30,width=1280,height=720,engine_commit=engines.pop(),score_sha256=SCORE_SHA,
+        bundle_sha256=sources["town"]["data"]["bundle"]["sha256"],
         rights="local-only game imagery, Eten glyphs and original-derived hand-painted art; approved original score r2",
         captures={n:s["sha256"] for n,s in sources.items()},shots=shots,declared_static=pauses,
         soundtrack_license="GeneralUser GS 2.0 music-production terms; full license retained with source inputs",font=FONT)
@@ -132,14 +155,33 @@ def plan(captures, score, output, version, project):
 
 def audit(output):
     plan_data=json.loads((output/"plan.json").read_text())
-    probe=json.loads((output/"ffprobe.json").read_text())
+    movies=list(output.glob("*-local-promo.mp4"))
+    if len(movies)!=1 or movies[0].is_symlink():
+        raise ValueError("需要唯一成片")
+    movie=movies[0]
+    fingerprint=digest(movie)
+    # Sidecars are regenerated from this movie; old receipts cannot satisfy audit.
+    def run(args):
+        result=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,timeout=300,check=True)
+        return result
+    result=run(["ffprobe","-v","error","-count_frames","-show_streams","-show_format","-of","json",str(movie)])
+    (output/"ffprobe.json").write_text(result.stdout)
+    probe=json.loads(result.stdout)
+    result=run(["ffmpeg","-nostdin","-v","info","-threads","2","-filter_threads","1","-i",str(movie),"-vn","-af","loudnorm=I=-18:TP=-1:LRA=11:print_format=json","-f","null","-"])
+    (output/"loudness.txt").write_text(result.stderr)
+    result=run(["ffmpeg","-nostdin","-v","info","-threads","2","-filter_threads","1","-i",str(movie),"-an","-vf","crop=1024:640:128:40,blackdetect=d=0.2:pix_th=0.01:pic_th=0.9999,freezedetect=n=-60dB:d=1","-f","null","-"])
+    (output/"detect.txt").write_text(result.stderr)
+    if digest(movie)!=fingerprint:
+        raise ValueError("驗證期間成片已變更")
     streams=probe["streams"];v=next(s for s in streams if s["codec_type"]=="video");a=next(s for s in streams if s["codec_type"]=="audio")
     if v["codec_name"]!="h264" or v["pix_fmt"]!="yuv420p" or (v["width"],v["height"])!=(1280,720) or v["avg_frame_rate"]!="30/1":
         raise ValueError("視訊格式不符")
     if a["codec_name"]!="aac" or a["sample_rate"]!="48000" or a["channels"]!=2 or abs(float(probe["format"]["duration"])-72)>.05:
         raise ValueError("聲音格式或時長不符")
+    if int(v["nb_read_frames"])!=2160 or any(not math.isfinite(float(s["duration"])) or abs(float(s["duration"])-72)>.05 for s in (v,a)):
+        raise ValueError("視訊格數或各軌時長不符")
     loud=(output/"loudness.txt").read_text();measured=json.loads(loud[loud.rfind("{"):])
-    if abs(float(measured["input_i"])+18)>.5 or float(measured["input_tp"])>-1:
+    if any(not math.isfinite(float(measured[k])) for k in ("input_i","input_tp")) or abs(float(measured["input_i"])+18)>.5 or float(measured["input_tp"])>-1:
         raise ValueError("成片音量或峰值不符")
     detections=(output/"detect.txt").read_text()
     if "black_start:" in detections:
@@ -154,7 +196,6 @@ def audit(output):
             if a<=cursor+.15 and b>cursor:cursor=b
         if cursor<end-.15:
             raise ValueError(f"未宣告長靜止區段 {start}..{end}")
-    movie=next(output.glob("*-local-promo.mp4"))
     receipt=dict(result="PASS",version=plan_data["version"],file=movie.name,bytes=movie.stat().st_size,sha256=digest(movie),
                  duration=float(probe["format"]["duration"]),lufs=float(measured["input_i"]),true_peak=float(measured["input_tp"]),
                  detected_static=list(zip(starts,ends)),plan_sha256=digest(output/"plan.json"),score_sha256=plan_data["score_sha256"])
