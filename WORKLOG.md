@@ -429,3 +429,14 @@ Linux 正式包五語、主題、公會返回與繁中 15 點存檔冷讀回通�
 README 六張主要圖已換成正式包畫面。所有正式收據在 workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/，本機 dist-all 同版本保存精簡收據、母帶、產製工具與完整 GeneralUser-GS 條款。封包固定來源 tag 不變，後續影片工具及文件提交另記 promo/provenance.json。013 至 018 依各自抽樣與平台限制收斂，完整版及影片未上傳。
 
 最後契約與證據兩輪唯讀覆核皆為阻擋 0、應改 0、建議 0，報告為正式驗收工作區的 final-contract-review.txt 與 final-evidence-review.txt。獨立覆核重算四張字形差異及負對照、139 點狀態、30 份字幕字框、成片格式、15 點冷讀檔、macOS 靜態標頭與六包雜湊。106797 項檔案／目錄的擁有權抽查無 root 檔或誤建 Markdown 目錄，專案容器已清理。此次僅提交程式、文件及展示圖，原版、字模、答案、完整包與影片留本機。
+
+## 2026-10-06 相關 Issue 結案
+
+使用者授權 commit、push 與關閉相關 Issue。主機 gh 身分核對通過，從 GitHub 讀取四項現行本文及留言，以目前程式、規格與收據逐項核對。既有中文化提交 b5d13b9 與引擎提交 8467682 已同步遠端，兩個工作樹均乾淨。
+
+- [#1](https://github.com/wicanr2/phantasie_cht/issues/1)：INT 27h 的規格 197、單元測試、負對照與常駐串跑收據已完成；結案留言訂正早期分支名稱。
+- [#2](https://github.com/wicanr2/phantasie_cht/issues/2)：RE006、RE004 與規格 001 已核對啟動鏈、overlay 位址、視訊與文字路徑；未量到的內部參數不改成已證實。
+- [#3](https://github.com/wicanr2/phantasie_cht/issues/3)：兩份 overlay IDA 庫、工具、覆蓋分母及共用繪字定位已完成；依已定案抽樣收斂，未宣稱逐一窮舉 191 個呼叫端或完整反編譯。
+- [#4](https://github.com/wicanr2/phantasie_cht/issues/4)：文字來源、訊息及卷軸解碼、地圖描述、位置列、完整選項解析與四語資料已完成；15 個新增鍵未逐鍵到達的限制仍保留。
+
+四項均附上固定提交的證據連結，以 completed 原因關閉。關閉後重新查 GitHub，#1 至 #4 均為 CLOSED，Phantasie 未關閉 Issue 為 0；dosgolem 沒有未關閉的 Phantasie Issue。沒有上傳原版、答案、本機封包或影片，沒有移動版本 tag 或建立 Release。本輪只更新現況與結案歷程，不改程式或交付產物。

@@ -1,6 +1,6 @@
 # 目前狀態
 
-日期：2026-10-05
+日期：2026-10-06
 
 《幽靈戰士》以 dosgolem 執行期輸出攔截與覆繪中文化，原版程式、資料與存檔規則不修改。語言為繁中、簡中、英文原版、日文與韓文。日韓為機器輔助，未經母語者校對。使用者已授權下載手冊、顯示本機答案、commit／push，並指定抽樣驗收。
 
@@ -14,6 +14,7 @@
 | 主題與 HD | Shift+F12 切原版、琥珀、手繪；四場景、160 怪物變體已打包，正常城鎮與戰鬥抽驗 | [015](docs/spec/015-presentation-themes.md)、[018](docs/spec/018-all-recognizable-hd-images.md) |
 | 推廣影片 | 72 秒實際遊玩與主題／五語展示，2160 格、30 fps，第二版原創配樂 | [016](docs/spec/016-gameplay-video-capture.md)、[017](docs/spec/017-original-promo-score.md)、`promo/verification.json` |
 | README 截圖 | 六張主要圖取正式包實際遊玩，無手冊答案 | 正式收據 `readme-formal-screenshots.json` |
+| GitHub Issue | #1 至 #4 已補結案證據並關閉，目前未關閉數為 0 | [遠端 Issue](https://github.com/wicanr2/phantasie_cht/issues) |
 
 唯一現行交付根目錄為 `dist-all/v.1.0.0-20261005/`。`full-local/` 含 Linux x86_64 AppImage、Windows amd64 ZIP、macOS universal ZIP，附遊戲、手冊提示、繁中倚天與完整圖像。`patch/` 不含遊戲、答案、倚天或 HD，採 GNU Unifont 17.0.05 的 OFL 1.1。`promo/` 保存成片、第二版母帶、產製工具及完整音色庫條款；`smoke/` 保存抽樣驗收與重播腳本。全部產物留本機，沒有公開 Release。repo 維持 private。專案程式授權為 RRSAL-1.0，不涵蓋原版素材。
 
@@ -32,6 +33,6 @@
 - 未逐項驗證：其他地圖描述格、部分 MESS 欄寬與事件、地城備份還原、INT 10h `AH=0Bh BL=1` 與原有文字跨色盤。具體範圍見 002、005、012，抽樣以外不計 UI PASS。
 - 中文停用項目不重現原版變暗；數字有原版粗體與疊字細體混用；日韓數字欄位仍有少量 lint 警告。
 - HD 的兩個全白變體、未知或遮擋部分保留原版。隊員與地圖保留原版。全部資產已核對，個別未正常到達的場景與怪物不宣稱已實機觀察。
-- 玩家名音譯、repo 轉公開、公開 Release 與影片公開方式尚未定案。沒有新增 Issue 寫入授權。
+- 玩家名音譯、repo 轉公開、公開 Release 與影片公開方式尚未定案。相關 Issue 已依使用者 2026-10-06 授權結案。
 
 目前授權範圍的本機交付已完成。日後若要轉公開或公開散布，另作權利與發行決策。
