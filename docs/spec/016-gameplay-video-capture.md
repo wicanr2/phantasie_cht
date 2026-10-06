@@ -67,3 +67,11 @@ ffmpeg 在既有影片容器以兩核、threads 2、filter_threads 1、有界執
 正式 Linux 完整版後端以本機倚天、完整圖像組及已驗證 bundle 擷取城鎮、公會、地圖與戰鬥。城鎮 36、公會 81、戰鬥 33 個原版狀態點與既有原版收據一致；地圖使用正常玩家路線，但未另宣稱原版同狀態對拍。15 段各抽看前、首、中、末、後共 75 個來源樣本，選定範圍沒有手冊題或答案。成片另抽看 17 格，完整遊戲區與字幕可見，30 份字幕使用 FFmpeg 實際 drawtext 字框核對無裁切。72.000 秒、2160 格、1280×720、H.264／30 fps，AAC／48 kHz／雙聲道，-18.01 LUFS、-2.41 dBTP。直接重新解碼最終檔案，黑幀為零；偵測到的靜止皆由相同來源 bitmap 的已宣告區間覆蓋，不放寬既有門檻。成片 SHA-256 `060a84c74845b1c1c37f121df55a3fe04ca76cd855287a06856e1ab8353e4a31`。已採用第二版原創配樂，完整音色庫條款及來源封存於 promo。影片僅本機保留。60 秒抽樣含原版戰鬥的中途英文訊息，不宣稱所有執行期瞬間逐格中文化。
 
 正式收據入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`；交付入口為 `dist-all/v.1.0.0-20261005/`。`smoke/acceptance.json` 與根層 `SHA256SUMS.json` 列出平台範圍；字型獨立遮罩為 `font-mask/verification.json`，冷讀檔為 `save-r2/verification.json`，影片與字幕抽樣為 `visual-verification.json`。較早研究段落中的待驗狀態只描述當時收據，現況以本節為準。
+
+## v.1.0.1-20261006 新版成片
+
+影片重新擷取自新版正式 Linux 完整包，使用實際 bundle、繁中倚天及 schema 3 完整手繪組。四條公開玩家路線共 167 個停點的完整記憶體、VRAM、步數與讀鍵，均和既有已驗收基準一致。15 鏡沿用固定區段及正常輸入 transition 白名單，戰鬥字幕改為新版隊員手繪圖像；沒有改動原版操作或手冊區段的排除規則。
+
+新版成片 72 秒、2160 格、1280×720、H.264／30 fps，AAC／48 kHz／雙聲道，-18.01 LUFS、-2.41 dBTP。直接重新解碼 audit 通過，無黑幀，所有偵測靜止均在來源可證明的區間內。SHA-256 `e373d452ec9aa531aaaad12cf5f57b6467bf44e2ca98ec41fb09661679f6d08c`。主代理目視 17 格成片及 75 個來源樣本，新版隊員與主題／五語展示可見，選定區段無手冊答案，30 個實際字幕字框無裁切。配樂仍為使用者確認的第二版，沒有重新製作或替換音源。
+
+影片保存在 `dist-all/v.1.0.1-20261006/promo/`，包括成片、母帶、GeneralUser-GS 完整條款、`plan.json`、`render.sh`、`verification.json` 與 `provenance.json`。正式擷取及目視收據在新版驗收工作區的 `formal-capture-state-verification.json`、`visual-samples.json`、`visual-verification.json`。兩輪最終覆核皆為 0／0／0。F1 開關另由實際 Linux／Wine GUI 驗收，沒有插入影片；中途戰鬥仍可能短暫出現英文，不宣稱逐格全部中文化。舊版成片保持原雜湊，新版僅留本機。

@@ -6,7 +6,7 @@
 
 - [AGENTS.md](../../AGENTS.md) §9、§10 與 `/home/anr2/cht/AGENTS_DOSGOLEM_CHT.md` §15 是打包契約。輸出目錄依 `/home/anr2/.codex/knowledge-base/local/retro-remake-dist-all-output.md`，版號依同目錄的 `retro-remake-release-versioning.md`。
 - 引擎從已推送 `phantasie-cht-overlay` 的固定 commit 用 `git archive` 匯出。不從其他遊戲包複製素材、字型或啟動參數。
-- 可散布包不含原版、手冊、答案或私人路線。本機資料包只在 `full-local/`，不入 Git、不上傳。repo 維持 private；公開 Release、影片與轉公開另需授權。
+- 可散布包不含原版、手冊、答案或私人路線。本機資料包只在 `full-local/`，不入 Git、不上傳。repo 已依使用者 2026-10-06 授權轉公開；公開 Release 及影片公開方式仍需另外定案。
 - 原版啟動鏈、輸入、規則、存檔及覆繪保持原契約，不自動回答手冊題。
 
 ## 2. 已定案與執行閘門
@@ -310,3 +310,13 @@ AppImage worker 另用兩個自製檔案抽驗：固定 runtime 的前綴、實�
 三平台六包從本機 tag `v.1.0.0-20261005` 的專案 `ee22b5f`、引擎 `8467682` 乾淨輸入建置。實際封包、平台／架構、內含檔案、必要資產、授權與 SHA-256 均核對通過。原版 70 檔保持不變。Linux 實際完整版五語標題、五語城鎮、三主題、公會返回及繁中存檔／冷啟動讀回 15 點通過。Windows 實際完整版在 Wine 顯示五語標題及手繪城鎮；輸入擷取程序 exit 0，Wine 擁有程序在清理時達外層 timeout 124，正常關閉未驗證。macOS 的 x86_64／arm64 程式、plist 及全套資產核對通過，尚未真機操作。補丁包已核對內容與資產，未另做 GUI 抽測。這些限制不計為原版 parity 或各平台真機通過。完整包與影片留本機，沒有公開 Release。六包雜湊不變，本機 tag 不再移動。
 
 正式收據入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`；交付入口為 `dist-all/v.1.0.0-20261005/`。`smoke/acceptance.json` 與根層 `SHA256SUMS.json` 列出平台範圍；字型獨立遮罩為 `font-mask/verification.json`，冷讀檔為 `save-r2/verification.json`，影片與字幕抽樣為 `visual-verification.json`。較早研究段落中的待驗狀態只描述當時收據，現況以本節為準。
+
+## v.1.0.1-20261006 本機交付
+
+使用者定案新版本 `v.1.0.1-20261006`，從專案 `5518f9947973911d8fe57140a42d542af9adffd5`、引擎 `9f1c720af6aa72dc5b7c7bea5a1ed3a574a2a855` 與精確本機 tag 乾淨重建。三個完整版及三個 OFL 補丁的實際內容、架構、來源、必要資產、外洩與 SHA-256 通過，舊版六包及影片保持原雜湊。
+
+完整包納入五語 Help、繁中 1277 倚天全形與 95 GNU ASCII、schema 3 的 32 隊員手繪變體。兩輪獨立覆核全部通過：舊版 1364 字的 bitmap 與寬度逐字不變，新增 8 全形在實際 F1 五語 GUI 驗證；舊 schema 2 批准 metadata 未變。
+
+Linux 實際 AppImage 解出後的 launcher 抽測五語 F1／Esc 返回、三主題、公會返回及 15 個存檔／冷讀檔點。Wine 以實際 Windows ZIP 抽測五語 F1、標題及手繪城鎮；返回畫面像素差為 0，與 Linux 相應 PNG 的 bytes 相同。窗口關閉後 Wine 擁有程序未自動結束，以本次 wineserver 收尾，正常關閉及 Windows 真機仍未驗證。macOS 實際 ZIP 核對 x86_64／arm64、plist 及全部必要素材，未真機操作。補丁未另做 GUI 抽測。
+
+新版正式影片與收據見 016 的新版節。驗收入口為 `workplace/package-prototype/formal-acceptance-v.1.0.1-20261006/`，兩輪報告為 `final-contract-review.txt`、`final-evidence-review.txt`，最終皆 0／0／0。交付入口為 `dist-all/v.1.0.1-20261006/`，`SHA256SUMS.json` 與 `smoke/acceptance.json` 保存實際範圍。完整包、圖集與影片僅留本機，本機 tag 不推送、不建立公開 Release。

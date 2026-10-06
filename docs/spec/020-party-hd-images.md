@@ -1,6 +1,6 @@
 # 020 戰鬥隊員手繪圖像
 
-狀態：CONFORMED（Linux 原始碼建置、資產契約及正常戰鬥抽樣；未重打包）。使用者要求戰鬥畫面底部隊員改用新版 sprite，延續彩色手繪與原版構圖。前置為 [018](018-all-recognizable-hd-images.md) 及 [RE029](../re/029-all-image-formats.md)。本規格只擴充輸出合成，不改輸入、原版資料、角色外觀值、規則或存檔。
+狀態：CONFORMED（資產契約、Linux 正常戰鬥及新版正式封包抽樣；平台限制見末節）。使用者要求戰鬥畫面底部隊員改用新版 sprite，延續彩色手繪與原版構圖。前置為 [018](018-all-recognizable-hd-images.md) 及 [RE029](../re/029-all-image-formats.md)。本規格只擴充輸出合成，不改輸入、原版資料、角色外觀值、規則或存檔。
 
 兩輪唯讀規格審查及兩輪實作審查已通過，阻擋、應改與建議皆為 0。契約與證據報告為 `workplace/party-hd-r1/contract-review.txt`、`evidence-review.txt`、`implementation-contract-review.txt`、`implementation-evidence-review.txt`。實作提交為引擎 `9f1c720af6aa72dc5b7c7bea5a1ed3a574a2a855`。
 
@@ -64,3 +64,7 @@ schema 3 的來源仍最多 8、圖像最多 32、場景最多 4、每頁 preser
 | README 截圖 | `round3-<lang>-hd.png` 五語實際訊息及繁中 original 對照保存於 `docs/screenshots/`；來源、逐檔 SHA 與複製核對見 `workplace/public-readme-screenshots-r1.json` |
 
 驗證限制：正常路線只實際觀察隊員索引 0／bank 1；其他 31 個變體完成資產與合成契約驗證，未逐圖正常到達。不宣稱未知種族、職業或 bank 語意。地圖仍為原版。此輪只驗 Linux 原始碼建置，不宣稱 Windows／macOS 真機通過；既有六包、tag 與 72 秒影片保持不變，尚未含新版隊員。
+
+## 新版正式封包及影片
+
+`v.1.0.1-20261006` 的三平台實際完整版均納入 14 份資產、schema 3 profile 及 32 個隊員變體，逐檔清冊與 SHA 通過。Linux 實際包的正常戰鬥 33 點及其他路線共 167 點保持既有已驗收原版狀態；新版 72 秒影片可見底部手繪隊員。README 的繁中戰鬥 PNG 與正式錄影 `frame-001322.png` bytes 完全相同，SHA-256 `7f3a5971baf3bb9f8d5d59a0cd8976a9bc751740f83b4df589dfcfab7b0d6a04`。證據在新版正式工作區 `formal-capture-state-verification.json`、`readme-formal-screenshots.json`、`visual-verification.json`，平台及交付限制見 013、016 新版節。正常隊員抽樣仍只有索引 0／bank 1；Wine 未抽測戰鬥，macOS 未真機操作。舊版本機交付保持不變。

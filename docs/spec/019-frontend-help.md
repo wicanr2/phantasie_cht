@@ -1,6 +1,6 @@
 # 019 F1 操作說明頁
 
-狀態：CONFORMED（Linux 原始碼建置與正常 GUI 抽樣；未重打包）。前置：005、015 CONFORMED。使用者 2026-10-06 要求 F1 說明頁；本規格只改前端顯示與保留鍵，不改原版程式、記憶體、規則或存檔。
+狀態：CONFORMED（原始碼及新版正式封包抽樣；Windows Wine 輔助、macOS 靜態驗證）。前置：005、015 CONFORMED。使用者 2026-10-06 要求 F1 說明頁；本規格只改前端顯示與保留鍵，不改原版程式、記憶體、規則或存檔。
 
 兩輪唯讀規格審查及兩輪實作審查已通過，阻擋、應改與建議皆為 0。契約與證據報告為 `workplace/help-r1/contract-review.txt`、`evidence-review.txt`、`implementation-contract-review.txt`、`implementation-evidence-review.txt`。實作提交為引擎 `9f1c720af6aa72dc5b7c7bea5a1ed3a574a2a855`，驗收範圍見 §6。
 
@@ -63,3 +63,7 @@ Help 開啟期間 Draw 不呼叫 Session.Frame，也不改覆繪 Layer。先畫�
 | 版面 | 實際新字型量測最大寬度繁中 240、簡中 256、英語保守估計 384、日語 384、韓語 400 像素，全部低於 576。五語 GUI、琥珀、全螢幕及英文回退逐張目視，無缺字或裁切。English 內建 ASCII 以較窄字形繪製，8 像素為驗證上界 |
 
 驗證限制：只做 Linux Xvfb 原始碼建置抽樣，未宣稱 Windows 或 macOS 真機通過；舊 `v.1.0.0-20261005` 六包及 tag 保持不變，不含本輪 F1 新功能。日韓說明為機器輔助、未經母語者校對。
+
+## 7. 新版正式封包抽樣
+
+`v.1.0.1-20261006` 的六包已納入五語 Help。實際 Linux 完整版及 Windows ZIP／Wine 均開啟五語 F1，按 Esc 返回標題的像素差為 0；城鎮 F1／F1 返回及 Linux 三主題也通過。五語 Help、標題及手繪城鎮的 Linux／Wine PNG bytes 相同。macOS 實際 ZIP 核對五張表、四語字型及雙架構，不宣稱真機 GUI 通過。完整收據在新版正式驗收工作區的 `gui/verification.json`、`windows/verification.json`，交付與平台限制見 013 新版節。舊版六包保持不變。
