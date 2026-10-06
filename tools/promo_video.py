@@ -89,7 +89,7 @@ def plan(captures, score, output, version, project):
     add("map","map-top",3.6,"大地圖與隊伍操作","原版規則與存檔保持原樣",last="map-sheet")
     add("combat","combat-step1",12,"地牢探索","正常玩家路線・剪輯節奏經調整",last="combat-step6")
     add("combat","combat-bar",2.4,"回合選擇","片刻留白，準備戰鬥")
-    add("combat","combat-bar",16.8,"手繪怪物與回合制戰鬥","原版操作錄製・隊員圖保留原版",last="round3")
+    add("combat","combat-bar",16.8,"手繪怪物與回合制戰鬥","原版操作錄製・新版隊員手繪圖像",last="round3")
     add("town","town",7.2,"三平台本機完整版",version+"｜Windows・Linux・macOS")
     if round(sum(s["seconds"] for s in shots),6)!=72:
         raise ValueError("分鏡總長不符")
