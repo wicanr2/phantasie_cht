@@ -1,0 +1,13 @@
+key	translation	source
+title	幽靈戰士 操作說明	Phantasie - Help
+pause	說明頁開啟時，遊戲暫停。	The game is paused while this page is open.
+open	F1：開啟操作說明	F1: open this help page
+close	F1 / Esc：關閉說明並繼續遊戲	F1 / Esc: close help and resume
+language	F12：切換顯示語言	F12: switch display language
+theme	Shift + F12：切換主題	Shift + F12: switch theme
+fullscreen	F11：切換全螢幕	F11: toggle fullscreen
+arrows	方向鍵：依遊戲畫面移動或選擇	Arrow keys: move or select on the game screen
+confirm	Enter：確認反白的選單項目	Enter: confirm the highlighted menu choice
+letters	字母 / 數字：依畫面提示輸入	Letters / numbers: follow the on-screen prompts
+context	其他操作依目前遊戲畫面的提示。	Other actions depend on the current game screen.
+footer	F1 / Esc：返回遊戲	F1 / Esc: return to the game

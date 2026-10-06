@@ -1,0 +1,13 @@
+key	translation	source
+title	Phantasie 조작 안내	Phantasie - Help
+pause	이 페이지가 열려 있는 동안 게임은 일시 정지됩니다.	The game is paused while this page is open.
+open	F1: 조작 안내 열기	F1: open this help page
+close	F1 / Esc: 안내를 닫고 게임 재개	F1 / Esc: close help and resume
+language	F12: 표시 언어 전환	F12: switch display language
+theme	Shift + F12: 테마 전환	Shift + F12: switch theme
+fullscreen	F11: 전체 화면 전환	F11: toggle fullscreen
+arrows	방향키: 게임 화면에 따라 이동 또는 선택	Arrow keys: move or select on the game screen
+confirm	Enter: 강조된 메뉴 항목 선택	Enter: confirm the highlighted menu choice
+letters	문자 / 숫자: 화면 안내에 따라 입력	Letters / numbers: follow the on-screen prompts
+context	다른 조작은 현재 게임 화면의 안내를 따르세요.	Other actions depend on the current game screen.
+footer	F1 / Esc: 게임으로 돌아가기	F1 / Esc: return to the game

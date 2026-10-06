@@ -221,7 +221,7 @@ func readBundle(base, manifestName, version, engine string) (bundle, error) {
 		names := []string{}
 		if profile.Schema == 1 {
 			names = append(names, profile.Image)
-		} else if profile.Schema == 2 {
+		} else if profile.Schema == 2 || profile.Schema == 3 {
 			if len(profile.Images) < 1 || len(profile.Images) > 32 {
 				return b, errors.New("手繪素材數量無效")
 			}

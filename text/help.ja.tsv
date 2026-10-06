@@ -1,0 +1,13 @@
+key	translation	source
+title	Phantasie 操作ガイド	Phantasie - Help
+pause	このページを開いている間、ゲームは停止します。	The game is paused while this page is open.
+open	F1：操作ガイドを開く	F1: open this help page
+close	F1 / Esc：閉じてゲームを再開	F1 / Esc: close help and resume
+language	F12：表示言語を切り替え	F12: switch display language
+theme	Shift + F12：テーマを切り替え	Shift + F12: switch theme
+fullscreen	F11：全画面を切り替え	F11: toggle fullscreen
+arrows	矢印キー：画面に従って移動や選択	Arrow keys: move or select on the game screen
+confirm	Enter：選択中のメニュー項目を決定	Enter: confirm the highlighted menu choice
+letters	文字 / 数字：画面の案内に従って入力	Letters / numbers: follow the on-screen prompts
+context	その他の操作は現在の画面の案内に従ってください。	Other actions depend on the current game screen.
+footer	F1 / Esc：ゲームに戻る	F1 / Esc: return to the game

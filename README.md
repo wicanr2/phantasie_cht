@@ -3,11 +3,19 @@
 以 [dosgolem](https://github.com/wicanr2/dosgolem) 執行期輸出攔截與覆繪，為 DOS 版 Phantasie 加上繁體中文、簡體中文、日文與韓文顯示，
 並可切回英文原版。原版程式與資料不修改。
 
+## 遊戲介紹
+
+《Phantasie》是 SSI 發行的奇幻角色扮演遊戲。玩家組成最多六人的冒險隊伍，在格爾諾島探索城鎮、荒野與地牢，對抗邪惡巫師尼卡迪穆斯及黑騎士。角色可選戰士、盜賊、武僧、牧師、遊俠與巫師，各有不同的戰鬥與施法能力。
+
+冒險從城鎮公會開始。招募與訓練隊員、購買裝備後出城探索，遭遇敵人時進行回合制戰鬥，再回城休息、分配戰利品並提升角色。地牢中的事件、卷軸與線索串起探索進度。遊戲設定與操作依據 [SSI 原版手冊](https://www.mocagh.org/ssi/phantasie-manual.pdf)；本專案保留原版規則，以多語文字和可切換主題改善閱讀。
+
+## 目前狀態
+
 狀態：資料契約與正常 UI 類別抽樣已驗收，規格 001 至 012 為 CONFORMED。樣本涵蓋城鎮、公會、商店、地圖、地牢正文與選項、卷軸、戰鬥與獎勵、存檔讀回及語言切換。物品與法術的手冊題可顯示本機答案，保留原版選項，由玩家選答。
 抽樣範圍見 [分期目標](docs/goals/001-phases.md#抽樣驗收範圍)。15 個新增鍵未逐鍵量到，地城備份還原及部分畫面操作參數仍未驗證。中文停用項目不重現原版變暗外觀。完整限制見 [CONTEXT.md](CONTEXT.md)。
-ja、ko 為機器輔助翻譯，未經母語者校對。現行本機交付版為 `v.1.0.0-20261005`；這個 repo 目前是 private。
+ja、ko 為機器輔助翻譯，未經母語者校對。現行本機交付版為 `v.1.0.0-20261005`；公開儲存庫提供程式、譯文、文件與展示截圖。
 
-三平台本機完整版含遊戲、手冊提示與繁中倚天字形，補丁包採 GNU Unifont 的 OFL 1.1。前端可切換原版、琥珀與手繪主題；手繪組含四個場景及 160 個怪物圖像變體，正常城鎮與戰鬥已抽驗。全白、遮擋及無法確認的圖像保留原版。
+三平台本機完整版含遊戲、手冊提示與繁中倚天字形，補丁包採 GNU Unifont 的 OFL 1.1。前端可切換原版、琥珀與手繪主題；既有版本含四個場景及 160 個怪物圖像變體，正常城鎮與戰鬥已抽驗。主分支另加入 F1 五語操作說明及 32 個隊員手繪圖像變體，這兩項尚未併入既有三平台封包。全白、遮擋及無法確認的圖像保留原版。
 
 交付位於 `dist-all/v.1.0.0-20261005/`：`full-local/` 為 Linux、Windows、macOS 完整版，`patch/` 為三平台補丁，`promo/` 為含實際遊玩、主題切換與第二版原創配樂的 72 秒影片，`smoke/` 與 `SHA256SUMS.json` 保存驗收及雜湊。完整版與影片只留本機，未建立公開 Release。Linux 已抽測五語與存檔讀回；Windows 已在 Wine 抽測五語標題與手繪城鎮；macOS 已核對雙架構及資產，尚未真機驗證。Windows 正常關閉亦未驗證。
 
@@ -16,11 +24,23 @@ ja、ko 為機器輔助翻譯，未經母語者校對。現行本機交付版為
 ## 使用
 
 需要 Docker、原版遊戲目錄（含 `PHANTASI.EXE`、`WIZ.BAT` 與資料檔）與 GNU Unifont 17.0.05 的壓縮檔。全部建置與驗證都在 Docker 內進行。
+互動前端原始碼位於 dosgolem 的 [phantasie-cht-overlay 分支](https://github.com/wicanr2/dosgolem/tree/phantasie-cht-overlay/apps/phantasie)，本機建置工作樹為 `workplace/dosgolem-fw`。
 
 1. 建字型：`tools/build_fonts.sh <unifont-17.0.05.tar.gz> workplace/fonts`
 2. 建互動前端：`tools/build_play.sh`（輸出 `workplace/bin/phantasie-play`）
-3. 啟動：`workplace/bin/phantasie-play -root <原版目錄> -text text -font workplace/fonts -zoom 2`；`F11` 全螢幕、`F12` 切換語言、`Shift+F12` 切換主題；存檔放在 `$XDG_DATA_HOME/phantasie-cht`，不寫原版目錄
+3. 啟動：`workplace/bin/phantasie-play -root <原版目錄> -text text -font workplace/fonts -zoom 2`；須在 Docker 的顯示環境內執行，存檔放在 `$XDG_DATA_HOME/phantasie-cht`，不寫原版目錄
 4. 實機冒煙：`tools/smoke_play.sh` 在虛擬顯示器內對五種語言各截一張標題畫面（`workplace/play-shots/`）
+
+| 按鍵 | 操作 |
+|---|---|
+| F1 | 開啟操作說明，遊戲暫停 |
+| F1 / Esc | 關閉說明並繼續遊戲 |
+| F11 | 切換全螢幕 |
+| F12 | 切換繁中、簡中、英文、日文、韓文 |
+| Shift+F12 | 切換原版、琥珀、手繪主題，依已載入的素材循環 |
+| 方向鍵 / Enter | 依遊戲畫面移動、選擇與確認 |
+
+字母及數字依遊戲提示輸入。F1 頁面使用目前顯示語言；缺少說明表或字模時，明示回退英文。F1 契約及抽樣範圍見 [019](docs/spec/019-frontend-help.md)。
 
 手冊提示需要本機的 `text/manual.<語言>.tsv`。此工作區已備妥四語答案表並重建字型。
 重建時先在 Docker 內執行 `python -B tools/build_manual_catalog.py --reference workplace/manual-derived/answers.tsv --text text`，再建字型。
@@ -43,15 +63,40 @@ ja、ko 為機器輔助翻譯，未經母語者校對。現行本機交付版為
 
 ## 畫面
 
-覆繪後的展示截圖在 `docs/screenshots/`：標題、城鎮與琥珀主題、公會選單與角色屬性、銀行、旅店分配、大地圖提示、地城位置列、戰鬥訊息，另有日文與韓文的角色屬性畫面。
+覆繪後的展示截圖在 `docs/screenshots/`。標題、城鎮、公會與地牢畫面取自本機完整版，繁中採倚天字形；以下戰鬥與 F1 畫面則由目前原始碼重新擷取。所有畫面均不含手冊答案。
 
-以下為正式本機完整版實際遊玩的繁中倚天字形畫面。城鎮與怪物採手繪主題，另展示琥珀主題；隊員圖保留原版。其餘畫廊畫面仍為 GNU 字型。
+城鎮、怪物與隊員手繪圖只保留本機。公開儲存庫提供顯示程式及素材指紋，不提供原版遊戲或圖集。
 
 ![標題畫面](docs/screenshots/01-title-zh-TW.png)
 ![手繪城鎮與倚天字形](docs/screenshots/02-town-zh-TW.png)
 ![琥珀主題](docs/screenshots/03-town-amber-zh-TW.png)
 ![公會角色屬性](docs/screenshots/04-guild-inspect-zh-TW.png)
 ![地牢探索與位置列](docs/screenshots/08-dungeon-location-zh-TW.png)
-![手繪怪物與倚天字形戰鬥畫面](docs/screenshots/09-combat-message-zh-TW.png)
+
+### 戰鬥主題對照
+
+同一條正常玩家路線、同一個戰鬥停點，文字均為繁中倚天字形。主題切換只改顯示，怪物與底部隊員的位置、原版狀態保持相同。隊員辨識與抽樣限制見 [020](docs/spec/020-party-hd-images.md)。
+
+| 原版主題 | 手繪主題，含新版隊員 |
+|---|---|
+| ![繁中原版主題戰鬥](docs/screenshots/14-combat-original-zh-TW.png) | ![手繪怪物與新版隊員戰鬥](docs/screenshots/09-combat-message-zh-TW.png) |
+
+### 五語文字
+
+以下為同一戰鬥停點的實際訊息，角色與敵人圖像相同，只切換文字語言。繁中採本機倚天，簡中、日文與韓文採 GNU Unifont；英文保留原版字形。日韓為機器輔助翻譯，未經母語者校對。
+
+| 繁體中文 | 簡體中文 |
+|---|---|
+| ![繁體中文戰鬥訊息](docs/screenshots/09-combat-message-zh-TW.png) | ![簡體中文戰鬥訊息](docs/screenshots/10-combat-message-zh-CN.png) |
+
+| 日文 | 韓文 |
+|---|---|
+| ![日文戰鬥訊息](docs/screenshots/11-combat-message-ja.png) | ![韓文戰鬥訊息](docs/screenshots/12-combat-message-ko.png) |
+
+![英文原版戰鬥訊息](docs/screenshots/13-combat-message-en.png)
+
+### F1 操作說明
+
+![繁中 F1 操作說明](docs/screenshots/15-help-zh-TW.png)
 
 授權：採 RRSAL-1.0（復古重製 source-available 授權條款，非商業免費），不涵蓋原版素材；條款全文見 [LICENSE](LICENSE)。

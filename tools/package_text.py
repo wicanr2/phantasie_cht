@@ -10,12 +10,15 @@ import json
 import re
 import shutil
 import stat
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 
 import catalog_lib as cl
 
 LANGUAGES = ("zh-TW", "zh-CN", "ja", "ko")
+HELP_LANGUAGES = ("zh-TW", "zh-CN", "en", "ja", "ko")
+HELP_KEYS = frozenset(("title", "pause", "open", "close", "language", "theme", "fullscreen", "arrows", "confirm", "letters", "context", "footer"))
 TITLES = frozenset(("prompt:item", "prompt:spell"))
 HEADER = "key\ttranslation\tsource\n"
 
@@ -100,6 +103,35 @@ def protected(path):
     return data, len(keys)
 
 
+def help_catalog(path, language):
+    data, rows = catalog(path)
+    if len(data) > 72 * 1024 or {key for _, key, _, _ in rows} != HELP_KEYS:
+        raise ValueError("Help 大小或必要鍵集合不符")
+    for _, _, translation, source in rows:
+        if any(unicodedata.category(c) == "Cc" or c in "\\\ufeff" for c in translation + source):
+            raise ValueError("Help 含控制碼或不接受的跳脫")
+        if language == "en" and any(not 32 <= ord(c) <= 126 for c in translation):
+            raise ValueError("English Help 須為 ASCII")
+        # 確切像素寬度由實際字型清冊核對；這裡先拒絕一定超寬的表。
+        if len(translation) * 8 > 576:
+            raise ValueError("Help 行寬超過上限")
+    return data, rows
+
+
+def collect_help(source):
+    present = [(source / f"help.{lang}.tsv").exists() for lang in HELP_LANGUAGES]
+    if not any(present):
+        return {}, {}
+    if not all(present):
+        raise ValueError("Help 存在時必須五語齊全")
+    files, counts = {}, {}
+    for language in HELP_LANGUAGES:
+        name = f"help.{language}.tsv"
+        data, rows = help_catalog(source / name, language)
+        files[name], counts[name] = data, len(rows)
+    return files, counts
+
+
 def collect(source, local=False):
     """先驗證全部輸入，不寫輸出；未選取的檔案從未開啟。"""
     files, counts, source_keys = {}, {}, {}
@@ -119,6 +151,9 @@ def collect(source, local=False):
         name = f"manual.{language}.tsv"
         files[name], counts[name] = data, count
     files["protected.tsv"], counts["protected.tsv"] = protected(source / "protected.tsv")
+    help_files, help_counts = collect_help(source)
+    files.update(help_files)
+    counts.update(help_counts)
     return files, counts
 
 

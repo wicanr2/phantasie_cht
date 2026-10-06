@@ -131,7 +131,7 @@
   不建立 `work/`、`research/` 等同義目錄。`.gitignore` 同時排除 `*.zip`、`*.rar`、`dist-all/`。
 - GitHub Issue 是唯一的可執行工作清單（repo 建立後），每項寫明範圍、依賴、完成條件與原版素材邊界；本機不建立 `WORKLIST.md`。
   `CONTEXT.md` 保存目前真相，`WORKLOG.md` 追加歷程與勘誤，`README.md` 只放用途、穩定入口與現況摘要。正文只寫現況。
-- `docs/screenshots/`：只收覆繪後的展示截圖（約十張），不收原版英文對照圖、素材抽出圖，也不收會露出手冊答案的畫面。
+- `docs/screenshots/`：保存批准的覆繪展示截圖。使用者 2026-10-06 授權五語文字與原版主題對比，包含英文遊玩畫面；不收素材抽出圖或會露出手冊答案的畫面。
 
 ## 8. 驗收方法
 
@@ -153,7 +153,7 @@
 - 長時間背景作業用 `docker wait`、`tail --pid` 或監看工具等待，不用 sleep 輪詢，也不用 `pgrep -f`、`pkill -f` 比對含自己命令列的字串。
 - git 作者信箱一律 `wicanr2@gmail.com`；進 repo 先看 `git config user.email`，再查 `git log --format=%ae | sort -u`。
   commit message 用繁體中文，不放 `Claude-Session:` 連結。
-- 專案根目錄是 git repo，遠端 `wicanr2/phantasie_cht`（private，使用者 2026-10-03 授權建立並推送第一個 commit）。
+- 專案根目錄是 git repo，遠端 `wicanr2/phantasie_cht`；使用者 2026-10-03 授權建立，2026-10-06 授權轉公開及本輪 commit／push。
   之後的 push、Issue、Release 仍逐項計算授權；《拯救地球》的授權不延伸到本專案。
 - dosgolem 是公開、多專案共用的 repo：只在獨立分支 `phantasie-cht-overlay`（基底 `origin/buck-rogers-cht-output-overlay`，使用者 2026-10-03 選定；先前建議的 `phantasie-cht-output-overlay` 不再使用）開發與推送，不動 main；
   開發 worktree 放 `workplace/dosgolem-fw`。推送前掃描 diff 沒有原版檔名或素材，並確認作者信箱。
@@ -165,7 +165,7 @@
 
 - 授權採 RRSAL-1.0（使用者已定案，不重問；範本見 `~/.claude/knowledge-base/retro/rrsal-1.0.md`）。`LICENSE` 在 repo 轉公開之前就位，
   並出現在 repo 根目錄、README 授權段與每個發行包。條款不涵蓋原版素材。
-- repo 目前是 private（使用者 2026-10-03 定案）。轉公開、建立公開 Release 都需要使用者額外授權，轉公開前先做公開稽核
+- 使用者 2026-10-06 已授權 repo 轉公開；公開 Release 與影片公開方式仍需另外定案。轉公開前先做公開稽核
   （無原版檔案、無答案、`LICENSE` 就位、作者信箱）。不推送含原版素材的封包，不改寫已發布 tag。
 - 發行時遵守模板 §15：公開包不含原版檔案、不可散布字型、手冊摘錄或答案，打包後做外洩掃描；含原版的「完整版」只留本機，不上傳；
   先打標籤再打包；發行前每個語言都用發行包實機看標題畫面與主選單；Release 說明照實寫已知限制與未經母語者校對的部分。
@@ -180,7 +180,7 @@
 
 已定案（2026-10-03）：
 
-1. GitHub repo `wicanr2/phantasie_cht`，private。
+1. GitHub repo `wicanr2/phantasie_cht`，初始 private；2026-10-06 授權轉公開，原版素材與本機交付物仍不公開。
 2. 語言：zh-TW、zh-CN、英文原版、ja、ko，與《拯救地球》相同。
 3. 2026-10-03 未提供手冊；2026-10-04 已授權上網下載，並在手冊提示畫面顯示答案，依 `docs/spec/006-manual-answer-hints.md` 實作。
 4. 2026-10-05 使用者定案「抽樣驗收即可」。正常 UI 依輸出類別抽樣，不要求逐個地牢文字鍵或每種原版參數都抵達；資料覆蓋、原版唯讀、獨立 oracle、同狀態與負對照仍須通過。抽樣範圍及未量到限制記在 `docs/goals/001-phases.md`、002、005、012；不把未抽到的個別畫面宣稱為已驗證。
@@ -190,4 +190,4 @@
 
 1. 原始發行者與權利人的查證，以及是否取得中文版資料作譯名來源。
 2. 玩家名音譯（ja、ko）是否比照《拯救地球》另開規格。
-3. 何時轉公開、是否公開發行與推廣影片；影片配樂的版權處理。
+3. 是否公開發行與推廣影片；本機影片已採使用者確認的第二版原創配樂。

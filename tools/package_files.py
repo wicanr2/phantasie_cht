@@ -62,10 +62,11 @@ def art_files(path, original):
             result[key] = value
         return result
     p = json.loads(data, object_pairs_hook=unique)
-    if isinstance(p, dict) and p.get("schema") == 2:
-        canonical = json.loads(file_bytes(Path(__file__).with_name("package_art_assets.json")), object_pairs_hook=unique)
+    if isinstance(p, dict) and type(p.get("schema")) is int and p["schema"] in (2, 3):
+        approved = "package_art_assets.json" if p["schema"] == 2 else "package_party_art_assets.json"
+        canonical = json.loads(file_bytes(Path(__file__).with_name(approved)), object_pairs_hook=unique)
         if json.dumps(p, sort_keys=True, separators=(",", ":")) != json.dumps(canonical, sort_keys=True, separators=(",", ":")):
-            raise ValueError("HD 組不是018已批准完整資產")
+            raise ValueError("HD 組不是018／020已批准完整資產")
         files = {"profile.json": data}
         for source in p["sources"]:
             raw = file_bytes(original / source["file"])
@@ -165,6 +166,8 @@ def bundle_data(stage, platform, version, engine, local_manual=None):
     if platform != "windows" and not (base / backend).stat().st_mode & 0o111:
         raise ValueError("後端缺執行權限")
     expected_keys = {}
+    help_files, _ = package_text.collect_help(base / text)
+    files.update({f"{text}/{name}": data for name, data in help_files.items()})
     for language in package_text.LANGUAGES:
         needed = set(range(0x20, 0x7F))
         for family in ("ui", "prose", "manual"):
@@ -187,6 +190,15 @@ def bundle_data(stage, platform, version, engine, local_manual=None):
             files[name] = data
         name = f"{font}/{language}.golemfnt"
         data = file_bytes(base / name)
+        help_name = f"help.{language}.tsv"
+        if help_name in help_files:
+            _, help_rows = package_text.help_catalog(base / text / help_name, language)
+            flags = {struct.unpack_from("<I", data, offset)[0]: data[offset + 4]
+                     for offset in range(16, len(data), 37)} if len(data) >= 16 and (len(data) - 16) % 37 == 0 else {}
+            for _, _, translation, _ in help_rows:
+                needed.update(map(ord, translation))
+                if sum(16 if flags.get(ord(c), 0) & 0x80 else 8 for c in translation) > 576:
+                    raise ValueError("Help 實際字型行寬超過576像素")
         font_coverage(data, needed, bool(local_manual) and language == "zh-TW")
         files[name] = data
     name = f"{text}/protected.tsv"

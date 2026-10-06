@@ -1,0 +1,13 @@
+key	translation	source
+title	幽灵战士 操作说明	Phantasie - Help
+pause	说明页打开时，游戏暂停。	The game is paused while this page is open.
+open	F1：打开操作说明	F1: open this help page
+close	F1 / Esc：关闭说明并继续游戏	F1 / Esc: close help and resume
+language	F12：切换显示语言	F12: switch display language
+theme	Shift + F12：切换主题	Shift + F12: switch theme
+fullscreen	F11：切换全屏	F11: toggle fullscreen
+arrows	方向键：根据游戏画面移动或选择	Arrow keys: move or select on the game screen
+confirm	Enter：确认高亮的菜单选项	Enter: confirm the highlighted menu choice
+letters	字母 / 数字：根据画面提示输入	Letters / numbers: follow the on-screen prompts
+context	其他操作根据当前游戏画面的提示。	Other actions depend on the current game screen.
+footer	F1 / Esc：返回游戏	F1 / Esc: return to the game

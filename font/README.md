@@ -43,7 +43,9 @@
 | ja | `font/precompiled/unifont_jp-17.0.05.hex` | `3e88e5e98470e7547555202cebb13bcd4c393d417e2296a0f0f8adade7d37f43` |
 | ko | `font/precompiled/unifont-17.0.05.hex` | `fd79af3613ec1b984a98d33428fdd43fcf06018d18059960d78edeb63d958622` |
 
-字元來源：該語言的 `text/ui.<lang>.tsv` 與 `text/prose.<lang>.tsv` 的譯文欄，加 ASCII `20h` 至 `7Eh`；存在時也納入 `text/manual-labels.<lang>.tsv`、本機 `text/manual.<lang>.tsv` 與 `font/<lang>.extra.txt`。缺任何一個要求的字就建置失敗，不為遷就缺字而改譯文。手冊答案表只留本機。
+字元來源：該語言的 `text/ui.<lang>.tsv` 與 `text/prose.<lang>.tsv` 的譯文欄，加 ASCII `20h` 至 `7Eh`；存在時也納入 `text/help.<lang>.tsv`、`text/manual-labels.<lang>.tsv`、本機 `text/manual.<lang>.tsv` 與 `font/<lang>.extra.txt`。缺任何一個要求的字就建置失敗，不為遷就缺字而改譯文。手冊答案表只留本機。
+
+F1 說明頁新增用字後，Linux 原始碼抽驗已重新烘製四語 GNU 子集與本機繁中倚天子集。本機繁中為 1277 全形及 95 ASCII，SHA-256 `7fd1f6298d5d906d477380a1f59090e1f52d8309fa400f2a9418049671eaf826`，收據與來源在 `workplace/help-r1/eten-fonts/eten-source.json`，驗收範圍見 [019](../docs/spec/019-frontend-help.md#6-本機實作驗證)。既有正式封包的字型與雜湊保持不變。
 
 ## 重建
 

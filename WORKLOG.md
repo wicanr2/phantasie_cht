@@ -440,3 +440,21 @@ README 六張主要圖已換成正式包畫面。所有正式收據在 workplace
 - [#4](https://github.com/wicanr2/phantasie_cht/issues/4)：文字來源、訊息及卷軸解碼、地圖描述、位置列、完整選項解析與四語資料已完成；15 個新增鍵未逐鍵到達的限制仍保留。
 
 四項均附上固定提交的證據連結，以 completed 原因關閉。關閉後重新查 GitHub，#1 至 #4 均為 CLOSED，Phantasie 未關閉 Issue 為 0；dosgolem 沒有未關閉的 Phantasie Issue。沒有上傳原版、答案、本機封包或影片，沒有移動版本 tag 或建立 Release。本輪只更新現況與結案歷程，不改程式或交付產物。
+
+## 2026-10-06 F1 說明、隊員圖像與 README 更新
+
+使用者授權儲存庫轉公開，要求遊戲介紹、新版戰鬥隊員、原版主題對照、五語文字截圖與 F1 操作說明，沿用 commit／push 授權。本輪路由命中復古中文化、README 及規格閘門，分別載入 readme-standard、end-to-end-playbook、project-document-responsibilities 與 spec-gated-workflow；依 grilling 核對既有定案，不重問已授權事項。圖像依 imagegen 技能製作。
+
+019、020 分別通過兩輪唯讀規格審查與兩輪實作審查，最終皆為阻擋 0、應改 0、建議 0。引擎實作提交為 `9f1c720af6aa72dc5b7c7bea5a1ed3a574a2a855`，分支 `phantasie-cht-overlay`。F1 保留於前端，開啟時不執行原版、不傳送遊戲按鍵，F1／Esc 返回；F11、F12、Shift+F12 仍可用。五語各 12 筆新寫操作說明，不含手冊答案。字型工具與封裝清冊加入可選的完整 help family，舊布局仍可使用。
+
+- F1：真實 Session 的 120 次模態更新保持完整 1 MiB 記憶體、VRAM、步數、讀鍵及 Gate 佇列；預排 Down 關閉後正常送出。乾淨匯出移除模態阻擋的單一突變實際失敗。Linux Xvfb 抽驗五語、語言／主題／全螢幕與返回，原版標題、城鎮恢復後的解碼像素差為 0。旧字型缺字明示英文回退，遊戲語言仍可用。證據在 `workplace/help-r1/`。
+- 隊員圖：image_gen 參照 32 個原版姿態生成彩色手繪透明圖，再無損逐格裁切、透明補邊，不重取樣。生成原圖 SHA-256 `f726745838f8da070f08cb754d7469912c5b90abc702a52fc936a60af8d8b317`；圖集 SHA-256 `32cbb9aeeafd5c11f6a7541514422f6460988b18528c2558b2aca997e8b1dc98`。來源、模式與裁切記錄在 `workplace/party-hd-r1/party-painted-proof-r1.json`，圖集只留本機。
+- 合成：schema 3 加入 party／monster 類別及原始線性來源；隊員只接受 y156 的完整 32×32 bitmap。五語 165 個正常戰鬥狀態與既有基準一致；20 對 PNG 的獨立全像素掃描只在四個隊員矩形內改動，20 張域外單像素負例全部拒絕。正常路線只觀察索引 0／bank 1，其餘 31 變體只有資產及合成契約證據。完整來源與結果在 `workplace/party-hd-r1/verification-r1.json`。
+- 工具回歸：保留舊 schema 2 批准 metadata，另立 schema 3 身份清冊；兩套真實資產正負例均 PASS，未以 SKIP 計驗收。既有封裝 28 測試、Help 最终四項定向測試及原生啟動器測試通過。公開字型仍採 GNU OFL 1.1；本機倚天重建為 1277 全形加 95 ASCII，雜湊 `7fd1f6298d5d906d477380a1f59090e1f52d8309fa400f2a9418049671eaf826`。
+- README：加入以 SSI 原版手冊為來源的遊戲介紹，替換 09 戰鬥圖，新增五語文字、原版主題對照及繁中 F1 畫面。七份新截圖逐檔複製與雜湊核對，來源記於 `workplace/public-readme-screenshots-r1.json`；主代理目視五語戰鬥與五語說明頁，無答案或裁切。
+
+勘誤：舊 12 張戰鬥圖的隊員 x84／144／200 只代表原路線；本輪四人隊伍為 x36／104／172／240，皆由原版 bitmap 獨立完整比對確認。圖像遮罩按實際四個字面矩形驗證，沒有套用 renderer 產生的域。Help 初次 GUI 短按鍵遭自動化時序漏送，改為按住 100 ms、先按 Shift 後 F12，同容器乾淨重跑並核視窗標題通過。歷史截圖拼圖工具曾缺 Git、ImageMagick 中止，改以獨立 FFmpeg 解碼加標準庫輸出完整 24 張歷史 PNG 拼圖；原失敗屬工具環境，不是遊戲缺陷。擁有權掃描改用 lstat 避免 Wine 的懸空磁碟連結，重跑無 root 檔或誤建 Markdown 目錄。
+
+初次完整 Git 歷史公開稽核為 1139 物件、643 blobs、69 份非空原版檔案身份，無原版 bytes、答案表、倚天字模、原版封包、媒體或憑證命中；LICENSE 就位，作者信箱統一 `wicanr2@gmail.com`。歷史 PNG 全數目視，完整拼圖在 `workplace/public-audit-full-gallery.png`。提交後仍須重跑納入本輪新檔的同一稽核。
+
+已把驗收通過的前端與四語字型同步至本機 `workplace/bin/`、`workplace/fonts/`，輸出 UID／GID 1000／1000。六個正式封包、版本 tag 與 72 秒影片完全保持既有版本；本輪不重打包，不宣稱新功能通過 Windows 或 macOS 真機，不建立公開 Release，不上傳完整版、影片或圖集。

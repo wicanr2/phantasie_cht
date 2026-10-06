@@ -22,6 +22,8 @@
 | 016 | [016-gameplay-video-capture.md](016-gameplay-video-capture.md) | 實際遊玩逐格擷取、主題與語言展示及本機推廣影片 | CONFORMED（正式本機交付抽樣；Windows Wine 輔助、macOS 靜態驗證，真機限制見各規格） |
 | 017 | [017-original-promo-score.md](017-original-promo-score.md) | 原創影片配樂、MIDI／音色庫來源與音訊驗收 | CONFORMED（第二版技術審查與使用者試聽確認；影片驗收見 016） |
 | 018 | [018-all-recognizable-hd-images.md](018-all-recognizable-hd-images.md) | 可辨識場景、80×2 怪物圖像及本機封包資產身份 | CONFORMED（正式本機交付抽樣；Windows Wine 輔助、macOS 靜態驗證，真機限制見各規格） |
+| 019 | [019-frontend-help.md](019-frontend-help.md) | F1 五語操作說明、暫停原版輸入與返回 | CONFORMED（Linux 原始碼與正常 GUI 抽樣；未重打包） |
+| 020 | [020-party-hd-images.md](020-party-hd-images.md) | 戰鬥隊員手繪圖像、類別與位置辨識 | CONFORMED（資產契約與 Linux 正常戰鬥抽樣；其他 31 隊員變體未正常到達） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 

@@ -57,6 +57,8 @@ package_files、package.sh、stage、finish、launcher 與 016 bundle 驗證同�
 
 ## 正式本機交付抽樣驗收
 
+本節描述既有正式包。目前原始碼另依 [020](020-party-hd-images.md) 支援戰鬥隊員手繪圖像，尚未併入本節的封包與影片。
+
 三平台實際完整包核對完整 13 份圖像資產及固定 profile SHA-256 `66bcad5436723cd49aa64478ba8d0feab4fcd84377bce8879b5b9d1eb17d8d7a`，四場景與 160 變體完整打包。原有五語 750 組正常路線與唯讀合成證據仍有效。正式包另以正常城鎮、公會、戰鬥擷取核對 150 個原版狀態點，Linux 前端切換與 Wine 手繪城鎮可見；正式影片含手繪城鎮與正常怪物戰鬥，README 已替換正式包截圖。兩個全白變體、無法確認或遭原版視窗遮擋的部分保留原版，隊員與地圖仍按原版顯示。未正常到達的個別場景與怪物保留資產核對證據，不宣稱全數正常玩家路線都已觀察。平台操作限制見 013。
 
 正式收據入口為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`；交付入口為 `dist-all/v.1.0.0-20261005/`。`smoke/acceptance.json` 與根層 `SHA256SUMS.json` 列出平台範圍；字型獨立遮罩為 `font-mask/verification.json`，冷讀檔為 `save-r2/verification.json`，影片與字幕抽樣為 `visual-verification.json`。較早研究段落中的待驗狀態只描述當時收據，現況以本節為準。

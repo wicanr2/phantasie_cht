@@ -166,6 +166,7 @@ def readme(version, platform, local, eten=False, hd=False):
 命令列可明示 -root、-data、-state；已有合法匯入時不需保留外部來源。
 已有舊平面存檔時，使用另一個 -data，並以 -state 指向原位置。
 
+F1 開啟操作說明，F1 或 Esc 關閉；說明開啟時遊戲暫停。
 F11 全螢幕；F12 切換繁體中文、簡體中文、英文原版、日文、韓文。
 Shift+F12 切換顯示主題；命令列 -theme 可選 auto、original、amber、hd。
 手冊題由玩家選答；本機提示不自動送鍵或改判定。
@@ -261,6 +262,8 @@ def prepare(output, platform, version, project_commit, engine_commit, font_licen
             destination.parent.mkdir(parents=True, exist_ok=True)
             args = [sys.executable, "-B", str(Path(__file__).with_name("build_font.py")), "--tar", str(unifont), "--member", member, "--out", str(destination)]
             for family in ("ui", "prose", "manual"): args += ["--chars", str(base / text_dir / f"{family}.{language}.tsv")]
+            help_path = base / text_dir / f"help.{language}.tsv"
+            if help_path.is_file(): args += ["--chars", str(help_path)]
             if subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False).returncode:
                 raise ValueError("字型重建失敗：" + language)
         fonts = {language: {"source": "GNU Unifont 17.0.05", "terms": font_license,
