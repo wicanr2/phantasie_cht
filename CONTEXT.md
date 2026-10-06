@@ -4,7 +4,7 @@
 
 《幽靈戰士》以 dosgolem 執行期輸出攔截與覆繪中文化，原版程式、資料與存檔規則不修改。語言為繁中、簡中、英文原版、日文與韓文。日韓為機器輔助，未經母語者校對。使用者已授權下載手冊、顯示本機答案、commit／push，並指定抽樣驗收。
 
-目前引擎 `9f1c720af6aa72dc5b7c7bea5a1ed3a574a2a855` 位於 `phantasie-cht-overlay`，加入 F1 五語說明與戰鬥隊員手繪合成。本機正式包固定於專案 `ee22b5fbb1416d663d180cbe0364e1f89bb4bcfd`、引擎 `84676827fea98078d2aad184407703f9648654a2`，本機 tag 為 `v.1.0.0-20261005`。新功能尚未併入既有封包與影片；封包、tag 及六包雜湊保持不變。影片工具的實際版本與雜湊記於本機 `promo/provenance.json`。
+目前引擎 `9f1c720af6aa72dc5b7c7bea5a1ed3a574a2a855` 已推送至 `phantasie-cht-overlay`，加入 F1 五語說明與戰鬥隊員手繪合成。本機正式包固定於專案 `ee22b5fbb1416d663d180cbe0364e1f89bb4bcfd`、引擎 `84676827fea98078d2aad184407703f9648654a2`，本機 tag 為 `v.1.0.0-20261005`。新功能尚未併入既有封包與影片；封包、tag 及六包雜湊保持不變。影片工具的實際版本與雜湊記於本機 `promo/provenance.json`。
 
 | 項目 | 現況 | 證據入口 |
 |---|---|---|
@@ -18,7 +18,7 @@
 | README 截圖 | 標題、城鎮、公會、地牢保留正式包畫面；戰鬥重擷取五語新版隊員、原版主題對照，新增 F1 畫面，無手冊答案 | 正式收據 `readme-formal-screenshots.json`、`workplace/public-readme-screenshots-r1.json` |
 | GitHub Issue | #1 至 #4 已補結案證據並關閉，目前未關閉數為 0 | [遠端 Issue](https://github.com/wicanr2/phantasie_cht/issues) |
 
-唯一現行交付根目錄為 `dist-all/v.1.0.0-20261005/`。`full-local/` 含 Linux x86_64 AppImage、Windows amd64 ZIP、macOS universal ZIP，附遊戲、手冊提示、繁中倚天與完整圖像。`patch/` 不含遊戲、答案、倚天或 HD，採 GNU Unifont 17.0.05 的 OFL 1.1。`promo/` 保存成片、第二版母帶、產製工具及完整音色庫條款；`smoke/` 保存抽樣驗收與重播腳本。全部產物留本機，沒有公開 Release。使用者已授權 repo 轉公開；公開範圍為程式、譯文、文件與批准的展示截圖。專案程式授權為 RRSAL-1.0，不涵蓋原版素材。
+唯一現行交付根目錄為 `dist-all/v.1.0.0-20261005/`。`full-local/` 含 Linux x86_64 AppImage、Windows amd64 ZIP、macOS universal ZIP，附遊戲、手冊提示、繁中倚天與完整圖像。`patch/` 不含遊戲、答案、倚天或 HD，採 GNU Unifont 17.0.05 的 OFL 1.1。`promo/` 保存成片、第二版母帶、產製工具及完整音色庫條款；`smoke/` 保存抽樣驗收與重播腳本。全部產物留本機，沒有公開 Release。repo 已依使用者授權轉為 public，GitHub 狀態核對為 PUBLIC；公開範圍為程式、譯文、文件與批准的展示截圖。專案程式授權為 RRSAL-1.0，不涵蓋原版素材。
 
 正式驗收工作區為 `workplace/package-prototype/formal-acceptance-v.1.0.0-20261005/`。Linux 實際完整版已抽測五語標題與城鎮、三主題、公會返回、繁中 15 點存檔／冷讀檔。Windows 實際包已在 Wine 抽測五語標題與手繪城鎮；輸入擷取程序 exit 0，Wine 擁有程序清理達 timeout 124，正常關閉及 Windows 真機未驗證。macOS 核對兩種架構、plist、全部資產，未真機操作。補丁包完成內容與資產核對，沒有另行 GUI 抽測。
 

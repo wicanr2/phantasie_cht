@@ -458,3 +458,5 @@ README 六張主要圖已換成正式包畫面。所有正式收據在 workplace
 初次完整 Git 歷史公開稽核為 1139 物件、643 blobs、69 份非空原版檔案身份，無原版 bytes、答案表、倚天字模、原版封包、媒體或憑證命中；LICENSE 就位，作者信箱統一 `wicanr2@gmail.com`。歷史 PNG 全數目視，完整拼圖在 `workplace/public-audit-full-gallery.png`。提交後仍須重跑納入本輪新檔的同一稽核。
 
 已把驗收通過的前端與四語字型同步至本機 `workplace/bin/`、`workplace/fonts/`，輸出 UID／GID 1000／1000。六個正式封包、版本 tag 與 72 秒影片完全保持既有版本；本輪不重打包，不宣稱新功能通過 Windows 或 macOS 真機，不建立公開 Release，不上傳完整版、影片或圖集。
+
+提交 `968c760` 後重跑完整歷史公開稽核：1182 物件、674 blobs、10,706,720 bytes，69 份非空原版檔案身份，failures 為空，LICENSE 與作者信箱通過。結果保存在 `workplace/public-audit.json`。專案 `968c760` 與引擎 `9f1c720` 均推送成功；主機 gh 執行 visibility public 後重新讀取 GitHub，`wicanr2/phantasie_cht` 回報 PUBLIC。此公開操作沒有建立 Release、推送版本 tag 或上傳本機交付物。
