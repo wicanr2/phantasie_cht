@@ -1,13 +1,16 @@
 # 幽靈戰士（Phantasie）繁體中文化
 
-以 [dosgolem](https://github.com/wicanr2/dosgolem) 執行期輸出攔截與覆繪，為 DOS 版 Phantasie 加上繁體中文、簡體中文、日文與韓文顯示，
-並可切回英文原版。原版程式與資料不修改。
+冒險者初到格爾諾島，眼前的小鎮已失去昔日繁榮。酒館裡的說書人道出原因：邪惡巫師尼卡迪穆斯入侵後，黑騎士四處索取財物與祭品，居民活在恐懼之中。
+
+你將在公會召集同伴，踏入荒野與地牢，尋找對抗黑騎士的線索。尼卡迪穆斯的藏身處仍是謎，旅程從一支剛組成的冒險隊伍開始。故事依據 [SSI 原版手冊〈Tholie’s Tale〉](https://www.mocagh.org/ssi/phantasie-manual.pdf#page=3)，此處為摘要。
 
 ## 遊戲介紹
 
-《Phantasie》是 SSI 發行的奇幻角色扮演遊戲。玩家組成最多六人的冒險隊伍，在格爾諾島探索城鎮、荒野與地牢，對抗邪惡巫師尼卡迪穆斯及黑騎士。角色可選戰士、盜賊、武僧、牧師、遊俠與巫師，各有不同的戰鬥與施法能力。
+《Phantasie》是 SSI 發行的奇幻角色扮演遊戲。玩家組成最多六人的冒險隊伍，探索城鎮、荒野與地牢。角色可選戰士、盜賊、武僧、牧師、遊俠與巫師，各有不同的戰鬥與施法能力。
 
 冒險從城鎮公會開始。招募與訓練隊員、購買裝備後出城探索，遭遇敵人時進行回合制戰鬥，再回城休息、分配戰利品並提升角色。地牢中的事件、卷軸與線索串起探索進度。遊戲設定與操作依據 [SSI 原版手冊](https://www.mocagh.org/ssi/phantasie-manual.pdf)；本專案保留原版規則，以多語文字和可切換主題改善閱讀。
+
+本專案以 [dosgolem](https://github.com/wicanr2/dosgolem) 執行期輸出攔截與覆繪，為 DOS 版加上繁體中文、簡體中文、日文與韓文，並可切回英文原版。原版程式、遊戲規則與資料不修改。
 
 ## 目前狀態
 
@@ -17,7 +20,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。現行本機交付版為
 
 三平台本機完整版含遊戲、手冊提示與繁中倚天字形，補丁包採 GNU Unifont 的 OFL 1.1。前端可切換原版、琥珀與手繪主題，包含四個場景、160 個怪物與 32 個隊員圖像變體，並提供 F1 五語操作說明。正常城鎮與戰鬥已抽驗；全白、遮擋及無法確認的圖像保留原版。
 
-交付位於 `dist-all/v.1.0.1-20261006/`：`full-local/` 為 Linux、Windows、macOS 完整版，`patch/` 為三平台補丁，`promo/` 為重新錄製的 72 秒影片，包含實際遊玩、主題切換、新版隊員與第二版原創配樂。`smoke/` 與 `SHA256SUMS.json` 保存驗收及雜湊。完整版與影片只留本機，未建立公開 Release。Linux 已抽測五語 F1、主題與存檔讀回；Windows 已在 Wine 抽測五語 F1、標題與手繪城鎮；macOS 已核對雙架構及資產，尚未真機驗證。Windows 正常關閉亦未驗證。
+交付位於 `dist-all/v.1.0.1-20261006/`：`full-local/` 為 Linux、Windows、macOS 完整版，`patch/` 為三平台補丁。最新影片為 `promo/phantasie-cht-v.1.0.1-20261006-story-promo.mp4`，72 秒，採故事開場與六種版面，包含重新錄製的探索、戰鬥、原版／手繪對比、五語及 F1 實際操作，沿用第二版原創配樂。影片收據見 `promo/story-verification.json`，來源與方法見 [021](docs/spec/021-story-promo.md)。`smoke/` 與 `SHA256SUMS.json` 保存封包驗收及雜湊。完整版與影片只留本機，未建立公開 Release。Linux 已抽測五語 F1、主題與存檔讀回；Windows 已在 Wine 抽測五語 F1、標題與手繪城鎮；macOS 已核對雙架構及資產，尚未真機驗證。Windows 正常關閉亦未驗證。
 
 儲存庫不含原版遊戲：原版與任何掃描檔都是使用者本機輸入，不進版控。專案規則見 [AGENTS.md](AGENTS.md)。
 
@@ -60,6 +63,7 @@ ja、ko 為機器輔助翻譯，未經母語者校對。現行本機交付版為
 - 本機倚天字型用 [build_eten_font.py](tools/build_eten_font.py) 在 Docker 內指定 `--eten-dir`、`--base-font`、`--out`，以 GNU 繁中字型為基準替換全形字。來源與固定指紋見 [字型說明](font/README.md)，契約見 [014](docs/spec/014-local-eten-font.md)。正式完整版用 `package.sh --local --eten-dir <來源目錄>`；倚天字模不加入 Git 或可散布包。
 - 手繪主題用後端 `-art <圖像目錄>` 載入，`-theme` 選 auto、original、amber、hd；沒有有效圖像時可切原版與琥珀。本機封包加 `--hd-dir <圖像目錄>`，完整圖像組的固定身份及抽樣限制見 [018](docs/spec/018-all-recognizable-hd-images.md)。
 - [封包編排入口](tools/package.sh) 從乾淨 Git 提交建置；`--build-only` 只產生研究編譯，不讀字型或原版、不建立 tag。正式包須明示字型條款及已有精確 tag，仍須平台冒煙。固定工具鏈、輸入及 Docker 內步驟見 [013 §17](docs/spec/013-cross-platform-packaging.md#17-封包編排與乾淨建置)。
+- [故事版影片工具](tools/promo_story.py) 以已驗證的本機擷取建立分鏡、重現命令與媒體收據；[F1 錄製工具](tools/record_story_gui.py) 從正式 Linux 完整包錄下正常操作。兩者只在 Docker 執行，參數與抽樣範圍見 [021](docs/spec/021-story-promo.md)。
 
 ## 畫面
 

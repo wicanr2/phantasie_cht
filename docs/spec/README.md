@@ -24,6 +24,7 @@
 | 018 | [018-all-recognizable-hd-images.md](018-all-recognizable-hd-images.md) | 可辨識場景、80×2 怪物圖像及本機封包資產身份 | CONFORMED（正式本機交付抽樣；Windows Wine 輔助、macOS 靜態驗證，真機限制見各規格） |
 | 019 | [019-frontend-help.md](019-frontend-help.md) | F1 五語操作說明、暫停原版輸入與返回 | CONFORMED（新版正式 Linux／Wine 五語 GUI；macOS 靜態驗證） |
 | 020 | [020-party-hd-images.md](020-party-hd-images.md) | 戰鬥隊員手繪圖像、類別與位置辨識 | CONFORMED（新版三平台資產及 Linux 正常戰鬥／影片；其他 31 隊員變體未正常到達） |
+| 021 | [021-story-promo.md](021-story-promo.md) | 故事開場、多版面與重新錄製的實際遊玩影片 | CONFORMED（本機成片、四路及 F1 GUI 抽樣） |
 
 各規格結尾的「驗收收據」記錄每個驗收項的證據、結果與未量到的項目。
 
